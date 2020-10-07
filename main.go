@@ -1,21 +1,21 @@
 package main
 
 import (
-	"brick/log"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
 	err := loadConfig()
 	if err != nil {
-		log.Errorf("err:%v", err)
+		log.Error("err:%v", err)
 		return
 	}
 
 	r := gin.Default()
 	err = registerRouting(r)
 	if err != nil {
-		log.Errorf("err:%v", err)
+		log.Error("err:%v", err)
 		return
 	}
 
