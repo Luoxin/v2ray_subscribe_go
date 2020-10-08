@@ -1,12 +1,16 @@
 package main
 
 import (
+	"encoding/json"
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
+var s *Config
+
 type Config struct {
-	LogDebug         bool   `json:"log_debug"`
+	Debug            bool   `json:"debug"`
 	DbUrl            string `json:"db_url"`
 	CheckPort        int64  `json:"check_port"`
 	ProxiesCrawler   string `json:"proxies_crawler"`
@@ -15,7 +19,22 @@ type Config struct {
 	EnableCrawl      bool   `json:"enable_crawl"`
 }
 
-func loadConfig() error {
+func initConfig() error {
+	log.SetFormatter(&log.TextFormatter{
+		DisableTimestamp: false,
+		FullTimestamp:    false,
+		TimestampFormat:  "2006-01-02 15:04:05.000",
+		DisableSorting:   false,
+		QuoteEmptyFields: false,
+		DisableColors:    true,
+		FieldMap: log.FieldMap{
+			"@module": "v2ray_subscribe",
+		},
+	})
+
+	log.SetReportCaller(true)
+	gin.DisableConsoleColor()
+
 	viper.SetConfigFile("./config.yaml")
 	viper.AddConfigPath(".")
 
@@ -29,6 +48,26 @@ func loadConfig() error {
 			// 配置文件被找到，但产生了另外的错误
 		}
 		return err
+	}
+
+	j, err := json.Marshal(viper.AllSettings())
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = json.Unmarshal(j, &s)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Infof("load conf: %+v", s)
+
+	if s.Debug {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
 	}
 
 	return nil

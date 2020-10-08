@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	err := loadConfig()
+	err := initConfig()
 	if err != nil {
 		log.Error("err:%v", err)
 		return
