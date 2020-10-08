@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	err := initConfig()
+	err := initState()
 	if err != nil {
 		log.Error("err:%v", err)
 		return
@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	err = r.Run(fmt.Sprintf("%s:%d", s.Host, s.Port)) // listen and serve on 0.0.0.0:8080
+	err = r.Run(fmt.Sprintf("%s:%d", s.Config.Host, s.Config.Port)) // listen and serve on 0.0.0.0:8080
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return

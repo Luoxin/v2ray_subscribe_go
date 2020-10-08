@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-var s *Config
 
 const version = "0.0.0.1"
 
@@ -68,7 +67,7 @@ func initConfig() error {
 		return err
 	}
 
-	err = json.Unmarshal(j, &s)
+	err = json.Unmarshal(j, &s.Config)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -76,7 +75,7 @@ func initConfig() error {
 
 	log.Infof("load conf: %+v", s)
 
-	if s.Debug {
+	if s.Config.Debug {
 		log.SetLevel(log.DebugLevel)
 	} else {
 		log.SetLevel(log.InfoLevel)
