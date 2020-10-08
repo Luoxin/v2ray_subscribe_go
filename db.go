@@ -44,6 +44,7 @@ func initDb() error {
 	log.Infof("auto migrate tables")
 	err = db.AutoMigrate(
 		&CrawlerConf{},
+		&ProxyNode{},
 	)
 	if err != nil {
 		log.Errorf("err:%v", err)
