@@ -2,11 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	nested "github.com/antonfisher/nested-logrus-formatter"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"time"
 )
-
 
 const version = "0.0.0.1"
 
@@ -16,7 +17,7 @@ type Config struct {
 
 	Debug bool `json:"debug"`
 
-	DbUrl            string `json:"db_url"`
+	DbAddr           string `json:"db_addr"`
 	CheckPort        int64  `json:"check_port"`
 	ProxiesCrawler   string `json:"proxies_crawler"`
 	V2RayServicePath string `json:"v2ray_service_path"`
@@ -25,20 +26,27 @@ type Config struct {
 }
 
 func initConfig() error {
-	log.SetFormatter(&log.TextFormatter{
-		DisableTimestamp: false,
-		FullTimestamp:    false,
-		TimestampFormat:  "2006-01-02 15:04:05.000",
-		DisableSorting:   false,
-		QuoteEmptyFields: false,
-		DisableColors:    true,
-		FieldMap: log.FieldMap{
-			"@module": "v2ray_subscribe",
+	logFormatter := &nested.Formatter{
+		FieldsOrder: []string{
+			log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+			log.FieldKeyFunc, log.FieldKeyMsg,
 		},
-	})
+		TimestampFormat: time.RFC3339,
+		HideKeys:        true,
+		NoFieldsSpace:   true,
+		//ShowFullLevel:         true,
+		NoUppercaseLevel:      true,
+		TrimMessages:          true,
+		CallerFirst:           true,
+		CustomCallerFormatter: nil,
+	}
 
+	log.SetFormatter(logFormatter)
 	log.SetReportCaller(true)
+
 	gin.DisableConsoleColor()
+	gin.EnableJsonDecoderDisallowUnknownFields()
+	gin.EnableJsonDecoderUseNumber()
 
 	viper.SetConfigFile("./config.yaml")
 	viper.AddConfigPath(".")

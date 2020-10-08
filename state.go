@@ -1,9 +1,13 @@
 package main
 
-import log "github.com/sirupsen/logrus"
+import (
+	log "github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+)
 
 type State struct {
 	Config *Config
+	Db     *gorm.DB
 }
 
 var s *State
@@ -14,6 +18,12 @@ func initState() error {
 	}
 
 	err := initConfig()
+	if err != nil {
+		log.Error("err:%v", err)
+		return err
+	}
+
+	err = initDb()
 	if err != nil {
 		log.Error("err:%v", err)
 		return err
