@@ -47,3 +47,17 @@ type ProxyNode struct {
 	CrawlId           uint64        `json:"crawl_id"`
 	IsClosed          string        `json:"is_closed" gorm:"index:idx_next_check_at_next_at"`
 }
+
+type VmessNode struct {
+	V    string `json:"v"`
+	Id   string `json:"id"`
+	PS   string `json:"ps"`
+	Add  string `json:"add"`
+	Aid  string `json:"aid"`
+	Net  string `json:"net"`
+	TLS  string `json:"tls"`
+	Host string `json:"host"`
+	Path string `json:"path"`
+	Port string `json:"port"`
+	Type string `json:"type"`
+}
