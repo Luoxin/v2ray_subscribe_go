@@ -17,12 +17,12 @@ type Config struct {
 
 	Debug bool `json:"debug"`
 
-	DbAddr           string `json:"db_addr"`
-	CheckPort        int64  `json:"check_port"`
-	ProxiesCrawler   string `json:"proxies_crawler"`
-	V2RayServicePath string `json:"v2ray_service_path"`
-	EnableCheckAlive bool   `json:"enable_check_alive"`
-	EnableCrawl      bool   `json:"enable_crawl"`
+	DbAddr            string `json:"db_addr"`
+	CheckPort         int64  `json:"check_port"`
+	ProxiesCrawler    string `json:"proxies_crawler"`
+	V2RayServicePath  string `json:"v2ray_service_path"`
+	DisableCheckAlive bool   `json:"disable_check_alive"`
+	DisableCrawl      bool   `json:"disable_crawl"`
 }
 
 func initConfig() error {

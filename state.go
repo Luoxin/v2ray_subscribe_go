@@ -19,13 +19,19 @@ func initState() error {
 
 	err := initConfig()
 	if err != nil {
-		log.Error("err:%v", err)
+		log.Errorf("err:%v", err)
 		return err
 	}
 
 	err = initDb()
 	if err != nil {
-		log.Error("err:%v", err)
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = initCrawler()
+	if err != nil {
+		log.Errorf("err:%v", err)
 		return err
 	}
 

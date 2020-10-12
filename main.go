@@ -9,14 +9,14 @@ import (
 func main() {
 	err := initState()
 	if err != nil {
-		log.Error("err:%v", err)
+		log.Errorf("err:%v", err)
 		return
 	}
 
 	r := gin.Default()
 	err = registerRouting(r)
 	if err != nil {
-		log.Error("err:%v", err)
+		log.Errorf("err:%v", err)
 		return
 	}
 
