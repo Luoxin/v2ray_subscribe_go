@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	nested "github.com/antonfisher/nested-logrus-formatter"
-	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"time"
@@ -12,17 +11,21 @@ import (
 const version = "0.0.0.1"
 
 type Config struct {
-	Host string `json:"host"`
-	Port uint32 `json:"port"`
+	Host  string `json:"host"`
+	Port  uint32 `json:"port"`
+	Debug bool   `json:"debug"`
 
-	Debug bool `json:"debug"`
+	DbAddr    string `json:"db_addr"`
+	Proxies   string `json:"proxies"`
+	CheckPort int64  `json:"check_port"`
 
-	DbAddr            string `json:"db_addr"`
-	CheckPort         int64  `json:"check_port"`
-	ProxiesCrawler    string `json:"proxies_crawler"`
+	DisableCrawl bool `json:"disable_crawl"`
+
+	CrawlerInterval uint32 `json:"crawler_interval"`
+	CheckInterval   uint32 `json:"check_interval"`
+
 	V2RayServicePath  string `json:"v2ray_service_path"`
 	DisableCheckAlive bool   `json:"disable_check_alive"`
-	DisableCrawl      bool   `json:"disable_crawl"`
 }
 
 func initConfig() error {
@@ -31,34 +34,30 @@ func initConfig() error {
 			log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
 			log.FieldKeyFunc, log.FieldKeyMsg,
 		},
-		TimestampFormat: time.RFC3339,
-		HideKeys:        true,
-		NoFieldsSpace:   true,
-		//ShowFullLevel:         true,
-		NoUppercaseLevel:      true,
-		TrimMessages:          true,
-		CallerFirst:           true,
-		CustomCallerFormatter: nil,
+		TimestampFormat:  time.RFC3339,
+		HideKeys:         true,
+		NoFieldsSpace:    true,
+		NoUppercaseLevel: true,
+		TrimMessages:     true,
+		CallerFirst:      true,
 	}
 
 	log.SetFormatter(logFormatter)
 	log.SetReportCaller(true)
 
-	gin.DisableConsoleColor()
-	gin.EnableJsonDecoderDisallowUnknownFields()
-	gin.EnableJsonDecoderUseNumber()
-
 	viper.SetConfigFile("./config.yaml")
 	viper.AddConfigPath(".")
 
 	// 配置一些默认值
+	viper.SetDefault("port", 8080)
+
 	viper.SetDefault("host", "127.0.0.1")
-	viper.SetDefault("port", "8080")
+	viper.SetDefault("crawler_interval", 600)
+	viper.SetDefault("crawler_interval", 600)
 
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Errorf("err:%v", err)
-
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			// 配置文件未找到错误；如果需要可以忽略
 		} else {
