@@ -11,14 +11,14 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"strings"
-	"subsrcibe/subscribe"
+	"subsrcibe/subscription"
 	"subsrcibe/utils"
 	"time"
 )
 
 func initCrawler() error {
 	if s.Config.DisableCrawl {
-		log.Warnf("crawler disable")
+		log.Warnf("crawler is disable")
 		return nil
 	}
 
@@ -31,7 +31,7 @@ func initCrawler() error {
 				continue
 			}
 
-			time.Sleep(time.Minute * 10)
+			time.Sleep(time.Minute * 5)
 		}
 
 	}()
@@ -40,7 +40,7 @@ func initCrawler() error {
 }
 
 func crawler() error {
-	var crawlerList []*subscribe.CrawlerConf
+	var crawlerList []*subscription.CrawlerConf
 	err := s.Db.Where("is_closed = ?", false).
 		Where("next_at < ?", utils.Now()).
 		//Limit(1).
@@ -50,7 +50,7 @@ func crawler() error {
 		return err
 	}
 
-	CrawlerConfList(crawlerList).Each(func(conf *subscribe.CrawlerConf) {
+	CrawlerConfList(crawlerList).Each(func(conf *subscription.CrawlerConf) {
 		if conf.CrawlUrl == "" {
 			log.Errorf("crawler url empty: %d", conf.Id)
 			return
@@ -84,8 +84,8 @@ func crawler() error {
 
 			switch resp.StatusCode {
 			case http.StatusOK:
-				switch subscribe.CrawlType(conf.CrawlType) {
-				case subscribe.CrawlType_CrawlTypeSubscription:
+				switch subscription.CrawlType(conf.CrawlType) {
+				case subscription.CrawlType_CrawlTypeSubscription:
 					//log.Infof("get node info %v", resp.Text)
 					err = addNodesByBase64(conf, resp.Text)
 					if err != nil {
@@ -93,7 +93,7 @@ func crawler() error {
 						return err
 					}
 
-				case subscribe.CrawlType_CrawlTypeXpath:
+				case subscription.CrawlType_CrawlTypeXpath:
 				}
 
 				conf.NextAt += conf.Interval + utils.Now()
@@ -137,7 +137,7 @@ func crawler() error {
 	return nil
 }
 
-func addNodesByBase64(crawlerConf *subscribe.CrawlerConf, bs string) error {
+func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 	if bs == "" {
 		log.Warnf("nodes empty")
 		return nil
@@ -170,14 +170,14 @@ func addNodesByBase64(crawlerConf *subscribe.CrawlerConf, bs string) error {
 	urlList := strings.Split(str, "\n")
 
 	if crawlerConf == nil {
-		crawlerConf = &subscribe.CrawlerConf{
+		crawlerConf = &subscription.CrawlerConf{
 			Interval: s.Config.CheckInterval,
 		}
 	}
 
 	pie.Strings(urlList).Each(func(ru string) {
-		node := &subscribe.ProxyNode{
-			NodeDetail: &subscribe.ProxyNode_NodeDetail{
+		node := &subscription.ProxyNode{
+			NodeDetail: &subscription.ProxyNode_NodeDetail{
 				Buf: ru,
 			},
 			CrawlId: crawlerConf.Id,
@@ -189,7 +189,7 @@ func addNodesByBase64(crawlerConf *subscribe.CrawlerConf, bs string) error {
 			return
 		}
 
-		node.ProxyNodeType = uint32(subscribe.ProxyNodeType_ProxyNodeTypeVmess)
+		node.ProxyNodeType = uint32(subscription.ProxyNodeType_ProxyNodeTypeVmess)
 
 		d, err := decode(strings.TrimPrefix(ru, "vmess://"))
 		if err != nil {
@@ -198,7 +198,7 @@ func addNodesByBase64(crawlerConf *subscribe.CrawlerConf, bs string) error {
 			return
 		}
 
-		var vmessNode subscribe.ProxyNode_VmessNode
+		var vmessNode subscription.ProxyNode_VmessNode
 		err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
 		if err != nil {
 			log.Errorf("err:%v", err)
@@ -215,7 +215,7 @@ func addNodesByBase64(crawlerConf *subscribe.CrawlerConf, bs string) error {
 
 		node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
 
-		var oldNode subscribe.ProxyNode
+		var oldNode subscription.ProxyNode
 		err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
 		if err != nil {
 			if err == gorm.ErrRecordNotFound {

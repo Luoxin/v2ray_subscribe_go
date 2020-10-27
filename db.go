@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 	"strings"
-	"subsrcibe/subscribe"
+	"subsrcibe/subscription"
 )
 
 func initDb() error {
@@ -44,8 +44,8 @@ func initDb() error {
 
 	log.Infof("auto migrate tables")
 	err = db.AutoMigrate(
-		&subscribe.CrawlerConf{},
-		&subscribe.ProxyNode{},
+		&subscription.CrawlerConf{},
+		&subscription.ProxyNode{},
 	)
 	if err != nil {
 		log.Errorf("err:%v", err)

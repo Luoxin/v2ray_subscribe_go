@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	"github.com/xxjwxc/ginrpc/api"
+	"github.com/xxjwxc/public/mydoc/myswagger"
 
 	"github.com/xxjwxc/ginrpc"
 )
@@ -16,26 +18,29 @@ func main() {
 	}
 
 	//// swagger
-	//myswagger.SetHost("https://localhost:8080")
-	//myswagger.SetBasePath("gmsec")
-	//myswagger.SetSchemes(true, false)
+	myswagger.SetHost("https://localhost:8080")
+	myswagger.SetBasePath("gmsec")
+	myswagger.SetSchemes(true, false)
 	//// -----end --
 
-	base := ginrpc.New(ginrpc.WithDebug(s.Config.Debug), ginrpc.WithOutDoc(true))
+	base := ginrpc.New(
+		ginrpc.WithCtx(api.NewAPIFunc),
+		ginrpc.WithDebug(s.Config.Debug),
+		ginrpc.WithOutDoc(true),
+	)
 
 	router := gin.Default()
+	group := router.Group("/api")
 
-	base.Register(router, new(SubscribeApi)) // 对象注册 like(go-micro)
+	//group.GET("/version", base.HandlerFunc(Version))
+	//group.POST("/version", base.HandlerFunc(Version))
+	//
+	//group.GET("/subscription", base.HandlerFunc(Subscription))
+	//group.POST("/subscription", base.HandlerFunc(Subscription))
+
+	base.Register(group, new(Subscribe))
+
 	err = router.Run(fmt.Sprintf("%s:%d", s.Config.Host, s.Config.Port))
-
-	//r := gin.Default()
-	//err = registerRouting(r)
-	//if err != nil {
-	//	log.Errorf("err:%v", err)
-	//	return
-	//}
-
-	//err = r.Run() // listen and serve on 0.0.0.0:8080
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return

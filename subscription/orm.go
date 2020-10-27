@@ -1,4 +1,4 @@
-package subscribe
+package subscription
 
 import (
 	"database/sql/driver"

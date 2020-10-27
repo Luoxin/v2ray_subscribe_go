@@ -1,6 +1,9 @@
 package main
 
-import "subsrcibe/subscribe"
+import "subsrcibe/subscription"
 
-//go:generate pie CrawlerConfList.*
-type CrawlerConfList []*subscribe.CrawlerConf
+// //go:generate pie CrawlerConfList.*
+type CrawlerConfList []*subscription.CrawlerConf
+
+// //go:generate pie ProxyNodeList.*
+type ProxyNodeList []*subscription.ProxyNode
