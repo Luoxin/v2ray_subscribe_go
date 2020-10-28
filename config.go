@@ -44,6 +44,7 @@ func initConfig() error {
 
 	viper.SetConfigFile("./config.yaml")
 	viper.AddConfigPath(".")
+	viper.AddConfigPath("../")
 
 	// 配置一些默认值
 	viper.SetDefault("port", 8080)

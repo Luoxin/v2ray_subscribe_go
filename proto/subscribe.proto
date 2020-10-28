@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+option go_package = "pinfire/subscribe";
+
+package subscribe;
+
+service subscribe {
+}
+
+enum ErrCode {
+	Success = 0;
+}
+
+enum CrawlType {
+	CrawlTypeNil = 0;
+	CrawlTypeSubscription = 1;
+	CrawlTypeXpath = 2;
+}
+
+message CrawlerConf {
+	message Rule {
+		bool use_proxy = 1;
+		string xpath = 2;
+	}
+	
+	uint64 id = 1;
+	uint32 	created_at = 2;
+	uint32 	updated_at = 3;
+	
+	// @gorm: type:varchar(1000);unique_index:idx_crawl_url
+	string crawl_url = 4;
+	
+	uint32 crawl_type = 5;
+	
+	// @gorm: type:json
+	Rule rule = 6;
+	
+	// @grom: index: idx_next_crawl_at
+	bool is_closed = 7;
+	
+	// @grom: index: idx_next_crawl_at
+	uint32 next_at = 8;
+	
+	uint32 interval = 9;
+	
+	// @gorm: type:varchar(100)
+	// @v: max=100
+	string note = 10;
+}
+
+enum ProxyNodeType {
+	ProxyNodeTypeNil = 0;
+	ProxyNodeTypeVmess = 1;
+}
+
+message ProxyNode {
+	message VmessNode {
+		string path = 1;
+		string tls = 2;
+		string v = 3;
+		string aid = 4;
+		string net = 5;
+		string id = 6;
+		string type = 7;
+		string host = 8;
+		string ps = 9;
+		string add = 10;
+		string port = 11;
+	}
+	
+	message NodeDetail {
+		string buf = 1;
+		
+		VmessNode vmess_node = 2;
+	}
+	
+	uint64 id = 1;
+	uint32 created_at = 2;
+	uint32 updated_at = 3;
+	
+	// HOST:PORT
+	// @gorm: type:varchar(1000)
+	// @v: max=1000
+	string url = 4;
+	
+	uint32 proxy_node_type = 5;
+	
+	// @gorm: type:text
+	NodeDetail node_detail = 6;
+	
+	double proxy_speed = 7;
+	
+	double proxy_network_delay = 8;
+	
+	// @grom: index: idx_next_check_at
+	uint32 next_check_at = 9;
+	
+	uint32 check_interval = 10;
+	
+	uint64 crawl_id = 11;
+
+	// @grom: index: idx_next_check_at
+	uint32 death_count = 12;
+	
+	// @grom: index: idx_next_check_at
+	bool is_close = 13;
+}

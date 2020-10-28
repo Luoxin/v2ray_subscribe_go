@@ -23,7 +23,7 @@ func initCrawler() error {
 	}
 
 	go func() {
-		log.Info("start crawler work...")
+		log.Info("start crawler worker......")
 		for {
 			err := crawler()
 			if err != nil {
@@ -40,6 +40,8 @@ func initCrawler() error {
 }
 
 func crawler() error {
+	log.Infof("start crawler......")
+
 	var crawlerList []*subscription.CrawlerConf
 	err := s.Db.Where("is_closed = ?", false).
 		Where("next_at < ?", utils.Now()).
@@ -57,7 +59,7 @@ func crawler() error {
 		}
 
 		log.Infof("wail crawler for %+v", conf.CrawlUrl)
-		defer log.Infof("crawler finish, next exec at %v", conf.NextAt)
+		defer log.Infof("crawler finish,%v next exec at %v", conf.CrawlUrl, conf.NextAt)
 
 		err := func() error {
 			opt := &nic.H{
