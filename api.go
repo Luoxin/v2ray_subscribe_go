@@ -88,7 +88,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 				return
 			}
 
-			buf = string(x)
+			buf = "vmess://" + base64.URLEncoding.EncodeToString(x)
 		default:
 			buf = node.NodeDetail.Buf
 		}
@@ -96,7 +96,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		nodeList = append(nodeList, buf)
 	})
 
-	x := base64.URLEncoding.EncodeToString([]byte(strings.Join(nodeList, "\n")))
+	x := base64.StdEncoding.EncodeToString([]byte(strings.Join(nodeList, "\n")))
 
 	c.String(http.StatusOK, x)
 }
