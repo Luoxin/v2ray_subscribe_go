@@ -111,6 +111,7 @@ func checkNode() error {
 			node.ProxyNetworkDelay = networkDelay
 		}
 
+		node.NextCheckAt += node.CheckInterval
 		err = s.Db.Save(node).Error
 		if err != nil {
 			log.Errorf("err:%v", err)

@@ -47,7 +47,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 	err := s.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
 		Where("proxy_speed > 0 ").
-		Where("death_count < ?", 10).
+		Where("death_count < ?", 3).
 		Order("proxy_speed DESC").
 		Find(&nodes).Error
 	if err != nil {
@@ -78,7 +78,7 @@ func Subscription(c *gin.Context, req *SubscriptionReq) (*SubscriptionRsp, error
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
-		Where("death_count < ?", 10).
+		Where("death_count < ?", 3).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)

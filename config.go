@@ -15,17 +15,14 @@ type Config struct {
 	Port  uint32 `json:"port"`
 	Debug bool   `json:"debug"`
 
-	DbAddr    string `json:"db_addr"`
-	Proxies   string `json:"proxies"`
-	CheckPort int64  `json:"check_port"`
+	DbAddr  string `json:"db_addr"`
+	Proxies string `json:"proxies"`
 
-	DisableCrawl bool `json:"disable_crawl"`
+	DisableCrawl      bool `json:"disable_crawl"`
+	DisableCheckAlive bool `json:"disable_check_alive"`
 
 	CrawlerInterval uint32 `json:"crawler_interval"`
 	CheckInterval   uint32 `json:"check_interval"`
-
-	V2RayServicePath  string `json:"v2ray_service_path"`
-	DisableCheckAlive bool   `json:"disable_check_alive"`
 }
 
 func initConfig() error {
@@ -52,8 +49,8 @@ func initConfig() error {
 	viper.SetDefault("port", 8080)
 
 	viper.SetDefault("host", "127.0.0.1")
-	viper.SetDefault("crawler_interval", 600)
-	viper.SetDefault("crawler_interval", 600)
+	viper.SetDefault("crawler_interval", 300)
+	viper.SetDefault("check_interval", 300)
 
 	err := viper.ReadInConfig()
 	if err != nil {
