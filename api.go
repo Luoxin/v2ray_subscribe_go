@@ -50,6 +50,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		Where("proxy_speed > 0 ").
 		Where("death_count < ?", 3).
 		Order("proxy_speed DESC").
+		Limit(30).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
