@@ -49,6 +49,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		Where("next_check_at < ?", utils.Now()).
 		Where("proxy_speed > 0 ").
 		Where("death_count < ?", 3).
+		Order("death_count").
 		Order("proxy_speed DESC").
 		Limit(30).
 		Find(&nodes).Error
