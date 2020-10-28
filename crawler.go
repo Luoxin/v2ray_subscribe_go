@@ -52,89 +52,90 @@ func crawler() error {
 		return err
 	}
 
-	CrawlerConfList(crawlerList).Each(func(conf *subscription.CrawlerConf) {
-		if conf.CrawlUrl == "" {
-			log.Errorf("crawler url empty: %d", conf.Id)
-			return
-		}
-
-		log.Infof("wail crawler for %+v", conf.CrawlUrl)
-		defer log.Infof("crawler finish,%v next exec at %v", conf.CrawlUrl, conf.NextAt)
-
-		err := func() error {
-			opt := &nic.H{
-				Proxy:   s.Config.Proxies,
-				Timeout: 60,
-
-				DisableKeepAlives:  true,
-				DisableCompression: true,
-				SkipVerifyTLS:      true,
+	CrawlerConfList(crawlerList).
+		Each(func(conf *subscription.CrawlerConf) {
+			if conf.CrawlUrl == "" {
+				log.Errorf("crawler url empty: %d", conf.Id)
+				return
 			}
 
-			rule := conf.Rule
-			if rule != nil {
-				if rule.UseProxy {
-					opt.Proxy = s.Config.Proxies
+			log.Infof("wail crawler for %+v", conf.CrawlUrl)
+			defer log.Infof("crawler finish,%v next exec at %v", conf.CrawlUrl, conf.NextAt)
+
+			err := func() error {
+				opt := &nic.H{
+					Proxy:   s.Config.Proxies,
+					Timeout: 60,
+
+					DisableKeepAlives:  true,
+					DisableCompression: true,
+					SkipVerifyTLS:      true,
 				}
-			}
 
-			resp, err := nic.Get(conf.CrawlUrl, opt)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-
-			switch resp.StatusCode {
-			case http.StatusOK:
-				switch subscription.CrawlType(conf.CrawlType) {
-				case subscription.CrawlType_CrawlTypeSubscription:
-					//log.Infof("get node info %v", resp.Text)
-					err = addNodesByBase64(conf, resp.Text)
-					if err != nil {
-						log.Errorf("err:%v", err)
-						return err
+				rule := conf.Rule
+				if rule != nil {
+					if rule.UseProxy {
+						opt.Proxy = s.Config.Proxies
 					}
-
-				case subscription.CrawlType_CrawlTypeXpath:
 				}
 
-				conf.NextAt += conf.Interval + utils.Now()
-
-			case http.StatusMovedPermanently, http.StatusFound:
-				// 重定向了
-				u, err := resp.Location()
+				resp, err := nic.Get(conf.CrawlUrl, opt)
 				if err != nil {
 					log.Errorf("err:%v", err)
 					return err
 				}
 
-				log.Warnf("%v redirect to %v", conf.CrawlUrl, u)
-				conf.CrawlUrl = u.String()
-				return nil
+				switch resp.StatusCode {
+				case http.StatusOK:
+					switch subscription.CrawlType(conf.CrawlType) {
+					case subscription.CrawlType_CrawlTypeSubscription:
+						//log.Infof("get node info %v", resp.Text)
+						err = addNodesByBase64(conf, resp.Text)
+						if err != nil {
+							log.Errorf("err:%v", err)
+							return err
+						}
 
-			case http.StatusNonAuthoritativeInfo:
-				// 不可信的信息
-				conf.NextAt += conf.Interval*10 + utils.Now()
-				return nil
+					case subscription.CrawlType_CrawlTypeXpath:
+					}
 
-			default:
-				log.Warnf("not support status code %v", resp.StatusCode)
+					conf.NextAt += conf.Interval + utils.Now()
+
+				case http.StatusMovedPermanently, http.StatusFound:
+					// 重定向了
+					u, err := resp.Location()
+					if err != nil {
+						log.Errorf("err:%v", err)
+						return err
+					}
+
+					log.Warnf("%v redirect to %v", conf.CrawlUrl, u)
+					conf.CrawlUrl = u.String()
+					return nil
+
+				case http.StatusNonAuthoritativeInfo:
+					// 不可信的信息
+					conf.NextAt += conf.Interval*10 + utils.Now()
+					return nil
+
+				default:
+					log.Warnf("not support status code %v", resp.StatusCode)
+					return nil
+				}
+
 				return nil
+			}()
+			if err != nil {
+				log.Errorf("err:%v", err)
 			}
 
-			return nil
-		}()
-		if err != nil {
-			log.Errorf("err:%v", err)
-		}
-
-		// 保存数据
-		err = s.Db.Save(conf).Error
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return
-		}
-	})
+			// 保存数据
+			err = s.Db.Save(conf).Error
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
+		})
 
 	return nil
 }
@@ -145,25 +146,7 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 		return nil
 	}
 
-	decode := func(s string) (string, error) {
-		str, err := base64.URLEncoding.DecodeString(s)
-		if err != nil {
-			str, err = base64.StdEncoding.DecodeString(s)
-			if err != nil {
-				str, err = base64.RawStdEncoding.DecodeString(s)
-				if err != nil {
-					str, err = base64.RawURLEncoding.DecodeString(s)
-					if err != nil {
-						log.Errorf("decode fail for %v", s)
-						return "", err
-					}
-				}
-			}
-		}
-		return string(str), err
-	}
-
-	str, err := decode(bs)
+	str, err := base64Decode(bs)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -193,7 +176,7 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 
 		node.ProxyNodeType = uint32(subscription.ProxyNodeType_ProxyNodeTypeVmess)
 
-		d, err := decode(strings.TrimPrefix(ru, "vmess://"))
+		d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			//log.Errorf("ru %v", ru)
@@ -254,4 +237,22 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 	})
 
 	return nil
+}
+
+func base64Decode(s string) (string, error) {
+	str, err := base64.URLEncoding.DecodeString(s)
+	if err != nil {
+		str, err = base64.StdEncoding.DecodeString(s)
+		if err != nil {
+			str, err = base64.RawStdEncoding.DecodeString(s)
+			if err != nil {
+				str, err = base64.RawURLEncoding.DecodeString(s)
+				if err != nil {
+					log.Errorf("decode fail for %v", s)
+					return "", err
+				}
+			}
+		}
+	}
+	return string(str), err
 }

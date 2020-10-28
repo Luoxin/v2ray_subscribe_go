@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/xxjwxc/ginrpc/api"
@@ -55,13 +56,44 @@ func (*Subscribe) Subscription(c *api.Context) {
 		return
 	}
 
+	titleGen := NewProxyTitle()
+
 	var nodeList []string
 	ProxyNodeList(nodes).Each(func(node *subscription.ProxyNode) {
 		if node.NodeDetail == nil {
 			return
 		}
 
-		nodeList = append(nodeList, node.NodeDetail.Buf)
+		var buf string
+		switch subscription.ProxyNodeType(node.ProxyNodeType) {
+		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
+			b, err := base64Decode(strings.TrimPrefix(node.NodeDetail.Buf, "vmess://"))
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
+
+			m := map[string]interface{}{}
+			err = json.Unmarshal([]byte(b), &m)
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
+
+			m["ps"] = titleGen.Get()
+
+			x, err := json.Marshal(m)
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
+
+			buf = string(x)
+		default:
+			buf = node.NodeDetail.Buf
+		}
+
+		nodeList = append(nodeList, buf)
 	})
 
 	x := base64.URLEncoding.EncodeToString([]byte(strings.Join(nodeList, "\n")))
