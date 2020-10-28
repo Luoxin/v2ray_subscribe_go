@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	log "github.com/sirupsen/logrus"
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -23,6 +24,8 @@ func initDb() error {
 	switch strings.ToLower(addrList[0]) {
 	case "sqlite":
 		d = sqlite.Open(strings.Join(addrList[1:], ""))
+	case "mysql":
+		d = mysql.Open(strings.Join(addrList[1:], ""))
 	default:
 		return errors.New("unsupported database")
 	}

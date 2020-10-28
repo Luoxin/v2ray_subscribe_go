@@ -28,6 +28,7 @@ require (
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
+	gorm.io/driver/mysql v1.0.1
 	gorm.io/driver/sqlite v1.1.3
 	gorm.io/gorm v1.20.2
 	v2ray.com/core v4.19.1+incompatible
