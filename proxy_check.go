@@ -108,8 +108,11 @@ func checkNode() error {
 		if err != nil {
 			log.Errorf("err:%v", err)
 			node.DeathCount++
-			node.ProxySpeed = -1
-			node.ProxyNetworkDelay = -1
+
+			if node.DeathCount > 1 {
+				node.ProxySpeed = -1
+				node.ProxyNetworkDelay = -1
+			}
 		} else {
 			node.DeathCount = 0
 			node.ProxySpeed = speed
