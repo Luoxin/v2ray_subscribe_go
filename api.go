@@ -23,16 +23,9 @@ func registerRouting(r *gin.Engine) error {
 type Subscribe struct {
 }
 
-type VersionReq struct {
-}
-
-type VersionRsp struct {
-}
-
-type SubscriptionReq struct {
-}
-
-type SubscriptionRsp struct {
+type AddNodeReq struct {
+	NodeType subscription.ProxyNodeType
+	NodeInfo string
 }
 
 // Hello Annotated route (bese on beego way)
@@ -103,33 +96,8 @@ func (*Subscribe) Subscription(c *api.Context) {
 	c.String(http.StatusOK, x)
 }
 
-func Version(c *api.Context, gin *VersionReq) (*VersionRsp, error) {
-	c.String(http.StatusOK, version)
-	return nil, nil
-}
-
-func Subscription(c *gin.Context, req *SubscriptionReq) (*SubscriptionRsp, error) {
-	var nodes []*subscription.ProxyNode
-	err := s.Db.Where("is_close = ?", false).
-		Where("next_check_at < ?", utils.Now()).
-		Where("death_count < ?", 3).
-		Find(&nodes).Error
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return nil, err
-	}
-
-	var nodeList []string
-	ProxyNodeList(nodes).Each(func(node *subscription.ProxyNode) {
-		if node.NodeDetail == nil {
-			return
-		}
-
-		nodeList = append(nodeList, node.NodeDetail.Buf)
-	})
-
-	x := base64.URLEncoding.EncodeToString([]byte(strings.Join(nodeList, "\n")))
-
-	c.String(http.StatusOK, x)
-	return nil, nil
+// Hello Annotated route (bese on beego way)
+// @Router /version [post,get]
+func (*Subscribe) AddNode(c *api.Context, node *AddNodeReq) {
+	c.String(http.StatusOK, "ok")
 }
