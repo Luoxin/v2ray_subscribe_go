@@ -1,0 +1,17 @@
+# host
+HOST: "127.0.0.1"
+# port
+PORT: 10808
+
+# 数据库地址
+# DB_ADDR: "mysql://root:root@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+DB_ADDR: "sqlite://subscribe.vdb?check_same_thread=false"
+
+# 对于需要翻墙才可以抓取的网页的翻墙地址
+PROXIES: "http://127.0.0.1:7890"
+
+# 是否关闭测速，默认开启
+# DISABLE_CHECK_ALIVE: true
+
+# 是否关闭抓取，默认开启
+# DISABLE_CRAWL: true
