@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "pinfire/subscribe";
+option go_package = "pinfire/subscription";
 
-package subscribe;
+package subscription;
 
-service subscribe {
+service subscription {
 }
 
 enum ErrCode {

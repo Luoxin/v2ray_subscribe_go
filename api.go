@@ -24,8 +24,10 @@ type Subscribe struct {
 }
 
 type AddNodeReq struct {
-	NodeType subscription.ProxyNodeType
-	NodeInfo string
+	NodeUrl string `json:"node_url" validate:"required"`
+}
+
+type AddNodeRsp struct {
 }
 
 // Hello Annotated route (bese on beego way)
@@ -97,7 +99,15 @@ func (*Subscribe) Subscription(c *api.Context) {
 }
 
 // Hello Annotated route (bese on beego way)
-// @Router /version [post,get]
-func (*Subscribe) AddNode(c *api.Context, node *AddNodeReq) {
-	c.String(http.StatusOK, "ok")
+// @Router /addnode [post,get]
+func (*Subscribe) Addnode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error) {
+	var rsp AddNodeRsp
+
+	err := addNode(node.NodeUrl, 0, 0)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return nil, err
+	}
+
+	return &rsp, nil
 }

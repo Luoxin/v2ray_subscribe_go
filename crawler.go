@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
@@ -161,79 +162,11 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 	}
 
 	pie.Strings(urlList).Each(func(ru string) {
-		node := &subscription.ProxyNode{
-			NodeDetail: &subscription.ProxyNode_NodeDetail{
-				Buf: ru,
-			},
-			CrawlId: crawlerConf.Id,
-
-			CheckInterval: crawlerConf.Interval,
-		}
-
-		if !strings.HasPrefix(ru, "vmess") {
-			return
-		}
-
-		node.ProxyNodeType = uint32(subscription.ProxyNodeType_ProxyNodeTypeVmess)
-
-		d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
+		err = addNode(ru, crawlerConf.Id, crawlerConf.Interval)
 		if err != nil {
 			log.Errorf("err:%v", err)
-			//log.Errorf("ru %v", ru)
 			return
 		}
-
-		var vmessNode subscription.ProxyNode_VmessNode
-		err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			//log.Errorf("d %v", d)
-			return
-		}
-
-		node.NodeDetail.VmessNode = &vmessNode
-
-		host := vmessNode.Host
-		if host == "" {
-			host = vmessNode.Add
-		}
-
-		node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
-
-		var oldNode subscription.ProxyNode
-		err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
-		if err != nil {
-			if err == gorm.ErrRecordNotFound {
-				// 创建
-				log.Infof("add new proxy node: %v", node.Url)
-
-				err = s.Db.Create(&node).Error
-				if err != nil {
-					log.Errorf("err:%v", err)
-					return
-				}
-			} else {
-				log.Errorf("err:%v", err)
-				return
-			}
-		} else {
-			// 更新
-			log.Infof("update proxy node: %v", node.Url)
-
-			node.Id = oldNode.Id
-			node.CheckInterval = oldNode.CheckInterval
-
-			node.ProxyNetworkDelay = oldNode.ProxyNetworkDelay
-			node.ProxySpeed = oldNode.ProxySpeed
-			node.NextCheckAt = oldNode.NextCheckAt
-
-			err = s.Db.Save(node).Error
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-		}
-
 	})
 
 	return nil
@@ -255,4 +188,102 @@ func base64Decode(s string) (string, error) {
 		}
 	}
 	return string(str), err
+}
+
+func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
+	log.Infof("will add node:%v", ru)
+
+	if checkInterval == 0 {
+		checkInterval = s.Config.CheckInterval
+	}
+
+	node := &subscription.ProxyNode{
+		NodeDetail: &subscription.ProxyNode_NodeDetail{
+			Buf: ru,
+		},
+		CrawlId: crawlerId,
+
+		CheckInterval: checkInterval,
+	}
+
+	if !strings.HasPrefix(ru, "vmess") {
+		return nil
+	}
+
+	node.ProxyNodeType = uint32(subscription.ProxyNodeType_ProxyNodeTypeVmess)
+
+	d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	var vmessNode subscription.ProxyNode_VmessNode
+	err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
+	if err != nil {
+		log.Errorf("err:%v", err)
+
+		m := map[string]interface{}{}
+		err = json.Unmarshal([]byte(d), &m)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		for k, v := range m {
+			m[strings.ToLower(k)] = v
+		}
+
+		host := m["host"]
+		if host == "" {
+			host = m["add"]
+		}
+
+		node.Url = fmt.Sprintf("%v:%v/%v", host, m["port"], strings.TrimPrefix(fmt.Sprintf("%v", m["path"]), "/"))
+
+	} else {
+		node.NodeDetail.VmessNode = &vmessNode
+		host := vmessNode.Host
+		if host == "" {
+			host = vmessNode.Add
+		}
+
+		node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
+	}
+
+	var oldNode subscription.ProxyNode
+	err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			// 创建
+			log.Infof("add new proxy node: %v", node.Url)
+
+			err = s.Db.Create(&node).Error
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return err
+			}
+		} else {
+			log.Errorf("err:%v", err)
+			return err
+		}
+	} else {
+		// 更新
+		log.Infof("update proxy node: %v", node.Url)
+
+		node.Id = oldNode.Id
+		node.CheckInterval = oldNode.CheckInterval
+
+		node.ProxyNetworkDelay = oldNode.ProxyNetworkDelay
+		node.ProxySpeed = oldNode.ProxySpeed
+		node.NextCheckAt = oldNode.NextCheckAt
+
+		err = s.Db.Save(node).Error
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+	}
+
+	return nil
 }

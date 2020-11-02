@@ -49,7 +49,7 @@ func checkNode() error {
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
-		Where("death_count < ?", 10).
+		Where("death_count < ?", 50).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -98,6 +98,7 @@ func checkNode() error {
 				log.Errorf("err:%v", err)
 				return err
 			}
+
 			networkDelay = time.Now().Sub(before).Seconds()
 			defer resp.Body.Close()
 			body, _ := ioutil.ReadAll(resp.Body)
@@ -109,7 +110,7 @@ func checkNode() error {
 			log.Errorf("err:%v", err)
 			node.DeathCount++
 
-			if node.DeathCount > 1 {
+			if node.DeathCount > 10 {
 				node.ProxySpeed = -1
 				node.ProxyNetworkDelay = -1
 			}

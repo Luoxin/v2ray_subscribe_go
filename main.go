@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"github.com/xxjwxc/ginrpc/api"
-	"github.com/xxjwxc/public/mydoc/myswagger"
-
 	"github.com/xxjwxc/ginrpc"
+	"github.com/xxjwxc/ginrpc/api"
 )
 
 func main() {
@@ -18,9 +16,9 @@ func main() {
 	}
 
 	//// swagger
-	myswagger.SetHost("https://localhost:8080")
-	myswagger.SetBasePath("gmsec")
-	myswagger.SetSchemes(true, false)
+	//myswagger.SetHost("https://localhost:8080")
+	//myswagger.SetBasePath("gmsec")
+	//myswagger.SetSchemes(true, false)
 	//// -----end --
 
 	base := ginrpc.New(

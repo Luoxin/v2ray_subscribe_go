@@ -7,8 +7,9 @@ require (
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.4.0 // indirect
+	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3
+	github.com/gookit/color v1.3.1 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/pkg/errors v0.9.1
@@ -17,12 +18,14 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1 // indirect
-	github.com/ugorji/go v1.1.12 // indirect
+	github.com/ugorji/go v1.1.13 // indirect
 	github.com/v2fly/vmessping v0.3.4
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
-	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1
-	golang.org/x/crypto v0.0.0-20201012173705-84dcc777aaee // indirect
-	golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211 // indirect
+	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/zap v1.16.0 // indirect
+	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897 // indirect
+	golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect
 	golang.org/x/text v0.3.3 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
