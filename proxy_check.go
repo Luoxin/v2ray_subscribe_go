@@ -77,6 +77,11 @@ func checkNode() error {
 				log.Errorf("err:%v", err)
 				return err
 			}
+
+			if err = server.Start(); err != nil {
+				log.Errorf("err:%v", err)
+				return err
+			}
 			defer server.Close()
 
 			client, err := mv2ray.CoreHTTPClient(server, time.Second*60)
