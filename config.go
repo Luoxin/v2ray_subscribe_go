@@ -23,6 +23,7 @@ type Config struct {
 
 	CrawlerInterval uint32 `json:"crawler_interval"`
 	CheckInterval   uint32 `json:"check_interval"`
+	ProxyCheckUrl   uint32 `json:"proxy_check_url"`
 }
 
 func initConfig() error {
@@ -52,6 +53,8 @@ func initConfig() error {
 	viper.SetDefault("host", "127.0.0.1")
 	viper.SetDefault("crawler_interval", 300)
 	viper.SetDefault("check_interval", 300)
+
+	viper.SetDefault("proxy_check_url", "http://www.google.com")
 
 	err := viper.ReadInConfig()
 	if err != nil {
