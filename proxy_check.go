@@ -69,7 +69,7 @@ func checkNode() error {
 				return nil
 			}
 
-			log.Infof("wail check proxy for %+v", node.Url)
+			log.Infof("wail check proxy for %+v(use %+v)", node.Url, s.Config.ProxyCheckUrl)
 			defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
 
 			server, err := StartV2Ray(node.NodeDetail.Buf, s.Config.Debug)
@@ -91,7 +91,7 @@ func checkNode() error {
 			}
 			defer client.CloseIdleConnections()
 
-			req, err := http.NewRequest("GET", "http://www.google.com/", nil)
+			req, err := http.NewRequest("GET", s.Config.ProxyCheckUrl, nil)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err

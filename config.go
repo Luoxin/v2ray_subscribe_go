@@ -23,7 +23,7 @@ type Config struct {
 
 	CrawlerInterval uint32 `json:"crawler_interval"`
 	CheckInterval   uint32 `json:"check_interval"`
-	ProxyCheckUrl   uint32 `json:"proxy_check_url"`
+	ProxyCheckUrl   string `json:"proxy_check_url"`
 }
 
 func initConfig() error {
