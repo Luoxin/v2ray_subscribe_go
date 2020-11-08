@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	log "github.com/sirupsen/logrus"
@@ -90,6 +91,10 @@ func checkNode() error {
 				return err
 			}
 			defer client.CloseIdleConnections()
+
+			client.Transport = &http.Transport{
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			}
 
 			req, err := http.NewRequest("GET", s.Config.ProxyCheckUrl, nil)
 			if err != nil {
