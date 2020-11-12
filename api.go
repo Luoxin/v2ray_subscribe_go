@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"strings"
 	"subsrcibe/subscription"
-	"subsrcibe/utils"
 )
 
 func registerRouting(r *gin.Engine) error {
@@ -41,7 +40,6 @@ func (*Subscribe) Version(c *api.Context) {
 func (*Subscribe) Subscription(c *api.Context) {
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
-		Where("next_check_at < ?", utils.Now()).
 		Where("proxy_speed > 0 ").
 		Where("death_count < ?", 10).
 		Order("proxy_speed DESC").
