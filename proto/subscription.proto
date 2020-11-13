@@ -52,6 +52,7 @@ message CrawlerConf {
 enum ProxyNodeType {
 	ProxyNodeTypeNil = 0;
 	ProxyNodeTypeVmess = 1;
+	ProxyNodeTypeTrojan = 2;
 }
 
 message ProxyNode {

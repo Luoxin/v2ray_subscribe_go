@@ -122,6 +122,17 @@ func crawler() error {
 									return
 								}
 							})
+
+						pie.
+							Strings(regexp.MustCompile(`trojan://[^\s]*`).
+								FindStringSubmatch(resp.Text)).
+							Each(func(ru string) {
+								err = addNode(ru, conf.Id, conf.Interval)
+								if err != nil {
+									log.Errorf("err:%v", err)
+									return
+								}
+							})
 					}
 
 					conf.NextAt += conf.Interval + utils.Now()
@@ -231,53 +242,58 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		CheckInterval: checkInterval,
 	}
 
-	if !strings.HasPrefix(ru, "vmess") {
-		return nil
-	}
+	proxyNodeType := utils.GetProxyNodeType(ru)
 
-	node.ProxyNodeType = uint32(subscription.ProxyNodeType_ProxyNodeTypeVmess)
+	node.ProxyNodeType = uint32(proxyNodeType)
 
-	d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	var vmessNode subscription.ProxyNode_VmessNode
-	err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
-	if err != nil {
-		log.Errorf("err:%v", err)
-
-		m := map[string]interface{}{}
-		err = json.Unmarshal([]byte(d), &m)
+	switch proxyNodeType {
+	case subscription.ProxyNodeType_ProxyNodeTypeVmess:
+		d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
 		}
 
-		for k, v := range m {
-			m[strings.ToLower(k)] = v
+		var vmessNode subscription.ProxyNode_VmessNode
+		err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
+		if err != nil {
+			log.Errorf("err:%v", err)
+
+			m := map[string]interface{}{}
+			err = json.Unmarshal([]byte(d), &m)
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return err
+			}
+
+			for k, v := range m {
+				m[strings.ToLower(k)] = v
+			}
+
+			host := m["host"]
+			if host == "" {
+				host = m["add"]
+			}
+
+			node.Url = fmt.Sprintf("%v:%v/%v", host, m["port"], strings.TrimPrefix(fmt.Sprintf("%v", m["path"]), "/"))
+
+		} else {
+			node.NodeDetail.VmessNode = &vmessNode
+			host := vmessNode.Host
+			if host == "" {
+				host = vmessNode.Add
+			}
+
+			node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
 		}
-
-		host := m["host"]
-		if host == "" {
-			host = m["add"]
-		}
-
-		node.Url = fmt.Sprintf("%v:%v/%v", host, m["port"], strings.TrimPrefix(fmt.Sprintf("%v", m["path"]), "/"))
-
-	} else {
-		node.NodeDetail.VmessNode = &vmessNode
-		host := vmessNode.Host
-		if host == "" {
-			host = vmessNode.Add
-		}
-
-		node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
+	case subscription.ProxyNodeType_ProxyNodeTypeTrojan:
+		node.Url = strings.Split(strings.TrimPrefix(ru, "trojan://"), "#")[0]
+	default:
+		return ErrInvalidArg
 	}
 
 	var oldNode subscription.ProxyNode
-	err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
+	err := s.Db.Where("url = ?", node.Url).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建
