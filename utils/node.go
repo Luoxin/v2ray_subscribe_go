@@ -8,8 +8,8 @@ import (
 func GetProxyNodeType(u string) subscription.ProxyNodeType {
 	if strings.HasPrefix(u, "vmess") {
 		return subscription.ProxyNodeType_ProxyNodeTypeVmess
-	} else  if strings.HasPrefix(u, "trojan") {
-		return subscription.ProxyNodeType_ProxyNodeTypeVmess
+	} else if strings.HasPrefix(u, "trojan") {
+		return subscription.ProxyNodeType_ProxyNodeTypeTrojan
 	}
 
 	return subscription.ProxyNodeType_ProxyNodeTypeNil
