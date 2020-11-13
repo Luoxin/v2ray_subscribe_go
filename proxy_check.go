@@ -74,47 +74,51 @@ func checkNode() error {
 			log.Infof("wail check proxy for %+v(use %+v)", node.Url, s.Config.ProxyCheckUrl)
 			defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
 
-			server, err := StartV2Ray(node.NodeDetail.Buf, false)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
+			switch subscription.ProxyNodeType(node.ProxyNodeType) {
+			case subscription.ProxyNodeType_ProxyNodeTypeVmess:
+				server, err := StartV2Ray(node.NodeDetail.Buf, false)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+
+				if err = server.Start(); err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+				defer server.Close()
+
+				client, err := mv2ray.CoreHTTPClient(server, time.Second*5)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+				defer client.CloseIdleConnections()
+
+				client.Transport = &http.Transport{
+					TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+				}
+
+				req, err := http.NewRequest("GET", s.Config.ProxyCheckUrl, nil)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+
+				before := time.Now()
+				resp, err := client.Do(req)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+
+				networkDelay = time.Now().Sub(before).Seconds()
+				defer resp.Body.Close()
+				body, _ := ioutil.ReadAll(resp.Body)
+
+				speed = float64(len(body)) / networkDelay
 			}
 
-			if err = server.Start(); err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-			defer server.Close()
-
-			client, err := mv2ray.CoreHTTPClient(server, time.Second*5)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-			defer client.CloseIdleConnections()
-
-			client.Transport = &http.Transport{
-				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-			}
-
-			req, err := http.NewRequest("GET", s.Config.ProxyCheckUrl, nil)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-
-			before := time.Now()
-			resp, err := client.Do(req)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-
-			networkDelay = time.Now().Sub(before).Seconds()
-			defer resp.Body.Close()
-			body, _ := ioutil.ReadAll(resp.Body)
-
-			speed = float64(len(body)) / networkDelay
 			return nil
 		}()
 		if err != nil {
