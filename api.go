@@ -40,7 +40,7 @@ func (*Subscribe) Version(c *api.Context) {
 func (*Subscribe) Subscription(c *api.Context) {
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
-		Where("proxy_speed > 0 ").
+		Where("proxy_speed >= 0 ").
 		Where("death_count < ?", 10).
 		Order("proxy_speed DESC").
 		Order("death_count").
