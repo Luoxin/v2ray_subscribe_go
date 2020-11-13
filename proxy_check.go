@@ -12,6 +12,7 @@ import (
 	"strings"
 	"subsrcibe/subscription"
 	"subsrcibe/utils"
+	"sync"
 	"time"
 	"v2ray.com/core"
 	"v2ray.com/core/app/dispatcher"
@@ -62,7 +63,7 @@ func checkNode() error {
 		return nil
 	}
 
-	ProxyNodeList(nodes).Each(func(node *subscription.ProxyNode) {
+	check := func(node *subscription.ProxyNode) {
 		var speed, networkDelay float64
 		err := func() error {
 			if node.NodeDetail == nil {
@@ -73,7 +74,7 @@ func checkNode() error {
 			log.Infof("wail check proxy for %+v(use %+v)", node.Url, s.Config.ProxyCheckUrl)
 			defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
 
-			server, err := StartV2Ray(node.NodeDetail.Buf, s.Config.Debug)
+			server, err := StartV2Ray(node.NodeDetail.Buf, false)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
@@ -85,7 +86,7 @@ func checkNode() error {
 			}
 			defer server.Close()
 
-			client, err := mv2ray.CoreHTTPClient(server, time.Second*20)
+			client, err := mv2ray.CoreHTTPClient(server, time.Second*5)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
@@ -131,12 +132,44 @@ func checkNode() error {
 		}
 
 		node.NextCheckAt += node.CheckInterval
-		err = s.Db.Save(node).Error
+		err = s.Db.Omit("node_detail", "death_count", "url", "proxy_node_type").Save(node).Error
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return
 		}
-	})
+	}
+
+	var w sync.WaitGroup
+	c := make(chan *subscription.ProxyNode)
+
+	asyncCheck := func() {
+		t := time.NewTicker(time.Second * 10)
+		defer t.Stop()
+		for {
+			select {
+			case node := <-c:
+				check(node)
+				w.Done()
+				t.Reset(time.Second * 10)
+			case <-t.C:
+				return
+			}
+		}
+	}
+
+	for i := 0; i < 5; i++ {
+		go asyncCheck()
+	}
+
+	startAt := time.Now()
+	ProxyNodeList(nodes).
+		Each(func(node *subscription.ProxyNode) {
+			w.Add(1)
+			c <- node
+		})
+
+	w.Wait()
+	log.Infof("node check use %v", time.Now().Sub(startAt))
 
 	return nil
 }
