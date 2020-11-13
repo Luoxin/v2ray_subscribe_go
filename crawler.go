@@ -11,6 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"net/http"
+	"regexp"
 	"strings"
 	"subsrcibe/subscription"
 	"subsrcibe/utils"
@@ -46,6 +47,7 @@ func crawler() error {
 	var crawlerList []*subscription.CrawlerConf
 	err := s.Db.Where("is_closed = ?", false).
 		Where("next_at < ?", utils.Now()).
+		Order("next_at").
 		//Limit(1).
 		Find(&crawlerList).Error
 	if err != nil {
@@ -98,6 +100,28 @@ func crawler() error {
 						}
 
 					case subscription.CrawlType_CrawlTypeXpath:
+					case subscription.CrawlType_CrawlTypeFuzzyMatching:
+						pie.
+							Strings(regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
+								FindStringSubmatch(resp.Text)).
+							Each(func(ru string) {
+								err = addNodesByBase64(conf, resp.Text)
+								if err != nil {
+									log.Errorf("err:%v", err)
+									return
+								}
+							})
+
+						pie.
+							Strings(regexp.MustCompile(`vmess://[^\s]*`).
+								FindStringSubmatch(resp.Text)).
+							Each(func(ru string) {
+								err = addNode(ru, conf.Id, conf.Interval)
+								if err != nil {
+									log.Errorf("err:%v", err)
+									return
+								}
+							})
 					}
 
 					conf.NextAt += conf.Interval + utils.Now()
@@ -127,11 +151,12 @@ func crawler() error {
 				return nil
 			}()
 			if err != nil {
+				conf.NextAt = conf.Interval + utils.Now()
 				log.Errorf("err:%v", err)
 			}
 
 			// 保存数据
-			err = s.Db.Save(conf).Error
+			err = s.Db.Omit("created_at").Save(conf).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return

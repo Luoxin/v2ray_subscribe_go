@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "pinfire/subscription";
+option go_package = "subscription";
 
 package subscription;
 
@@ -15,6 +15,7 @@ enum CrawlType {
 	CrawlTypeNil = 0;
 	CrawlTypeSubscription = 1;
 	CrawlTypeXpath = 2;
+	CrawlTypeFuzzyMatching = 3;
 }
 
 message CrawlerConf {
