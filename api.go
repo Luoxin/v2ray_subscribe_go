@@ -29,23 +29,14 @@ type AddNodeReq struct {
 type AddNodeRsp struct {
 }
 
-// Hello Annotated route (bese on beego way)
 // @Router /version [post,get]
 func (*Subscribe) Version(c *api.Context) {
 	c.String(http.StatusOK, version)
 }
 
-// Hello Annotated route (bese on beego way)
 // @Router /subscription [post,get]
 func (*Subscribe) Subscription(c *api.Context) {
-	var nodes []*subscription.ProxyNode
-	err := s.Db.Where("is_close = ?", false).
-		Where("proxy_speed >= 0 ").
-		Where("death_count < ?", 10).
-		Order("proxy_speed DESC").
-		Order("death_count").
-		Limit(30).
-		Find(&nodes).Error
+	nodes, err := GetUsableNodeList()
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -96,9 +87,8 @@ func (*Subscribe) Subscription(c *api.Context) {
 	c.String(http.StatusOK, x)
 }
 
-// Hello Annotated route (bese on beego way)
 // @Router /addnode [post,get]
-func (*Subscribe) Addnode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error) {
+func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error) {
 	var rsp AddNodeRsp
 
 	err := addNode(node.NodeUrl, 0, 0)
@@ -108,4 +98,27 @@ func (*Subscribe) Addnode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error)
 	}
 
 	return &rsp, nil
+}
+
+// @Router /pac [post,get]
+func (*Subscribe) Pac(c *api.Context) {
+}
+
+func GetUsableNodeList() ([]*subscription.ProxyNode, error) {
+	var nodes []*subscription.ProxyNode
+	err := s.Db.Where("is_close = ?", false).
+		Where("proxy_speed >= 0 ").
+		Where("death_count < ?", 10).
+		Order("proxy_speed DESC").
+		Order("death_count").
+		Order("last_crawler_at DESC").
+		Order("created_at DESC").
+		Limit(30).
+		Find(&nodes).Error
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return nil, err
+	}
+
+	return nodes, err
 }

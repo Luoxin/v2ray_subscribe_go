@@ -151,7 +151,7 @@ func crawler() error {
 
 				case http.StatusNonAuthoritativeInfo:
 					// 不可信的信息
-					conf.NextAt += conf.Interval*10 + utils.Now()
+					conf.NextAt += conf.Interval*5 + utils.Now()
 					return nil
 
 				default:
@@ -233,18 +233,18 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		checkInterval = s.Config.CheckInterval
 	}
 
+	proxyNodeType := utils.GetProxyNodeType(ru)
+
 	node := &subscription.ProxyNode{
 		NodeDetail: &subscription.ProxyNode_NodeDetail{
 			Buf: ru,
 		},
 		CrawlId: crawlerId,
 
+		LastCrawlerAt: utils.Now(),
 		CheckInterval: checkInterval,
+		ProxyNodeType: uint32(proxyNodeType),
 	}
-
-	proxyNodeType := utils.GetProxyNodeType(ru)
-
-	node.ProxyNodeType = uint32(proxyNodeType)
 
 	switch proxyNodeType {
 	case subscription.ProxyNodeType_ProxyNodeTypeVmess:
