@@ -50,7 +50,7 @@ func worker() error {
 				log.Errorf("err:%v", err)
 			}
 
-			err = checkNode()
+			err = checkProxyNode()
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
@@ -67,7 +67,7 @@ func worker() error {
 					}
 					crawlerTicker.Reset(time.Minute * 5)
 				case <-checkTicker.C:
-					err = checkNode()
+					err = checkProxyNode()
 					if err != nil {
 						log.Errorf("err:%v", err)
 					}
