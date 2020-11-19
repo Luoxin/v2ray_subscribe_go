@@ -123,7 +123,7 @@ func checkNode(node *subscription.ProxyNode) {
 
 			time.Sleep(time.Second * 5)
 
-			client, err := mv2ray.CoreHTTPClient(server, 60*time.Second)
+			client, err := mv2ray.CoreHTTPClient(server, 10*time.Second)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
