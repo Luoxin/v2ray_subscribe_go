@@ -161,7 +161,7 @@ func checkNode(node *subscription.ProxyNode) {
 		node.ProxyNetworkDelay = networkDelay
 	}
 
-	node.NextCheckAt += node.CheckInterval
+	node.NextCheckAt = node.CheckInterval + utils.Now()
 	err = s.Db.Omit("node_detail", "death_count", "url", "proxy_node_type").Save(node).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
