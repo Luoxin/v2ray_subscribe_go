@@ -73,6 +73,7 @@ const (
 	ProxyNodeType_ProxyNodeTypeNil    ProxyNodeType = 0
 	ProxyNodeType_ProxyNodeTypeVmess  ProxyNodeType = 1
 	ProxyNodeType_ProxyNodeTypeTrojan ProxyNodeType = 2
+	ProxyNodeType_ProxyNodeTypeVless  ProxyNodeType = 3
 )
 
 var ProxyNodeType_name = map[int32]string{

@@ -53,6 +53,7 @@ enum ProxyNodeType {
 	ProxyNodeTypeNil = 0;
 	ProxyNodeTypeVmess = 1;
 	ProxyNodeTypeTrojan = 2;
+	ProxyNodeTypeVless = 3;
 }
 
 message ProxyNode {

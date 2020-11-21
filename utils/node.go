@@ -10,6 +10,8 @@ func GetProxyNodeType(u string) subscription.ProxyNodeType {
 		return subscription.ProxyNodeType_ProxyNodeTypeVmess
 	} else if strings.HasPrefix(u, "trojan") {
 		return subscription.ProxyNodeType_ProxyNodeTypeTrojan
+	} else if strings.HasPrefix(u, "vless") {
+		return subscription.ProxyNodeType_ProxyNodeTypeVless
 	}
 
 	return subscription.ProxyNodeType_ProxyNodeTypeNil
