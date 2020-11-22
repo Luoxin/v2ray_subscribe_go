@@ -132,17 +132,20 @@ func checkNode(node *subscription.ProxyNode) {
 
 			before := time.Now()
 			resp, err := client.Get(s.Config.ProxyCheckUrl)
-
+			defer resp.Body.Close()
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
 			}
+			delay := time.Now().Sub(before)
 
-			networkDelay = time.Now().Sub(before).Seconds()
-			defer resp.Body.Close()
+			networkDelay = float64(delay)
+
 			body, _ := ioutil.ReadAll(resp.Body)
 
-			speed = float64(len(body)) / networkDelay
+			if len(body) > 0 {
+				speed = float64(len(body)) / delay.Seconds()
+			}
 		}
 
 		return nil

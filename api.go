@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 	"subsrcibe/subscription"
+	"v2ray.com/core/common/uuid"
 )
 
 func registerRouting(r *gin.Engine) error {
@@ -67,6 +68,9 @@ func (*Subscribe) Subscription(c *api.Context) {
 			}
 
 			m["ps"] = titleGen.Get()
+
+			ui := uuid.New()
+			m["id"] = ui.String()
 
 			x, err := json.Marshal(m)
 			if err != nil {
