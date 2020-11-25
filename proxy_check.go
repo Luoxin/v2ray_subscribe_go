@@ -105,7 +105,7 @@ func checkNode(node *subscription.ProxyNode) {
 			return nil
 		}
 
-		log.Infof("wail check proxy for %+v(use %+v)", node.Url, s.Config.ProxyCheckUrl)
+		log.Infof("wail check proxy for %+v", node.Url)
 		defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
 
 		switch subscription.ProxyNodeType(node.ProxyNodeType) {
@@ -129,22 +129,42 @@ func checkNode(node *subscription.ProxyNode) {
 			}
 			defer client.CloseIdleConnections()
 
-			before := time.Now()
-			resp, err := client.Get(s.Config.ProxyCheckUrl)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
+			{
+				// 存活性检测
+				_, err := client.Get("https://www.google.com/generate_204")
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				} else {
+					node.AvailableCount++
+				}
+
 			}
-			delay := time.Now().Sub(before)
 
-			networkDelay = float64(delay)
+			{
+				// 检测速度
+				before := time.Now()
+				resp, err := client.Get("http://cachefly.cachefly.net/10mb")
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+				delay := time.Now().Sub(before)
 
-			body, _ := ioutil.ReadAll(resp.Body)
-			defer resp.Body.Close()
+				body, err := ioutil.ReadAll(resp.Body)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					return err
+				}
+				defer resp.Body.Close()
 
-			if len(body) > 0 {
-				speed = float64(len(body)) / delay.Seconds()
+				if len(body) > 0 {
+					node.ProxySpeed = float64(len(body)) / delay.Seconds()
+				}
+
+				node.ProxyNetworkDelay = float64(delay.Milliseconds())
 			}
+
 		}
 
 		return nil
@@ -152,6 +172,7 @@ func checkNode(node *subscription.ProxyNode) {
 	if err != nil {
 		log.Errorf("err:%v", err)
 		node.DeathCount++
+		node.AvailableCount = 0
 
 		if node.DeathCount > 10 {
 			node.ProxySpeed = -1
@@ -162,17 +183,15 @@ func checkNode(node *subscription.ProxyNode) {
 		node.ProxySpeed = speed
 		node.ProxyNetworkDelay = networkDelay
 
-		log.Infof("check proxy %+v(use %+v): speed:%v, delay:%v", node.Url, s.Config.ProxyCheckUrl, speed, networkDelay)
+		log.Infof("check proxy %+v: speed:%v, delay:%v", node.Url, speed, networkDelay)
 	}
 
-	log.Info(node)
-
-	//node.NextCheckAt = node.CheckInterval + utils.Now()
-	//err = s.Db.Omit("node_detail", "death_count", "url", "proxy_node_type").Save(node).Error
-	//if err != nil {
-	//	log.Errorf("err:%v", err)
-	//	return
-	//}
+	node.NextCheckAt = node.CheckInterval + utils.Now()
+	err = s.Db.Omit("node_detail", "death_count", "url", "proxy_node_type").Save(node).Error
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
 }
 
 func StartV2Ray(vm string, debug bool) (*core.Instance, error) {

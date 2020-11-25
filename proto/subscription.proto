@@ -109,4 +109,6 @@ message ProxyNode {
 	bool is_close = 13;
 
 	uint32 last_crawler_at = 14;
+
+	uint64 available_count = 15;
 }
