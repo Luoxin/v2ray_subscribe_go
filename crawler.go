@@ -173,8 +173,11 @@ func crawler() error {
 				return nil
 			}()
 			if err != nil {
-				conf.NextAt = conf.Interval + utils.Now()
 				log.Errorf("err:%v", err)
+			}
+
+			if conf.NextAt < utils.Now() {
+				conf.NextAt = conf.Interval + utils.Now()
 			}
 
 			// 保存数据
