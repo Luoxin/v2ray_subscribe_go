@@ -146,8 +146,6 @@ func crawler() error {
 							})
 					}
 
-					conf.NextAt += conf.Interval + utils.Now()
-
 				case http.StatusMovedPermanently, http.StatusFound:
 					// 重定向了
 					u, err := resp.Location()
@@ -162,7 +160,6 @@ func crawler() error {
 
 				case http.StatusNonAuthoritativeInfo:
 					// 不可信的信息
-					conf.NextAt += conf.Interval*5 + utils.Now()
 					return nil
 
 				default:
@@ -174,9 +171,14 @@ func crawler() error {
 			}()
 			if err != nil {
 				log.Errorf("err:%v", err)
+				conf.NextAt = conf.Interval*2 + utils.Now()
 			}
 
 			if conf.NextAt < utils.Now() {
+				if conf.Interval == 0 {
+					conf.Interval = s.Config.CrawlerInterval
+				}
+
 				conf.NextAt = conf.Interval + utils.Now()
 			}
 
