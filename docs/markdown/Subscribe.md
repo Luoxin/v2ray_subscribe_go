@@ -14,6 +14,42 @@
 
 #### Request URL:
 
+- http://localhost/api/subscription
+
+#### Methods:
+
+- post
+- get
+
+#### Parameters:
+
+
+#### Request example:
+```
+{}
+```
+
+#### Return parameter description:
+$oem.RespTab
+
+#### Return example:
+	
+```
+{}
+```
+
+#### Remarks:
+
+- 
+
+--------------------
+
+#### Brief description:
+
+- []
+
+#### Request URL:
+
 - http://localhost/api/version
 
 #### Methods:
@@ -95,42 +131,6 @@ $oem.RespTab
 #### Request URL:
 
 - http://localhost/api/pac
-
-#### Methods:
-
-- post
-- get
-
-#### Parameters:
-
-
-#### Request example:
-```
-{}
-```
-
-#### Return parameter description:
-$oem.RespTab
-
-#### Return example:
-	
-```
-{}
-```
-
-#### Remarks:
-
-- 
-
---------------------
-
-#### Brief description:
-
-- []
-
-#### Request URL:
-
-- http://localhost/api/subscription
 
 #### Methods:
 
