@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	u := "vmess://eyJhZGQiOiJnei41Mm5vZGUueHl6IiwiYWlkIjoiMiIsImhvc3QiOiJoay5qZC5jb20iLCJpZCI6ImVkZDExODEwLTJkN2YtMzFlOC1hYzhjLTNmMjRmNjk4NDk4ZiIsIm5ldCI6IndzIiwicGF0aCI6Ii92MnJheSIsInBvcnQiOjI4MDI1LCJwcyI6IlNTUlRPT0wuQ09NIiwidGxzIjoiIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9\n"
+	u := "vmess://eyJhZGQiOiIxNzIuNjcuMTU3LjgyIiwidiI6IjIiLCJwcyI6IvCfh7rwn4e4IFVTXzQ0NyBUR0BwZWVrZnVuIiwicG9ydCI6NDQzLCJpZCI6IjRmNjcyYWI2LTI1ZTMtNDllOC05NTFhLWQ4N2IxZmE3NTQ2NyIsImFpZCI6IjIiLCJuZXQiOiJ3cyIsInR5cGUiOiIiLCJob3N0IjoidmlyLmxhb2JhbjY2Ni54eXoiLCJwYXRoIjoiL2NlMDQvIiwidGxzIjoidGxzIn0="
 
 	check(u,
 		"")
@@ -29,7 +29,7 @@ func check(buf, checkUrl string) error {
 	buf = strings.TrimSuffix(buf, "\n")
 
 	if checkUrl == "" {
-		checkUrl = "http://cachefly.cachefly.net/10mb"
+		checkUrl = "https://www.google.com"
 	}
 
 	var speed float64
