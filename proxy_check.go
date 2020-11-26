@@ -64,23 +64,26 @@ func checkProxyNode() error {
 
 	var w sync.WaitGroup
 	c := make(chan *subscription.ProxyNode)
+	stopC := make(chan bool)
 
 	asyncCheck := func() {
-		t := time.NewTicker(time.Second * 10)
-		defer t.Stop()
 		for {
 			select {
 			case node := <-c:
-				checkNode(node)
-				w.Done()
-				t.Reset(time.Second * 10)
-			case <-t.C:
+				run := func(node *subscription.ProxyNode) {
+					defer w.Done()
+					checkNode(node)
+				}
+				run(node)
+			case <-stopC:
 				return
 			}
 		}
 	}
 
-	for i := 0; i < 10; i++ {
+	const maxProcess = 50
+
+	for i := 0; i < maxProcess; i++ {
 		go asyncCheck()
 	}
 
@@ -89,24 +92,29 @@ func checkProxyNode() error {
 		Each(func(node *subscription.ProxyNode) {
 			w.Add(1)
 			c <- node
+			log.Infof("add new node(%v) to check", node.Url)
 		})
 
 	w.Wait()
+
+	for i := 0; i < maxProcess; i++ {
+		stopC <- true
+	}
+
 	log.Infof("node check use %v", time.Now().Sub(startAt))
 
 	return nil
 }
 
 func checkNode(node *subscription.ProxyNode) {
-	var speed, networkDelay float64
+	log.Infof("wail check proxy for %+v", node.Url)
+	defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
+
 	err := func() error {
 		if node.NodeDetail == nil {
 			node.IsClose = true
 			return nil
 		}
-
-		log.Infof("wail check proxy for %+v", node.Url)
-		defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
 
 		switch subscription.ProxyNodeType(node.ProxyNodeType) {
 		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
@@ -180,10 +188,7 @@ func checkNode(node *subscription.ProxyNode) {
 		}
 	} else {
 		node.DeathCount = 0
-		node.ProxySpeed = speed
-		node.ProxyNetworkDelay = networkDelay
-
-		log.Infof("check proxy %+v: speed:%v, delay:%v", node.Url, speed, networkDelay)
+		log.Infof("check proxy %+v: speed:%v, delay:%v", node.Url, node.ProxySpeed, node.ProxyNetworkDelay)
 	}
 
 	node.NextCheckAt = node.CheckInterval + utils.Now()
