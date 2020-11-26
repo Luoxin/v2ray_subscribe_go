@@ -150,8 +150,8 @@ func checkNode(node *subscription.ProxyNode) {
 			{
 				// 检测速度
 				before := time.Now()
-				resp, err := client.Get("http://cachefly.cachefly.net/10mb")
-				//resp, err := client.Get("https://www.google.com")
+				//resp, err := client.Get("http://cachefly.cachefly.net/10mb")
+				resp, err := client.Get("https://www.google.com")
 				if err != nil {
 					log.Errorf("err:%v", err)
 					return err
