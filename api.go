@@ -112,6 +112,7 @@ func GetUsableNodeList() ([]*subscription.ProxyNode, error) {
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("proxy_speed >= 0 ").
+		Where("proxy_node_type = 1").
 		Where("available_count >= 0 ").
 		Where("proxy_network_delay >= 0 ").
 		Where("death_count < ?", 10).

@@ -137,22 +137,21 @@ func checkNode(node *subscription.ProxyNode) {
 			}
 			defer client.CloseIdleConnections()
 
-			{
-				// 存活性检测
-				_, err := client.Get("https://www.google.com/generate_204")
-				if err != nil {
-					log.Errorf("err:%v", err)
-					return err
-				} else {
-					node.AvailableCount++
-				}
-
-			}
+			//{
+			//	// 存活性检测
+			//	_, err := client.Get("https://www.google.com/generate_204")
+			//	if err != nil {
+			//		log.Errorf("err:%v", err)
+			//		return err
+			//	}
+			//
+			//}
 
 			{
 				// 检测速度
 				before := time.Now()
 				resp, err := client.Get("http://cachefly.cachefly.net/10mb")
+				//resp, err := client.Get("https://www.google.com")
 				if err != nil {
 					log.Errorf("err:%v", err)
 					return err
@@ -175,6 +174,7 @@ func checkNode(node *subscription.ProxyNode) {
 
 		}
 
+		node.AvailableCount++
 		return nil
 	}()
 	if err != nil {
