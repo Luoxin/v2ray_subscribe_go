@@ -40,7 +40,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -77,7 +77,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -116,7 +116,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -153,7 +153,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -192,7 +192,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -229,7 +229,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -268,7 +268,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],
@@ -305,7 +305,7 @@
                               "description": "",
                               "required": true,
                               "schema": {
-                                   "$ref": "#/definitions/AddNodeReq"
+                                   "$ref": ""
                               }
                          }
                     ],

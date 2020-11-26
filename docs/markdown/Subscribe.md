@@ -1,165 +1,160 @@
 
 
-## [推荐查看工具](https://www.iminho.me/)
+## [Viewing tools](https://www.iminho.me/)
 
-## 总览:
+## Overview:
 - [Subscribe]
 - [Waiting to write...]
 
 --------------------
 
-#### 简要描述：
+#### Brief description:
 
 - []
 
-#### 请求URL:
+#### Request URL:
 
-- http://localhost/api/addnode
+- http://localhost/api/version
 
-#### 请求方式：
+#### Methods:
 
 - post
 - get
 
-#### 请求参数:
+#### Parameters:
+
+
+#### Request example:
+```
+{}
+```
+
+#### Return parameter description:
+$oem.RespTab
+
+#### Return example:
+	
+```
+{}
+```
+
+#### Remarks:
+
+- 
+
+--------------------
+
+#### Brief description:
+
+- []
+
+#### Request URL:
+
+- http://localhost/api/addnode
+
+#### Methods:
+
+- post
+- get
+
+#### Parameters:
 
 - ` AddNodeReq ` : 
 
-|参数名|是否必须|类型|说明|
+|Parameter| Requierd | Type | Description|
 |:----    |:---|:----- |-----   |
-|`node_url` | 否|string|   |
+|`node_url` | NO|string|   |
+	
 
-
-#### 请求示例:
+#### Request example:
 ```
 {
      "node_url": ""
 }
 ```
 
-#### 返回参数说明:
+#### Return parameter description:
+$oem.RespTab
 
-- ` AddNodeRsp ` : 
-
-|参数名|是否必须|类型|说明|
-|:----    |:---|:----- |-----   |
-
-
-#### 返回示例:
+#### Return example:
 	
 ```
 {}
 ```
 
-#### 备注:
+#### Remarks:
 
 - 
 
 --------------------
 
-#### 简要描述：
+#### Brief description:
 
 - []
 
-#### 请求URL:
+#### Request URL:
 
 - http://localhost/api/pac
 
-#### 请求方式：
+#### Methods:
 
 - post
 - get
 
-#### 请求参数:
+#### Parameters:
 
 
-#### 请求示例:
+#### Request example:
 ```
 {}
 ```
 
-#### 返回参数说明:
+#### Return parameter description:
+$oem.RespTab
 
-
-#### 返回示例:
+#### Return example:
 	
 ```
 {}
 ```
 
-#### 备注:
+#### Remarks:
 
 - 
 
 --------------------
 
-#### 简要描述：
+#### Brief description:
 
 - []
 
-#### 请求URL:
+#### Request URL:
 
 - http://localhost/api/subscription
 
-#### 请求方式：
+#### Methods:
 
 - post
 - get
 
-#### 请求参数:
+#### Parameters:
 
 
-#### 请求示例:
+#### Request example:
 ```
 {}
 ```
 
-#### 返回参数说明:
+#### Return parameter description:
+$oem.RespTab
 
-
-#### 返回示例:
+#### Return example:
 	
 ```
 {}
 ```
 
-#### 备注:
-
-- 
-
---------------------
-
-#### 简要描述：
-
-- []
-
-#### 请求URL:
-
-- http://localhost/api/version
-
-#### 请求方式：
-
-- post
-- get
-
-#### 请求参数:
-
-
-#### 请求示例:
-```
-{}
-```
-
-#### 返回参数说明:
-
-
-#### 返回示例:
-	
-```
-{}
-```
-
-#### 备注:
+#### Remarks:
 
 - 
 	
@@ -167,6 +162,6 @@
 --------------------
 --------------------
 
-#### 自定义类型:
-
+#### Custom type:
+	
 
