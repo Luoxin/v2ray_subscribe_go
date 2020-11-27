@@ -171,7 +171,8 @@ func checkNode(node *subscription.ProxyNode) {
 
 				node.ProxyNetworkDelay = float64(delay.Milliseconds())
 			}
-
+		default:
+			return nil
 		}
 
 		node.AvailableCount++
