@@ -122,7 +122,7 @@ func GetUsableNodeList() ([]*subscription.ProxyNode, error) {
 		Order("proxy_network_delay DESC").
 		Order("death_count").
 		Order("last_crawler_at DESC").
-		Limit(30).
+		Limit(50).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
