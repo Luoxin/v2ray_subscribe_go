@@ -82,7 +82,7 @@ message ProxyNode {
 	uint32 updated_at = 3;
 	
 	// HOST:PORT
-	// @gorm: type:varchar(1000)
+	// @gorm: type:varchar(1000); unique_index: idx_proxy_node_url
 	// @v: max=1000
 	string url = 4;
 	
