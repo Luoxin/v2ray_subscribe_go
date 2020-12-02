@@ -1,13 +1,10 @@
 package main
 
 import (
-	"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
-	"github.com/golang/protobuf/jsonpb"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"net/http"
@@ -199,7 +196,7 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 		return nil
 	}
 
-	str, err := base64Decode(bs)
+	str, err := utils.Base64DecodeStripped(bs)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -224,24 +221,6 @@ func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
 	return nil
 }
 
-func base64Decode(s string) (string, error) {
-	str, err := base64.URLEncoding.DecodeString(s)
-	if err != nil {
-		str, err = base64.StdEncoding.DecodeString(s)
-		if err != nil {
-			str, err = base64.RawStdEncoding.DecodeString(s)
-			if err != nil {
-				str, err = base64.RawURLEncoding.DecodeString(s)
-				if err != nil {
-					log.Errorf("decode fail for %v", s)
-					return "", err
-				}
-			}
-		}
-	}
-	return string(str), err
-}
-
 func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 	log.Infof("will add node:%v", ru)
 
@@ -264,14 +243,14 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 
 	switch proxyNodeType {
 	case subscription.ProxyNodeType_ProxyNodeTypeVmess:
-		d, err := base64Decode(strings.TrimPrefix(ru, "vmess://"))
+		d, err := utils.Base64DecodeStripped(strings.TrimPrefix(ru, "vmess://"))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
 		}
 
-		var vmessNode subscription.ProxyNode_VmessNode
-		err = jsonpb.Unmarshal(bytes.NewBufferString(d), &vmessNode)
+		var vmessNode subscription.Vmess
+		err = json.Unmarshal([]byte(d), &vmessNode)
 		if err != nil {
 			log.Errorf("err:%v", err)
 
@@ -294,7 +273,6 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 			node.Url = fmt.Sprintf("%v:%v/%v", host, m["port"], strings.TrimPrefix(fmt.Sprintf("%v", m["path"]), "/"))
 
 		} else {
-			node.NodeDetail.VmessNode = &vmessNode
 			host := vmessNode.Host
 			if host == "" {
 				host = vmessNode.Add

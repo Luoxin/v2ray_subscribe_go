@@ -64,11 +64,3 @@ func (m *ProxyNode_NodeDetail) Scan(value interface{}) error {
 func (m *ProxyNode_NodeDetail) Value() (driver.Value, error) {
 	return Value(m)
 }
-
-func (m *ProxyNode_VmessNode) Scan(value interface{}) error {
-	return Scan(value, m)
-}
-
-func (m *ProxyNode_VmessNode) Value() (driver.Value, error) {
-	return Value(m)
-}

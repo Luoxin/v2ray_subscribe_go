@@ -57,24 +57,8 @@ enum ProxyNodeType {
 }
 
 message ProxyNode {
-	message VmessNode {
-		string path = 1;
-		string tls = 2;
-		string v = 3;
-		string aid = 4;
-		string net = 5;
-		string id = 6;
-		string type = 7;
-		string host = 8;
-		string ps = 9;
-		string add = 10;
-		string port = 11;
-	}
-	
 	message NodeDetail {
 		string buf = 1;
-		
-		VmessNode vmess_node = 2;
 	}
 	
 	uint64 id = 1;

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 	"subsrcibe/subscription"
+	"subsrcibe/utils"
 )
 
 func registerRouting(r *gin.Engine) error {
@@ -53,7 +54,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		var buf string
 		switch subscription.ProxyNodeType(node.ProxyNodeType) {
 		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
-			b, err := base64Decode(strings.TrimPrefix(node.NodeDetail.Buf, "vmess://"))
+			b, err := utils.Base64DecodeStripped(strings.TrimPrefix(node.NodeDetail.Buf, "vmess://"))
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return
@@ -88,6 +89,17 @@ func (*Subscribe) Subscription(c *api.Context) {
 	x := base64.StdEncoding.EncodeToString([]byte(strings.Join(nodeList, "\n")))
 
 	c.String(http.StatusOK, x)
+}
+
+// @Router /sub/clash [post,get]
+func (*Subscribe) SubClash(c *api.Context) {
+	nodes, err := GetUsableNodeList()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
+
+	c.String(http.StatusOK, utils.Nodes2Clash(nodes))
 }
 
 // @Router /addnode [post,get]
