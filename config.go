@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const version = "0.0.0.1"
+const version = "0.0.0.2"
 
 type Config struct {
 	Host  string `json:"host"`
