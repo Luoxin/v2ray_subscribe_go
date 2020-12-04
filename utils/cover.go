@@ -115,8 +115,15 @@ func Vmess2Clash(s string) subscription.ClashVmess {
 
 var ClashTpl = `port: 7890
 socks-port: 7891
-allow-lan: true
+allow-lan: false
 mode: Rule
+ipv6: true
+nameserver:
+  - 223.5.5.5
+  - 8.8.8.8
+  - 114.114.114.114
+  - tls://dns.rubyfish.cn:853
+  - https://1.1.1.1/dns-query
 log-level: info
 external-controller: 127.0.0.1:9090
 proxies:
