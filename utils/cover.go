@@ -4,18 +4,35 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/oschwald/geoip2-golang"
 	log "github.com/sirupsen/logrus"
+	"net"
 	"strings"
 	"subsrcibe/subscription"
 	"text/template"
 )
 
-func Nodes2Clash(nodes []*subscription.ProxyNode) string {
+type clashInfo struct {
+	name string
+	host string
+
+	proxyInfo interface{}
+}
+
+type CoverSubscribe struct {
+	nodeMap map[string]*clashInfo
+}
+
+func NewCoverSubscribe() *CoverSubscribe {
+	return &CoverSubscribe{
+		nodeMap: map[string]*clashInfo{},
+	}
+}
+
+func (c *CoverSubscribe) Nodes2Clash(nodes []*subscription.ProxyNode) string {
 
 	titleGen := NewProxyTitle()
 
-	var nodeList []string
-	var nameList []string
 	for _, node := range nodes {
 		if node.NodeDetail == nil {
 			return ""
@@ -23,7 +40,7 @@ func Nodes2Clash(nodes []*subscription.ProxyNode) string {
 
 		switch subscription.ProxyNodeType(node.ProxyNodeType) {
 		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
-			clashVmess := Vmess2Clash(node.NodeDetail.Buf)
+			clashVmess := c.vmess2Clash(node.NodeDetail.Buf)
 
 			if clashVmess.Network == "" {
 				continue
@@ -35,17 +52,123 @@ func Nodes2Clash(nodes []*subscription.ProxyNode) string {
 
 			clashVmess.Name = titleGen.Get()
 
-			x, err := json.Marshal(clashVmess)
+			c.nodeMap[clashVmess.Name] = &clashInfo{
+				name: clashVmess.Name,
+				host: clashVmess.Server,
+
+				proxyInfo: clashVmess,
+			}
+
+		default:
+			return ""
+		}
+	}
+
+	return c.genClashConfig()
+}
+
+func (c *CoverSubscribe) genClashConfig() string {
+	db, err := geoip2.Open("./GeoLite2-Country.mmdb")
+	if err != nil {
+		log.Errorf("err:%v", err)
+	}
+	defer db.Close()
+
+	var nodeList, nameList []string
+
+	var usaNameList, hkNameList, twNameList, rsNameList, jpNameList, skNameList []string
+
+	// TODO for 生成数据
+	for _, x := range c.nodeMap {
+		ns, err := net.LookupIP(x.host)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			continue
+		}
+
+		if len(ns) == 0 {
+			continue
+		}
+
+		if db != nil {
+			record, err := db.Country(net.ParseIP(ns[0].String()))
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if len(record.Country.Names["zh-CN"]) > 0 {
+				x.name = fmt.Sprintf("(%s)%s", record.Country.Names["zh-CN"], x.name)
+			}
+
+			switch record.Country.Names["zh-CN"] {
+			case "美国":
+				usaNameList = append(usaNameList, x.name)
+			case "香港":
+				hkNameList = append(hkNameList, x.name)
+			case "台湾":
+				twNameList = append(twNameList, x.name)
+			case "新加坡":
+				rsNameList = append(rsNameList, x.name)
+			case "日本":
+				jpNameList = append(jpNameList, x.name)
+			case "韩国":
+				skNameList = append(skNameList, x.name)
+			}
+		}
+
+		if clashVmess, ok := x.proxyInfo.(subscription.ClashVmess); ok {
+			clashVmess.Name = x.name
+
+			b, err := json.Marshal(clashVmess)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				continue
 			}
 
-			nodeList = append(nodeList, string(x))
-			nameList = append(nameList, clashVmess.Name)
-		default:
-			return ""
+			nodeList = append(nodeList, string(b))
+			nameList = append(nameList, x.name)
 		}
+	}
+
+	nodeData := map[string]interface{}{
+		"ProxyNodeList": fmt.Sprintf("- %+v", strings.Join(nodeList, "\n  - ")),
+		"NameList":      fmt.Sprintf("- %+v", strings.Join(nameList, "\n      - ")),
+	}
+
+	if len(usaNameList) > 0 {
+		nodeData["UsaNameList"] = fmt.Sprintf("- %+v", strings.Join(usaNameList, "\n      - "))
+	} else {
+		nodeData["UsaNameList"] = ""
+	}
+
+	if len(hkNameList) > 0 {
+		nodeData["HkNameList"] = fmt.Sprintf("- %+v", strings.Join(hkNameList, "\n      - "))
+	} else {
+		nodeData["HkNameList"] = ""
+	}
+
+	if len(twNameList) > 0 {
+		nodeData["TwNameList"] = fmt.Sprintf("- %+v", strings.Join(twNameList, "\n      - "))
+	} else {
+		nodeData["TwNameList"] = ""
+	}
+
+	if len(rsNameList) > 0 {
+		nodeData["RsNameList"] = fmt.Sprintf("- %+v", strings.Join(rsNameList, "\n      - "))
+	} else {
+		nodeData["RsNameList"] = ""
+	}
+
+	if len(jpNameList) > 0 {
+		nodeData["JpNameList"] = fmt.Sprintf("- %+v", strings.Join(jpNameList, "\n      - "))
+	} else {
+		nodeData["JpNameList"] = ""
+	}
+
+	if len(skNameList) > 0 {
+		nodeData["SkNameList"] = fmt.Sprintf("- %+v", strings.Join(skNameList, "\n      - "))
+	} else {
+		nodeData["SkNameList"] = ""
 	}
 
 	var b bytes.Buffer
@@ -55,10 +178,7 @@ func Nodes2Clash(nodes []*subscription.ProxyNode) string {
 		return ""
 	}
 
-	err = t.Execute(&b, map[string]interface{}{
-		"ProxyNodeList": fmt.Sprintf("- %+v", strings.Join(nodeList, "\n  - ")),
-		"NameList":      fmt.Sprintf("- %+v", strings.Join(nameList, "\n      - ")),
-	})
+	err = t.Execute(&b, nodeData)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return ""
@@ -67,7 +187,7 @@ func Nodes2Clash(nodes []*subscription.ProxyNode) string {
 	return b.String()
 }
 
-func Vmess2Clash(s string) subscription.ClashVmess {
+func (c *CoverSubscribe) vmess2Clash(s string) subscription.ClashVmess {
 	s = strings.TrimPrefix(s, "vmess://")
 
 	config, err := Base64DecodeStripped(s)
@@ -342,36 +462,42 @@ proxy-groups:
     interval: 300
     proxies:
       - DIRECT
+      {{.HkNameList}}
   - name: 🇯🇵 日本节点
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
       - DIRECT
+      {{.JpNameList}}
   - name: 🇺🇲 美国节点
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
       - DIRECT
+      {{.UsaNameList}}
   - name: 🇨🇳 台湾节点
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
       - DIRECT
+      {{.TwNameList}}
   - name: 🇸🇬 狮城节点
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
       - DIRECT
+      {{.RsNameList}}
   - name: 🇰🇷 韩国节点
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
       - DIRECT
+      {{.SkNameList}}
   - name: 🎥 奈飞节点
     type: select
     proxies:

@@ -99,7 +99,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 		return
 	}
 
-	c.String(http.StatusOK, utils.Nodes2Clash(nodes))
+	c.String(http.StatusOK, utils.NewCoverSubscribe().Nodes2Clash(nodes))
 }
 
 // @Router /addnode [post,get]

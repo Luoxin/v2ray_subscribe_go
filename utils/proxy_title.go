@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/elliotchance/pie/pie"
 	"math/rand"
 	"time"
@@ -1246,5 +1245,5 @@ func (t *ProxyTitle) Get() string {
 	_, canUseList := pie.Strings(t.titleList).Diff(t.usedList)
 	title := canUseList.Random(rand.NewSource(time.Now().UnixNano()))
 	t.usedList = append(t.usedList, title)
-	return fmt.Sprintf("%v-%v", len(t.usedList), title)
+	return title
 }
