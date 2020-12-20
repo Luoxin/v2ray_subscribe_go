@@ -3,7 +3,7 @@ module subsrcibe
 go 1.15
 
 require (
-	fyne.io/fyne v1.4.1 // indirect
+	fyne.io/fyne v1.4.1
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
