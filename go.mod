@@ -3,6 +3,7 @@ module subsrcibe
 go 1.15
 
 require (
+	fyne.io/fyne v1.4.1 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
@@ -29,7 +30,6 @@ require (
 	golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect
 	golang.org/x/text v0.3.3 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
 	gorm.io/driver/mysql v1.0.1
