@@ -1,9 +1,7 @@
 package crawler
 
 type Crawler interface {
-	Download()
-	Parse()
+	Download() error
+	Parse() error
 }
-
-
 

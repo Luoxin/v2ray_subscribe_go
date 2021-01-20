@@ -64,7 +64,6 @@ func crawler() error {
 
 			err := func() error {
 				opt := &nic.H{
-					Proxy:   s.Config.Proxies,
 					Timeout: 60,
 
 					DisableKeepAlives:  true,
