@@ -16,7 +16,7 @@ type clashInfo struct {
 	name string
 	host string
 
-	proxyInfo interface{}
+	proxyInfo map[string]interface{}
 }
 
 type CoverSubscribe struct {
@@ -38,29 +38,34 @@ func (c *CoverSubscribe) Nodes2Clash(nodes []*subscription.ProxyNode) string {
 			return ""
 		}
 
-		switch subscription.ProxyNodeType(node.ProxyNodeType) {
-		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
-			clashVmess := c.vmess2Clash(node.NodeDetail.Buf)
+		proxyConfig := ParseProxy(node.NodeDetail.Buf)
+		proxyItem := make(map[string]interface{})
+		j, err := json.Marshal(proxyConfig)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			continue
+		}
 
-			if clashVmess.Network == "" {
-				continue
+		err = json.Unmarshal(j, &proxyItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			continue
+		}
+
+		var host string
+		if x, ok := proxyItem["server"].(string); ok {
+			if x != "" {
+				host = x
 			}
+		}
 
-			if clashVmess.Cipher == "" {
-				continue
-			}
+		title := titleGen.Get()
 
-			clashVmess.Name = titleGen.Get()
+		c.nodeMap[title] = &clashInfo{
+			name: title,
+			host: host,
 
-			c.nodeMap[clashVmess.Name] = &clashInfo{
-				name: clashVmess.Name,
-				host: clashVmess.Server,
-
-				proxyInfo: clashVmess,
-			}
-
-		default:
-			return ""
+			proxyInfo: proxyItem,
 		}
 	}
 
@@ -116,18 +121,16 @@ func (c *CoverSubscribe) genClashConfig() string {
 			}
 		}
 
-		if clashVmess, ok := x.proxyInfo.(subscription.ClashVmess); ok {
-			clashVmess.Name = x.name
+		x.proxyInfo["name"] = x.name
 
-			b, err := json.Marshal(clashVmess)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				continue
-			}
-
-			nodeList = append(nodeList, string(b))
-			nameList = append(nameList, x.name)
+		b, err := json.Marshal(x.proxyInfo)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			continue
 		}
+
+		nodeList = append(nodeList, string(b))
+		nameList = append(nameList, x.name)
 	}
 
 	nodeData := map[string]interface{}{

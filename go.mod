@@ -23,6 +23,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/ugorji/go v1.1.13 // indirect
 	github.com/v2fly/vmessping v0.3.4
+	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
 	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1 // indirect
 	go.uber.org/multierr v1.6.0 // indirect

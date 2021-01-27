@@ -1,17 +1,16 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	mv2ray "github.com/v2fly/vmessping/miniv2ray"
-	"github.com/v2fly/vmessping/vmess"
-	"io/ioutil"
 	"strings"
-	"subsrcibe/subscription"
-	"subsrcibe/utils"
 	"sync"
 	"time"
+
+	"github.com/Dreamacro/clash/adapters/outbound"
+	log "github.com/sirupsen/logrus"
+	"github.com/v2fly/vmessping/vmess"
 	"v2ray.com/core"
 	"v2ray.com/core/app/dispatcher"
 	applog "v2ray.com/core/app/log"
@@ -19,6 +18,9 @@ import (
 	commlog "v2ray.com/core/common/log"
 	"v2ray.com/core/common/serial"
 	"v2ray.com/core/infra/conf"
+
+	"subsrcibe/subscription"
+	"subsrcibe/utils"
 )
 
 func checkProxyNode() error {
@@ -92,65 +94,38 @@ func checkNode(node *subscription.ProxyNode) {
 			return nil
 		}
 
-		switch subscription.ProxyNodeType(node.ProxyNodeType) {
-		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
-			server, err := StartV2Ray(node.NodeDetail.Buf, false)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-
-			if err = server.Start(); err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-			defer server.Close()
-
-			client, err := mv2ray.CoreHTTPClient(server, 10*time.Second)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-			defer client.CloseIdleConnections()
-
-			//{
-			//	// 存活性检测
-			//	_, err := client.Get("https://www.google.com/generate_204")
-			//	if err != nil {
-			//		log.Errorf("err:%v", err)
-			//		return err
-			//	}
-			//
-			//}
-
-			{
-				// 检测速度
-				before := time.Now()
-				//resp, err := client.Get("http://cachefly.cachefly.net/10mb")
-				resp, err := client.Get("https://www.google.com")
-				if err != nil {
-					log.Errorf("err:%v", err)
-					return err
-				}
-				delay := time.Now().Sub(before)
-
-				body, err := ioutil.ReadAll(resp.Body)
-				if err != nil {
-					log.Errorf("err:%v", err)
-					return err
-				}
-				defer resp.Body.Close()
-
-				if len(body) > 0 {
-					node.ProxySpeed = float64(len(body)) / delay.Seconds()
-				}
-
-				node.ProxyNetworkDelay = float64(delay.Milliseconds())
-			}
-		default:
-			return nil
+		proxyConfig := utils.ParseProxy(node.NodeDetail.Buf)
+		proxyItem := make(map[string]interface{})
+		j, err := json.Marshal(proxyConfig)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
 		}
 
+		err = json.Unmarshal(j, &proxyItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		proxyItem["name"] = "test proxy"
+
+		proxy, err := outbound.ParseProxy(proxyItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
+
+		// x, err := proxy.URLTest(ctx, "https://www.google.com/generate_204")
+		delay, err := proxy.URLTest(ctx, "https://www.google.com")
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		node.ProxyNetworkDelay = float64(delay)
 		node.AvailableCount++
 		return nil
 	}()
