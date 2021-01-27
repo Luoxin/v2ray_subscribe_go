@@ -1,6 +1,8 @@
 package main
 
 import (
+	"sync"
+
 	"github.com/roylee0704/gron"
 	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
@@ -41,31 +43,57 @@ func initState() error {
 }
 
 func worker() error {
-	go func() {
-		c := gron.New()
+	c := gron.New()
 
-		if !s.Config.DisableCrawl {
-			log.Info("register crawler")
-			c.AddFunc(gron.Every(xtime.Minute*10), func() {
-				err := crawler()
-				if err != nil {
-					log.Errorf("err:%v", err)
-				}
-			})
-		}
+	var w sync.WaitGroup
+	if !s.Config.DisableCrawl {
+		log.Info("register crawler")
 
-		if !s.Config.DisableCheckAlive {
-			log.Info("register proxy check")
-			c.AddFunc(gron.Every(xtime.Minute*10), func() {
-				err := checkProxyNode()
-				if err != nil {
-					log.Errorf("err:%v", err)
-				}
-			})
-		}
+		w.Add(1)
+		go func() {
+			defer w.Done()
 
-		c.Start()
-	}()
+			err := crawler()
+			if err != nil {
+				log.Errorf("err:%v", err)
+			}
+		}()
+
+		c.AddFunc(gron.Every(xtime.Minute*10), func() {
+			err := crawler()
+			if err != nil {
+				log.Errorf("err:%v", err)
+			}
+		})
+	} else {
+		log.Warnf("crawler not start")
+	}
+
+	if !s.Config.DisableCheckAlive {
+		log.Info("register proxy check")
+
+		go func() {
+			w.Wait()
+			w.Add(1)
+			defer w.Done()
+
+			err := checkProxyNode()
+			if err != nil {
+				log.Errorf("err:%v", err)
+			}
+		}()
+
+		c.AddFunc(gron.Every(xtime.Minute*10), func() {
+			err := checkProxyNode()
+			if err != nil {
+				log.Errorf("err:%v", err)
+			}
+		})
+	} else {
+		log.Warnf("proxy chec not start")
+	}
+
+	c.Start()
 
 	return nil
 }

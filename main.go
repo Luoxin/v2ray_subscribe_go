@@ -15,6 +15,8 @@ func main() {
 		return
 	}
 
+	log.Info("init success")
+
 	//// swagger
 	//myswagger.SetHost("https://localhost:8080")
 	//myswagger.SetBasePath("gmsec")
