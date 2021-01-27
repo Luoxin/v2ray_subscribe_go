@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	fyne.io/fyne v1.4.1
-	github.com/Dreamacro/clash v1.3.5 // indirect
+	github.com/Dreamacro/clash v1.3.5
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
@@ -16,6 +16,7 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/oschwald/geoip2-golang v1.4.0
 	github.com/pkg/errors v0.9.1
+	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

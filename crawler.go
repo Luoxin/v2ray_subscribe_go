@@ -3,40 +3,18 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"regexp"
+	"strings"
+
 	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
-	"net/http"
-	"regexp"
-	"strings"
+
 	"subsrcibe/subscription"
 	"subsrcibe/utils"
-	"time"
 )
-
-func initCrawler() error {
-	if s.Config.DisableCrawl {
-		log.Warnf("crawler is disable")
-		return nil
-	}
-
-	go func() {
-		log.Info("start crawler worker......")
-		for {
-			err := crawler()
-			if err != nil {
-				log.Errorf("err:%v", err)
-				continue
-			}
-
-			time.Sleep(time.Minute * 5)
-		}
-
-	}()
-
-	return nil
-}
 
 func crawler() error {
 	log.Infof("start crawler......")

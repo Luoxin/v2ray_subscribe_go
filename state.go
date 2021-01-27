@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/roylee0704/gron"
+	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
-	"time"
 )
 
 type State struct {
@@ -40,57 +41,31 @@ func initState() error {
 }
 
 func worker() error {
-	if !(s.Config.DisableCrawl && s.Config.DisableCheckAlive) {
+	go func() {
+		c := gron.New()
 
-		go func() {
-			var err error
-
-			err = crawler()
-			if err != nil {
-				log.Errorf("err:%v", err)
-			}
-
-			err = checkProxyNode()
-			if err != nil {
-				log.Errorf("err:%v", err)
-			}
-
-			crawlerTicker := time.NewTimer(time.Minute * 5)
-			checkTicker := time.NewTimer(time.Minute * 5)
-
-			for {
-				select {
-				case <-crawlerTicker.C:
-					err = crawler()
-					if err != nil {
-						log.Errorf("err:%v", err)
-					}
-					crawlerTicker.Reset(time.Minute * 5)
-				case <-checkTicker.C:
-					err = checkProxyNode()
-					if err != nil {
-						log.Errorf("err:%v", err)
-					}
-
-					checkTicker.Reset(time.Minute * 5)
+		if !s.Config.DisableCrawl {
+			log.Info("register crawler")
+			c.AddFunc(gron.Every(xtime.Minute*10), func() {
+				err := crawler()
+				if err != nil {
+					log.Errorf("err:%v", err)
 				}
-			}
-
-		}()
-
-	} else {
-		err := initCrawler()
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
+			})
 		}
 
-		err = initCheckProxy()
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
+		if !s.Config.DisableCheckAlive {
+			log.Info("register proxy check")
+			c.AddFunc(gron.Every(xtime.Minute*10), func() {
+				err := checkProxyNode()
+				if err != nil {
+					log.Errorf("err:%v", err)
+				}
+			})
 		}
-	}
+
+		c.Start()
+	}()
 
 	return nil
 }

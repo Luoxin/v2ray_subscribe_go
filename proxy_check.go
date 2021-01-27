@@ -21,30 +21,6 @@ import (
 	"v2ray.com/core/infra/conf"
 )
 
-func initCheckProxy() error {
-	if s.Config.DisableCheckAlive {
-		log.Warn("check node is disable")
-		return nil
-	}
-
-	go func() {
-		log.Infof("check node starting...")
-
-		for {
-			err := checkProxyNode()
-			if err != nil {
-				log.Errorf("err:%v", err)
-				continue
-			}
-
-			time.Sleep(time.Minute * 5)
-		}
-
-	}()
-
-	return nil
-}
-
 func checkProxyNode() error {
 	var nodes []*subscription.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
