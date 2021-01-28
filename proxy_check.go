@@ -86,7 +86,7 @@ func checkProxyNode() error {
 
 func checkNode(node *subscription.ProxyNode) {
 	log.Infof("wail check proxy for %+v", node.Url)
-	defer log.Infof("check proxy finish,%v next exec at %v", node.Url, node.NextCheckAt)
+	defer log.Infof("check proxy finish,%v next check at %v", node.Url, node.NextCheckAt)
 
 	err := func() error {
 		if node.NodeDetail == nil {

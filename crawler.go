@@ -109,6 +109,28 @@ func crawler() error {
 							})
 
 						pie.
+							Strings(regexp.MustCompile(`ssr://[^\s]*`).
+								FindStringSubmatch(resp.Text)).
+							Each(func(ru string) {
+								err = addNode(ru, conf.Id, conf.Interval)
+								if err != nil {
+									log.Errorf("err:%v", err)
+									return
+								}
+							})
+
+						pie.
+							Strings(regexp.MustCompile(`ss://[^\s]*`).
+								FindStringSubmatch(resp.Text)).
+							Each(func(ru string) {
+								err = addNode(ru, conf.Id, conf.Interval)
+								if err != nil {
+									log.Errorf("err:%v", err)
+									return
+								}
+							})
+
+						pie.
 							Strings(regexp.MustCompile(`vless://[^\s]*`).
 								FindStringSubmatch(resp.Text)).
 							Each(func(ru string) {
