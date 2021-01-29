@@ -3,17 +3,18 @@ module subsrcibe
 go 1.15
 
 require (
-	fyne.io/fyne v1.4.1
 	github.com/Dreamacro/clash v1.3.5
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
+	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/gookit/color v1.3.1 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/oschwald/geoip2-golang v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
@@ -28,7 +29,9 @@ require (
 	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect
+	golang.org/x/tools v0.0.0-20200328031815-3db5fc6bac03 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
 	gorm.io/driver/mysql v1.0.1
 	gorm.io/driver/sqlite v1.1.3
