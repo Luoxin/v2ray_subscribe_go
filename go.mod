@@ -7,36 +7,18 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3
-	github.com/gookit/color v1.3.1 // indirect
-	github.com/json-iterator/go v1.1.10 // indirect
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
-	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/oschwald/geoip2-golang v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/sirupsen/logrus v1.7.0
-	github.com/smartystreets/assertions v1.0.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
-	github.com/ugorji/go v1.1.13 // indirect
 	github.com/v2fly/vmessping v0.3.4
 	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
-	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1 // indirect
-	go.uber.org/multierr v1.6.0 // indirect
-	go.uber.org/zap v1.16.0 // indirect
-	golang.org/x/tools v0.0.0-20200328031815-3db5fc6bac03 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
-	gorm.io/driver/mysql v1.0.1
-	gorm.io/driver/sqlite v1.1.3
-	gorm.io/gorm v1.20.2
+	gorm.io/driver/mysql v1.0.4
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.12
 	v2ray.com/core v4.19.1+incompatible
 )
-
-replace v2ray.com/core => github.com/v2fly/v2ray-core v1.24.5-0.20200531043819-9dc12961fac5
