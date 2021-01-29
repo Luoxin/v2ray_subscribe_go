@@ -44,9 +44,11 @@ func crawler() error {
 				opt := &nic.H{
 					Timeout: 60,
 
+					SkipVerifyTLS: true,
+					AllowRedirect: true,
+
 					DisableKeepAlives:  true,
 					DisableCompression: true,
-					SkipVerifyTLS:      true,
 				}
 
 				rule := conf.Rule
