@@ -119,7 +119,7 @@ func checkNode(node *subscription.ProxyNode) {
 		ctx, _ := context.WithTimeout(context.Background(), time.Second*60)
 
 		// x, err := proxy.URLTest(ctx, "https://www.google.com/generate_204")
-		delay, err := proxy.URLTest(ctx, "https://www.google.com")
+		delay, err := proxy.URLTest(ctx, "http://www.gstatic.com/generate_204")
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

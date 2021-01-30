@@ -17,8 +17,12 @@ require (
 	github.com/v2fly/vmessping v0.3.4
 	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
+	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
 	gorm.io/driver/mysql v1.0.4
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.20.12
 	v2ray.com/core v4.19.1+incompatible
 )
+
+replace v2ray.com/core => github.com/v2fly/v2ray-core v1.24.5-0.20200531043819-9dc12961fac5
