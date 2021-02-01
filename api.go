@@ -125,7 +125,7 @@ func GetUsableNodeList() ([]*domain.ProxyNode, error) {
 		Where("proxy_speed >= 0 ").
 		// Where("proxy_node_type = 1").
 		Where("available_count > 0 ").
-		Where("proxy_network_delay > 0").
+		Where("proxy_network_delay >= 0").
 		Where("death_count < ?", 10).
 		// Order("proxy_node_type").
 		Order("available_count DESC").

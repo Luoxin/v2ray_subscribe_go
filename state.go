@@ -1,6 +1,7 @@
 package main
 
 import (
+	"subsrcibe/proxycheck"
 	"sync"
 
 	"github.com/roylee0704/gron"
@@ -71,20 +72,26 @@ func worker() error {
 
 	if !s.Config.DisableCheckAlive {
 		log.Info("register proxy check")
+		proxyCheck := proxycheck.NewProxyCheck()
+		err := proxyCheck.Start()
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
 
 		go func() {
 			w.Wait()
 			w.Add(1)
 			defer w.Done()
 
-			err := checkProxyNode()
+			err := checkProxyNode(proxyCheck)
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
 		}()
 
 		c.AddFunc(gron.Every(xtime.Minute*10), func() {
-			err := checkProxyNode()
+			err := checkProxyNode(proxyCheck)
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
