@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "subscription";
+option go_package = "domain";
 
-package subscription;
+package domain;
 
-service subscription {
+service domain {
 }
 
 enum ErrCode {

@@ -10,14 +10,14 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 )
 
 // All will return true if all callbacks return true. It follows the same logic
 // as the all() function in Python.
 //
 // If the list is empty then true is always returned.
-func (ss ProxyNodeList) All(fn func(value *subscription.ProxyNode) bool) bool {
+func (ss ProxyNodeList) All(fn func(value *domain.ProxyNode) bool) bool {
 	for _, value := range ss {
 		if !fn(value) {
 			return false
@@ -31,7 +31,7 @@ func (ss ProxyNodeList) All(fn func(value *subscription.ProxyNode) bool) bool {
 // as the any() function in Python.
 //
 // If the list is empty then false is always returned.
-func (ss ProxyNodeList) Any(fn func(value *subscription.ProxyNode) bool) bool {
+func (ss ProxyNodeList) Any(fn func(value *domain.ProxyNode) bool) bool {
 	for _, value := range ss {
 		if fn(value) {
 			return true
@@ -44,7 +44,7 @@ func (ss ProxyNodeList) Any(fn func(value *subscription.ProxyNode) bool) bool {
 // Append will return a new slice with the elements appended to the end.
 //
 // It is acceptable to provide zero arguments.
-func (ss ProxyNodeList) Append(elements ...*subscription.ProxyNode) ProxyNodeList {
+func (ss ProxyNodeList) Append(elements ...*domain.ProxyNode) ProxyNodeList {
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #97.
 	result := append(ProxyNodeList{}, ss...)
@@ -72,7 +72,7 @@ func (ss ProxyNodeList) Bottom(n int) (top ProxyNodeList) {
 // Contains returns true if the element exists in the slice.
 //
 // When using slices of pointers it will only compare by address, not value.
-func (ss ProxyNodeList) Contains(lookingFor *subscription.ProxyNode) bool {
+func (ss ProxyNodeList) Contains(lookingFor *domain.ProxyNode) bool {
 	for _, s := range ss {
 		if lookingFor == s {
 			return true
@@ -129,7 +129,7 @@ func (ss ProxyNodeList) DropTop(n int) (drop ProxyNodeList) {
 
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #145.
-	drop = make([]*subscription.ProxyNode, len(ss)-n)
+	drop = make([]*domain.ProxyNode, len(ss)-n)
 	copy(drop, ss[n:])
 
 	return
@@ -150,7 +150,7 @@ func (ss ProxyNodeList) DropTop(n int) (drop ProxyNodeList) {
 //       car.Color = "Red"
 //   })
 //
-func (ss ProxyNodeList) Each(fn func(*subscription.ProxyNode)) ProxyNodeList {
+func (ss ProxyNodeList) Each(fn func(*domain.ProxyNode)) ProxyNodeList {
 	for _, s := range ss {
 		fn(s)
 	}
@@ -196,7 +196,7 @@ func (ss ProxyNodeList) Extend(slices ...ProxyNodeList) (ss2 ProxyNodeList) {
 // true from the condition. The returned slice may contain zero elements (nil).
 //
 // FilterNot works in the opposite way of Filter.
-func (ss ProxyNodeList) Filter(condition func(*subscription.ProxyNode) bool) (ss2 ProxyNodeList) {
+func (ss ProxyNodeList) Filter(condition func(*domain.ProxyNode) bool) (ss2 ProxyNodeList) {
 	for _, s := range ss {
 		if condition(s) {
 			ss2 = append(ss2, s)
@@ -208,7 +208,7 @@ func (ss ProxyNodeList) Filter(condition func(*subscription.ProxyNode) bool) (ss
 // FilterNot works the same as Filter, with a negated condition. That is, it will
 // return a new slice only containing the elements that returned false from the
 // condition. The returned slice may contain zero elements (nil).
-func (ss ProxyNodeList) FilterNot(condition func(*subscription.ProxyNode) bool) (ss2 ProxyNodeList) {
+func (ss ProxyNodeList) FilterNot(condition func(*domain.ProxyNode) bool) (ss2 ProxyNodeList) {
 	for _, s := range ss {
 		if !condition(s) {
 			ss2 = append(ss2, s)
@@ -222,7 +222,7 @@ func (ss ProxyNodeList) FilterNot(condition func(*subscription.ProxyNode) bool) 
 // It follows the same logic as the findIndex() function in Javascript.
 //
 // If the list is empty then -1 is always returned.
-func (ss ProxyNodeList) FindFirstUsing(fn func(value *subscription.ProxyNode) bool) int {
+func (ss ProxyNodeList) FindFirstUsing(fn func(value *domain.ProxyNode) bool) int {
 	for idx, value := range ss {
 		if fn(value) {
 			return idx
@@ -233,13 +233,13 @@ func (ss ProxyNodeList) FindFirstUsing(fn func(value *subscription.ProxyNode) bo
 }
 
 // First returns the first element, or zero. Also see FirstOr().
-func (ss ProxyNodeList) First() *subscription.ProxyNode {
+func (ss ProxyNodeList) First() *domain.ProxyNode {
 	return ss.FirstOr(nil)
 }
 
 // FirstOr returns the first element or a default value if there are no
 // elements.
-func (ss ProxyNodeList) FirstOr(defaultValue *subscription.ProxyNode) *subscription.ProxyNode {
+func (ss ProxyNodeList) FirstOr(defaultValue *domain.ProxyNode) *domain.ProxyNode {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -266,7 +266,7 @@ func (ss ProxyNodeList) Float64s() pie.Float64s {
 }
 
 // Insert a value at an index
-func (ss ProxyNodeList) Insert(index int, values ...*subscription.ProxyNode) ProxyNodeList {
+func (ss ProxyNodeList) Insert(index int, values ...*domain.ProxyNode) ProxyNodeList {
 	if index >= ss.Len() {
 		return ProxyNodeList.Extend(ss, ProxyNodeList(values))
 	}
@@ -295,7 +295,7 @@ func (ss ProxyNodeList) Ints() pie.Ints {
 
 // Join returns a string from joining each of the elements.
 func (ss ProxyNodeList) Join(glue string) (s string) {
-	var slice interface{} = []*subscription.ProxyNode(ss)
+	var slice interface{} = []*domain.ProxyNode(ss)
 
 	if y, ok := slice.([]string); ok {
 		// The stdlib is efficient for type []string
@@ -374,12 +374,12 @@ func (ss ProxyNodeList) JSONStringIndent(prefix, indent string) string {
 }
 
 // Last returns the last element, or zero. Also see LastOr().
-func (ss ProxyNodeList) Last() *subscription.ProxyNode {
+func (ss ProxyNodeList) Last() *domain.ProxyNode {
 	return ss.LastOr(nil)
 }
 
 // LastOr returns the last element or a default value if there are no elements.
-func (ss ProxyNodeList) LastOr(defaultValue *subscription.ProxyNode) *subscription.ProxyNode {
+func (ss ProxyNodeList) LastOr(defaultValue *domain.ProxyNode) *domain.ProxyNode {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -398,12 +398,12 @@ func (ss ProxyNodeList) Len() int {
 // Be careful when using this with slices of pointers. If you modify the input
 // value it will affect the original slice. Be sure to return a new allocated
 // object or deep copy the existing one.
-func (ss ProxyNodeList) Map(fn func(*subscription.ProxyNode) *subscription.ProxyNode) (ss2 ProxyNodeList) {
+func (ss ProxyNodeList) Map(fn func(*domain.ProxyNode) *domain.ProxyNode) (ss2 ProxyNodeList) {
 	if ss == nil {
 		return nil
 	}
 
-	ss2 = make([]*subscription.ProxyNode, len(ss))
+	ss2 = make([]*domain.ProxyNode, len(ss))
 	for i, s := range ss {
 		ss2[i] = fn(s)
 	}
@@ -419,7 +419,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*subscription.ProxyNode]int, 0)
+	values := make(map[*domain.ProxyNode]int, 0)
 	for _, s := range ss {
 		values[s]++
 	}
@@ -450,7 +450,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 //   for greeting := greetings.Pop(); greeting != nil; greeting = greetings.Pop() {
 //       fmt.Println(*greeting)
 //   }
-func (ss *ProxyNodeList) Pop() (popped **subscription.ProxyNode) {
+func (ss *ProxyNodeList) Pop() (popped **domain.ProxyNode) {
 
 	if len(*ss) == 0 {
 		return
@@ -462,7 +462,7 @@ func (ss *ProxyNodeList) Pop() (popped **subscription.ProxyNode) {
 }
 
 // Random returns a random element by your rand.Source, or zero
-func (ss ProxyNodeList) Random(source rand.Source) *subscription.ProxyNode {
+func (ss ProxyNodeList) Random(source rand.Source) *domain.ProxyNode {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -489,7 +489,7 @@ func (ss ProxyNodeList) Reverse() ProxyNodeList {
 		return ss
 	}
 
-	sorted := make([]*subscription.ProxyNode, len(ss))
+	sorted := make([]*domain.ProxyNode, len(ss))
 	for i := 0; i < len(ss); i++ {
 		sorted[i] = ss[len(ss)-i-1]
 	}
@@ -503,7 +503,7 @@ func (ss ProxyNodeList) Reverse() ProxyNodeList {
 // it locks execution of gorutine
 // it doesn't close channel after work
 // returns sended elements if len(this) != len(old) considered func was canceled
-func (ss ProxyNodeList) Send(ctx context.Context, ch chan<- *subscription.ProxyNode) ProxyNodeList {
+func (ss ProxyNodeList) Send(ctx context.Context, ch chan<- *domain.ProxyNode) ProxyNodeList {
 	for i, s := range ss {
 		select {
 		case <-ctx.Done():
@@ -530,7 +530,7 @@ func (ss ProxyNodeList) Send(ctx context.Context, ch chan<- *subscription.ProxyN
 // if len(params) > 2 considered that will be returned slice between min and max with step,
 // where min is the first param, max is the second, step is the third one, [min, max) with step,
 // others params will be ignored
-func (ss ProxyNodeList) SequenceUsing(creator func(int) *subscription.ProxyNode, params ...int) ProxyNodeList {
+func (ss ProxyNodeList) SequenceUsing(creator func(int) *domain.ProxyNode, params ...int) ProxyNodeList {
 	var seq = func(min, max, step int) (seq ProxyNodeList) {
 		lenght := int(util.Round(float64(max-min) / float64(step)))
 		if lenght < 1 {
@@ -558,7 +558,7 @@ func (ss ProxyNodeList) SequenceUsing(creator func(int) *subscription.ProxyNode,
 }
 
 // Shift will return two values: the shifted value and the rest slice.
-func (ss ProxyNodeList) Shift() (*subscription.ProxyNode, ProxyNodeList) {
+func (ss ProxyNodeList) Shift() (*domain.ProxyNode, ProxyNodeList) {
 	return ss.First(), ss.DropTop(1)
 }
 
@@ -574,7 +574,7 @@ func (ss ProxyNodeList) Shuffle(source rand.Source) ProxyNodeList {
 	// go 1.10+ provides rnd.Shuffle. However, to support older versions we copy
 	// the algorithm directly from the go source: src/math/rand/rand.go below,
 	// with some adjustments:
-	shuffled := make([]*subscription.ProxyNode, n)
+	shuffled := make([]*domain.ProxyNode, n)
 	copy(shuffled, ss)
 
 	rnd := rand.New(source)
@@ -588,7 +588,7 @@ func (ss ProxyNodeList) Shuffle(source rand.Source) ProxyNodeList {
 
 // SortStableUsing works similar to sort.SliceStable. However, unlike sort.SliceStable the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyNodeList) SortStableUsing(less func(a, b *subscription.ProxyNode) bool) ProxyNodeList {
+func (ss ProxyNodeList) SortStableUsing(less func(a, b *domain.ProxyNode) bool) ProxyNodeList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
@@ -606,7 +606,7 @@ func (ss ProxyNodeList) SortStableUsing(less func(a, b *subscription.ProxyNode) 
 
 // SortUsing works similar to sort.Slice. However, unlike sort.Slice the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyNodeList) SortUsing(less func(a, b *subscription.ProxyNode) bool) ProxyNodeList {
+func (ss ProxyNodeList) SortUsing(less func(a, b *domain.ProxyNode) bool) ProxyNodeList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
@@ -666,11 +666,11 @@ func (ss ProxyNodeList) SubSlice(start int, end int) (subSlice ProxyNodeList) {
 		if end <= length {
 			subSlice = ss[start:end]
 		} else {
-			zeroArray := make([]*subscription.ProxyNode, end-length)
+			zeroArray := make([]*domain.ProxyNode, end-length)
 			subSlice = ss[start:length].Append(zeroArray[:]...)
 		}
 	} else {
-		zeroArray := make([]*subscription.ProxyNode, end-start)
+		zeroArray := make([]*domain.ProxyNode, end-start)
 		subSlice = zeroArray[:]
 	}
 
@@ -690,7 +690,7 @@ func (ss ProxyNodeList) Top(n int) (top ProxyNodeList) {
 }
 
 // StringsUsing transforms each element to a string.
-func (ss ProxyNodeList) StringsUsing(transform func(*subscription.ProxyNode) string) pie.Strings {
+func (ss ProxyNodeList) StringsUsing(transform func(*domain.ProxyNode) string) pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -708,7 +708,7 @@ func (ss ProxyNodeList) StringsUsing(transform func(*subscription.ProxyNode) str
 
 // Unshift adds one or more elements to the beginning of the slice
 // and returns the new slice.
-func (ss ProxyNodeList) Unshift(elements ...*subscription.ProxyNode) (unshift ProxyNodeList) {
+func (ss ProxyNodeList) Unshift(elements ...*domain.ProxyNode) (unshift ProxyNodeList) {
 	unshift = append(ProxyNodeList{}, elements...)
 	unshift = append(unshift, ss...)
 

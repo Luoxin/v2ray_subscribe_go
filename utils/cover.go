@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net"
 	"strings"
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 	"text/template"
 )
 
@@ -29,7 +29,7 @@ func NewCoverSubscribe() *CoverSubscribe {
 	}
 }
 
-func (c *CoverSubscribe) Nodes2Clash(nodes []*subscription.ProxyNode) string {
+func (c *CoverSubscribe) Nodes2Clash(nodes []*domain.ProxyNode) string {
 
 	titleGen := NewProxyTitle()
 
@@ -190,22 +190,22 @@ func (c *CoverSubscribe) genClashConfig() string {
 	return b.String()
 }
 
-func (c *CoverSubscribe) vmess2Clash(s string) subscription.ClashVmess {
+func (c *CoverSubscribe) vmess2Clash(s string) domain.ClashVmess {
 	s = strings.TrimPrefix(s, "vmess://")
 
 	config, err := Base64DecodeStripped(s)
 	if err != nil {
-		return subscription.ClashVmess{}
+		return domain.ClashVmess{}
 	}
 
-	var vmess subscription.Vmess
+	var vmess domain.Vmess
 	err = json.Unmarshal([]byte(config), &vmess)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return subscription.ClashVmess{}
+		return domain.ClashVmess{}
 	}
 
-	clashVmess := subscription.ClashVmess{}
+	clashVmess := domain.ClashVmess{}
 	clashVmess.Name = vmess.PS
 
 	clashVmess.Type = "vmess"

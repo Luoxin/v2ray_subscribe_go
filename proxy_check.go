@@ -19,12 +19,12 @@ import (
 	"v2ray.com/core/common/serial"
 	"v2ray.com/core/infra/conf"
 
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 	"subsrcibe/utils"
 )
 
 func checkProxyNode() error {
-	var nodes []*subscription.ProxyNode
+	var nodes []*domain.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
 		Where("death_count < ?", 50).
@@ -41,14 +41,14 @@ func checkProxyNode() error {
 	}
 
 	var w sync.WaitGroup
-	c := make(chan *subscription.ProxyNode)
+	c := make(chan *domain.ProxyNode)
 	stopC := make(chan bool)
 
 	asyncCheck := func() {
 		for {
 			select {
 			case node := <-c:
-				run := func(node *subscription.ProxyNode) {
+				run := func(node *domain.ProxyNode) {
 					defer w.Done()
 					checkNode(node)
 				}
@@ -67,7 +67,7 @@ func checkProxyNode() error {
 
 	startAt := time.Now()
 	ProxyNodeList(nodes).
-		Each(func(node *subscription.ProxyNode) {
+		Each(func(node *domain.ProxyNode) {
 			w.Add(1)
 			c <- node
 			log.Infof("add new node(%v) to check", node.Url)
@@ -84,7 +84,7 @@ func checkProxyNode() error {
 	return nil
 }
 
-func checkNode(node *subscription.ProxyNode) {
+func checkNode(node *domain.ProxyNode) {
 	log.Infof("wail check proxy for %+v", node.Url)
 	defer log.Infof("check proxy finish,%v next check at %v", node.Url, node.NextCheckAt)
 

@@ -1,4 +1,4 @@
-package subscription
+package domain
 
 type Vmess struct {
 	Add  string      `json:"add"`

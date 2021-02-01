@@ -1,4 +1,4 @@
-package subscription
+package domain
 
 import (
 	"database/sql/driver"

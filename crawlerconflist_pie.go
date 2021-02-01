@@ -10,14 +10,14 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 )
 
 // All will return true if all callbacks return true. It follows the same logic
 // as the all() function in Python.
 //
 // If the list is empty then true is always returned.
-func (ss CrawlerConfList) All(fn func(value *subscription.CrawlerConf) bool) bool {
+func (ss CrawlerConfList) All(fn func(value *domain.CrawlerConf) bool) bool {
 	for _, value := range ss {
 		if !fn(value) {
 			return false
@@ -31,7 +31,7 @@ func (ss CrawlerConfList) All(fn func(value *subscription.CrawlerConf) bool) boo
 // as the any() function in Python.
 //
 // If the list is empty then false is always returned.
-func (ss CrawlerConfList) Any(fn func(value *subscription.CrawlerConf) bool) bool {
+func (ss CrawlerConfList) Any(fn func(value *domain.CrawlerConf) bool) bool {
 	for _, value := range ss {
 		if fn(value) {
 			return true
@@ -44,7 +44,7 @@ func (ss CrawlerConfList) Any(fn func(value *subscription.CrawlerConf) bool) boo
 // Append will return a new slice with the elements appended to the end.
 //
 // It is acceptable to provide zero arguments.
-func (ss CrawlerConfList) Append(elements ...*subscription.CrawlerConf) CrawlerConfList {
+func (ss CrawlerConfList) Append(elements ...*domain.CrawlerConf) CrawlerConfList {
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #97.
 	result := append(CrawlerConfList{}, ss...)
@@ -72,7 +72,7 @@ func (ss CrawlerConfList) Bottom(n int) (top CrawlerConfList) {
 // Contains returns true if the element exists in the slice.
 //
 // When using slices of pointers it will only compare by address, not value.
-func (ss CrawlerConfList) Contains(lookingFor *subscription.CrawlerConf) bool {
+func (ss CrawlerConfList) Contains(lookingFor *domain.CrawlerConf) bool {
 	for _, s := range ss {
 		if lookingFor == s {
 			return true
@@ -129,7 +129,7 @@ func (ss CrawlerConfList) DropTop(n int) (drop CrawlerConfList) {
 
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #145.
-	drop = make([]*subscription.CrawlerConf, len(ss)-n)
+	drop = make([]*domain.CrawlerConf, len(ss)-n)
 	copy(drop, ss[n:])
 
 	return
@@ -150,7 +150,7 @@ func (ss CrawlerConfList) DropTop(n int) (drop CrawlerConfList) {
 //       car.Color = "Red"
 //   })
 //
-func (ss CrawlerConfList) Each(fn func(*subscription.CrawlerConf)) CrawlerConfList {
+func (ss CrawlerConfList) Each(fn func(*domain.CrawlerConf)) CrawlerConfList {
 	for _, s := range ss {
 		fn(s)
 	}
@@ -196,7 +196,7 @@ func (ss CrawlerConfList) Extend(slices ...CrawlerConfList) (ss2 CrawlerConfList
 // true from the condition. The returned slice may contain zero elements (nil).
 //
 // FilterNot works in the opposite way of Filter.
-func (ss CrawlerConfList) Filter(condition func(*subscription.CrawlerConf) bool) (ss2 CrawlerConfList) {
+func (ss CrawlerConfList) Filter(condition func(*domain.CrawlerConf) bool) (ss2 CrawlerConfList) {
 	for _, s := range ss {
 		if condition(s) {
 			ss2 = append(ss2, s)
@@ -208,7 +208,7 @@ func (ss CrawlerConfList) Filter(condition func(*subscription.CrawlerConf) bool)
 // FilterNot works the same as Filter, with a negated condition. That is, it will
 // return a new slice only containing the elements that returned false from the
 // condition. The returned slice may contain zero elements (nil).
-func (ss CrawlerConfList) FilterNot(condition func(*subscription.CrawlerConf) bool) (ss2 CrawlerConfList) {
+func (ss CrawlerConfList) FilterNot(condition func(*domain.CrawlerConf) bool) (ss2 CrawlerConfList) {
 	for _, s := range ss {
 		if !condition(s) {
 			ss2 = append(ss2, s)
@@ -222,7 +222,7 @@ func (ss CrawlerConfList) FilterNot(condition func(*subscription.CrawlerConf) bo
 // It follows the same logic as the findIndex() function in Javascript.
 //
 // If the list is empty then -1 is always returned.
-func (ss CrawlerConfList) FindFirstUsing(fn func(value *subscription.CrawlerConf) bool) int {
+func (ss CrawlerConfList) FindFirstUsing(fn func(value *domain.CrawlerConf) bool) int {
 	for idx, value := range ss {
 		if fn(value) {
 			return idx
@@ -233,13 +233,13 @@ func (ss CrawlerConfList) FindFirstUsing(fn func(value *subscription.CrawlerConf
 }
 
 // First returns the first element, or zero. Also see FirstOr().
-func (ss CrawlerConfList) First() *subscription.CrawlerConf {
+func (ss CrawlerConfList) First() *domain.CrawlerConf {
 	return ss.FirstOr(nil)
 }
 
 // FirstOr returns the first element or a default value if there are no
 // elements.
-func (ss CrawlerConfList) FirstOr(defaultValue *subscription.CrawlerConf) *subscription.CrawlerConf {
+func (ss CrawlerConfList) FirstOr(defaultValue *domain.CrawlerConf) *domain.CrawlerConf {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -266,7 +266,7 @@ func (ss CrawlerConfList) Float64s() pie.Float64s {
 }
 
 // Insert a value at an index
-func (ss CrawlerConfList) Insert(index int, values ...*subscription.CrawlerConf) CrawlerConfList {
+func (ss CrawlerConfList) Insert(index int, values ...*domain.CrawlerConf) CrawlerConfList {
 	if index >= ss.Len() {
 		return CrawlerConfList.Extend(ss, CrawlerConfList(values))
 	}
@@ -295,7 +295,7 @@ func (ss CrawlerConfList) Ints() pie.Ints {
 
 // Join returns a string from joining each of the elements.
 func (ss CrawlerConfList) Join(glue string) (s string) {
-	var slice interface{} = []*subscription.CrawlerConf(ss)
+	var slice interface{} = []*domain.CrawlerConf(ss)
 
 	if y, ok := slice.([]string); ok {
 		// The stdlib is efficient for type []string
@@ -374,12 +374,12 @@ func (ss CrawlerConfList) JSONStringIndent(prefix, indent string) string {
 }
 
 // Last returns the last element, or zero. Also see LastOr().
-func (ss CrawlerConfList) Last() *subscription.CrawlerConf {
+func (ss CrawlerConfList) Last() *domain.CrawlerConf {
 	return ss.LastOr(nil)
 }
 
 // LastOr returns the last element or a default value if there are no elements.
-func (ss CrawlerConfList) LastOr(defaultValue *subscription.CrawlerConf) *subscription.CrawlerConf {
+func (ss CrawlerConfList) LastOr(defaultValue *domain.CrawlerConf) *domain.CrawlerConf {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -398,12 +398,12 @@ func (ss CrawlerConfList) Len() int {
 // Be careful when using this with slices of pointers. If you modify the input
 // value it will affect the original slice. Be sure to return a new allocated
 // object or deep copy the existing one.
-func (ss CrawlerConfList) Map(fn func(*subscription.CrawlerConf) *subscription.CrawlerConf) (ss2 CrawlerConfList) {
+func (ss CrawlerConfList) Map(fn func(*domain.CrawlerConf) *domain.CrawlerConf) (ss2 CrawlerConfList) {
 	if ss == nil {
 		return nil
 	}
 
-	ss2 = make([]*subscription.CrawlerConf, len(ss))
+	ss2 = make([]*domain.CrawlerConf, len(ss))
 	for i, s := range ss {
 		ss2[i] = fn(s)
 	}
@@ -419,7 +419,7 @@ func (ss CrawlerConfList) Mode() CrawlerConfList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*subscription.CrawlerConf]int, 0)
+	values := make(map[*domain.CrawlerConf]int, 0)
 	for _, s := range ss {
 		values[s]++
 	}
@@ -450,7 +450,7 @@ func (ss CrawlerConfList) Mode() CrawlerConfList {
 //   for greeting := greetings.Pop(); greeting != nil; greeting = greetings.Pop() {
 //       fmt.Println(*greeting)
 //   }
-func (ss *CrawlerConfList) Pop() (popped **subscription.CrawlerConf) {
+func (ss *CrawlerConfList) Pop() (popped **domain.CrawlerConf) {
 
 	if len(*ss) == 0 {
 		return
@@ -462,7 +462,7 @@ func (ss *CrawlerConfList) Pop() (popped **subscription.CrawlerConf) {
 }
 
 // Random returns a random element by your rand.Source, or zero
-func (ss CrawlerConfList) Random(source rand.Source) *subscription.CrawlerConf {
+func (ss CrawlerConfList) Random(source rand.Source) *domain.CrawlerConf {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -489,7 +489,7 @@ func (ss CrawlerConfList) Reverse() CrawlerConfList {
 		return ss
 	}
 
-	sorted := make([]*subscription.CrawlerConf, len(ss))
+	sorted := make([]*domain.CrawlerConf, len(ss))
 	for i := 0; i < len(ss); i++ {
 		sorted[i] = ss[len(ss)-i-1]
 	}
@@ -503,7 +503,7 @@ func (ss CrawlerConfList) Reverse() CrawlerConfList {
 // it locks execution of gorutine
 // it doesn't close channel after work
 // returns sended elements if len(this) != len(old) considered func was canceled
-func (ss CrawlerConfList) Send(ctx context.Context, ch chan<- *subscription.CrawlerConf) CrawlerConfList {
+func (ss CrawlerConfList) Send(ctx context.Context, ch chan<- *domain.CrawlerConf) CrawlerConfList {
 	for i, s := range ss {
 		select {
 		case <-ctx.Done():
@@ -530,7 +530,7 @@ func (ss CrawlerConfList) Send(ctx context.Context, ch chan<- *subscription.Craw
 // if len(params) > 2 considered that will be returned slice between min and max with step,
 // where min is the first param, max is the second, step is the third one, [min, max) with step,
 // others params will be ignored
-func (ss CrawlerConfList) SequenceUsing(creator func(int) *subscription.CrawlerConf, params ...int) CrawlerConfList {
+func (ss CrawlerConfList) SequenceUsing(creator func(int) *domain.CrawlerConf, params ...int) CrawlerConfList {
 	var seq = func(min, max, step int) (seq CrawlerConfList) {
 		lenght := int(util.Round(float64(max-min) / float64(step)))
 		if lenght < 1 {
@@ -558,7 +558,7 @@ func (ss CrawlerConfList) SequenceUsing(creator func(int) *subscription.CrawlerC
 }
 
 // Shift will return two values: the shifted value and the rest slice.
-func (ss CrawlerConfList) Shift() (*subscription.CrawlerConf, CrawlerConfList) {
+func (ss CrawlerConfList) Shift() (*domain.CrawlerConf, CrawlerConfList) {
 	return ss.First(), ss.DropTop(1)
 }
 
@@ -574,7 +574,7 @@ func (ss CrawlerConfList) Shuffle(source rand.Source) CrawlerConfList {
 	// go 1.10+ provides rnd.Shuffle. However, to support older versions we copy
 	// the algorithm directly from the go source: src/math/rand/rand.go below,
 	// with some adjustments:
-	shuffled := make([]*subscription.CrawlerConf, n)
+	shuffled := make([]*domain.CrawlerConf, n)
 	copy(shuffled, ss)
 
 	rnd := rand.New(source)
@@ -588,7 +588,7 @@ func (ss CrawlerConfList) Shuffle(source rand.Source) CrawlerConfList {
 
 // SortStableUsing works similar to sort.SliceStable. However, unlike sort.SliceStable the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss CrawlerConfList) SortStableUsing(less func(a, b *subscription.CrawlerConf) bool) CrawlerConfList {
+func (ss CrawlerConfList) SortStableUsing(less func(a, b *domain.CrawlerConf) bool) CrawlerConfList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
@@ -606,7 +606,7 @@ func (ss CrawlerConfList) SortStableUsing(less func(a, b *subscription.CrawlerCo
 
 // SortUsing works similar to sort.Slice. However, unlike sort.Slice the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss CrawlerConfList) SortUsing(less func(a, b *subscription.CrawlerConf) bool) CrawlerConfList {
+func (ss CrawlerConfList) SortUsing(less func(a, b *domain.CrawlerConf) bool) CrawlerConfList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
@@ -666,11 +666,11 @@ func (ss CrawlerConfList) SubSlice(start int, end int) (subSlice CrawlerConfList
 		if end <= length {
 			subSlice = ss[start:end]
 		} else {
-			zeroArray := make([]*subscription.CrawlerConf, end-length)
+			zeroArray := make([]*domain.CrawlerConf, end-length)
 			subSlice = ss[start:length].Append(zeroArray[:]...)
 		}
 	} else {
-		zeroArray := make([]*subscription.CrawlerConf, end-start)
+		zeroArray := make([]*domain.CrawlerConf, end-start)
 		subSlice = zeroArray[:]
 	}
 
@@ -690,7 +690,7 @@ func (ss CrawlerConfList) Top(n int) (top CrawlerConfList) {
 }
 
 // StringsUsing transforms each element to a string.
-func (ss CrawlerConfList) StringsUsing(transform func(*subscription.CrawlerConf) string) pie.Strings {
+func (ss CrawlerConfList) StringsUsing(transform func(*domain.CrawlerConf) string) pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -708,7 +708,7 @@ func (ss CrawlerConfList) StringsUsing(transform func(*subscription.CrawlerConf)
 
 // Unshift adds one or more elements to the beginning of the slice
 // and returns the new slice.
-func (ss CrawlerConfList) Unshift(elements ...*subscription.CrawlerConf) (unshift CrawlerConfList) {
+func (ss CrawlerConfList) Unshift(elements ...*domain.CrawlerConf) (unshift CrawlerConfList) {
 	unshift = append(CrawlerConfList{}, elements...)
 	unshift = append(unshift, ss...)
 

@@ -2,21 +2,21 @@ package utils
 
 import (
 	"strings"
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 )
 
-func GetProxyNodeType(u string) subscription.ProxyNodeType {
+func GetProxyNodeType(u string) domain.ProxyNodeType {
 	if strings.HasPrefix(u, "vmess") {
-		return subscription.ProxyNodeType_ProxyNodeTypeVmess
+		return domain.ProxyNodeType_ProxyNodeTypeVmess
 	} else if strings.HasPrefix(u, "trojan") {
-		return subscription.ProxyNodeType_ProxyNodeTypeTrojan
+		return domain.ProxyNodeType_ProxyNodeTypeTrojan
 	} else if strings.HasPrefix(u, "vless") {
-		return subscription.ProxyNodeType_ProxyNodeTypeVless
+		return domain.ProxyNodeType_ProxyNodeTypeVless
 	} else if strings.HasPrefix(u, "ssr") {
-		return subscription.ProxyNodeType_ProxyNodeTypeSSR
+		return domain.ProxyNodeType_ProxyNodeTypeSSR
 	} else if strings.HasPrefix(u, "ss") {
-		return subscription.ProxyNodeType_ProxyNodeTypeSS
+		return domain.ProxyNodeType_ProxyNodeTypeSS
 	}
 
-	return subscription.ProxyNodeType_ProxyNodeTypeNil
+	return domain.ProxyNodeType_ProxyNodeTypeNil
 }

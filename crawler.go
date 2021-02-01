@@ -2,24 +2,24 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
-	"regexp"
 	"strings"
+	"subsrcibe/parser"
 
 	"github.com/eddieivan01/nic"
-	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 	"subsrcibe/utils"
 )
 
 func crawler() error {
 	log.Infof("start crawler......")
 
-	var crawlerList []*subscription.CrawlerConf
+	var crawlerList []*domain.CrawlerConf
 	err := s.Db.Where("is_closed = ?", false).
 		Where("next_at < ?", utils.Now()).
 		Order("next_at").
@@ -31,7 +31,7 @@ func crawler() error {
 	}
 
 	CrawlerConfList(crawlerList).
-		Each(func(conf *subscription.CrawlerConf) {
+		Each(func(conf *domain.CrawlerConf) {
 			if conf.CrawlUrl == "" {
 				log.Errorf("crawler url empty: %d", conf.Id)
 				return
@@ -47,8 +47,7 @@ func crawler() error {
 					SkipVerifyTLS: true,
 					AllowRedirect: true,
 
-					DisableKeepAlives:  true,
-					DisableCompression: true,
+					DisableKeepAlives: true,
 				}
 
 				rule := conf.Rule
@@ -66,83 +65,24 @@ func crawler() error {
 
 				switch resp.StatusCode {
 				case http.StatusOK:
-					switch subscription.CrawlType(conf.CrawlType) {
-					case subscription.CrawlType_CrawlTypeSubscription:
-						//log.Infof("get node info %v", resp.Text)
-						err = addNodesByBase64(conf, resp.Text)
+					var p parser.Parser
+
+					switch domain.CrawlType(conf.CrawlType) {
+					case domain.CrawlType_CrawlTypeSubscription, domain.CrawlType_CrawlTypeFuzzyMatching, domain.CrawlType_CrawlTypeXpath:
+						p = parser.NewFuzzyMatchingParser()
+					//case domain.CrawlType_CrawlTypeXpath:
+					default:
+						return errors.New("nonsupport parser type")
+					}
+
+					p.ParserText(resp.Text).Each(func(nodeUrl string) {
+						err = addNode(nodeUrl, conf.Id, conf.Interval)
 						if err != nil {
 							log.Errorf("err:%v", err)
-							return err
+							return
 						}
 
-					case subscription.CrawlType_CrawlTypeXpath:
-					case subscription.CrawlType_CrawlTypeFuzzyMatching:
-						pie.
-							Strings(regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNodesByBase64(conf, resp.Text)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-
-						pie.
-							Strings(regexp.MustCompile(`vmess://[^\s]*`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNode(ru, conf.Id, conf.Interval)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-
-						pie.
-							Strings(regexp.MustCompile(`trojan://[^\s]*`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNode(ru, conf.Id, conf.Interval)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-
-						pie.
-							Strings(regexp.MustCompile(`ssr://[^\s]*`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNode(ru, conf.Id, conf.Interval)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-
-						pie.
-							Strings(regexp.MustCompile(`ss://[^\s]*`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNode(ru, conf.Id, conf.Interval)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-
-						pie.
-							Strings(regexp.MustCompile(`vless://[^\s]*`).
-								FindStringSubmatch(resp.Text)).
-							Each(func(ru string) {
-								err = addNode(ru, conf.Id, conf.Interval)
-								if err != nil {
-									log.Errorf("err:%v", err)
-									return
-								}
-							})
-					}
+					})
 
 				case http.StatusMovedPermanently, http.StatusFound:
 					// 重定向了
@@ -191,37 +131,6 @@ func crawler() error {
 	return nil
 }
 
-func addNodesByBase64(crawlerConf *subscription.CrawlerConf, bs string) error {
-	if bs == "" {
-		log.Warnf("nodes empty")
-		return nil
-	}
-
-	str, err := utils.Base64DecodeStripped(bs)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	urlList := strings.Split(str, "\n")
-
-	if crawlerConf == nil {
-		crawlerConf = &subscription.CrawlerConf{
-			Interval: s.Config.CheckInterval,
-		}
-	}
-
-	pie.Strings(urlList).Each(func(ru string) {
-		err = addNode(ru, crawlerConf.Id, crawlerConf.Interval)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return
-		}
-	})
-
-	return nil
-}
-
 func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 	log.Infof("will add node:%v", ru)
 
@@ -231,8 +140,8 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 
 	proxyNodeType := utils.GetProxyNodeType(ru)
 
-	node := &subscription.ProxyNode{
-		NodeDetail: &subscription.ProxyNode_NodeDetail{
+	node := &domain.ProxyNode{
+		NodeDetail: &domain.ProxyNode_NodeDetail{
 			Buf: ru,
 		},
 		CrawlId: crawlerId,
@@ -243,14 +152,14 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 	}
 
 	switch proxyNodeType {
-	case subscription.ProxyNodeType_ProxyNodeTypeVmess:
+	case domain.ProxyNodeType_ProxyNodeTypeVmess:
 		d, err := utils.Base64DecodeStripped(strings.TrimPrefix(ru, "vmess://"))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
 		}
 
-		var vmessNode subscription.Vmess
+		var vmessNode domain.Vmess
 		err = json.Unmarshal([]byte(d), &vmessNode)
 		if err != nil {
 			log.Errorf("err:%v", err)
@@ -281,13 +190,13 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 
 			node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
 		}
-	case subscription.ProxyNodeType_ProxyNodeTypeTrojan:
+	case domain.ProxyNodeType_ProxyNodeTypeTrojan:
 		node.Url = strings.Split(strings.TrimPrefix(ru, "trojan://"), "#")[0]
 	default:
 		return ErrInvalidArg
 	}
 
-	var oldNode subscription.ProxyNode
+	var oldNode domain.ProxyNode
 	err := s.Db.Where("url = ?", node.Url).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {

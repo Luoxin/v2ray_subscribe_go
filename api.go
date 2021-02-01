@@ -8,7 +8,7 @@ import (
 	"github.com/xxjwxc/ginrpc/api"
 	"net/http"
 	"strings"
-	"subsrcibe/subscription"
+	"subsrcibe/domain"
 	"subsrcibe/utils"
 )
 
@@ -46,14 +46,14 @@ func (*Subscribe) Subscription(c *api.Context) {
 	titleGen := NewProxyTitle()
 
 	var nodeList []string
-	ProxyNodeList(nodes).Each(func(node *subscription.ProxyNode) {
+	ProxyNodeList(nodes).Each(func(node *domain.ProxyNode) {
 		if node.NodeDetail == nil {
 			return
 		}
 
 		var buf string
-		switch subscription.ProxyNodeType(node.ProxyNodeType) {
-		case subscription.ProxyNodeType_ProxyNodeTypeVmess:
+		switch domain.ProxyNodeType(node.ProxyNodeType) {
+		case domain.ProxyNodeType_ProxyNodeTypeVmess:
 			b, err := utils.Base64DecodeStripped(strings.TrimPrefix(node.NodeDetail.Buf, "vmess://"))
 			if err != nil {
 				log.Errorf("err:%v", err)
@@ -119,8 +119,8 @@ func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error)
 func (*Subscribe) Pac(c *api.Context) {
 }
 
-func GetUsableNodeList() ([]*subscription.ProxyNode, error) {
-	var nodes []*subscription.ProxyNode
+func GetUsableNodeList() ([]*domain.ProxyNode, error) {
+	var nodes []*domain.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("proxy_speed >= 0 ").
 		// Where("proxy_node_type = 1").
