@@ -249,8 +249,8 @@ proxy-groups:
   - name: 🚀 节点选择
     type: select
     proxies:
-      - ♻️ 自动选择
       - 🔯 故障转移
+      - ♻ 自动选择
       - 🔮 负载均衡
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
@@ -264,7 +264,7 @@ proxy-groups:
     type: select
     proxies:
       {{.NameList}}
-  - name: ♻️ 自动选择
+  - name: ♻ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
@@ -286,7 +286,7 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
       - 🇸🇬 狮城节点
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
@@ -299,7 +299,7 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
       - 🇸🇬 狮城节点
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
@@ -313,7 +313,7 @@ proxy-groups:
     proxies:
       - 🎥 奈飞节点
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
       - 🇸🇬 狮城节点
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
@@ -339,7 +339,7 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
       - 🇸🇬 狮城节点
@@ -419,13 +419,13 @@ proxy-groups:
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
   - name: 🎯 全球直连
     type: select
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
   - name: 🛑 广告拦截
     type: select
     proxies:
@@ -450,7 +450,7 @@ proxy-groups:
     type: select
     proxies:
       - 🚀 节点选择
-      - ♻️ 自动选择
+      - ♻ 自动选择
       - DIRECT
       - 🇭🇰 香港节点
       - 🇨🇳 台湾节点
