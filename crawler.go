@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -132,8 +131,6 @@ func crawler() error {
 }
 
 func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
-	log.Infof("will add node:%v", ru)
-
 	if checkInterval == 0 {
 		checkInterval = s.Config.CheckInterval
 	}
@@ -151,47 +148,30 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		ProxyNodeType: uint32(proxyNodeType),
 	}
 
+	nodeInterface := utils.ParseProxy(ru)
+
 	switch proxyNodeType {
 	case domain.ProxyNodeType_ProxyNodeTypeVmess:
-		d, err := utils.Base64DecodeStripped(strings.TrimPrefix(ru, "vmess://"))
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
+		nodeItem := nodeInterface.(utils.ClashVmess)
+
+		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		if nodeItem.Network == "ws" {
+			node.Url += strings.TrimPrefix(nodeItem.WSPATH, "/")
 		}
 
-		var vmessNode domain.Vmess
-		err = json.Unmarshal([]byte(d), &vmessNode)
-		if err != nil {
-			log.Errorf("err:%v", err)
-
-			m := map[string]interface{}{}
-			err = json.Unmarshal([]byte(d), &m)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-
-			for k, v := range m {
-				m[strings.ToLower(k)] = v
-			}
-
-			host := m["host"]
-			if host == "" {
-				host = m["add"]
-			}
-
-			node.Url = fmt.Sprintf("%v:%v/%v", host, m["port"], strings.TrimPrefix(fmt.Sprintf("%v", m["path"]), "/"))
-
-		} else {
-			host := vmessNode.Host
-			if host == "" {
-				host = vmessNode.Add
-			}
-
-			node.Url = fmt.Sprintf("%v:%v/%v", host, vmessNode.Port, strings.TrimPrefix(vmessNode.Path, "/"))
-		}
 	case domain.ProxyNodeType_ProxyNodeTypeTrojan:
-		node.Url = strings.Split(strings.TrimPrefix(ru, "trojan://"), "#")[0]
+		nodeItem := nodeInterface.(utils.Trojan)
+		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+
+	//case domain.ProxyNodeType_ProxyNodeTypeVless:
+	case domain.ProxyNodeType_ProxyNodeTypeSS:
+		nodeItem := nodeInterface.(utils.ClashSS)
+		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+
+	case domain.ProxyNodeType_ProxyNodeTypeSSR:
+		nodeItem := nodeInterface.(utils.ClashRSSR)
+		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+
 	default:
 		return ErrInvalidArg
 	}
@@ -202,7 +182,7 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		if err == gorm.ErrRecordNotFound {
 			// 创建
 			log.Infof("add new proxy node: %v", node.Url)
-
+			node.CreatedAt = utils.Now()
 			err = s.Db.Create(&node).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
