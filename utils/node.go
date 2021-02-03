@@ -6,15 +6,15 @@ import (
 )
 
 func GetProxyNodeType(u string) domain.ProxyNodeType {
-	if strings.HasPrefix(u, "vmess") {
+	if strings.HasPrefix(u, "vmess://") {
 		return domain.ProxyNodeType_ProxyNodeTypeVmess
-	} else if strings.HasPrefix(u, "trojan") {
+	} else if strings.HasPrefix(u, "trojan://") {
 		return domain.ProxyNodeType_ProxyNodeTypeTrojan
-	} else if strings.HasPrefix(u, "vless") {
+	} else if strings.HasPrefix(u, "vless://") {
 		return domain.ProxyNodeType_ProxyNodeTypeVless
-	} else if strings.HasPrefix(u, "ssr") {
+	} else if strings.HasPrefix(u, "ssr://") {
 		return domain.ProxyNodeType_ProxyNodeTypeSSR
-	} else if strings.HasPrefix(u, "ss") {
+	} else if strings.HasPrefix(u, "ss://") {
 		return domain.ProxyNodeType_ProxyNodeTypeSS
 	}
 

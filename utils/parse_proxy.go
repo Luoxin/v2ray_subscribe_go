@@ -19,17 +19,6 @@ var (
 
 func ParseProxy(content string) interface{} {
 	var proxy interface{}
-	// ssd
-	if strings.Contains(content, "airport") {
-		ssSlice := ssdConf(content)
-		for _, ss := range ssSlice {
-			if !filterNode(ss.Name) {
-				proxy = ss
-			}
-		}
-		return proxy
-	}
-
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	for scanner.Scan() {
 		switch {
