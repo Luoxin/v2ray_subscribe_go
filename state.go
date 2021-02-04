@@ -101,7 +101,14 @@ func worker() error {
 		})
 
 		sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
-			err := s.Db.Where("death_count > 40", 40).Update("death_count", "0").Error
+			err := s.Db.
+				Where("death_count > ?", 40).
+				Where("available_count > ?", 0).
+				Updates(map[string]interface{}{
+					"death_count": 0,
+
+					"available_count": 0,
+				}).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return
