@@ -129,7 +129,7 @@ func GetUsableNodeList() ([]*domain.ProxyNode, error) {
 		Where("death_count < ?", 10).
 		// Order("proxy_node_type").
 		Order("available_count DESC").
-		// Order("proxy_speed DESC").
+		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
 		Order("death_count").
 		Order("last_crawler_at DESC").
