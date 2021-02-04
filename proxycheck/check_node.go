@@ -110,7 +110,7 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 	}
 	defer instance.Close()
 
-	req, err := http.NewRequest(http.MethodHead, url, nil)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return
 	}
@@ -148,14 +148,19 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 		return
 	}
 	defer resp.Body.Close()
-	_, err = ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
 	}
 
 	delay = time.Now().Sub(start)
-	speed = float64(resp.ContentLength) / float64(delay.Milliseconds())
+
+	if len(body) > 0 {
+		speed = float64(len(body)) / float64(delay.Milliseconds())
+	} else if resp.ContentLength > 0 {
+		speed = float64(resp.ContentLength) / float64(delay.Milliseconds())
+	}
 
 	return
 }
