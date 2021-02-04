@@ -202,6 +202,7 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		node.ProxyNetworkDelay = oldNode.ProxyNetworkDelay
 		node.ProxySpeed = oldNode.ProxySpeed
 		node.NextCheckAt = oldNode.NextCheckAt
+		node.AvailableCount = oldNode.AvailableCount
 
 		err = s.Db.Save(node).Error
 		if err != nil {

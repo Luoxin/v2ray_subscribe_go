@@ -124,16 +124,16 @@ func GetUsableNodeList() ([]*domain.ProxyNode, error) {
 	err := s.Db.Where("is_close = ?", false).
 		Where("proxy_speed >= 0 ").
 		// Where("proxy_node_type = 1").
-		Where("available_count >= 0 ").
+		Where("available_count > 0 ").
 		Where("proxy_network_delay >= 0").
-		Where("death_count < ?", 10).
+		//Where("death_count < ?", 10).
 		// Order("proxy_node_type").
 		Order("available_count DESC").
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
 		Order("death_count").
 		Order("last_crawler_at DESC").
-		Limit(50).
+		//Limit(50).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
