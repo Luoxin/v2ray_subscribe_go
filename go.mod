@@ -12,6 +12,7 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
 	github.com/golang/protobuf v1.4.3
+	github.com/google/uuid v1.2.0 // indirect
 	github.com/gookit/color v1.3.6 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
@@ -31,6 +32,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
 	github.com/ugorji/go v1.2.3 // indirect
+	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
 	github.com/xxjwxc/public v0.0.0-20210129054112-4a667d64cdd5 // indirect

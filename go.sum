@@ -149,6 +149,8 @@ github.com/google/martian v2.1.0+incompatible/go.mod h1:9I4somxYTbIHy5NJKHRl3wXi
 github.com/google/pprof v0.0.0-20181206194817-3ea8567a2e57/go.mod h1:zfwlbNMJ+OItoe0UupaVj+oy1omPYYDuagoSzA8v9mc=
 github.com/google/pprof v0.0.0-20190515194954-54271f7e092f/go.mod h1:zfwlbNMJ+OItoe0UupaVj+oy1omPYYDuagoSzA8v9mc=
 github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm40UhjYkI=
+github.com/google/uuid v1.2.0 h1:qJYtXnJRWmpe7m/3XlyhrsLrEURqHRM2kxzoxXqyUDs=
+github.com/google/uuid v1.2.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/googleapis/gax-go/v2 v2.0.4/go.mod h1:0Wqv26UfaUD9n4G6kQubkQ+KchISgw+vpHVxEJEs9eg=
 github.com/googleapis/gax-go/v2 v2.0.5/go.mod h1:DWXyrwAJ9X0FpwwEdw+IPEYBICEFu5mhpdKc/us6bOk=
 github.com/gookit/color v1.2.5 h1:s1gzb/fg3HhkSLKyWVUsZcVBUo+R1TwEYTmmxH8gGFg=
@@ -362,6 +364,8 @@ github.com/ugorji/go/codec v1.1.7 h1:2SvQaVZ1ouYrrKKwoSk2pzd4A9evlKJb9oTL+OaLUSs
 github.com/ugorji/go/codec v1.1.7/go.mod h1:Ax+UKWsSmolVDwsd+7N3ZtXu+yMGCf907BLYF3GoBXY=
 github.com/ugorji/go/codec v1.2.3 h1:/mVYEV+Jo3IZKeA5gBngN0AvNnQltEDkR+eQikkWQu0=
 github.com/ugorji/go/codec v1.2.3/go.mod h1:5FxzDJIgeiWJZslYHPj+LS1dq1ZBQVelZFnjsFGI/Uc=
+github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84 h1:SpHUuP1Hj2uu/MZVKbMxKMvfH0gl8yEoa/teI+0Ufxc=
+github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84/go.mod h1:6o8H8sci2q3QxZ4p/U88ggqZuhY3mg34+WE5BuazLsU=
 github.com/whoisix/subscribe2clash v0.10.3 h1:VKyQmuuD+UPHRkh9zrTajdJj9rzNlMWZ3zX6/bcAiU0=
 github.com/whoisix/subscribe2clash v0.10.3/go.mod h1:d8iF4oqJ1M0oXHEZUPze5Q5ua7peArzJ+bif/yqx5TE=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=

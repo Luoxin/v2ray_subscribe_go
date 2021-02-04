@@ -7,6 +7,7 @@ import (
 	"github.com/roylee0704/gron"
 	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
+	"github.com/whiteshtef/clockwork"
 	"gorm.io/gorm"
 )
 
@@ -45,6 +46,8 @@ func initState() error {
 
 func worker() error {
 	c := gron.New()
+
+	sched := clockwork.NewScheduler()
 
 	var w sync.WaitGroup
 	if !s.Config.DisableCrawl {
@@ -96,11 +99,24 @@ func worker() error {
 				log.Errorf("err:%v", err)
 			}
 		})
+
+		sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
+			err := s.Db.Where("death_count > 40", 40).Update("death_count", "0").Error
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
+		})
+
 	} else {
 		log.Warnf("proxy chec not start")
 	}
 
 	c.Start()
+
+	go func() {
+		sched.Run()
+	}()
 
 	return nil
 }
