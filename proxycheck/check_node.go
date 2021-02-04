@@ -2,11 +2,19 @@ package proxycheck
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"github.com/Dreamacro/clash/adapters/outbound"
+	"github.com/Dreamacro/clash/constant"
+	C "github.com/Dreamacro/clash/constant"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
+	"io/ioutil"
+	"net"
+	"net/http"
+	"net/url"
 	"subsrcibe/utils"
 	"time"
 )
@@ -78,14 +86,103 @@ func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
 		return 0, 0, err
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), time.Minute)
-
-	// x, err := proxy.URLTest(ctx, "https://www.google.com/generate_204")
-	delay, err := proxy.URLTest(ctx, "http://www.gstatic.com/generate_204")
+	delay, err := URLTest(proxy, "https://www.google.com")
+	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 
 	return float64(delay), 0, nil
+}
+
+func URLTest(p constant.Proxy, url string) (t uint16, err error) {
+	ctx, _ := context.WithTimeout(context.Background(), time.Minute)
+
+	addr, err := urlToMetadata(url)
+	if err != nil {
+		return
+	}
+
+	start := time.Now()
+	instance, err := p.DialContext(ctx, &addr)
+	if err != nil {
+		return
+	}
+	defer instance.Close()
+
+	req, err := http.NewRequest(http.MethodHead, url, nil)
+	if err != nil {
+		return
+	}
+	req = req.WithContext(ctx)
+
+	transport := &http.Transport{
+		Dial: func(string, string) (net.Conn, error) {
+			return instance, nil
+		},
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+		TLSHandshakeTimeout:   time.Minute,
+		DisableKeepAlives:     true,
+		DisableCompression:    true,
+		MaxIdleConns:          10,
+		IdleConnTimeout:       time.Minute,
+		ResponseHeaderTimeout: time.Minute,
+		ExpectContinueTimeout: time.Minute,
+		TLSNextProto:          nil,
+	}
+
+	client := http.Client{
+		Transport: transport,
+		//CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		//	return http.ErrUseLastResponse
+		//},
+		Timeout: time.Minute,
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
+
+	log.Info(string(body))
+
+	t = uint16(time.Since(start) / time.Millisecond)
+	return
+}
+
+func urlToMetadata(rawURL string) (addr C.Metadata, err error) {
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return
+	}
+
+	port := u.Port()
+	if port == "" {
+		switch u.Scheme {
+		case "https":
+			port = "443"
+		case "http":
+			port = "80"
+		default:
+			err = fmt.Errorf("%s scheme not Support", rawURL)
+			return
+		}
+	}
+
+	addr = C.Metadata{
+		AddrType: C.AtypDomainName,
+		Host:     u.Hostname(),
+		DstIP:    nil,
+		DstPort:  port,
+	}
+	return
 }
