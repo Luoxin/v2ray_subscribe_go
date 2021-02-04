@@ -144,13 +144,13 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 	start := time.Now()
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Errorf("err:%v", err)
+		//log.Errorf("err:%v", err)
 		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("err:%v", err)
+		//log.Errorf("err:%v", err)
 		return
 	}
 
