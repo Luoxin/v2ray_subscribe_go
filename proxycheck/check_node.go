@@ -86,17 +86,17 @@ func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
 		return 0, 0, err
 	}
 
-	delay, err := URLTest(proxy, "https://www.google.com")
+	delay, speed, err := URLTest(proxy, "https://www.google.com")
 	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 
-	return float64(delay), 0, nil
+	return float64(delay.Milliseconds()), speed, nil
 }
 
-func URLTest(p constant.Proxy, url string) (t uint16, err error) {
+func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
 	ctx, _ := context.WithTimeout(context.Background(), time.Minute)
 
 	addr, err := urlToMetadata(url)
@@ -104,7 +104,6 @@ func URLTest(p constant.Proxy, url string) (t uint16, err error) {
 		return
 	}
 
-	start := time.Now()
 	instance, err := p.DialContext(ctx, &addr)
 	if err != nil {
 		return
@@ -124,14 +123,14 @@ func URLTest(p constant.Proxy, url string) (t uint16, err error) {
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
-		TLSHandshakeTimeout:   time.Minute,
-		DisableKeepAlives:     true,
-		DisableCompression:    true,
-		MaxIdleConns:          10,
-		IdleConnTimeout:       time.Minute,
-		ResponseHeaderTimeout: time.Minute,
-		ExpectContinueTimeout: time.Minute,
-		TLSNextProto:          nil,
+		//TLSHandshakeTimeout: time.Minute,
+		//DisableKeepAlives: true,
+		//DisableCompression: true,
+		//MaxIdleConns:          10,
+		//IdleConnTimeout:       time.Minute,
+		//ResponseHeaderTimeout: time.Minute,
+		//ExpectContinueTimeout: time.Minute,
+		//TLSNextProto:          nil,
 	}
 
 	client := http.Client{
@@ -141,21 +140,23 @@ func URLTest(p constant.Proxy, url string) (t uint16, err error) {
 		//},
 		Timeout: time.Minute,
 	}
+
+	start := time.Now()
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Errorf("err:%v", err)
 		return
 	}
 	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
+	_, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
 	}
 
-	log.Info(string(body))
+	delay = time.Now().Sub(start)
+	speed = float64(resp.ContentLength) / float64(delay.Milliseconds())
 
-	t = uint16(time.Since(start) / time.Millisecond)
 	return
 }
 
