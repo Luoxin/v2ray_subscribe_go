@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"github.com/bluele/gcache"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/xxjwxc/ginrpc/api"
@@ -10,6 +11,7 @@ import (
 	"strings"
 	"subsrcibe/domain"
 	"subsrcibe/utils"
+	"time"
 )
 
 func registerRouting(r *gin.Engine) error {
@@ -35,7 +37,7 @@ func (*Subscribe) Version(c *api.Context) {
 	c.String(http.StatusOK, version)
 }
 
-// @Router /subscription [post,get]
+// @Router /subscription [get]
 func (*Subscribe) Subscription(c *api.Context) {
 	nodes, err := GetUsableNodeList()
 	if err != nil {
@@ -91,15 +93,45 @@ func (*Subscribe) Subscription(c *api.Context) {
 	c.String(http.StatusOK, x)
 }
 
-// @Router /sub/clash [post,get]
+// @Router /sub/clash [get]
 func (*Subscribe) SubClash(c *api.Context) {
+	const clashCacheKey = "sub_clash"
+
+	var force bool
+	{
+		val, _ := c.GetQuery("force")
+		if val == "1" || strings.ToLower(val) == "true" {
+			force = true
+		}
+	}
+
+	if !force {
+		value, err := s.Cache.Get(clashCacheKey)
+		if err != nil {
+			if err != gcache.KeyNotFoundError {
+				log.Errorf("err:%v", err)
+				return
+			}
+		} else {
+			c.String(http.StatusOK, value.(string))
+		}
+	}
+
 	nodes, err := GetUsableNodeList()
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
 	}
 
-	c.String(http.StatusOK, utils.NewCoverSubscribe().Nodes2Clash(nodes))
+	val := utils.NewCoverSubscribe().Nodes2Clash(nodes)
+	if val != "" {
+		err = s.Cache.SetWithExpire(clashCacheKey, val, time.Minute*5)
+		if err != nil {
+			log.Errorf("err:%v", err)
+		}
+	}
+
+	c.String(http.StatusOK, val)
 }
 
 // @Router /addnode [post,get]

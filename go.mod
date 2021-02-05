@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/Dreamacro/clash v1.3.5
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
+	github.com/bluele/gcache v0.0.0-20190518031135-bc40bd653833
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.0
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
@@ -31,7 +32,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
-	github.com/ugorji/go v1.2.3 // indirect
+	github.com/ugorji/go v1.2.4 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189

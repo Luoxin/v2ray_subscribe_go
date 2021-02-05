@@ -4,6 +4,7 @@ import (
 	"subsrcibe/proxycheck"
 	"sync"
 
+	"github.com/bluele/gcache"
 	"github.com/roylee0704/gron"
 	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
@@ -14,6 +15,7 @@ import (
 type State struct {
 	Config *Config
 	Db     *gorm.DB
+	Cache  gcache.Cache
 }
 
 var s *State
@@ -28,6 +30,9 @@ func initState() error {
 		log.Errorf("err:%v", err)
 		return err
 	}
+
+	cache := gcache.New(20).LRU().Build()
+	s.Cache = cache
 
 	err = initDb()
 	if err != nil {
