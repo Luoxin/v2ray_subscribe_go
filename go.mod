@@ -7,14 +7,13 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/bluele/gcache v0.0.0-20190518031135-bc40bd653833
 	github.com/eddieivan01/nic v0.3.1
-	github.com/elliotchance/pie v1.38.0
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/elliotchance/pie v1.38.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.2.0 // indirect
-	github.com/gookit/color v1.3.6 // indirect
+	github.com/gookit/color v1.3.7 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
@@ -36,7 +35,7 @@ require (
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	github.com/whoisix/subscribe2clash v0.10.3
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
-	github.com/xxjwxc/public v0.0.0-20210129054112-4a667d64cdd5 // indirect
+	github.com/xxjwxc/public v0.0.0-20210204114803-e82090d5642e // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
@@ -48,5 +47,3 @@ require (
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.20.12
 )
-
-replace v2ray.com/core => github.com/v2fly/v2ray-core v1.24.5-0.20200531043819-9dc12961fac5
