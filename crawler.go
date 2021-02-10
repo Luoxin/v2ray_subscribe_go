@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 	"subsrcibe/parser"
+	"subsrcibe/proxy"
 
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
@@ -148,36 +150,63 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		ProxyNodeType: uint32(proxyNodeType),
 	}
 
-	nodeInterface := utils.ParseProxy(ru)
+	nodeInterface, err := proxy.ParseProxyToClash(ru)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 
 	switch proxyNodeType {
 	case domain.ProxyNodeType_ProxyNodeTypeVmess:
-		nodeItem := nodeInterface.(utils.ClashVmess)
-
-		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
-		if nodeItem.Network == "ws" {
-			node.Url += strings.TrimPrefix(nodeItem.WSPATH, "/")
+		var nodeItem utils.ClashVmess
+		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		} else {
+			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+			if nodeItem.Network == "ws" {
+				node.Url += strings.TrimPrefix(nodeItem.WSPATH, "/")
+			}
 		}
 
 	case domain.ProxyNodeType_ProxyNodeTypeTrojan:
-		nodeItem := nodeInterface.(utils.Trojan)
-		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		var nodeItem utils.Trojan
+		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		} else {
+			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		}
 
 	//case domain.ProxyNodeType_ProxyNodeTypeVless:
 	case domain.ProxyNodeType_ProxyNodeTypeSS:
-		nodeItem := nodeInterface.(utils.ClashSS)
-		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		var nodeItem utils.ClashSS
+		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		} else {
+			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		}
 
 	case domain.ProxyNodeType_ProxyNodeTypeSSR:
-		nodeItem := nodeInterface.(utils.ClashRSSR)
-		node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		var nodeItem utils.ClashRSSR
+		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		} else {
+			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
+		}
 
 	default:
 		return ErrInvalidArg
 	}
 
 	var oldNode domain.ProxyNode
-	err := s.Db.Where("url = ?", node.Url).First(&oldNode).Error
+	err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建

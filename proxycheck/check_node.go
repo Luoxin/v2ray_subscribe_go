@@ -5,18 +5,20 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net"
+	"net/http"
+	"net/url"
+	"time"
+
 	"github.com/Dreamacro/clash/adapters/outbound"
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
-	"io/ioutil"
-	"net"
-	"net/http"
-	"net/url"
-	"subsrcibe/utils"
-	"time"
+
+	"subsrcibe/proxy"
 )
 
 type ProxyCheck struct {
@@ -63,16 +65,14 @@ func (p *ProxyCheck) Add(nodeUrl string, logic func(err error, delay, speed floa
 }
 
 func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
-	proxyConfig := utils.ParseProxy(nodeUrl)
-
-	j, err := json.Marshal(proxyConfig)
+	proxyConfig, err := proxy.ParseProxyToClash(nodeUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 
 	var proxyItem map[string]interface{}
-	err = json.Unmarshal(j, &proxyItem)
+	err = json.Unmarshal([]byte(proxyConfig), &proxyItem)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return 0, 0, err

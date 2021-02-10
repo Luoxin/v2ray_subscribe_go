@@ -3,15 +3,17 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/bluele/gcache"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/xxjwxc/ginrpc/api"
-	"net/http"
-	"strings"
+
 	"subsrcibe/domain"
 	"subsrcibe/utils"
-	"time"
 )
 
 func registerRouting(r *gin.Engine) error {
@@ -45,7 +47,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		return
 	}
 
-	titleGen := NewProxyTitle()
+	titleGen := utils.NewProxyTitle()
 
 	var nodeList []string
 	ProxyNodeList(nodes).Each(func(node *domain.ProxyNode) {
@@ -114,6 +116,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 			}
 		} else {
 			c.String(http.StatusOK, value.(string))
+			return
 		}
 	}
 
@@ -165,7 +168,7 @@ func GetUsableNodeList() ([]*domain.ProxyNode, error) {
 		Order("proxy_network_delay").
 		Order("death_count").
 		Order("last_crawler_at DESC").
-		//Limit(50).
+		// Limit(50).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
