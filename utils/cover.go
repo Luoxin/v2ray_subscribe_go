@@ -4,14 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net"
 	"strings"
 	"text/template"
 
-	"github.com/oschwald/geoip2-golang"
 	log "github.com/sirupsen/logrus"
 
 	"subsrcibe/domain"
+	"subsrcibe/geolite"
 	"subsrcibe/proxy"
 	"subsrcibe/title"
 )
@@ -62,34 +61,14 @@ func (c *CoverSubscribe) Nodes2Clash(nodes []*domain.ProxyNode) string {
 }
 
 func (c *CoverSubscribe) genClashConfig() string {
-	db, err := geoip2.Open("./GeoLite2-Country.mmdb")
-	if err != nil {
-		log.Errorf("err:%v", err)
-	}
-	defer db.Close()
-
 	var nodeList, nameList []string
 
 	var usaNameList, hkNameList, twNameList, rsNameList, jpNameList, skNameList []string
 
 	// TODO for 生成数据
 	for _, x := range c.nodeMap {
-		ns, err := net.LookupIP(x.host)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			continue
-		}
-
-		if len(ns) == 0 {
-			continue
-		}
-
-		if db != nil {
-			record, err := db.Country(net.ParseIP(ns[0].String()))
-			if err != nil {
-				log.Fatal(err)
-			}
-
+		record := geolite.GetCountry(x.host)
+		if record != nil {
 			if len(record.Country.Names["zh-CN"]) > 0 {
 				x.name = fmt.Sprintf("(%s)%s", record.Country.Names["zh-CN"], x.name)
 			}

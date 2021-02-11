@@ -14,6 +14,11 @@ import (
 //go:generate pie ProxyList.*
 type ProxyList []proxy.Proxy
 
+func (ps ProxyList) Init() error {
+
+	return nil
+}
+
 func (ps ProxyList) NameAddIndex() ProxyList {
 	num := len(ps)
 	for i := 0; i < num; i++ {
