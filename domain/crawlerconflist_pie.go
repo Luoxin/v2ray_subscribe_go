@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/elliotchance/pie/pie"
-	"github.com/elliotchance/pie/pie/util"
 	"math/rand"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/elliotchance/pie/pie"
+	"github.com/elliotchance/pie/pie/util"
 )
 
 // All will return true if all callbacks return true. It follows the same logic

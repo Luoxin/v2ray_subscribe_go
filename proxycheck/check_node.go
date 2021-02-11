@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"sync"
 	"time"
 
 	"github.com/Dreamacro/clash/adapters/outbound"
@@ -23,28 +24,63 @@ import (
 
 type ProxyCheck struct {
 	pool *ants.Pool
+	w    sync.WaitGroup
+
+	maxSize int
+}
+
+//go:generate pie ResultList.*
+type ResultList []*Result
+
+type Result struct {
+	ProxyUrl     string
+	Delay, Speed float64
+	Err          error
 }
 
 func NewProxyCheck() *ProxyCheck {
-	return &ProxyCheck{}
+	return &ProxyCheck{
+		maxSize: 10,
+	}
 }
 
-func (p *ProxyCheck) Start() error {
-	pool, err := ants.NewPool(10)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
+func (p *ProxyCheck) Init() error {
+	if p.pool == nil {
+		pool, err := ants.NewPool(10)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+		p.pool = pool
+	} else {
+		p.pool.Tune(p.maxSize)
 	}
 
-	p.pool = pool
 	return nil
 }
 
-func (p *ProxyCheck) Add(nodeUrl string, logic func(err error, delay, speed float64) error) error {
+func (p *ProxyCheck) SetMaxSize(size int) error {
+	p.maxSize = size
+
+	if p.pool != nil {
+		p.pool.Tune(size)
+	}
+
+	return nil
+}
+
+func (p *ProxyCheck) Add(nodeUrl string, logic func(result Result) error) error {
+	p.w.Add(1)
 	err := p.pool.Submit(func() {
+		defer p.w.Done()
 		delay, speed, err := p.Check(nodeUrl)
 		err = retry.DoFunc(5, 500*time.Millisecond, func() error {
-			err = logic(err, delay, speed)
+			err = logic(Result{
+				ProxyUrl: nodeUrl,
+				Delay:    delay,
+				Speed:    speed,
+				Err:      err,
+			})
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
@@ -80,6 +116,15 @@ func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
 
 	proxyItem["name"] = "test proxy"
 
+	coverFloat2int := func(field string) {
+		if x, ok := proxyItem[field].(float64); ok {
+			proxyItem[field] = int(x)
+		}
+	}
+
+	coverFloat2int("port")
+	coverFloat2int("alterId")
+
 	proxy, err := outbound.ParseProxy(proxyItem)
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -94,6 +139,10 @@ func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
 	}
 
 	return float64(delay.Milliseconds()), speed, nil
+}
+
+func (p *ProxyCheck) WaitFinish() {
+	p.w.Done()
 }
 
 func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, err error) {

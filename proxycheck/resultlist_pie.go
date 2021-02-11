@@ -1,23 +1,22 @@
-package domain
+package proxycheck
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/elliotchance/pie/pie"
+	"github.com/elliotchance/pie/pie/util"
 	"math/rand"
 	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/elliotchance/pie/pie"
-	"github.com/elliotchance/pie/pie/util"
 )
 
 // All will return true if all callbacks return true. It follows the same logic
 // as the all() function in Python.
 //
 // If the list is empty then true is always returned.
-func (ss ProxyNodeList) All(fn func(value *ProxyNode) bool) bool {
+func (ss ResultList) All(fn func(value *Result) bool) bool {
 	for _, value := range ss {
 		if !fn(value) {
 			return false
@@ -31,7 +30,7 @@ func (ss ProxyNodeList) All(fn func(value *ProxyNode) bool) bool {
 // as the any() function in Python.
 //
 // If the list is empty then false is always returned.
-func (ss ProxyNodeList) Any(fn func(value *ProxyNode) bool) bool {
+func (ss ResultList) Any(fn func(value *Result) bool) bool {
 	for _, value := range ss {
 		if fn(value) {
 			return true
@@ -44,10 +43,10 @@ func (ss ProxyNodeList) Any(fn func(value *ProxyNode) bool) bool {
 // Append will return a new slice with the elements appended to the end.
 //
 // It is acceptable to provide zero arguments.
-func (ss ProxyNodeList) Append(elements ...*ProxyNode) ProxyNodeList {
+func (ss ResultList) Append(elements ...*Result) ResultList {
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #97.
-	result := append(ProxyNodeList{}, ss...)
+	result := append(ResultList{}, ss...)
 
 	result = append(result, elements...)
 	return result
@@ -59,7 +58,7 @@ func (ss ProxyNodeList) Append(elements ...*ProxyNode) ProxyNodeList {
 // for this [1,2,3] slice with n == 2 will be returned [3,2]
 // if the slice has less elements then n that'll return all elements
 // if n < 0 it'll return empty slice.
-func (ss ProxyNodeList) Bottom(n int) (top ProxyNodeList) {
+func (ss ResultList) Bottom(n int) (top ResultList) {
 	var lastIndex = len(ss) - 1
 	for i := lastIndex; i > -1 && n > 0; i-- {
 		top = append(top, ss[i])
@@ -72,7 +71,7 @@ func (ss ProxyNodeList) Bottom(n int) (top ProxyNodeList) {
 // Contains returns true if the element exists in the slice.
 //
 // When using slices of pointers it will only compare by address, not value.
-func (ss ProxyNodeList) Contains(lookingFor *ProxyNode) bool {
+func (ss ResultList) Contains(lookingFor *Result) bool {
 	for _, s := range ss {
 		if lookingFor == s {
 			return true
@@ -90,12 +89,12 @@ func (ss ProxyNodeList) Contains(lookingFor *ProxyNode) bool {
 //
 // The added and removed returned may be blank respectively, or contain upto as
 // many elements that exists in the largest slice.
-func (ss ProxyNodeList) Diff(against ProxyNodeList) (added, removed ProxyNodeList) {
+func (ss ResultList) Diff(against ResultList) (added, removed ResultList) {
 	// This is probably not the best way to do it. We do an O(n^2) between the
 	// slices to see which items are missing in each direction.
 
-	diffOneWay := func(ss1, ss2raw ProxyNodeList) (result ProxyNodeList) {
-		ss2 := make(ProxyNodeList, len(ss2raw))
+	diffOneWay := func(ss1, ss2raw ResultList) (result ResultList) {
+		ss2 := make(ResultList, len(ss2raw))
 		copy(ss2, ss2raw)
 
 		for _, s := range ss1 {
@@ -125,14 +124,14 @@ func (ss ProxyNodeList) Diff(against ProxyNodeList) (added, removed ProxyNodeLis
 // DropTop will return the rest slice after dropping the top n elements
 // if the slice has less elements then n that'll return empty slice
 // if n < 0 it'll return empty slice.
-func (ss ProxyNodeList) DropTop(n int) (drop ProxyNodeList) {
+func (ss ResultList) DropTop(n int) (drop ResultList) {
 	if n < 0 || n >= len(ss) {
 		return
 	}
 
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #145.
-	drop = make([]*ProxyNode, len(ss)-n)
+	drop = make([]*Result, len(ss)-n)
 	copy(drop, ss[n:])
 
 	return
@@ -153,7 +152,7 @@ func (ss ProxyNodeList) DropTop(n int) (drop ProxyNodeList) {
 //       car.Color = "Red"
 //   })
 //
-func (ss ProxyNodeList) Each(fn func(*ProxyNode)) ProxyNodeList {
+func (ss ResultList) Each(fn func(*Result)) ResultList {
 	for _, s := range ss {
 		fn(s)
 	}
@@ -167,7 +166,7 @@ func (ss ProxyNodeList) Each(fn func(*ProxyNode)) ProxyNodeList {
 // if each slice == nil is considered that they're equal
 //
 // if element realizes Equals interface it uses that method, in other way uses default compare
-func (ss ProxyNodeList) Equals(rhs ProxyNodeList) bool {
+func (ss ResultList) Equals(rhs ResultList) bool {
 	if len(ss) != len(rhs) {
 		return false
 	}
@@ -185,7 +184,7 @@ func (ss ProxyNodeList) Equals(rhs ProxyNodeList) bool {
 // end.
 //
 // It is acceptable to provide zero arguments.
-func (ss ProxyNodeList) Extend(slices ...ProxyNodeList) (ss2 ProxyNodeList) {
+func (ss ResultList) Extend(slices ...ResultList) (ss2 ResultList) {
 	ss2 = ss
 
 	for _, slice := range slices {
@@ -199,7 +198,7 @@ func (ss ProxyNodeList) Extend(slices ...ProxyNodeList) (ss2 ProxyNodeList) {
 // true from the condition. The returned slice may contain zero elements (nil).
 //
 // FilterNot works in the opposite way of Filter.
-func (ss ProxyNodeList) Filter(condition func(*ProxyNode) bool) (ss2 ProxyNodeList) {
+func (ss ResultList) Filter(condition func(*Result) bool) (ss2 ResultList) {
 	for _, s := range ss {
 		if condition(s) {
 			ss2 = append(ss2, s)
@@ -211,7 +210,7 @@ func (ss ProxyNodeList) Filter(condition func(*ProxyNode) bool) (ss2 ProxyNodeLi
 // FilterNot works the same as Filter, with a negated condition. That is, it will
 // return a new slice only containing the elements that returned false from the
 // condition. The returned slice may contain zero elements (nil).
-func (ss ProxyNodeList) FilterNot(condition func(*ProxyNode) bool) (ss2 ProxyNodeList) {
+func (ss ResultList) FilterNot(condition func(*Result) bool) (ss2 ResultList) {
 	for _, s := range ss {
 		if !condition(s) {
 			ss2 = append(ss2, s)
@@ -225,7 +224,7 @@ func (ss ProxyNodeList) FilterNot(condition func(*ProxyNode) bool) (ss2 ProxyNod
 // It follows the same logic as the findIndex() function in Javascript.
 //
 // If the list is empty then -1 is always returned.
-func (ss ProxyNodeList) FindFirstUsing(fn func(value *ProxyNode) bool) int {
+func (ss ResultList) FindFirstUsing(fn func(value *Result) bool) int {
 	for idx, value := range ss {
 		if fn(value) {
 			return idx
@@ -236,13 +235,13 @@ func (ss ProxyNodeList) FindFirstUsing(fn func(value *ProxyNode) bool) int {
 }
 
 // First returns the first element, or zero. Also see FirstOr().
-func (ss ProxyNodeList) First() *ProxyNode {
+func (ss ResultList) First() *Result {
 	return ss.FirstOr(nil)
 }
 
 // FirstOr returns the first element or a default value if there are no
 // elements.
-func (ss ProxyNodeList) FirstOr(defaultValue *ProxyNode) *ProxyNode {
+func (ss ResultList) FirstOr(defaultValue *Result) *Result {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -251,7 +250,7 @@ func (ss ProxyNodeList) FirstOr(defaultValue *ProxyNode) *ProxyNode {
 }
 
 // Float64s transforms each element to a float64.
-func (ss ProxyNodeList) Float64s() pie.Float64s {
+func (ss ResultList) Float64s() pie.Float64s {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -269,16 +268,16 @@ func (ss ProxyNodeList) Float64s() pie.Float64s {
 }
 
 // Insert a value at an index
-func (ss ProxyNodeList) Insert(index int, values ...*ProxyNode) ProxyNodeList {
+func (ss ResultList) Insert(index int, values ...*Result) ResultList {
 	if index >= ss.Len() {
-		return ProxyNodeList.Extend(ss, ProxyNodeList(values))
+		return ResultList.Extend(ss, ResultList(values))
 	}
 
-	return ProxyNodeList.Extend(ss[:index], ProxyNodeList(values), ss[index:])
+	return ResultList.Extend(ss[:index], ResultList(values), ss[index:])
 }
 
 // Ints transforms each element to an integer.
-func (ss ProxyNodeList) Ints() pie.Ints {
+func (ss ResultList) Ints() pie.Ints {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -297,8 +296,8 @@ func (ss ProxyNodeList) Ints() pie.Ints {
 }
 
 // Join returns a string from joining each of the elements.
-func (ss ProxyNodeList) Join(glue string) (s string) {
-	var slice interface{} = []*ProxyNode(ss)
+func (ss ResultList) Join(glue string) (s string) {
+	var slice interface{} = []*Result(ss)
 
 	if y, ok := slice.([]string); ok {
 		// The stdlib is efficient for type []string
@@ -318,7 +317,7 @@ func (ss ProxyNodeList) Join(glue string) (s string) {
 //
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array.
-func (ss ProxyNodeList) JSONBytes() []byte {
+func (ss ResultList) JSONBytes() []byte {
 	if ss == nil {
 		return []byte("[]")
 	}
@@ -334,7 +333,7 @@ func (ss ProxyNodeList) JSONBytes() []byte {
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array. See
 // json.MarshalIndent for details.
-func (ss ProxyNodeList) JSONBytesIndent(prefix, indent string) []byte {
+func (ss ResultList) JSONBytesIndent(prefix, indent string) []byte {
 	if ss == nil {
 		return []byte("[]")
 	}
@@ -349,7 +348,7 @@ func (ss ProxyNodeList) JSONBytesIndent(prefix, indent string) []byte {
 //
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array.
-func (ss ProxyNodeList) JSONString() string {
+func (ss ResultList) JSONString() string {
 	if ss == nil {
 		return "[]"
 	}
@@ -365,7 +364,7 @@ func (ss ProxyNodeList) JSONString() string {
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array. See
 // json.MarshalIndent for details.
-func (ss ProxyNodeList) JSONStringIndent(prefix, indent string) string {
+func (ss ResultList) JSONStringIndent(prefix, indent string) string {
 	if ss == nil {
 		return "[]"
 	}
@@ -377,12 +376,12 @@ func (ss ProxyNodeList) JSONStringIndent(prefix, indent string) string {
 }
 
 // Last returns the last element, or zero. Also see LastOr().
-func (ss ProxyNodeList) Last() *ProxyNode {
+func (ss ResultList) Last() *Result {
 	return ss.LastOr(nil)
 }
 
 // LastOr returns the last element or a default value if there are no elements.
-func (ss ProxyNodeList) LastOr(defaultValue *ProxyNode) *ProxyNode {
+func (ss ResultList) LastOr(defaultValue *Result) *Result {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -391,7 +390,7 @@ func (ss ProxyNodeList) LastOr(defaultValue *ProxyNode) *ProxyNode {
 }
 
 // Len returns the number of elements.
-func (ss ProxyNodeList) Len() int {
+func (ss ResultList) Len() int {
 	return len(ss)
 }
 
@@ -401,12 +400,12 @@ func (ss ProxyNodeList) Len() int {
 // Be careful when using this with slices of pointers. If you modify the input
 // value it will affect the original slice. Be sure to return a new allocated
 // object or deep copy the existing one.
-func (ss ProxyNodeList) Map(fn func(*ProxyNode) *ProxyNode) (ss2 ProxyNodeList) {
+func (ss ResultList) Map(fn func(*Result) *Result) (ss2 ResultList) {
 	if ss == nil {
 		return nil
 	}
 
-	ss2 = make([]*ProxyNode, len(ss))
+	ss2 = make([]*Result, len(ss))
 	for i, s := range ss {
 		ss2[i] = fn(s)
 	}
@@ -418,11 +417,11 @@ func (ss ProxyNodeList) Map(fn func(*ProxyNode) *ProxyNode) (ss2 ProxyNodeList) 
 //
 // The number of items returned may be the same as the input or less. It will
 // never return zero items unless the input slice has zero items.
-func (ss ProxyNodeList) Mode() ProxyNodeList {
+func (ss ResultList) Mode() ResultList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*ProxyNode]int)
+	values := make(map[*Result]int)
 	for _, s := range ss {
 		values[s]++
 	}
@@ -434,7 +433,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 		}
 	}
 
-	var maxValues ProxyNodeList
+	var maxValues ResultList
 	for k, v := range values {
 		if v == maxFrequency {
 			maxValues = append(maxValues, k)
@@ -453,7 +452,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 //   for greeting := greetings.Pop(); greeting != nil; greeting = greetings.Pop() {
 //       fmt.Println(*greeting)
 //   }
-func (ss *ProxyNodeList) Pop() (popped **ProxyNode) {
+func (ss *ResultList) Pop() (popped **Result) {
 
 	if len(*ss) == 0 {
 		return
@@ -465,7 +464,7 @@ func (ss *ProxyNodeList) Pop() (popped **ProxyNode) {
 }
 
 // Random returns a random element by your rand.Source, or zero
-func (ss ProxyNodeList) Random(source rand.Source) *ProxyNode {
+func (ss ResultList) Random(source rand.Source) *Result {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -485,14 +484,14 @@ func (ss ProxyNodeList) Random(source rand.Source) *ProxyNode {
 //
 //   ss.Sort().Reverse()
 //
-func (ss ProxyNodeList) Reverse() ProxyNodeList {
+func (ss ResultList) Reverse() ResultList {
 	// Avoid the allocation. If there is one element or less it is already
 	// reversed.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make([]*ProxyNode, len(ss))
+	sorted := make([]*Result, len(ss))
 	for i := 0; i < len(ss); i++ {
 		sorted[i] = ss[len(ss)-i-1]
 	}
@@ -506,7 +505,7 @@ func (ss ProxyNodeList) Reverse() ProxyNodeList {
 // it locks execution of gorutine
 // it doesn't close channel after work
 // returns sended elements if len(this) != len(old) considered func was canceled
-func (ss ProxyNodeList) Send(ctx context.Context, ch chan<- *ProxyNode) ProxyNodeList {
+func (ss ResultList) Send(ctx context.Context, ch chan<- *Result) ResultList {
 	for i, s := range ss {
 		select {
 		case <-ctx.Done():
@@ -533,14 +532,14 @@ func (ss ProxyNodeList) Send(ctx context.Context, ch chan<- *ProxyNode) ProxyNod
 // if len(params) > 2 considered that will be returned slice between min and max with step,
 // where min is the first param, max is the second, step is the third one, [min, max) with step,
 // others params will be ignored
-func (ss ProxyNodeList) SequenceUsing(creator func(int) *ProxyNode, params ...int) ProxyNodeList {
-	var seq = func(min, max, step int) (seq ProxyNodeList) {
+func (ss ResultList) SequenceUsing(creator func(int) *Result, params ...int) ResultList {
+	var seq = func(min, max, step int) (seq ResultList) {
 		lenght := int(util.Round(float64(max-min) / float64(step)))
 		if lenght < 1 {
 			return
 		}
 
-		seq = make(ProxyNodeList, lenght)
+		seq = make(ResultList, lenght)
 		for i := 0; i < lenght; min += step {
 			seq[i] = creator(min)
 			i++
@@ -561,12 +560,12 @@ func (ss ProxyNodeList) SequenceUsing(creator func(int) *ProxyNode, params ...in
 }
 
 // Shift will return two values: the shifted value and the rest slice.
-func (ss ProxyNodeList) Shift() (*ProxyNode, ProxyNodeList) {
+func (ss ResultList) Shift() (*Result, ResultList) {
 	return ss.First(), ss.DropTop(1)
 }
 
 // Shuffle returns shuffled slice by your rand.Source
-func (ss ProxyNodeList) Shuffle(source rand.Source) ProxyNodeList {
+func (ss ResultList) Shuffle(source rand.Source) ResultList {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -577,7 +576,7 @@ func (ss ProxyNodeList) Shuffle(source rand.Source) ProxyNodeList {
 	// go 1.10+ provides rnd.Shuffle. However, to support older versions we copy
 	// the algorithm directly from the go source: src/math/rand/rand.go below,
 	// with some adjustments:
-	shuffled := make([]*ProxyNode, n)
+	shuffled := make([]*Result, n)
 	copy(shuffled, ss)
 
 	rnd := rand.New(source)
@@ -591,14 +590,14 @@ func (ss ProxyNodeList) Shuffle(source rand.Source) ProxyNodeList {
 
 // SortStableUsing works similar to sort.SliceStable. However, unlike sort.SliceStable the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyNodeList) SortStableUsing(less func(a, b *ProxyNode) bool) ProxyNodeList {
+func (ss ResultList) SortStableUsing(less func(a, b *Result) bool) ResultList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make(ProxyNodeList, len(ss))
+	sorted := make(ResultList, len(ss))
 	copy(sorted, ss)
 	sort.SliceStable(sorted, func(i, j int) bool {
 		return less(sorted[i], sorted[j])
@@ -609,14 +608,14 @@ func (ss ProxyNodeList) SortStableUsing(less func(a, b *ProxyNode) bool) ProxyNo
 
 // SortUsing works similar to sort.Slice. However, unlike sort.Slice the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyNodeList) SortUsing(less func(a, b *ProxyNode) bool) ProxyNodeList {
+func (ss ResultList) SortUsing(less func(a, b *Result) bool) ResultList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make(ProxyNodeList, len(ss))
+	sorted := make(ResultList, len(ss))
 	copy(sorted, ss)
 	sort.Slice(sorted, func(i, j int) bool {
 		return less(sorted[i], sorted[j])
@@ -632,7 +631,7 @@ func (ss ProxyNodeList) SortUsing(less func(a, b *ProxyNode) bool) ProxyNodeList
 //
 //   fmt.Sprintf("%v")
 //
-func (ss ProxyNodeList) Strings() pie.Strings {
+func (ss ResultList) Strings() pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -655,7 +654,7 @@ func (ss ProxyNodeList) Strings() pie.Strings {
 // Condition 2: If start >= end, nil is returned.
 // Condition 3: Return all elements that exist in the range provided,
 // if start or end is out of bounds, zero items will be placed.
-func (ss ProxyNodeList) SubSlice(start int, end int) (subSlice ProxyNodeList) {
+func (ss ResultList) SubSlice(start int, end int) (subSlice ResultList) {
 	if start < 0 || end < 0 {
 		return
 	}
@@ -669,11 +668,11 @@ func (ss ProxyNodeList) SubSlice(start int, end int) (subSlice ProxyNodeList) {
 		if end <= length {
 			subSlice = ss[start:end]
 		} else {
-			zeroArray := make([]*ProxyNode, end-length)
+			zeroArray := make([]*Result, end-length)
 			subSlice = ss[start:length].Append(zeroArray[:]...)
 		}
 	} else {
-		zeroArray := make([]*ProxyNode, end-start)
+		zeroArray := make([]*Result, end-start)
 		subSlice = zeroArray[:]
 	}
 
@@ -683,7 +682,7 @@ func (ss ProxyNodeList) SubSlice(start int, end int) (subSlice ProxyNodeList) {
 // Top will return n elements from head of the slice
 // if the slice has less elements then n that'll return all elements
 // if n < 0 it'll return empty slice.
-func (ss ProxyNodeList) Top(n int) (top ProxyNodeList) {
+func (ss ResultList) Top(n int) (top ResultList) {
 	for i := 0; i < len(ss) && n > 0; i++ {
 		top = append(top, ss[i])
 		n--
@@ -693,7 +692,7 @@ func (ss ProxyNodeList) Top(n int) (top ProxyNodeList) {
 }
 
 // StringsUsing transforms each element to a string.
-func (ss ProxyNodeList) StringsUsing(transform func(*ProxyNode) string) pie.Strings {
+func (ss ResultList) StringsUsing(transform func(*Result) string) pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -711,8 +710,8 @@ func (ss ProxyNodeList) StringsUsing(transform func(*ProxyNode) string) pie.Stri
 
 // Unshift adds one or more elements to the beginning of the slice
 // and returns the new slice.
-func (ss ProxyNodeList) Unshift(elements ...*ProxyNode) (unshift ProxyNodeList) {
-	unshift = append(ProxyNodeList{}, elements...)
+func (ss ResultList) Unshift(elements ...*Result) (unshift ResultList) {
+	unshift = append(ResultList{}, elements...)
 	unshift = append(unshift, ss...)
 
 	return

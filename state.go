@@ -81,7 +81,7 @@ func worker() error {
 	if !s.Config.DisableCheckAlive {
 		log.Info("register proxy check")
 		proxyCheck := proxycheck.NewProxyCheck()
-		err := proxyCheck.Start()
+		err := proxyCheck.Init()
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

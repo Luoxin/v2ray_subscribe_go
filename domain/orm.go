@@ -1,15 +1,15 @@
 package domain
 
 import (
+	"bytes"
 	"database/sql/driver"
 	"encoding/json"
-
-	"bytes"
 	"fmt"
+	"reflect"
+
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 	"github.com/pkg/errors"
-	"reflect"
 )
 
 func Scan(src interface{}, dst proto.Message) error {
