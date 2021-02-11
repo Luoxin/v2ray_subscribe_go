@@ -3,49 +3,50 @@ module subsrcibe
 go 1.15
 
 require (
-	github.com/Dreamacro/clash lastest
-	github.com/PuerkitoBio/goquery lastest
-	github.com/Sansui233/proxypool lastest
-	github.com/antchfx/xmlquery lastest
-	github.com/antchfx/xpath lastest
-	github.com/antonfisher/nested-logrus-formatter lastest
-	github.com/bluele/gcache lastest
-	github.com/d-tsuji/clipboard lastest
-	github.com/eddieivan01/nic lastest
-	github.com/elliotchance/pie lastest
-	github.com/gin-gonic/gin lastest
-	github.com/go-playground/validator/v10 lastest
-	github.com/gofrs/uuid lastest
-	github.com/golang/protobuf lastest
-	github.com/google/uuid lastest
-	github.com/gookit/color lastest
-	github.com/leodido/go-urn lastest
-	github.com/magiconair/properties lastest
-	github.com/mitchellh/mapstructure lastest
-	github.com/oschwald/geoip2-golang lastest
-	github.com/panjf2000/ants/v2 lastest
-	github.com/pelletier/go-toml lastest
-	github.com/pkg/errors lastest
-	github.com/roylee0704/gron lastest
-	github.com/sirupsen/logrus lastest
-	github.com/spf13/afero lastest
-	github.com/spf13/cast lastest
-	github.com/spf13/jwalterweatherman lastest
-	github.com/spf13/pflag lastest
-	github.com/spf13/viper lastest
-	github.com/thedevsaddam/retry lastest
-	github.com/ugorji/go lastest
-	github.com/whiteshtef/clockwork lastest
-	github.com/xxjwxc/ginrpc lastest
-	github.com/xxjwxc/public lastest
-	go.uber.org/multierr lastest
-	go.uber.org/zap lastest
-	golang.org/x/net lastest
-	golang.org/x/sys lastest
-	golang.org/x/text lastest
-	google.golang.org/appengine lastest
-	gopkg.in/ini.v1 lastest
-	gorm.io/driver/mysql lastest
-	gorm.io/driver/sqlite lastest
-	gorm.io/gorm lastest
+	github.com/Dreamacro/clash v1.3.5
+	github.com/PuerkitoBio/goquery v1.6.1 // indirect
+	github.com/Sansui233/proxypool v0.5.3
+	github.com/antchfx/xmlquery v1.3.3 // indirect
+	github.com/antchfx/xpath v1.1.11 // indirect
+	github.com/antonfisher/nested-logrus-formatter v1.3.0
+	github.com/bluele/gcache v0.0.0-20190518031135-bc40bd653833
+	github.com/d-tsuji/clipboard v0.0.3
+	github.com/eddieivan01/nic v0.3.1
+	github.com/elliotchance/pie v1.38.1
+	github.com/gin-gonic/gin v1.6.3
+	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/go-redis/redis/v8 v8.4.11 // indirect
+	github.com/gofrs/uuid v4.0.0+incompatible // indirect
+	github.com/golang/protobuf v1.4.3
+	github.com/google/uuid v1.2.0 // indirect
+	github.com/gookit/color v1.3.7 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/magiconair/properties v1.8.4 // indirect
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/oschwald/geoip2-golang v1.4.0
+	github.com/panjf2000/ants/v2 v2.4.3
+	github.com/pelletier/go-toml v1.8.1 // indirect
+	github.com/pkg/errors v0.9.1
+	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
+	github.com/sirupsen/logrus v1.7.0
+	github.com/spf13/afero v1.5.1 // indirect
+	github.com/spf13/cast v1.3.1 // indirect
+	github.com/spf13/jwalterweatherman v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/viper v1.7.1
+	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
+	github.com/ugorji/go v1.2.4 // indirect
+	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
+	github.com/xxjwxc/ginrpc v1.0.0
+	github.com/xxjwxc/gowp v0.0.0-20200603130651-4d7368b0e285 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/zap v1.16.0 // indirect
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
+	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
+	golang.org/x/text v0.3.5 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	gopkg.in/ini.v1 v1.62.0 // indirect
+	gorm.io/driver/mysql v1.0.4
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.12
 )
