@@ -8,6 +8,8 @@ import (
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 
+	"github.com/d-tsuji/clipboard"
+
 	"subsrcibe/parser"
 	"subsrcibe/proxycheck"
 )
@@ -62,6 +64,7 @@ func main() {
 
 		check.WaitFinish()
 
+		var text string
 		resultList.Filter(func(result *proxycheck.Result) bool {
 			return result.Err == nil
 		}).SortUsing(func(a, b *proxycheck.Result) bool {
@@ -70,7 +73,13 @@ func main() {
 			return a.Speed > b.Speed
 		}).Top(5).Each(func(result *proxycheck.Result) {
 			fmt.Println(result.ProxyUrl)
+			text += fmt.Sprintf("%s\n", result.ProxyUrl)
 		})
+
+		err = clipboard.Set(text)
+		if err != nil {
+			log.Errorf("err:%v", err)
+		}
 
 		return nil
 	}()
