@@ -32,7 +32,7 @@ func main() {
 	log.SetReportCaller(true)
 
 	err := func() error {
-		resp, err := nic.Get("http://127.0.0.0:8080", nil)
+		resp, err := nic.Get("http://api.luoxin.live/api/subscribe.subscription", nil)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
@@ -53,7 +53,7 @@ func main() {
 
 		var resultList proxycheck.ResultList
 		parser.NewFuzzyMatchingParser().ParserText(resp.Text).Unique().Each(func(s string) {
-			err := check.Add(s, func(result proxycheck.Result) error {
+			err := check.AddWithLink(s, func(result proxycheck.Result) error {
 				resultList = append(resultList, &result)
 				return nil
 			})

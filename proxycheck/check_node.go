@@ -69,11 +69,11 @@ func (p *ProxyCheck) SetMaxSize(size int) error {
 	return nil
 }
 
-func (p *ProxyCheck) Add(nodeUrl string, logic func(result Result) error) error {
+func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) error) error {
 	p.w.Add(1)
 	err := p.pool.Submit(func() {
 		defer p.w.Done()
-		delay, speed, err := p.Check(nodeUrl)
+		delay, speed, err := p.CheckWithClash(nodeUrl)
 		err = retry.DoFunc(5, 500*time.Millisecond, func() error {
 			err = logic(Result{
 				ProxyUrl: nodeUrl,
@@ -100,15 +100,25 @@ func (p *ProxyCheck) Add(nodeUrl string, logic func(result Result) error) error 
 	return nil
 }
 
-func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
+func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error) error {
 	proxyConfig, err := proxy.ParseProxyToClash(nodeUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return 0, 0, err
+		return err
 	}
 
+	err = p.AddWithClash(proxyConfig, logic)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return nil
+}
+
+func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error) {
 	var proxyItem map[string]interface{}
-	err = json.Unmarshal([]byte(proxyConfig), &proxyItem)
+	err := json.Unmarshal([]byte(clashConfig), &proxyItem)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return 0, 0, err
@@ -139,6 +149,16 @@ func (p *ProxyCheck) Check(nodeUrl string) (float64, float64, error) {
 	}
 
 	return float64(delay.Milliseconds()), speed, nil
+}
+
+func (p *ProxyCheck) CheckWithLink(nodeUrl string) (float64, float64, error) {
+	proxyConfig, err := proxy.ParseProxyToClash(nodeUrl)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return 0, 0, err
+	}
+
+	return p.CheckWithClash(proxyConfig)
 }
 
 func (p *ProxyCheck) WaitFinish() {

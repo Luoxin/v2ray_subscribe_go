@@ -13,6 +13,7 @@ import (
 
 	"subsrcibe/domain"
 	"subsrcibe/proxy"
+	"subsrcibe/title"
 )
 
 type clashInfo struct {
@@ -34,7 +35,7 @@ func NewCoverSubscribe() *CoverSubscribe {
 
 func (c *CoverSubscribe) Nodes2Clash(nodes []*domain.ProxyNode) string {
 
-	titleGen := NewProxyTitle()
+	titleGen := title.NewProxyTitle()
 
 	for _, node := range nodes {
 		if node.NodeDetail == nil {

@@ -13,6 +13,7 @@ import (
 	"github.com/xxjwxc/ginrpc/api"
 
 	"subsrcibe/domain"
+	"subsrcibe/title"
 	"subsrcibe/utils"
 )
 
@@ -47,7 +48,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 		return
 	}
 
-	titleGen := utils.NewProxyTitle()
+	titleGen := title.NewProxyTitle()
 
 	var nodeList []string
 	ProxyNodeList(nodes).Each(func(node *domain.ProxyNode) {

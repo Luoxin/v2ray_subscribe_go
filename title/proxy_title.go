@@ -1,9 +1,10 @@
-package utils
+package title
 
 import (
-	"github.com/elliotchance/pie/pie"
 	"math/rand"
 	"time"
+
+	"github.com/elliotchance/pie/pie"
 )
 
 type ProxyTitle struct {
@@ -22,6 +23,10 @@ func (t *ProxyTitle) Get() string {
 	title := canUseList.Random(rand.NewSource(time.Now().UnixNano()))
 	t.usedList = append(t.usedList, title)
 	return title
+}
+
+func Random() string {
+	return TitleList.Unique().Random(rand.NewSource(time.Now().UnixNano()))
 }
 
 var TitleList = pie.Strings{

@@ -30,7 +30,7 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 			return
 		}
 
-		err = check.Add(node.NodeDetail.Buf, func(result proxycheck.Result) error {
+		err = check.AddWithLink(node.NodeDetail.Buf, func(result proxycheck.Result) error {
 			if result.Err != nil {
 				log.Errorf("err:%v", result.Err)
 				node.DeathCount++
