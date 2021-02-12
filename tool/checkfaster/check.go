@@ -32,7 +32,7 @@ func main() {
 	log.SetReportCaller(true)
 
 	err := func() error {
-		resp, err := nic.Get("http://api.luoxin.live/api/subscribe.subscription", nil)
+		resp, err := nic.Get("http://127.0.0.1:8080", nil)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
