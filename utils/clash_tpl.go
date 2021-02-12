@@ -173,11 +173,9 @@ proxy-groups:
       - 🇰🇷 韩国节点
       - 🚀 手动切换
   - name: 🎶 网易音乐
-    type: select
-    proxies:
-      - DIRECT
-      - 🚀 节点选择
-      - ♻️ 自动选择
+    type: socks5
+    server: 158.199.142.239
+    port: 8889
   - name: 🎯 全球直连
     type: select
     proxies:

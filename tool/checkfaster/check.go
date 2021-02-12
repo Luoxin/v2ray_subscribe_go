@@ -72,7 +72,6 @@ func main() {
 		}).SortUsing(func(a, b *proxycheck.Result) bool {
 			return a.Speed > b.Speed
 		}).Top(5).Each(func(result *proxycheck.Result) {
-			fmt.Println(result.ProxyUrl)
 			text += fmt.Sprintf("%s\n", result.ProxyUrl)
 		})
 
@@ -80,6 +79,8 @@ func main() {
 		if err != nil {
 			log.Errorf("err:%v", err)
 		}
+
+		fmt.Println(text)
 
 		return nil
 	}()
