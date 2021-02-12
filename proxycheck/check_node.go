@@ -101,17 +101,35 @@ func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) erro
 }
 
 func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error) error {
-	proxyConfig, err := proxy.ParseProxyToClash(nodeUrl)
+	p.w.Add(1)
+	err := p.pool.Submit(func() {
+		defer p.w.Done()
+
+		delay, speed, err := p.CheckWithLink(nodeUrl)
+		err = retry.DoFunc(5, 500*time.Millisecond, func() error {
+			err = logic(Result{
+				ProxyUrl: nodeUrl,
+				Delay:    delay,
+				Speed:    speed,
+				Err:      err,
+			})
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return err
+			}
+			return nil
+		})
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+	})
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
 	}
 
-	err = p.AddWithClash(proxyConfig, logic)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
+	return nil
 
 	return nil
 }
