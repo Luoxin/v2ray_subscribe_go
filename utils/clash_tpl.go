@@ -27,6 +27,7 @@ proxy-groups:
   - name: 🚀 手动切换
     type: select
     proxies:
+      - DIRECT
       {{.NameList}}
   - name: ♻️ 自动选择
     type: url-test
@@ -34,6 +35,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
+      - DIRECT
       {{.NameList}}
   - name: 🔯 故障转移
     type: fallback
@@ -41,6 +43,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
+      - DIRECT
       {{.NameList}}
   - name: 🔮 负载均衡
     type: load-balance
@@ -48,6 +51,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
+      - DIRECT
       {{.NameList}}
   - name: 📲 电报消息
     type: select
@@ -99,6 +103,7 @@ proxy-groups:
   - name: 📺 哔哩哔哩
     type: select
     proxies:
+      - DIRECT
       - 🎯 全球直连
       - 🇨🇳 台湾节点
       - 🇭🇰 香港节点
@@ -173,9 +178,9 @@ proxy-groups:
       - 🇰🇷 韩国节点
       - 🚀 手动切换
   - name: 🎶 网易音乐
-    type: socks5
-    server: 158.199.142.239
-    port: 8889
+    type: select
+    proxies:
+      - DIRECT
   - name: 🎯 全球直连
     type: select
     proxies:
