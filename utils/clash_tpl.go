@@ -1,5 +1,7 @@
 package utils
 
+// 国家 emoji 图标集 https://github.com/risan/country-flag-emoji/blob/master/src/data.js
+
 const ClashTpl = `# port: 7890
 # socks-port: 7891
 mixed-port: 7890
