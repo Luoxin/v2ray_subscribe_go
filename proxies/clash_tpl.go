@@ -2721,7 +2721,7 @@ rules:
  - DOMAIN-SUFFIX,agenoming.club,🆎 AdBlock
  - DOMAIN-SUFFIX,aggravedgaree.info,🆎 AdBlock
  - DOMAIN-SUFFIX,aggressiveracketscout.com,🆎 AdBlock
- - DOMAIN-SUFFIX,aghchnfzt.com,��� AdBlock
+ - DOMAIN-SUFFIX,aghchnfzt.com,🆎 AdBlock
  - DOMAIN-SUFFIX,agicalleanor.club,🆎 AdBlock
  - DOMAIN-SUFFIX,agkxwjwutrhw.com,🆎 AdBlock
  - DOMAIN-SUFFIX,agmx1h9wswdb.com,🆎 AdBlock
@@ -20611,7 +20611,7 @@ rules:
  - DOMAIN-SUFFIX,secure-stat.canal-plus.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,secure.merchantadvantage.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,securite.01net.com,🛡️ 隐私防护
- - DOMAIN-SUFFIX,seg.sharethis.com,🛡�� 隐私防护
+ - DOMAIN-SUFFIX,seg.sharethis.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,sem.triboomedia.it,🛡️ 隐私防护
  - DOMAIN-SUFFIX,serv1swork.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,servedby.o2.co.uk,🛡️ 隐私防护
@@ -25698,7 +25698,7 @@ rules:
  - DOMAIN-SUFFIX,okayfreedom.com,🚀 节点选择
  - DOMAIN-SUFFIX,okex.com,🚀 节点选择
  - DOMAIN-SUFFIX,okk.tw,🚀 节点选择
- - DOMAIN-SUFFIX,olabloga.pl,🚀 节点选���
+ - DOMAIN-SUFFIX,olabloga.pl,🚀 节点选择
  - DOMAIN-SUFFIX,old-cat.net,🚀 节点选择
  - DOMAIN-SUFFIX,olumpo.com,🚀 节点选择
  - DOMAIN-SUFFIX,olympicwatch.org,🚀 节点选择
