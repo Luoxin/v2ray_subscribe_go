@@ -1,4 +1,4 @@
-package main
+package http
 
 import (
 	"encoding/base64"
@@ -12,8 +12,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/xxjwxc/ginrpc/api"
 
+	"subsrcibe/conf"
+	"subsrcibe/db"
 	"subsrcibe/domain"
 	"subsrcibe/proxies"
+	"subsrcibe/task"
 	"subsrcibe/title"
 	"subsrcibe/utils"
 )
@@ -38,7 +41,7 @@ type AddNodeRsp struct {
 
 // @Router /version [post,get]
 func (*Subscribe) Version(c *api.Context) {
-	c.String(http.StatusOK, version)
+	c.String(http.StatusOK, conf.Version)
 }
 
 // @Router /subscription [get]
@@ -52,7 +55,7 @@ func (*Subscribe) Subscription(c *api.Context) {
 	titleGen := title.NewProxyTitle()
 
 	var nodeList []string
-	ProxyNodeList(nodes).Each(func(node *domain.ProxyNode) {
+	nodes.Each(func(node *domain.ProxyNode) {
 		if node.NodeDetail == nil {
 			return
 		}
@@ -110,7 +113,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 	}
 
 	if !force {
-		value, err := s.Cache.Get(clashCacheKey)
+		value, err := conf.Cache.Get(clashCacheKey)
 		if err != nil {
 			if err != gcache.KeyNotFoundError {
 				log.Errorf("err:%v", err)
@@ -139,7 +142,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 
 	val := p.ToClashConfig()
 	if val != "" {
-		err = s.Cache.SetWithExpire(clashCacheKey, val, time.Minute*5)
+		err = conf.Cache.SetWithExpire(clashCacheKey, val, time.Minute*5)
 		if err != nil {
 			log.Errorf("err:%v", err)
 		}
@@ -152,7 +155,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error) {
 	var rsp AddNodeRsp
 
-	err := addNode(node.NodeUrl, 0, 0)
+	err := task.AddNode(node.NodeUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return nil, err
@@ -166,8 +169,8 @@ func (*Subscribe) Pac(c *api.Context) {
 }
 
 func GetUsableNodeList() (domain.ProxyNodeList, error) {
-	var nodes []*domain.ProxyNode
-	err := s.Db.Where("is_close = ?", false).
+	var nodes domain.ProxyNodeList
+	err := db.Db.Where("is_close = ?", false).
 		Where("proxy_speed >= 0 ").
 		// Where("proxy_node_type = 1").
 		Where("available_count > 0 ").

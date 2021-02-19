@@ -1,4 +1,4 @@
-package main
+package task
 
 import (
 	"encoding/json"
@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"subsrcibe/conf"
+	"subsrcibe/db"
 	"subsrcibe/parser"
 	"subsrcibe/proxy"
 
@@ -13,6 +16,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
+	conf2 "subsrcibe/conf"
 	"subsrcibe/domain"
 	"subsrcibe/utils"
 )
@@ -21,7 +25,7 @@ func crawler() error {
 	log.Infof("start crawler......")
 
 	var crawlerList []*domain.CrawlerConf
-	err := s.Db.Where("is_closed = ?", false).
+	err := db.Db.Where("is_closed = ?", false).
 		Where("next_at < ?", utils.Now()).
 		Order("next_at").
 		//Limit(1).
@@ -31,7 +35,7 @@ func crawler() error {
 		return err
 	}
 
-	CrawlerConfList(crawlerList).
+	domain.CrawlerConfList(crawlerList).
 		Each(func(conf *domain.CrawlerConf) {
 			if conf.CrawlUrl == "" {
 				log.Errorf("crawler url empty: %d", conf.Id)
@@ -54,7 +58,7 @@ func crawler() error {
 				rule := conf.Rule
 				if rule != nil {
 					if rule.UseProxy {
-						opt.Proxy = s.Config.Proxies
+						opt.Proxy = conf2.Config.Proxies
 					}
 				}
 
@@ -115,14 +119,14 @@ func crawler() error {
 
 			if conf.NextAt < utils.Now() {
 				if conf.Interval == 0 {
-					conf.Interval = s.Config.CrawlerInterval
+					conf.Interval = conf2.Config.CrawlerInterval
 				}
 
 				conf.NextAt = conf.Interval + utils.Now()
 			}
 
 			// 保存数据
-			err = s.Db.Omit("created_at").Save(conf).Error
+			err = db.Db.Omit("created_at").Save(conf).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return
@@ -132,9 +136,19 @@ func crawler() error {
 	return nil
 }
 
+func AddNode(nodeUrl string) error {
+	err := addNode(nodeUrl, 0, 0)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return nil
+}
+
 func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 	if checkInterval == 0 {
-		checkInterval = s.Config.CheckInterval
+		checkInterval = conf.Config.CheckInterval
 	}
 
 	proxyNodeType := utils.GetProxyNodeType(ru)
@@ -202,17 +216,17 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		}
 
 	default:
-		return ErrInvalidArg
+		return errors.New("invalid args")
 	}
 
 	var oldNode domain.ProxyNode
-	err = s.Db.Where("url = ?", node.Url).First(&oldNode).Error
+	err = db.Db.Where("url = ?", node.Url).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建
 			log.Infof("add new proxy node: %v", node.Url)
 			node.CreatedAt = utils.Now()
-			err = s.Db.Create(&node).Error
+			err = db.Db.Create(&node).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
@@ -233,7 +247,7 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		node.NextCheckAt = oldNode.NextCheckAt
 		node.AvailableCount = oldNode.AvailableCount
 
-		err = s.Db.Save(node).Error
+		err = db.Db.Save(node).Error
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

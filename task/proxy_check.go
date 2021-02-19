@@ -1,7 +1,9 @@
-package main
+package task
 
 import (
 	log "github.com/sirupsen/logrus"
+
+	"subsrcibe/db"
 	"subsrcibe/domain"
 	"subsrcibe/proxycheck"
 	"subsrcibe/utils"
@@ -9,7 +11,7 @@ import (
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {
 	var nodeList domain.ProxyNodeList
-	err := s.Db.Where("is_close = ?", false).
+	err := db.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
 		Where("death_count < ?", 50).
 		Order("next_check_at").
@@ -48,7 +50,7 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 			node.ProxySpeed = result.Speed
 			node.ProxyNetworkDelay = result.Delay
 
-			err = s.Db.Omit("node_detail", "url", "proxy_node_type").Save(node).Error
+			err = db.Db.Omit("node_detail", "url", "proxy_node_type").Save(node).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err

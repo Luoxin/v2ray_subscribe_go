@@ -95,16 +95,13 @@ func (ss ProxyNodeList) Diff(against ProxyNodeList) (added, removed ProxyNodeLis
 	// slices to see which items are missing in each direction.
 
 	diffOneWay := func(ss1, ss2raw ProxyNodeList) (result ProxyNodeList) {
-		ss2 := make(ProxyNodeList, len(ss2raw))
-		copy(ss2, ss2raw)
-
 		for _, s := range ss1 {
 			found := false
 
-			for i, element := range ss2 {
+			for _, element := range ss2raw {
 				if s == element {
-					ss2 = append(ss2[:i], ss2[i+1:]...)
 					found = true
+					break
 				}
 			}
 
@@ -422,7 +419,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*ProxyNode]int)
+	values := make(map[*ProxyNode]int, 0)
 	for _, s := range ss {
 		values[s]++
 	}

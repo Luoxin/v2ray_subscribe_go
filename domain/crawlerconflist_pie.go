@@ -95,16 +95,13 @@ func (ss CrawlerConfList) Diff(against CrawlerConfList) (added, removed CrawlerC
 	// slices to see which items are missing in each direction.
 
 	diffOneWay := func(ss1, ss2raw CrawlerConfList) (result CrawlerConfList) {
-		ss2 := make(CrawlerConfList, len(ss2raw))
-		copy(ss2, ss2raw)
-
 		for _, s := range ss1 {
 			found := false
 
-			for i, element := range ss2 {
+			for _, element := range ss2raw {
 				if s == element {
-					ss2 = append(ss2[:i], ss2[i+1:]...)
 					found = true
+					break
 				}
 			}
 
@@ -422,7 +419,7 @@ func (ss CrawlerConfList) Mode() CrawlerConfList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*CrawlerConf]int)
+	values := make(map[*CrawlerConf]int, 0)
 	for _, s := range ss {
 		values[s]++
 	}

@@ -1,61 +1,25 @@
-package main
+package task
 
 import (
-	"subsrcibe/proxycheck"
 	"sync"
 
-	"github.com/bluele/gcache"
 	"github.com/roylee0704/gron"
 	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
 	"github.com/whiteshtef/clockwork"
-	"gorm.io/gorm"
+
+	"subsrcibe/conf"
+	"subsrcibe/db"
+	"subsrcibe/proxycheck"
 )
 
-type State struct {
-	Config *Config
-	Db     *gorm.DB
-	Cache  gcache.Cache
-}
-
-var s *State
-
-func initState() error {
-	s = &State{
-		Config: &Config{},
-	}
-
-	err := initConfig()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	cache := gcache.New(20).LRU().Build()
-	s.Cache = cache
-
-	err = initDb()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	err = worker()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	return nil
-}
-
-func worker() error {
+func InitWorker() error {
 	c := gron.New()
 
 	sched := clockwork.NewScheduler()
 
 	var w sync.WaitGroup
-	if !s.Config.DisableCrawl {
+	if !conf.Config.DisableCrawl {
 		log.Info("register crawler")
 
 		w.Add(1)
@@ -78,7 +42,7 @@ func worker() error {
 		log.Warnf("crawler not start")
 	}
 
-	if !s.Config.DisableCheckAlive {
+	if !conf.Config.DisableCheckAlive {
 		log.Info("register proxy check")
 		proxyCheck := proxycheck.NewProxyCheck()
 		err := proxyCheck.Init()
@@ -106,7 +70,7 @@ func worker() error {
 		})
 
 		sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
-			err := s.Db.
+			err := db.Db.
 				Where("death_count > ?", 40).
 				Where("available_count > ?", 0).
 				Updates(map[string]interface{}{
@@ -121,7 +85,7 @@ func worker() error {
 		})
 
 	} else {
-		log.Warnf("proxy chec not start")
+		log.Warnf("proxy check not start")
 	}
 
 	c.Start()

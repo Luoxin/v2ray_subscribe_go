@@ -1,23 +1,27 @@
-package main
+package db
 
 import (
 	"errors"
+	"strings"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"strings"
+
 	"subsrcibe/domain"
 )
 
-func initDb() error {
-	log.Infof("connect to database %v", s.Config.DbAddr)
+var Db *gorm.DB
 
-	addrList := strings.Split(s.Config.DbAddr, "://")
+func InitDb(dbAddr string) error {
+	log.Infof("connect to database %v", dbAddr)
+
+	addrList := strings.Split(dbAddr, "://")
 	if len(addrList) < 2 {
 		log.Errorf("Wrong database address")
-		return ErrInvalidArg
+		return errors.New("invalid args")
 	}
 
 	var d gorm.Dialector
@@ -55,7 +59,7 @@ func initDb() error {
 		return err
 	}
 
-	s.Db = db.Debug()
+	Db = db.Debug()
 
 	return nil
 }
