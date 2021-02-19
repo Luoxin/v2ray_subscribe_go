@@ -9,5 +9,5 @@ import (
 )
 
 func main() {
-	subsrcibe.Start(subsrcibe.FlagAll)
+	subsrcibe.Start()
 }

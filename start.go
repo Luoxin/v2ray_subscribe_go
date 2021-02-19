@@ -9,24 +9,17 @@ import (
 	"subsrcibe/task"
 )
 
-const (
-	FlagHttpService = 1 << 0
-	FlagAll         = 0xffffffff
-)
-
-func Start(flag int) {
-	c := make(chan bool)
-
+func Init() error {
 	err := conf.InitConfig()
 	if err != nil {
 		log.Fatalf("init config err:%v", err)
-		return
+		return err
 	}
 
 	err = db.InitDb(conf.Config.DbAddr)
 	if err != nil {
-		log.Fatalf("init config err:%v", err)
-		return
+		log.Fatalf("init db err:%v", err)
+		return err
 	}
 
 	log.Info("init conf success")
@@ -34,19 +27,29 @@ func Start(flag int) {
 	err = task.InitWorker()
 	if err != nil {
 		log.Fatalf("init work err:%v", err)
-		return
+		return err
 	}
 
 	log.Info("init worker success")
 
-	if FlagHttpService&flag > 0 || !conf.Config.DisableHttpService {
-		err = http.InitHttpService()
-		if err != nil {
-			log.Fatalf("init work err:%v", err)
-			return
-		}
+	err = http.InitHttpService()
+	if err != nil {
+		log.Fatalf("init http service err:%v", err)
+		return err
+	}
 
-		log.Info("init http service success")
+	log.Info("init http service success")
+
+	return nil
+}
+
+func Start() {
+	c := make(chan bool)
+
+	err := Init()
+	if err != nil {
+		log.Fatalf("err:%v", err)
+		return
 	}
 
 	<-c
