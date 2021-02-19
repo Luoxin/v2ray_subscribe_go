@@ -24,21 +24,21 @@ proxies:
 {{ range .ProxyNameList}}      - {{ .}}
 {{ end}}  - name: ♻️ 自动选择
     type: url-test
-    url: http://www.gstatic.com/generate_204
+    url: {{.TestUrl}}
     interval: 300
     tolerance: 50
     proxies:
 {{ range .ProxyNameList}}      - {{ .}}
 {{ end}}  - name: 🔯 故障转移
     type: fallback
-    url: http://www.gstatic.com/generate_204
+    url: {{.TestUrl}}
     interval: 300
     tolerance: 50
     proxies:
 {{ range .ProxyNameList}}      - {{ .}}
 {{ end}}  - name: 🔮 负载均衡
     type: load-balance
-    url: http://www.gstatic.com/generate_204
+    url: {{.TestUrl}}
     interval: 300
     tolerance: 50
     proxies:
@@ -163,8 +163,8 @@ proxies:
 {{ range .CountryGroupList}}      - {{ .}}
 {{ end}}      - 🚀 手动切换
 {{ range .CountryNodeList}}  - name: {{.Emoji}} {{.Name}}
-    type: url-test
-    url: http://www.gstatic.com/generate_204
+    type: fallback
+    url: {{.TestUrl}}
     interval: 300
     tolerance: 50
     proxies:
@@ -174,7 +174,7 @@ proxies:
     proxies:
       - DIRECT
 rule-providers:
-  reject:
+  REJECT:
     type: http
     behavior: domain
     url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
@@ -204,7 +204,7 @@ rule-providers:
     url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
     path: ./ruleset/proxy.yaml
     interval: 86400
-  direct:
+  DIRECT:
     type: http
     behavior: domain
     url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"

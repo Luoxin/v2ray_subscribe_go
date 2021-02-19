@@ -176,6 +176,7 @@ func (ps *Proxies) ToClashConfig() string {
 		"ProxyNameList":    proxyNameList,
 		"CountryNodeList":  countryNodeList,
 		"CountryGroupList": countryGroupList,
+		"TestUrl":          "http://www.gstatic.com/generate_204",
 	})
 	if err != nil {
 		log.Errorf("err:%v", err)
