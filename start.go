@@ -9,7 +9,12 @@ import (
 	"subsrcibe/task"
 )
 
-func Start() {
+const (
+	FlagHttpService = 1 << 0
+	FlagAll         = 0xffffffff
+)
+
+func Start(flag int) {
 	c := make(chan bool)
 
 	err := conf.InitConfig()
@@ -34,14 +39,15 @@ func Start() {
 
 	log.Info("init worker success")
 
-	err = http.InitHttpService()
-	if err != nil {
-		log.Fatalf("init work err:%v", err)
-		return
-	}
+	if FlagHttpService&flag > 0 || !conf.Config.DisableHttpService {
+		err = http.InitHttpService()
+		if err != nil {
+			log.Fatalf("init work err:%v", err)
+			return
+		}
 
-	log.Info("init http service success")
+		log.Info("init http service success")
+	}
 
 	<-c
 }
-
