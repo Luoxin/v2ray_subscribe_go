@@ -1,25 +1,22 @@
-package proxies
+package country
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/elliotchance/pie/pie"
+	"github.com/elliotchance/pie/pie/util"
 	"math/rand"
 	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/elliotchance/pie/pie"
-	"github.com/elliotchance/pie/pie/util"
-
-	"subsrcibe/proxy"
 )
 
 // All will return true if all callbacks return true. It follows the same logic
 // as the all() function in Python.
 //
 // If the list is empty then true is always returned.
-func (ss ProxyList) All(fn func(value proxy.Proxy) bool) bool {
+func (ss CountryList) All(fn func(value *CountryInfo) bool) bool {
 	for _, value := range ss {
 		if !fn(value) {
 			return false
@@ -33,7 +30,7 @@ func (ss ProxyList) All(fn func(value proxy.Proxy) bool) bool {
 // as the any() function in Python.
 //
 // If the list is empty then false is always returned.
-func (ss ProxyList) Any(fn func(value proxy.Proxy) bool) bool {
+func (ss CountryList) Any(fn func(value *CountryInfo) bool) bool {
 	for _, value := range ss {
 		if fn(value) {
 			return true
@@ -46,10 +43,10 @@ func (ss ProxyList) Any(fn func(value proxy.Proxy) bool) bool {
 // Append will return a new slice with the elements appended to the end.
 //
 // It is acceptable to provide zero arguments.
-func (ss ProxyList) Append(elements ...proxy.Proxy) ProxyList {
+func (ss CountryList) Append(elements ...*CountryInfo) CountryList {
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #97.
-	result := append(ProxyList{}, ss...)
+	result := append(CountryList{}, ss...)
 
 	result = append(result, elements...)
 	return result
@@ -61,7 +58,7 @@ func (ss ProxyList) Append(elements ...proxy.Proxy) ProxyList {
 // for this [1,2,3] slice with n == 2 will be returned [3,2]
 // if the slice has less elements then n that'll return all elements
 // if n < 0 it'll return empty slice.
-func (ss ProxyList) Bottom(n int) (top ProxyList) {
+func (ss CountryList) Bottom(n int) (top CountryList) {
 	var lastIndex = len(ss) - 1
 	for i := lastIndex; i > -1 && n > 0; i-- {
 		top = append(top, ss[i])
@@ -74,7 +71,7 @@ func (ss ProxyList) Bottom(n int) (top ProxyList) {
 // Contains returns true if the element exists in the slice.
 //
 // When using slices of pointers it will only compare by address, not value.
-func (ss ProxyList) Contains(lookingFor proxy.Proxy) bool {
+func (ss CountryList) Contains(lookingFor *CountryInfo) bool {
 	for _, s := range ss {
 		if lookingFor == s {
 			return true
@@ -92,12 +89,12 @@ func (ss ProxyList) Contains(lookingFor proxy.Proxy) bool {
 //
 // The added and removed returned may be blank respectively, or contain upto as
 // many elements that exists in the largest slice.
-func (ss ProxyList) Diff(against ProxyList) (added, removed ProxyList) {
+func (ss CountryList) Diff(against CountryList) (added, removed CountryList) {
 	// This is probably not the best way to do it. We do an O(n^2) between the
 	// slices to see which items are missing in each direction.
 
-	diffOneWay := func(ss1, ss2raw ProxyList) (result ProxyList) {
-		ss2 := make(ProxyList, len(ss2raw))
+	diffOneWay := func(ss1, ss2raw CountryList) (result CountryList) {
+		ss2 := make(CountryList, len(ss2raw))
 		copy(ss2, ss2raw)
 
 		for _, s := range ss1 {
@@ -127,14 +124,14 @@ func (ss ProxyList) Diff(against ProxyList) (added, removed ProxyList) {
 // DropTop will return the rest slice after dropping the top n elements
 // if the slice has less elements then n that'll return empty slice
 // if n < 0 it'll return empty slice.
-func (ss ProxyList) DropTop(n int) (drop ProxyList) {
+func (ss CountryList) DropTop(n int) (drop CountryList) {
 	if n < 0 || n >= len(ss) {
 		return
 	}
 
 	// Copy ss, to make sure no memory is overlapping between input and
 	// output. See issue #145.
-	drop = make([]proxy.Proxy, len(ss)-n)
+	drop = make([]*CountryInfo, len(ss)-n)
 	copy(drop, ss[n:])
 
 	return
@@ -155,7 +152,7 @@ func (ss ProxyList) DropTop(n int) (drop ProxyList) {
 //       car.Color = "Red"
 //   })
 //
-func (ss ProxyList) Each(fn func(proxy.Proxy)) ProxyList {
+func (ss CountryList) Each(fn func(*CountryInfo)) CountryList {
 	for _, s := range ss {
 		fn(s)
 	}
@@ -169,7 +166,7 @@ func (ss ProxyList) Each(fn func(proxy.Proxy)) ProxyList {
 // if each slice == nil is considered that they're equal
 //
 // if element realizes Equals interface it uses that method, in other way uses default compare
-func (ss ProxyList) Equals(rhs ProxyList) bool {
+func (ss CountryList) Equals(rhs CountryList) bool {
 	if len(ss) != len(rhs) {
 		return false
 	}
@@ -187,7 +184,7 @@ func (ss ProxyList) Equals(rhs ProxyList) bool {
 // end.
 //
 // It is acceptable to provide zero arguments.
-func (ss ProxyList) Extend(slices ...ProxyList) (ss2 ProxyList) {
+func (ss CountryList) Extend(slices ...CountryList) (ss2 CountryList) {
 	ss2 = ss
 
 	for _, slice := range slices {
@@ -201,7 +198,7 @@ func (ss ProxyList) Extend(slices ...ProxyList) (ss2 ProxyList) {
 // true from the condition. The returned slice may contain zero elements (nil).
 //
 // FilterNot works in the opposite way of Filter.
-func (ss ProxyList) Filter(condition func(proxy.Proxy) bool) (ss2 ProxyList) {
+func (ss CountryList) Filter(condition func(*CountryInfo) bool) (ss2 CountryList) {
 	for _, s := range ss {
 		if condition(s) {
 			ss2 = append(ss2, s)
@@ -213,7 +210,7 @@ func (ss ProxyList) Filter(condition func(proxy.Proxy) bool) (ss2 ProxyList) {
 // FilterNot works the same as Filter, with a negated condition. That is, it will
 // return a new slice only containing the elements that returned false from the
 // condition. The returned slice may contain zero elements (nil).
-func (ss ProxyList) FilterNot(condition func(proxy.Proxy) bool) (ss2 ProxyList) {
+func (ss CountryList) FilterNot(condition func(*CountryInfo) bool) (ss2 CountryList) {
 	for _, s := range ss {
 		if !condition(s) {
 			ss2 = append(ss2, s)
@@ -227,7 +224,7 @@ func (ss ProxyList) FilterNot(condition func(proxy.Proxy) bool) (ss2 ProxyList) 
 // It follows the same logic as the findIndex() function in Javascript.
 //
 // If the list is empty then -1 is always returned.
-func (ss ProxyList) FindFirstUsing(fn func(value proxy.Proxy) bool) int {
+func (ss CountryList) FindFirstUsing(fn func(value *CountryInfo) bool) int {
 	for idx, value := range ss {
 		if fn(value) {
 			return idx
@@ -238,13 +235,13 @@ func (ss ProxyList) FindFirstUsing(fn func(value proxy.Proxy) bool) int {
 }
 
 // First returns the first element, or zero. Also see FirstOr().
-func (ss ProxyList) First() proxy.Proxy {
+func (ss CountryList) First() *CountryInfo {
 	return ss.FirstOr(nil)
 }
 
 // FirstOr returns the first element or a default value if there are no
 // elements.
-func (ss ProxyList) FirstOr(defaultValue proxy.Proxy) proxy.Proxy {
+func (ss CountryList) FirstOr(defaultValue *CountryInfo) *CountryInfo {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -253,7 +250,7 @@ func (ss ProxyList) FirstOr(defaultValue proxy.Proxy) proxy.Proxy {
 }
 
 // Float64s transforms each element to a float64.
-func (ss ProxyList) Float64s() pie.Float64s {
+func (ss CountryList) Float64s() pie.Float64s {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -271,16 +268,16 @@ func (ss ProxyList) Float64s() pie.Float64s {
 }
 
 // Insert a value at an index
-func (ss ProxyList) Insert(index int, values ...proxy.Proxy) ProxyList {
+func (ss CountryList) Insert(index int, values ...*CountryInfo) CountryList {
 	if index >= ss.Len() {
-		return ProxyList.Extend(ss, ProxyList(values))
+		return CountryList.Extend(ss, CountryList(values))
 	}
 
-	return ProxyList.Extend(ss[:index], ProxyList(values), ss[index:])
+	return CountryList.Extend(ss[:index], CountryList(values), ss[index:])
 }
 
 // Ints transforms each element to an integer.
-func (ss ProxyList) Ints() pie.Ints {
+func (ss CountryList) Ints() pie.Ints {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -299,8 +296,8 @@ func (ss ProxyList) Ints() pie.Ints {
 }
 
 // Join returns a string from joining each of the elements.
-func (ss ProxyList) Join(glue string) (s string) {
-	var slice interface{} = []proxy.Proxy(ss)
+func (ss CountryList) Join(glue string) (s string) {
+	var slice interface{} = []*CountryInfo(ss)
 
 	if y, ok := slice.([]string); ok {
 		// The stdlib is efficient for type []string
@@ -320,7 +317,7 @@ func (ss ProxyList) Join(glue string) (s string) {
 //
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array.
-func (ss ProxyList) JSONBytes() []byte {
+func (ss CountryList) JSONBytes() []byte {
 	if ss == nil {
 		return []byte("[]")
 	}
@@ -336,7 +333,7 @@ func (ss ProxyList) JSONBytes() []byte {
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array. See
 // json.MarshalIndent for details.
-func (ss ProxyList) JSONBytesIndent(prefix, indent string) []byte {
+func (ss CountryList) JSONBytesIndent(prefix, indent string) []byte {
 	if ss == nil {
 		return []byte("[]")
 	}
@@ -351,7 +348,7 @@ func (ss ProxyList) JSONBytesIndent(prefix, indent string) []byte {
 //
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array.
-func (ss ProxyList) JSONString() string {
+func (ss CountryList) JSONString() string {
 	if ss == nil {
 		return "[]"
 	}
@@ -367,7 +364,7 @@ func (ss ProxyList) JSONString() string {
 // One important thing to note is that it will treat a nil slice as an empty
 // slice to ensure that the JSON value return is always an array. See
 // json.MarshalIndent for details.
-func (ss ProxyList) JSONStringIndent(prefix, indent string) string {
+func (ss CountryList) JSONStringIndent(prefix, indent string) string {
 	if ss == nil {
 		return "[]"
 	}
@@ -379,12 +376,12 @@ func (ss ProxyList) JSONStringIndent(prefix, indent string) string {
 }
 
 // Last returns the last element, or zero. Also see LastOr().
-func (ss ProxyList) Last() proxy.Proxy {
+func (ss CountryList) Last() *CountryInfo {
 	return ss.LastOr(nil)
 }
 
 // LastOr returns the last element or a default value if there are no elements.
-func (ss ProxyList) LastOr(defaultValue proxy.Proxy) proxy.Proxy {
+func (ss CountryList) LastOr(defaultValue *CountryInfo) *CountryInfo {
 	if len(ss) == 0 {
 		return defaultValue
 	}
@@ -393,7 +390,7 @@ func (ss ProxyList) LastOr(defaultValue proxy.Proxy) proxy.Proxy {
 }
 
 // Len returns the number of elements.
-func (ss ProxyList) Len() int {
+func (ss CountryList) Len() int {
 	return len(ss)
 }
 
@@ -403,12 +400,12 @@ func (ss ProxyList) Len() int {
 // Be careful when using this with slices of pointers. If you modify the input
 // value it will affect the original slice. Be sure to return a new allocated
 // object or deep copy the existing one.
-func (ss ProxyList) Map(fn func(proxy.Proxy) proxy.Proxy) (ss2 ProxyList) {
+func (ss CountryList) Map(fn func(*CountryInfo) *CountryInfo) (ss2 CountryList) {
 	if ss == nil {
 		return nil
 	}
 
-	ss2 = make([]proxy.Proxy, len(ss))
+	ss2 = make([]*CountryInfo, len(ss))
 	for i, s := range ss {
 		ss2[i] = fn(s)
 	}
@@ -420,11 +417,11 @@ func (ss ProxyList) Map(fn func(proxy.Proxy) proxy.Proxy) (ss2 ProxyList) {
 //
 // The number of items returned may be the same as the input or less. It will
 // never return zero items unless the input slice has zero items.
-func (ss ProxyList) Mode() ProxyList {
+func (ss CountryList) Mode() CountryList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[proxy.Proxy]int)
+	values := make(map[*CountryInfo]int)
 	for _, s := range ss {
 		values[s]++
 	}
@@ -436,7 +433,7 @@ func (ss ProxyList) Mode() ProxyList {
 		}
 	}
 
-	var maxValues ProxyList
+	var maxValues CountryList
 	for k, v := range values {
 		if v == maxFrequency {
 			maxValues = append(maxValues, k)
@@ -455,7 +452,7 @@ func (ss ProxyList) Mode() ProxyList {
 //   for greeting := greetings.Pop(); greeting != nil; greeting = greetings.Pop() {
 //       fmt.Println(*greeting)
 //   }
-func (ss *ProxyList) Pop() (popped *proxy.Proxy) {
+func (ss *CountryList) Pop() (popped **CountryInfo) {
 
 	if len(*ss) == 0 {
 		return
@@ -467,7 +464,7 @@ func (ss *ProxyList) Pop() (popped *proxy.Proxy) {
 }
 
 // Random returns a random element by your rand.Source, or zero
-func (ss ProxyList) Random(source rand.Source) proxy.Proxy {
+func (ss CountryList) Random(source rand.Source) *CountryInfo {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -487,14 +484,14 @@ func (ss ProxyList) Random(source rand.Source) proxy.Proxy {
 //
 //   ss.Sort().Reverse()
 //
-func (ss ProxyList) Reverse() ProxyList {
+func (ss CountryList) Reverse() CountryList {
 	// Avoid the allocation. If there is one element or less it is already
 	// reversed.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make([]proxy.Proxy, len(ss))
+	sorted := make([]*CountryInfo, len(ss))
 	for i := 0; i < len(ss); i++ {
 		sorted[i] = ss[len(ss)-i-1]
 	}
@@ -508,7 +505,7 @@ func (ss ProxyList) Reverse() ProxyList {
 // it locks execution of gorutine
 // it doesn't close channel after work
 // returns sended elements if len(this) != len(old) considered func was canceled
-func (ss ProxyList) Send(ctx context.Context, ch chan<- proxy.Proxy) ProxyList {
+func (ss CountryList) Send(ctx context.Context, ch chan<- *CountryInfo) CountryList {
 	for i, s := range ss {
 		select {
 		case <-ctx.Done():
@@ -535,14 +532,14 @@ func (ss ProxyList) Send(ctx context.Context, ch chan<- proxy.Proxy) ProxyList {
 // if len(params) > 2 considered that will be returned slice between min and max with step,
 // where min is the first param, max is the second, step is the third one, [min, max) with step,
 // others params will be ignored
-func (ss ProxyList) SequenceUsing(creator func(int) proxy.Proxy, params ...int) ProxyList {
-	var seq = func(min, max, step int) (seq ProxyList) {
+func (ss CountryList) SequenceUsing(creator func(int) *CountryInfo, params ...int) CountryList {
+	var seq = func(min, max, step int) (seq CountryList) {
 		lenght := int(util.Round(float64(max-min) / float64(step)))
 		if lenght < 1 {
 			return
 		}
 
-		seq = make(ProxyList, lenght)
+		seq = make(CountryList, lenght)
 		for i := 0; i < lenght; min += step {
 			seq[i] = creator(min)
 			i++
@@ -563,12 +560,12 @@ func (ss ProxyList) SequenceUsing(creator func(int) proxy.Proxy, params ...int) 
 }
 
 // Shift will return two values: the shifted value and the rest slice.
-func (ss ProxyList) Shift() (proxy.Proxy, ProxyList) {
+func (ss CountryList) Shift() (*CountryInfo, CountryList) {
 	return ss.First(), ss.DropTop(1)
 }
 
 // Shuffle returns shuffled slice by your rand.Source
-func (ss ProxyList) Shuffle(source rand.Source) ProxyList {
+func (ss CountryList) Shuffle(source rand.Source) CountryList {
 	n := len(ss)
 
 	// Avoid the extra allocation.
@@ -579,7 +576,7 @@ func (ss ProxyList) Shuffle(source rand.Source) ProxyList {
 	// go 1.10+ provides rnd.Shuffle. However, to support older versions we copy
 	// the algorithm directly from the go source: src/math/rand/rand.go below,
 	// with some adjustments:
-	shuffled := make([]proxy.Proxy, n)
+	shuffled := make([]*CountryInfo, n)
 	copy(shuffled, ss)
 
 	rnd := rand.New(source)
@@ -593,14 +590,14 @@ func (ss ProxyList) Shuffle(source rand.Source) ProxyList {
 
 // SortStableUsing works similar to sort.SliceStable. However, unlike sort.SliceStable the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyList) SortStableUsing(less func(a, b proxy.Proxy) bool) ProxyList {
+func (ss CountryList) SortStableUsing(less func(a, b *CountryInfo) bool) CountryList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make(ProxyList, len(ss))
+	sorted := make(CountryList, len(ss))
 	copy(sorted, ss)
 	sort.SliceStable(sorted, func(i, j int) bool {
 		return less(sorted[i], sorted[j])
@@ -611,14 +608,14 @@ func (ss ProxyList) SortStableUsing(less func(a, b proxy.Proxy) bool) ProxyList 
 
 // SortUsing works similar to sort.Slice. However, unlike sort.Slice the
 // slice returned will be reallocated as to not modify the input slice.
-func (ss ProxyList) SortUsing(less func(a, b proxy.Proxy) bool) ProxyList {
+func (ss CountryList) SortUsing(less func(a, b *CountryInfo) bool) CountryList {
 	// Avoid the allocation. If there is one element or less it is already
 	// sorted.
 	if len(ss) < 2 {
 		return ss
 	}
 
-	sorted := make(ProxyList, len(ss))
+	sorted := make(CountryList, len(ss))
 	copy(sorted, ss)
 	sort.Slice(sorted, func(i, j int) bool {
 		return less(sorted[i], sorted[j])
@@ -634,7 +631,7 @@ func (ss ProxyList) SortUsing(less func(a, b proxy.Proxy) bool) ProxyList {
 //
 //   fmt.Sprintf("%v")
 //
-func (ss ProxyList) Strings() pie.Strings {
+func (ss CountryList) Strings() pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -657,7 +654,7 @@ func (ss ProxyList) Strings() pie.Strings {
 // Condition 2: If start >= end, nil is returned.
 // Condition 3: Return all elements that exist in the range provided,
 // if start or end is out of bounds, zero items will be placed.
-func (ss ProxyList) SubSlice(start int, end int) (subSlice ProxyList) {
+func (ss CountryList) SubSlice(start int, end int) (subSlice CountryList) {
 	if start < 0 || end < 0 {
 		return
 	}
@@ -671,11 +668,11 @@ func (ss ProxyList) SubSlice(start int, end int) (subSlice ProxyList) {
 		if end <= length {
 			subSlice = ss[start:end]
 		} else {
-			zeroArray := make([]proxy.Proxy, end-length)
+			zeroArray := make([]*CountryInfo, end-length)
 			subSlice = ss[start:length].Append(zeroArray[:]...)
 		}
 	} else {
-		zeroArray := make([]proxy.Proxy, end-start)
+		zeroArray := make([]*CountryInfo, end-start)
 		subSlice = zeroArray[:]
 	}
 
@@ -685,7 +682,7 @@ func (ss ProxyList) SubSlice(start int, end int) (subSlice ProxyList) {
 // Top will return n elements from head of the slice
 // if the slice has less elements then n that'll return all elements
 // if n < 0 it'll return empty slice.
-func (ss ProxyList) Top(n int) (top ProxyList) {
+func (ss CountryList) Top(n int) (top CountryList) {
 	for i := 0; i < len(ss) && n > 0; i++ {
 		top = append(top, ss[i])
 		n--
@@ -695,7 +692,7 @@ func (ss ProxyList) Top(n int) (top ProxyList) {
 }
 
 // StringsUsing transforms each element to a string.
-func (ss ProxyList) StringsUsing(transform func(proxy.Proxy) string) pie.Strings {
+func (ss CountryList) StringsUsing(transform func(*CountryInfo) string) pie.Strings {
 	l := len(ss)
 
 	// Avoid the allocation.
@@ -713,8 +710,8 @@ func (ss ProxyList) StringsUsing(transform func(proxy.Proxy) string) pie.Strings
 
 // Unshift adds one or more elements to the beginning of the slice
 // and returns the new slice.
-func (ss ProxyList) Unshift(elements ...proxy.Proxy) (unshift ProxyList) {
-	unshift = append(ProxyList{}, elements...)
+func (ss CountryList) Unshift(elements ...*CountryInfo) (unshift CountryList) {
+	unshift = append(CountryList{}, elements...)
 	unshift = append(unshift, ss...)
 
 	return

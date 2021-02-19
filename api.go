@@ -13,6 +13,7 @@ import (
 	"github.com/xxjwxc/ginrpc/api"
 
 	"subsrcibe/domain"
+	"subsrcibe/proxies"
 	"subsrcibe/title"
 	"subsrcibe/utils"
 )
@@ -127,7 +128,16 @@ func (*Subscribe) SubClash(c *api.Context) {
 		return
 	}
 
-	val := utils.NewCoverSubscribe().Nodes2Clash(nodes)
+	p := proxies.NewProxies()
+	nodes.Each(func(node *domain.ProxyNode) {
+		if node.NodeDetail == nil {
+			return
+		}
+
+		p.AppendWithUrl(node.NodeDetail.Buf)
+	})
+
+	val := p.ToClashConfig()
 	if val != "" {
 		err = s.Cache.SetWithExpire(clashCacheKey, val, time.Minute*5)
 		if err != nil {
@@ -155,7 +165,7 @@ func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error)
 func (*Subscribe) Pac(c *api.Context) {
 }
 
-func GetUsableNodeList() ([]*domain.ProxyNode, error) {
+func GetUsableNodeList() (domain.ProxyNodeList, error) {
 	var nodes []*domain.ProxyNode
 	err := s.Db.Where("is_close = ?", false).
 		Where("proxy_speed >= 0 ").
@@ -169,7 +179,7 @@ func GetUsableNodeList() ([]*domain.ProxyNode, error) {
 		Order("proxy_network_delay").
 		Order("death_count").
 		Order("last_crawler_at DESC").
-		// Limit(50).
+		Limit(100).
 		Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)

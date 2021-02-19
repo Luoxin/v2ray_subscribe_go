@@ -1,85 +1,63 @@
-package utils
+package proxies
 
-// 国家 emoji 图标集 https://github.com/risan/country-flag-emoji/blob/master/src/data.js
-
-const ClashTpl = `# port: 7890
-# socks-port: 7891
+const ClashTpl = `
 mixed-port: 7890
 allow-lan: true
 mode: Rule
 log-level: info
 external-controller: 127.0.0.1:9090
 proxies:
-  {{.ProxyNodeList}}
-proxy-groups:
+{{ range .ProxyList}}  - {{ .}}
+{{ end}}proxy-groups:
   - name: 🚀 节点选择
     type: select
     proxies:
-      - ♻️ 自动选择
       - 🔯 故障转移
+      - ♻️ 自动选择
       - 🔮 负载均衡
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
       - 🚀 手动切换
-      - DIRECT
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - DIRECT
   - name: 🚀 手动切换
     type: select
     proxies:
-      - DIRECT
-      {{.NameList}}
-  - name: ♻️ 自动选择
+{{ range .ProxyNameList}}      - {{ .}}
+{{ end}}  - name: ♻️ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
     proxies:
-      - DIRECT
-      {{.NameList}}
-  - name: 🔯 故障转移
+{{ range .ProxyNameList}}      - {{ .}}
+{{ end}}  - name: 🔯 故障转移
     type: fallback
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
     proxies:
-      - DIRECT
-      {{.NameList}}
-  - name: 🔮 负载均衡
+{{ range .ProxyNameList}}      - {{ .}}
+{{ end}}  - name: 🔮 负载均衡
     type: load-balance
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
     proxies:
-      - DIRECT
-      {{.NameList}}
-  - name: 📲 电报消息
+{{ range .ProxyNameList}}      - {{ .}}
+{{ end}}  - name: 📲 电报消息
     type: select
     proxies:
       - 🚀 节点选择
       - ♻️ 自动选择
-      - 🇸🇬 狮城节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
       - DIRECT
   - name: 📹 油管视频
     type: select
     proxies:
       - 🚀 节点选择
       - ♻️ 自动选择
-      - 🇸🇬 狮城节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
       - DIRECT
   - name: 🎥 奈飞视频
     type: select
@@ -87,18 +65,13 @@ proxy-groups:
       - 🎥 奈飞节点
       - 🚀 节点选择
       - ♻️ 自动选择
-      - 🇸🇬 狮城节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
       - DIRECT
   - name: 📺 巴哈姆特
     type: select
     proxies:
-      - 🇨🇳 台湾节点
+      - 🇹🇼 台湾省
       - 🚀 节点选择
       - 🚀 手动切换
       - DIRECT
@@ -107,78 +80,50 @@ proxy-groups:
     proxies:
       - DIRECT
       - 🎯 全球直连
-      - 🇨🇳 台湾节点
-      - 🇭🇰 香港节点
+      - 🇹🇼 台湾省
+      - 🇭🇰 香港
   - name: 🌍 国外媒体
     type: select
     proxies:
       - 🚀 节点选择
       - ♻️ 自动选择
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
       - DIRECT
   - name: 🌏 国内媒体
     type: select
     proxies:
       - DIRECT
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
   - name: 📢 谷歌FCM
     type: select
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
   - name: Ⓜ️ 微软云盘
     type: select
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
   - name: 🍎 苹果服务
     type: select
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
   - name: 🎮 游戏平台
     type: select
     proxies:
       - DIRECT
       - 🚀 节点选择
-      - 🇺🇲 美国节点
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
   - name: 🎶 网易音乐
     type: select
     proxies:
@@ -215,65 +160,98 @@ proxy-groups:
       - 🚀 节点选择
       - ♻️ 自动选择
       - DIRECT
-      - 🇭🇰 香港节点
-      - 🇨🇳 台湾节点
-      - 🇸🇬 狮城节点
-      - 🇯🇵 日本节点
-      - 🇺🇲 美国节点
-      - 🇰🇷 韩国节点
-      - 🚀 手动切换
-  - name: 🇭🇰 香港节点
+{{ range .CountryGroupList}}      - {{ .}}
+{{ end}}      - 🚀 手动切换
+{{ range .CountryNodeList}}  - name: {{.Emoji}} {{.Name}}
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
     proxies:
-      - DIRECT
-      {{.HkNameList}}
-  - name: 🇯🇵 日本节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-      - DIRECT
-      {{.JpNameList}}
-  - name: 🇺🇲 美国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 150
-    proxies:
-      - DIRECT
-      {{.UsaNameList}}
-  - name: 🇨🇳 台湾节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-      - DIRECT
-      {{.TwNameList}}
-  - name: 🇸🇬 狮城节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-      - DIRECT
-      {{.RsNameList}}
-  - name: 🇰🇷 韩国节点
-    type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
-    tolerance: 50
-    proxies:
-      - DIRECT
-      {{.SkNameList}}
-  - name: 🎥 奈飞节点
+{{ range .NameList}}      - {{.}}
+{{ end}}{{ end}}  - name: 🎥 奈飞节点
     type: select
     proxies:
       - DIRECT
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+  icloud:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt"
+    path: ./ruleset/icloud.yaml
+    interval: 86400
+  apple:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+  google:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt"
+    path: ./ruleset/google.yaml
+    interval: 86400
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+  direct:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+  private:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
+    path: ./ruleset/private.yaml
+    interval: 86400
+  gfw:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
+    path: ./ruleset/gfw.yaml
+    interval: 86400
+  greatfire:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/greatfire.txt"
+    path: ./ruleset/greatfire.yaml
+    interval: 86400
+  tld-not-cn:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt"
+    path: ./ruleset/tld-not-cn.yaml
+    interval: 86400
+  telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
+    path: ./ruleset/telegramcidr.yaml
+    interval: 86400
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+  lancidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt"
+    path: ./ruleset/lancidr.yaml
+    interval: 86400
 rules:
  - DOMAIN-SUFFIX,acl4.ssr,🎯 全球直连
  - DOMAIN-SUFFIX,ip6-localhost,🎯 全球直连
@@ -2743,7 +2721,7 @@ rules:
  - DOMAIN-SUFFIX,agenoming.club,🆎 AdBlock
  - DOMAIN-SUFFIX,aggravedgaree.info,🆎 AdBlock
  - DOMAIN-SUFFIX,aggressiveracketscout.com,🆎 AdBlock
- - DOMAIN-SUFFIX,aghchnfzt.com,🆎 AdBlock
+ - DOMAIN-SUFFIX,aghchnfzt.com,��� AdBlock
  - DOMAIN-SUFFIX,agicalleanor.club,🆎 AdBlock
  - DOMAIN-SUFFIX,agkxwjwutrhw.com,🆎 AdBlock
  - DOMAIN-SUFFIX,agmx1h9wswdb.com,🆎 AdBlock
@@ -20633,7 +20611,7 @@ rules:
  - DOMAIN-SUFFIX,secure-stat.canal-plus.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,secure.merchantadvantage.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,securite.01net.com,🛡️ 隐私防护
- - DOMAIN-SUFFIX,seg.sharethis.com,🛡️ 隐私防护
+ - DOMAIN-SUFFIX,seg.sharethis.com,🛡�� 隐私防护
  - DOMAIN-SUFFIX,sem.triboomedia.it,🛡️ 隐私防护
  - DOMAIN-SUFFIX,serv1swork.com,🛡️ 隐私防护
  - DOMAIN-SUFFIX,servedby.o2.co.uk,🛡️ 隐私防护
@@ -25720,7 +25698,7 @@ rules:
  - DOMAIN-SUFFIX,okayfreedom.com,🚀 节点选择
  - DOMAIN-SUFFIX,okex.com,🚀 节点选择
  - DOMAIN-SUFFIX,okk.tw,🚀 节点选择
- - DOMAIN-SUFFIX,olabloga.pl,🚀 节点选择
+ - DOMAIN-SUFFIX,olabloga.pl,🚀 节点选���
  - DOMAIN-SUFFIX,old-cat.net,🚀 节点选择
  - DOMAIN-SUFFIX,olumpo.com,🚀 节点选择
  - DOMAIN-SUFFIX,olympicwatch.org,🚀 节点选择

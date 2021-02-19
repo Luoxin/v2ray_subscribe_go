@@ -26,7 +26,7 @@ func (t *ProxyTitle) Get() string {
 }
 
 func Random() string {
-	return TitleList.Unique().Random(rand.NewSource(time.Now().UnixNano()))
+	return TitleList.Random(rand.NewSource(time.Now().UnixNano()))
 }
 
 var TitleList = pie.Strings{
@@ -1386,4 +1386,4 @@ var TitleList = pie.Strings{
 	"18岁什么化妆品都不用，28岁什么化妆品都没用。",
 	"你妹是个好姑娘，替你妈分担了很多。",
 	"正是跟别人多少有所不同,人才得以确立自我,一直作为独立的存在,心灵所受的伤,便是人为了这种自立性不得不支付给世界的代价。",
-}
+}.Unique()

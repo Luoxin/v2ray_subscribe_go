@@ -1,11 +1,15 @@
 package proxies
 
 import (
+	"bytes"
 	"fmt"
 	"strings"
+	"text/template"
 
+	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
+	"subsrcibe/geolite"
 	"subsrcibe/proxy"
 	"subsrcibe/proxycheck"
 	"subsrcibe/title"
@@ -14,67 +18,81 @@ import (
 //go:generate pie ProxyList.*
 type ProxyList []proxy.Proxy
 
-func (ps ProxyList) Init() error {
-
-	return nil
+type Proxies struct {
+	proxyList ProxyList
+	nameList  pie.Strings
 }
 
-func (ps ProxyList) NameAddIndex() ProxyList {
-	num := len(ps)
+func NewProxies() *Proxies {
+	return &Proxies{
+		proxyList: ProxyList{},
+	}
+}
+
+func (ps *Proxies) NameAddIndex() *Proxies {
+	num := len(ps.proxyList)
 	for i := 0; i < num; i++ {
-		ps[i].SetName(fmt.Sprintf("%s_%+02v", ps[i].BaseInfo().Name, i+1))
+		ps.proxyList[i].SetName(fmt.Sprintf("%s_%+02v", ps.proxyList[i].BaseInfo().Name, i+1))
 	}
 	return ps
 }
 
-func (ps ProxyList) NameReIndex() ProxyList {
-	num := len(ps)
+func (ps *Proxies) NameReIndex() *Proxies {
+	num := len(ps.proxyList)
 	for i := 0; i < num; i++ {
-		originName := ps[i].BaseInfo().Name
+		originName := ps.proxyList[i].BaseInfo().Name
 		country := strings.SplitN(originName, "_", 2)[0]
-		ps[i].SetName(fmt.Sprintf("%s_%+02v", country, i+1))
+		ps.proxyList[i].SetName(fmt.Sprintf("%s_%+02v", country, i+1))
 	}
 	return ps
 }
 
-func (ps ProxyList) Clone() ProxyList {
-	result := make(ProxyList, 0, len(ps))
-	for _, pp := range ps {
+func (ps *Proxies) Clone() *Proxies {
+	result := make(ProxyList, 0, len(ps.proxyList))
+	for _, pp := range ps.proxyList {
 		if pp != nil {
 			result = append(result, pp.Clone())
 		}
 	}
-	return result
+	return &Proxies{proxyList: result}
 }
 
-func (ps ProxyList) AppendWithUrl(contact string) ProxyList {
+func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	p, err := proxy.ParseProxy(contact)
 	if err != nil {
 		return ps
 	}
 
-	if ps.FindFirstUsing(func(value proxy.Proxy) bool {
+	// 去重
+	if ps.proxyList.FindFirstUsing(func(value proxy.Proxy) bool {
 		return value.BaseInfo().GetUrl() == p.BaseInfo().GetUrl()
 	}) >= 0 {
 		return ps
 	}
 
+	// 改名字
 	for {
 		name := title.Random()
-		if ps.FindFirstUsing(func(value proxy.Proxy) bool {
-			return name == value.BaseInfo().Name
-		}) >= 0 {
-			p.SetName(title.Random())
+
+		if !ps.nameList.Contains(name) {
+			ps.nameList = append(ps.nameList, name)
+			p.SetName(name)
 			break
 		}
 	}
 
-	ps = append(ps, p)
+	c, err := geolite.GetCountry(p.BaseInfo().Server)
+	if err == nil {
+		p.SetCountry(c.CnName)
+		p.SetName(fmt.Sprintf("(%s)%s", c.CnName, p.BaseInfo().Name))
+		p.SetEmoji(c.Emoji)
+	}
 
+	ps.proxyList = append(ps.proxyList, p)
 	return ps
 }
 
-func (ps ProxyList) SortWithTest() (psn ProxyList) {
+func (ps *Proxies) SortWithTest() (psn *Proxies) {
 	check := proxycheck.NewProxyCheck()
 	err := check.Init()
 	if err != nil {
@@ -82,7 +100,7 @@ func (ps ProxyList) SortWithTest() (psn ProxyList) {
 		return
 	}
 
-	ps.Each(func(p proxy.Proxy) {
+	ps.proxyList.Each(func(p proxy.Proxy) {
 		err := check.AddWithClash(p.ToClash(), func(result proxycheck.Result) error {
 
 			return nil
@@ -93,4 +111,76 @@ func (ps ProxyList) SortWithTest() (psn ProxyList) {
 	})
 
 	return
+}
+
+func (ps *Proxies) ToClashConfig() string {
+	var proxyList, proxyNameList, countryGroupList []string
+
+	type countryNode struct {
+		Name, Emoji string
+		NameList    pie.Strings
+	}
+
+	countryMap := map[string]*countryNode{
+		"香港": {
+			Name:     "香港",
+			Emoji:    "🇭🇰",
+			NameList: []string{},
+		},
+		"台湾": {
+			Name:     "台湾",
+			Emoji:    "🇹🇼",
+			NameList: []string{},
+		},
+	}
+
+	ps.proxyList.Each(func(p proxy.Proxy) {
+		proxyList = append(proxyList, p.ToClash())
+		proxyNameList = append(proxyNameList, p.BaseInfo().Name)
+
+		if p.BaseInfo().Country != "" {
+			if _, ok := countryMap[p.BaseInfo().Country]; !ok {
+				countryMap[p.BaseInfo().Country] = &countryNode{
+					Name:     p.BaseInfo().Country,
+					Emoji:    p.BaseInfo().Emoji,
+					NameList: []string{},
+				}
+				countryGroupList = append(countryGroupList, fmt.Sprintf("%s %s", p.BaseInfo().Emoji, p.BaseInfo().Country))
+			}
+
+			countryMap[p.BaseInfo().Country].NameList = append(countryMap[p.BaseInfo().Country].NameList, p.BaseInfo().Name)
+		}
+
+	})
+
+	var countryNodeList []*countryNode
+	for _, v := range countryMap {
+		v.NameList = v.NameList.Unique()
+
+		if len(v.NameList) == 0 {
+			v.NameList = append(v.NameList, "DIRECT")
+		}
+
+		countryNodeList = append(countryNodeList, v)
+	}
+
+	var b bytes.Buffer
+	t, err := template.New("").Parse(ClashTpl)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return ""
+	}
+
+	err = t.Execute(&b, map[string]interface{}{
+		"ProxyList":        proxyList,
+		"ProxyNameList":    proxyNameList,
+		"CountryNodeList":  countryNodeList,
+		"CountryGroupList": countryGroupList,
+	})
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return ""
+	}
+
+	return b.String()
 }
