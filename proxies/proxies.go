@@ -119,6 +119,7 @@ func (ps *Proxies) ToClashConfig() string {
 	type countryNode struct {
 		Name, Emoji string
 		NameList    pie.Strings
+		TestUrl     string
 	}
 
 	countryMap := map[string]*countryNode{
@@ -161,6 +162,7 @@ func (ps *Proxies) ToClashConfig() string {
 			v.NameList = append(v.NameList, "DIRECT")
 		}
 
+		v.TestUrl = "http://www.gstatic.com/generate_204"
 		countryNodeList = append(countryNodeList, v)
 	}
 

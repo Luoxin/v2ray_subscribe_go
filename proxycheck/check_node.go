@@ -182,7 +182,7 @@ func (p *ProxyCheck) CheckWithLink(nodeUrl string) (float64, float64, error) {
 }
 
 func (p *ProxyCheck) WaitFinish() {
-	p.w.Done()
+	p.w.Wait()
 }
 
 func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
