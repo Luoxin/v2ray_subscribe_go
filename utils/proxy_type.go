@@ -89,25 +89,6 @@ type SSD struct {
 	} `json:"servers"`
 }
 
-type Clash struct {
-	Port      int `yaml:"port"`
-	SocksPort int `yaml:"socks-port"`
-	// RedirPort          int                      `yaml:"redir-port"`
-	// Authentication     []string                 `yaml:"authentication"`
-	AllowLan           bool   `yaml:"allow-lan"`
-	Mode               string `yaml:"mode"`
-	LogLevel           string `yaml:"log-level"`
-	ExternalController string `yaml:"external-controller"`
-	// ExternalUI         string                   `yaml:"external-ui"`
-	// Secret             string                   `yaml:"secret"`
-	// Experimental       map[string]interface{} 	`yaml:"experimental"`
-	Proxy             []map[string]interface{} `yaml:"proxies"`
-	ProxyGroup        []map[string]interface{} `yaml:"proxy-groups"`
-	Rule              []string                 `yaml:"rules"`
-	CFWByPass         []string                 `yaml:"cfw-bypass"`
-	CFWLatencyTimeout int                      `yaml:"cfw-latency-timeout"`
-}
-
 type Trojan struct {
 	Name     string      `json:"name"`
 	Type     string      `json:"type"`
