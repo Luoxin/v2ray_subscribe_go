@@ -5,7 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"regexp"
 	"strings"
-	"subsrcibe/utils"
+	"subscribe/utils"
 )
 
 type FuzzyMatchingParser struct {

@@ -1,12 +1,12 @@
-package subsrcibe
+package subscribe
 
 import (
 	log "github.com/sirupsen/logrus"
 
-	"subsrcibe/conf"
-	"subsrcibe/db"
-	"subsrcibe/http"
-	"subsrcibe/task"
+	"subscribe/conf"
+	"subscribe/db"
+	"subscribe/http"
+	"subscribe/task"
 )
 
 func Init() error {

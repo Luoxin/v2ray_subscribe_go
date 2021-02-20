@@ -1,4 +1,4 @@
-module subsrcibe
+module subscribe
 
 go 1.15
 

@@ -7,18 +7,18 @@ import (
 	"net/http"
 	"strings"
 
-	"subsrcibe/conf"
-	"subsrcibe/db"
-	"subsrcibe/parser"
-	"subsrcibe/proxy"
+	"subscribe/conf"
+	"subscribe/db"
+	"subscribe/parser"
+	"subscribe/proxy"
 
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
-	conf2 "subsrcibe/conf"
-	"subsrcibe/domain"
-	"subsrcibe/utils"
+	conf2 "subscribe/conf"
+	"subscribe/domain"
+	"subscribe/utils"
 )
 
 func crawler() error {

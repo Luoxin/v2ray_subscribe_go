@@ -9,8 +9,8 @@ import (
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 
-	"subsrcibe/conf"
-	"subsrcibe/domain"
+	"subscribe/conf"
+	"subscribe/domain"
 )
 
 type HttpDownloader struct {

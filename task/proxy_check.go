@@ -3,10 +3,10 @@ package task
 import (
 	log "github.com/sirupsen/logrus"
 
-	"subsrcibe/db"
-	"subsrcibe/domain"
-	"subsrcibe/proxycheck"
-	"subsrcibe/utils"
+	"subscribe/db"
+	"subscribe/domain"
+	"subscribe/proxycheck"
+	"subscribe/utils"
 )
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {

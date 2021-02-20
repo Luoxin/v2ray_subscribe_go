@@ -19,7 +19,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
-	"subsrcibe/proxy"
+	"subscribe/proxy"
 )
 
 type ProxyCheck struct {

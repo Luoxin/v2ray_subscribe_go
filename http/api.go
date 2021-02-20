@@ -12,13 +12,13 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/xxjwxc/ginrpc/api"
 
-	"subsrcibe/conf"
-	"subsrcibe/db"
-	"subsrcibe/domain"
-	"subsrcibe/proxies"
-	"subsrcibe/task"
-	"subsrcibe/title"
-	"subsrcibe/utils"
+	"subscribe/conf"
+	"subscribe/db"
+	"subscribe/domain"
+	"subscribe/proxies"
+	"subscribe/task"
+	"subscribe/title"
+	"subscribe/utils"
 )
 
 func registerRouting(r *gin.Engine) error {

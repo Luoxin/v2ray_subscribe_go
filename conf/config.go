@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"path/filepath"
 	"runtime"
 	"time"
 
@@ -52,10 +53,19 @@ func InitConfig() error {
 	log.SetFormatter(logFormatter)
 	log.SetReportCaller(true)
 
+	// 可能存在的目录
 	viper.AddConfigPath("./")
 	viper.AddConfigPath("../")
 	viper.AddConfigPath("./conf/")
 	viper.AddConfigPath("../conf/")
+	{
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			log.Errorf("err:%v", err)
+		} else {
+			viper.AddConfigPath(filepath.Join(homeDir, "subscribe"))
+		}
+	}
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")

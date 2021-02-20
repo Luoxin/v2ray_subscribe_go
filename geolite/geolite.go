@@ -8,7 +8,7 @@ import (
 	"github.com/oschwald/geoip2-golang"
 	log "github.com/sirupsen/logrus"
 
-	country2 "subsrcibe/country"
+	country2 "subscribe/country"
 )
 
 var db *geoip2.Reader

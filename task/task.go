@@ -8,9 +8,9 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/whiteshtef/clockwork"
 
-	"subsrcibe/conf"
-	"subsrcibe/db"
-	"subsrcibe/proxycheck"
+	"subscribe/conf"
+	"subscribe/db"
+	"subscribe/proxycheck"
 )
 
 func InitWorker() error {

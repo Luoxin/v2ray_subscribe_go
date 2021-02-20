@@ -8,7 +8,7 @@ import (
 	"github.com/xxjwxc/ginrpc"
 	"github.com/xxjwxc/ginrpc/api"
 
-	"subsrcibe/conf"
+	"subscribe/conf"
 )
 
 func InitHttpService() error {

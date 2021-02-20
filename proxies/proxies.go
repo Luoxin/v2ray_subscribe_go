@@ -9,10 +9,10 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
-	"subsrcibe/geolite"
-	"subsrcibe/proxy"
-	"subsrcibe/proxycheck"
-	"subsrcibe/title"
+	"subscribe/geolite"
+	"subscribe/proxy"
+	"subscribe/proxycheck"
+	"subscribe/title"
 )
 
 //go:generate pie ProxyList.*

@@ -12,7 +12,7 @@ import (
 	"github.com/elliotchance/pie/pie"
 	"github.com/elliotchance/pie/pie/util"
 
-	"subsrcibe/proxy"
+	"subscribe/proxy"
 )
 
 // All will return true if all callbacks return true. It follows the same logic

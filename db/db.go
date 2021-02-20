@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"subsrcibe/domain"
+	"subscribe/domain"
 )
 
 var Db *gorm.DB
