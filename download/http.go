@@ -3,12 +3,14 @@ package download
 import (
 	"errors"
 	"fmt"
-	"github.com/eddieivan01/nic"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strings"
+
+	"github.com/eddieivan01/nic"
+	log "github.com/sirupsen/logrus"
+
+	"subsrcibe/conf"
 	"subsrcibe/domain"
-	"subsrcibe/utils"
 )
 
 type HttpDownloader struct {
@@ -37,7 +39,7 @@ func (h *HttpDownloader) Download(method string, urlStr string, reqBody interfac
 	}
 
 	if rule.UseProxy {
-		opt.Proxy = utils.GetProxy()
+		opt.Proxy = conf.Config.Proxies
 	}
 
 	var resp *nic.Response
