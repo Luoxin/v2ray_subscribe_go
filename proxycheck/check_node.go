@@ -130,8 +130,6 @@ func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error
 	}
 
 	return nil
-
-	return nil
 }
 
 func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error) {
@@ -210,16 +208,8 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 			return instance, nil
 		},
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: false,
 		},
-		//TLSHandshakeTimeout: time.Minute,
-		//DisableKeepAlives: true,
-		//DisableCompression: true,
-		//MaxIdleConns:          10,
-		//IdleConnTimeout:       time.Minute,
-		//ResponseHeaderTimeout: time.Minute,
-		//ExpectContinueTimeout: time.Minute,
-		//TLSNextProto:          nil,
 	}
 
 	client := http.Client{
@@ -245,10 +235,10 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 
 	delay = time.Now().Sub(start)
 
-	if len(body) > 0 {
-		speed = float64(len(body)) / float64(delay.Milliseconds())
-	} else if resp.ContentLength > 0 {
+	if resp.ContentLength > 0 {
 		speed = float64(resp.ContentLength) / float64(delay.Milliseconds())
+	} else {
+		speed = float64(len(body)) / float64(delay.Milliseconds())
 	}
 
 	return
