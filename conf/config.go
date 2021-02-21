@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path"
@@ -96,23 +97,23 @@ func InitConfig() error {
 	} else {
 		// log.Infof("read config %+v", viper.AllSettings())
 
-		err = viper.Unmarshal(&Config)
+		// err = viper.Unmarshal(&Config)
+		// if err != nil {
+		// 	log.Errorf("err:%v", err)
+		// 	return err
+		// }
+
+		j, err := json.Marshal(viper.AllSettings())
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
 		}
 
-		// j, err := json.Marshal(viper.AllSettings())
-		// if err != nil {
-		// 	log.Errorf("err:%v", err)
-		// 	return err
-		// }
-		//
-		// err = json.Unmarshal(j, &Config)
-		// if err != nil {
-		// 	log.Errorf("err:%v", err)
-		// 	return err
-		// }
+		err = json.Unmarshal(j, &Config)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
 
 		log.Infof("get config %+v", Config)
 	}

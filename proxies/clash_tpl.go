@@ -86,14 +86,20 @@ proxies:
 {{ end}}      - 🚀 手动切换
       - DIRECT
   - name: 📺 巴哈姆特
-    type: select
+    type: fallback
+    url: https://www.gamer.com.tw/
+    interval: 300
+    tolerance: 50
     proxies:
       - 🇹🇼 台湾省
       - 🚀 节点选择
       - 🚀 手动切换
       - DIRECT
   - name: 📺 哔哩哔哩
-    type: select
+    type: fallback
+    url: https://www.bilibili.com/
+    interval: 300
+    tolerance: 50
     proxies:
       - DIRECT
       - 🎯 全球直连

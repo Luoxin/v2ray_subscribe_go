@@ -5,17 +5,9 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"subscribe"
 )
 
 func main() {
-	fmt.Println(os.UserConfigDir())
-	fmt.Println(os.UserCacheDir())
-	fmt.Println()
-
-	return
 	subscribe.Start()
 }
