@@ -43,7 +43,7 @@ func (b *Base) BaseInfo() *Base {
 }
 
 func (b *Base) GetUrl() string {
-	return fmt.Sprintf("%s:%d:%s", b.Server, b.Port, b.Port)
+	return fmt.Sprintf("%s:%d:%d", b.Server, b.Port, b.Port)
 }
 
 func (b *Base) Clone() Base {
