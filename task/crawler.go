@@ -1,11 +1,8 @@
 package task
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"subscribe/conf"
@@ -167,59 +164,12 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		ProxyNodeType: uint32(proxyNodeType),
 	}
 
-	nodeInterface, err := proxy.ParseProxyToClash(ru)
+	proxyNode, err := proxy.ParseProxy(ru)
 	if err != nil {
 		return err
 	}
 
-	switch proxyNodeType {
-	case domain.ProxyNodeType_ProxyNodeTypeVmess:
-		var nodeItem utils.ClashVmess
-		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		} else {
-			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
-			if nodeItem.Network == "ws" {
-				node.Url += strings.TrimPrefix(nodeItem.WSPATH, "/")
-			}
-		}
-
-	case domain.ProxyNodeType_ProxyNodeTypeTrojan:
-		var nodeItem utils.Trojan
-		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		} else {
-			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
-		}
-
-	//case domain.ProxyNodeType_ProxyNodeTypeVless:
-	case domain.ProxyNodeType_ProxyNodeTypeSS:
-		var nodeItem utils.ClashSS
-		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		} else {
-			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
-		}
-
-	case domain.ProxyNodeType_ProxyNodeTypeSSR:
-		var nodeItem utils.ClashRSSR
-		err = json.Unmarshal([]byte(nodeInterface), &nodeItem)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		} else {
-			node.Url = fmt.Sprintf("%v:%v/", nodeItem.Server, nodeItem.Port)
-		}
-
-	default:
-		return errors.New("invalid args")
-	}
+	node.Url = proxyNode.BaseInfo().GetUrl()
 
 	var oldNode domain.ProxyNode
 	err = db.Db.Where("url = ?", node.Url).First(&oldNode).Error
