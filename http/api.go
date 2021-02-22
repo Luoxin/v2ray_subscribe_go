@@ -171,7 +171,7 @@ func (*Subscribe) Pac(c *api.Context) {
 func GetUsableNodeList() (domain.ProxyNodeList, error) {
 	var nodes domain.ProxyNodeList
 	err := db.Db.Where("is_close = ?", false).
-		Where("proxy_speed >= 0 ").
+		Where("proxy_speed > 0 ").
 		// Where("proxy_node_type = 1").
 		Where("available_count > 0 ").
 		Where("proxy_network_delay >= 0").
