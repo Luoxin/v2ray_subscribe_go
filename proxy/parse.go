@@ -11,7 +11,6 @@ import (
 func ParseProxyToClash(content string) (string, error) {
 	p, err := ParseProxy(content)
 	if err != nil {
-		log.Errorf("err:%v", err)
 		return "", err
 	}
 
