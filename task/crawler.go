@@ -166,7 +166,6 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 
 	nodeInterface, err := proxy.ParseProxyToClash(ru)
 	if err != nil {
-		log.Errorf("err:%v", err)
 		return err
 	}
 

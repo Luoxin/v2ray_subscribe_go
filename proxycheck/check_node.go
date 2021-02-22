@@ -170,7 +170,6 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 func (p *ProxyCheck) CheckWithLink(nodeUrl string) (float64, float64, error) {
 	proxyConfig, err := proxy.ParseProxyToClash(nodeUrl)
 	if err != nil {
-		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 
