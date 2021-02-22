@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"subscribe/conf"
 	"subscribe/db"
@@ -22,7 +23,9 @@ import (
 )
 
 func crawler() error {
+	t := time.Now()
 	log.Infof("start crawler......")
+	defer log.Infof("crawler used %v", time.Now().Sub(t))
 
 	var crawlerList []*domain.CrawlerConf
 	err := db.Db.Where("is_closed = ?", false).

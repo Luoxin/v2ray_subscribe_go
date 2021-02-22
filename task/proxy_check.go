@@ -6,9 +6,14 @@ import (
 	"subscribe/domain"
 	"subscribe/proxycheck"
 	"subscribe/utils"
+	"time"
 )
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {
+	t := time.Now()
+	log.Info("start check proxy...")
+	defer log.Infof("check proxy used %v", time.Now().Sub(t))
+
 	var nodeList domain.ProxyNodeList
 	err := db.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
@@ -75,6 +80,8 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 		}
 
 	})
+
+	check.WaitFinish()
 
 	return nil
 }
