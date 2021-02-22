@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/Dreamacro/clash/hub/executor"
-	"github.com/Dreamacro/clash/tunnel"
 	log "github.com/sirupsen/logrus"
+	"time"
 
 	"subscribe"
 	"subscribe/domain"
@@ -17,36 +17,41 @@ func main() {
 	err := subscribe.Init()
 	if err != nil {
 		log.Errorf("err:%v", err)
-	}
-
-	nodes, err := http.GetUsableNodeList()
-	if err != nil {
-		log.Errorf("err:%v", err)
 		return
 	}
 
-	p := proxies.NewProxies()
-	nodes.Each(func(node *domain.ProxyNode) {
-		if node.NodeDetail == nil {
+	restart := func(force bool) {
+		nodes, err := http.GetUsableNodeList()
+		if err != nil {
+			log.Errorf("err:%v", err)
 			return
 		}
 
-		p.AppendWithUrl(node.NodeDetail.Buf)
-	})
+		p := proxies.NewProxies()
+		nodes.Each(func(node *domain.ProxyNode) {
+			if node.NodeDetail == nil {
+				return
+			}
 
-	clashConf, err := executor.ParseWithBytes([]byte(p.ToClashConfig()))
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return
+			p.AppendWithUrl(node.NodeDetail.Buf)
+		})
+
+		clashConf, err := executor.ParseWithBytes([]byte(p.ToClashConfig()))
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+
+		executor.ApplyConfig(clashConf, force)
 	}
 
-	clashConf.General.Inbound.MixedPort = 7891
+	restart(true)
 
-	executor.ApplyConfig(clashConf, true)
-
-	proxyList := tunnel.Proxies()
-	for _, proxy := range proxyList {
-		log.Infof("%v %v %v", proxy.Name(), proxy.LastDelay(), proxy.Alive())
+	for {
+		select {
+		case <-time.After(time.Minute * 30):
+			restart(false)
+		}
 	}
 
 	// a := app.New()
