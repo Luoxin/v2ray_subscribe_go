@@ -10,7 +10,6 @@ import (
 	"gorm.io/gorm/schema"
 	"strings"
 	"subscribe/conf"
-
 	"subscribe/domain"
 )
 
@@ -46,12 +45,6 @@ func InitDb(dbAddr string) error {
 		},
 	}
 
-	if conf.Config.Debug {
-		dbConfig.Logger = logger.Default.LogMode(logger.Info)
-	} else {
-		dbConfig.Logger = logger.Default.LogMode(logger.Silent)
-	}
-
 	db, err := gorm.Open(d, &dbConfig)
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -69,6 +62,12 @@ func InitDb(dbAddr string) error {
 	}
 
 	Db = db.Debug()
+
+	if conf.Config.Debug {
+		Db.Logger = Db.Logger.LogMode(logger.Info)
+	} else {
+		Db.Logger = Db.Logger.LogMode(logger.Silent)
+	}
 
 	return nil
 }
