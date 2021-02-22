@@ -21,8 +21,6 @@ import (
 
 func crawler() error {
 	t := time.Now()
-	log.Infof("start crawler......")
-	defer log.Infof("crawler used %v", time.Now().Sub(t))
 
 	var crawlerList []*domain.CrawlerConf
 	err := db.Db.Where("is_closed = ?", false).
@@ -34,6 +32,9 @@ func crawler() error {
 		log.Errorf("err:%v", err)
 		return err
 	}
+
+	log.Infof("crawler for %v website", len(crawlerList))
+	defer log.Infof("crawler used %v", time.Now().Sub(t))
 
 	domain.CrawlerConfList(crawlerList).
 		Each(func(conf *domain.CrawlerConf) {
@@ -169,7 +170,10 @@ func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 		return err
 	}
 
-	node.Url = proxyNode.BaseInfo().GetUrl()
+	proxyNode.SetCountry("")
+	proxyNode.SetName("proxy")
+
+	node.Url = proxyNode.Link()
 
 	var oldNode domain.ProxyNode
 	err = db.Db.Where("url = ?", node.Url).First(&oldNode).Error

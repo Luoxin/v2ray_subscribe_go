@@ -11,8 +11,6 @@ import (
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {
 	t := time.Now()
-	log.Info("start check proxy...")
-	defer log.Infof("check proxy used %v", time.Now().Sub(t))
 
 	var nodeList domain.ProxyNodeList
 	err := db.Db.Where("is_close = ?", false).
@@ -25,10 +23,8 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 		return err
 	}
 
-	if len(nodeList) == 0 {
-		log.Warnf("not found nodes need check")
-		return nil
-	}
+	log.Infof("check proxy for %v node", len(nodeList))
+	defer log.Infof("check proxy used %v", time.Now().Sub(t))
 
 	nodeList.Each(func(node *domain.ProxyNode) {
 		if node.NodeDetail == nil {
