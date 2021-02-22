@@ -33,25 +33,24 @@ type config struct {
 }
 
 var Config config
+var LogFormatter = &nested.Formatter{
+	FieldsOrder: []string{
+		log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+		log.FieldKeyFunc, log.FieldKeyMsg,
+	},
+	CustomCallerFormatter: func(f *runtime.Frame) string {
+		return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+	},
+	TimestampFormat:  time.RFC3339,
+	HideKeys:         true,
+	NoFieldsSpace:    true,
+	NoUppercaseLevel: true,
+	TrimMessages:     true,
+	CallerFirst:      true,
+}
 
 func InitConfig() error {
-	logFormatter := &nested.Formatter{
-		FieldsOrder: []string{
-			log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-			log.FieldKeyFunc, log.FieldKeyMsg,
-		},
-		CustomCallerFormatter: func(f *runtime.Frame) string {
-			return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-		},
-		TimestampFormat:  time.RFC3339,
-		HideKeys:         true,
-		NoFieldsSpace:    true,
-		NoUppercaseLevel: true,
-		TrimMessages:     true,
-		CallerFirst:      true,
-	}
-
-	log.SetFormatter(logFormatter)
+	log.SetFormatter(LogFormatter)
 	log.SetReportCaller(true)
 
 	// 可能存在的目录

@@ -2,13 +2,14 @@ package db
 
 import (
 	"errors"
-	"strings"
-
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+	"strings"
+	"subscribe/conf"
 
 	"subscribe/domain"
 )
@@ -34,7 +35,7 @@ func InitDb(dbAddr string) error {
 		return errors.New("unsupported database")
 	}
 
-	db, err := gorm.Open(d, &gorm.Config{
+	dbConfig := gorm.Config{
 		SkipDefaultTransaction:                   true,
 		PrepareStmt:                              true,
 		DisableForeignKeyConstraintWhenMigrating: true,
@@ -43,7 +44,15 @@ func InitDb(dbAddr string) error {
 			TablePrefix:   "subscribe_",
 			SingularTable: true,
 		},
-	})
+	}
+
+	if conf.Config.Debug {
+		dbConfig.Logger = logger.Default.LogMode(logger.Info)
+	} else {
+		dbConfig.Logger = logger.Default.LogMode(logger.Silent)
+	}
+
+	db, err := gorm.Open(d, &dbConfig)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

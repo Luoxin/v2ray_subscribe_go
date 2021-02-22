@@ -3,7 +3,7 @@ module subscribe
 go 1.15
 
 require (
-	github.com/Dreamacro/clash v1.3.5
+	github.com/Dreamacro/clash v1.4.0
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
 	github.com/antchfx/xmlquery v1.3.4 // indirect
@@ -25,7 +25,7 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/oschwald/geoip2-golang v1.4.0
+	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/panjf2000/ants/v2 v2.4.3
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pkg/errors v0.9.1
@@ -43,9 +43,9 @@ require (
 	github.com/xxjwxc/public v0.0.0-20210208094626-30def31db320 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect
-	golang.org/x/crypto v0.0.0-20210218145215-b8e89b74b9df // indirect
-	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
-	golang.org/x/sys v0.0.0-20210218155724-8ebf48af031b // indirect
+	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
+	golang.org/x/net v0.0.0-20210220033124-5f55cee0dc0d // indirect
+	golang.org/x/sys v0.0.0-20210220050731-9a76102bfb43 // indirect
 	golang.org/x/text v0.3.5 // indirect
 	golang.org/x/tools v0.0.0-20200328031815-3db5fc6bac03 // indirect
 	google.golang.org/appengine v1.6.7 // indirect

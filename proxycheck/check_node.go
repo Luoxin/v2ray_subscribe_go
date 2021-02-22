@@ -153,16 +153,14 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 
 	proxy, err := outbound.ParseProxy(proxyItem)
 	if err != nil {
-		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Second * 5)
 
 	delay, speed, err := URLTest(proxy, "https://www.google.com")
 	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
-		log.Errorf("err:%v", err)
 		return 0, 0, err
 	}
 

@@ -2,7 +2,6 @@ package task
 
 import (
 	log "github.com/sirupsen/logrus"
-
 	"subscribe/db"
 	"subscribe/domain"
 	"subscribe/proxycheck"
@@ -34,7 +33,9 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 
 		err = check.AddWithLink(node.NodeDetail.Buf, func(result proxycheck.Result) error {
 			if result.Err != nil {
-				log.Errorf("err:%v", result.Err)
+				//log.Info(reflect.TypeOf(result.Err))
+				//log.Errorf("err:%v", result.Err)
+
 				node.DeathCount++
 				if node.DeathCount > 10 {
 					node.ProxySpeed = -1
