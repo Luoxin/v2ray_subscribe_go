@@ -32,6 +32,8 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 		}
 
 		err = check.AddWithLink(node.NodeDetail.Buf, func(result proxycheck.Result) error {
+			um := map[string]interface{}{}
+
 			if result.Err != nil {
 				//log.Info(reflect.TypeOf(result.Err))
 				//log.Errorf("err:%v", result.Err)
@@ -44,16 +46,22 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 			} else {
 				node.DeathCount = 0
 				node.AvailableCount++
+
+				um["available_count"] = node.AvailableCount
 			}
+
+			um["death_count"] = node.DeathCount
+			um["proxy_speed"] = result.Speed
+			um["proxy_network_delay"] = result.Delay
 
 			log.Infof("check proxy %+v: speed:%v Mb/s, delay:%v ms,available %d, death %d",
 				node.Url, node.ProxySpeed, node.ProxyNetworkDelay, node.AvailableCount, node.DeathCount)
 
 			node.NextCheckAt = node.CheckInterval + utils.Now()
-			node.ProxySpeed = result.Speed
-			node.ProxyNetworkDelay = result.Delay
 
-			err = db.Db.Omit("node_detail", "url", "proxy_node_type").Save(node).Error
+			um["next_check_at"] = node.NextCheckAt
+
+			err = db.Db.Model(node).Updates(um).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
