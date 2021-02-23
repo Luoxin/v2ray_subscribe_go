@@ -3,7 +3,7 @@ module subscribe
 go 1.15
 
 require (
-	github.com/Dreamacro/clash v1.4.0
+	github.com/Dreamacro/clash v1.4.1
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
 	github.com/antchfx/xmlquery v1.3.4 // indirect
