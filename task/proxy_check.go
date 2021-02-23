@@ -43,17 +43,23 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 				if node.DeathCount > 10 {
 					node.ProxySpeed = -1
 					node.ProxyNetworkDelay = -1
+
+					um["proxy_speed"] = -1
+					um["proxy_network_delay"] = -1
 				}
 			} else {
 				node.DeathCount = 0
 				node.AvailableCount++
+				node.ProxyNetworkDelay = result.Delay
+				node.ProxySpeed = result.Speed
 
 				um["available_count"] = node.AvailableCount
+
+				um["proxy_speed"] = result.Speed
+				um["proxy_network_delay"] = result.Delay
 			}
 
 			um["death_count"] = node.DeathCount
-			um["proxy_speed"] = result.Speed
-			um["proxy_network_delay"] = result.Delay
 
 			log.Infof("check proxy %+v: speed:%v Mb/s, delay:%v ms,available %d, death %d",
 				node.Url, node.ProxySpeed, node.ProxyNetworkDelay, node.AvailableCount, node.DeathCount)
