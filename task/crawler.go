@@ -73,10 +73,12 @@ func crawler() error {
 				case http.StatusOK:
 					var p parser.Parser
 
-					switch domain.CrawlType(conf.CrawlType) {
-					case domain.CrawlType_CrawlTypeSubscription, domain.CrawlType_CrawlTypeFuzzyMatching, domain.CrawlType_CrawlTypeXpath:
+					switch conf.CrawlType {
+					case domain.CrawlTypeSubscription,
+						domain.CrawlTypeFuzzyMatching,
+						domain.CrawlTypeXpath,
+						domain.CrawlTypeClashProxies:
 						p = parser.NewFuzzyMatchingParser()
-					//case domain.CrawlType_CrawlTypeXpath:
 					default:
 						return errors.New("nonsupport parser type")
 					}

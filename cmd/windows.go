@@ -11,8 +11,6 @@ import (
 	"subscribe/proxies"
 )
 
-const ()
-
 func main() {
 	err := subscribe.Init()
 	if err != nil {

@@ -8,96 +8,89 @@ service domain {
 }
 
 enum ErrCode {
-	Success = 0;
-}
-
-enum CrawlType {
-	CrawlTypeNil = 0;
-	CrawlTypeSubscription = 1;
-	CrawlTypeXpath = 2;
-	CrawlTypeFuzzyMatching = 3;
+  Success = 0;
 }
 
 message CrawlerConf {
-	message Rule {
-		bool use_proxy = 1;
-		string xpath = 2;
-	}
-	
-	uint64 id = 1;
-	uint32 	created_at = 2;
-	uint32 	updated_at = 3;
-	
-	// @gorm: type:varchar(1000);unique_index:idx_crawl_url
-	string crawl_url = 4;
-	
-	uint32 crawl_type = 5;
-	
-	// @gorm: type:json
-	Rule rule = 6;
-	
-	// @grom: index: idx_next_crawl_at
-	bool is_closed = 7;
-	
-	// @grom: index: idx_next_crawl_at
-	uint32 next_at = 8;
-	
-	uint32 interval = 9;
-	
-	// @gorm: type:varchar(100)
-	// @v: max=100
-	string note = 10;
+  message Rule {
+    bool use_proxy = 1;
+    string xpath = 2;
+  }
+
+  uint64 id = 1;
+  uint32  created_at = 2;
+  uint32  updated_at = 3;
+
+  // @gorm: type:varchar(1000);unique_index:idx_crawl_url
+  string crawl_url = 4;
+
+  uint32 crawl_type = 5;
+
+  // @gorm: type:json
+  Rule rule = 6;
+
+  // @grom: index: idx_next_crawl_at
+  bool is_closed = 7;
+
+  // @grom: index: idx_next_crawl_at
+  uint32 next_at = 8;
+
+  uint32 interval = 9;
+
+  // @gorm: type:varchar(100)
+  // @v: max=100
+  string note = 10;
 }
 
 enum ProxyNodeType {
-	ProxyNodeTypeNil = 0;
-	ProxyNodeTypeVmess = 1;
-	ProxyNodeTypeTrojan = 2;
-	ProxyNodeTypeVless = 3;
-	ProxyNodeTypeSS = 4;
-	ProxyNodeTypeSSR = 5;
-	ProxyNodeTypeSocket = 6;
-	ProxyNodeTypeHttp = 7;
-	ProxyNodeTypeSnell = 8;
+  ProxyNodeTypeNil = 0;
+  ProxyNodeTypeVmess = 1;
+  ProxyNodeTypeTrojan = 2;
+  ProxyNodeTypeVless = 3;
+  ProxyNodeTypeSS = 4;
+  ProxyNodeTypeSSR = 5;
+  ProxyNodeTypeSocket = 6;
+  ProxyNodeTypeHttp = 7;
+  ProxyNodeTypeSnell = 8;
 }
 
 message ProxyNode {
-	message NodeDetail {
-		string buf = 1;
-	}
-	
-	uint64 id = 1;
-	uint32 created_at = 2;
-	uint32 updated_at = 3;
-	
-	// HOST:PORT
-	// @gorm: type:varchar(1000); unique_index: idx_proxy_node_url
-	// @v: max=1000
-	string url = 4;
-	
-	uint32 proxy_node_type = 5;
-	
-	// @gorm: type:text
-	NodeDetail node_detail = 6;
-	
-	double proxy_speed = 7;
-	
-	double proxy_network_delay = 8;
-	
-	// @grom: index: idx_next_check_at
-	uint32 next_check_at = 9;
-	
-	uint32 check_interval = 10;
-	
-	uint64 crawl_id = 11;
+  message NodeDetail {
+    string buf = 1;
+  }
 
-	// @grom: index: idx_next_check_at
-	uint32 death_count = 12;
-	
-	// @grom: index: idx_next_check_at
-	bool is_close = 13;
+  uint64 id = 1;
+  uint32 created_at = 2;
+  uint32 updated_at = 3;
 
-	uint32 last_crawler_at = 14;
+  // HOST:PORT
+  // @gorm: type:varchar(1000); unique_index: idx_proxy_node_url
+  // @v: max=1000
+  string url = 4;
 
-	uint64 available_count = 15;
+  uint32 proxy_node_type = 5;
+
+  // @gorm: type:text
+  NodeDetail node_detail = 6;
+
+  double proxy_speed = 7;
+
+  double proxy_network_delay = 8;
+
+  // @grom: index: idx_next_check_at
+  uint32 next_check_at = 9;
+
+  uint32 check_interval = 10;
+
+  uint64 crawl_id = 11;
+
+  // @grom: index: idx_next_check_at
+  uint32 death_count = 12;
+
+  // @grom: index: idx_next_check_at
+  bool is_close = 13;
+
+  uint32 last_crawler_at = 14;
+
+  uint64 available_count = 15;
 }

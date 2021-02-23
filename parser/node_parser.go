@@ -1,10 +1,13 @@
 package parser
 
 import (
+	"fmt"
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
+	yaml "gopkg.in/yaml.v3"
 	"regexp"
 	"strings"
+	"subscribe/proxy"
 	"subscribe/utils"
 )
 
@@ -63,6 +66,37 @@ func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 
 			adds(strings.Split(str, "\n")...)
 		})
+
+	type clashConfig struct {
+		Proxy []map[interface{}]interface{} `yaml:"proxies"`
+	}
+
+	var clashConf clashConfig
+	err := yaml.Unmarshal([]byte(body), &clashConf)
+	if err == nil {
+		var convert func(m map[interface{}]interface{}) map[string]interface{}
+		convert = func(m map[interface{}]interface{}) map[string]interface{} {
+			res := map[string]interface{}{}
+			for k, v := range m {
+				switch v2 := v.(type) {
+				case map[interface{}]interface{}:
+					res[fmt.Sprint(k)] = convert(v2)
+				default:
+					res[fmt.Sprint(k)] = v
+				}
+			}
+			return res
+		}
+
+		for _, x := range clashConf.Proxy {
+			p, err := proxy.ParseProxyFromClashProxy(convert(x))
+			if err == nil {
+				add(p.Link())
+			}
+
+		}
+
+	}
 
 	return nodeList
 }

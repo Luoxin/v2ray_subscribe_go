@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 )
 
 /* Base implements interface Proxy. It's the basic proxy struct. Vmess etc extends Base*/
@@ -81,9 +82,9 @@ type Proxy interface {
 }
 
 func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error) {
-	p["name"] = ""
 	pjson, err := json.Marshal(p)
 	if err != nil {
+		log.Info(err)
 		return nil, err
 	}
 	switch p["type"].(string) {
