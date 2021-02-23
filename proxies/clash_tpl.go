@@ -178,7 +178,10 @@ proxies:
       - REJECT
       - DIRECT
   - name: 🐟 漏网之鱼
-    type: select
+    type: load-balance
+    url: {{.TestUrl}}
+    interval: 300
+    tolerance: 50
     proxies:
       - 🚀 节点选择
       - ♻️ 自动选择

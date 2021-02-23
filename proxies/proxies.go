@@ -128,8 +128,8 @@ func (ps *Proxies) ToClashConfig() string {
 			Emoji:    "🇭🇰",
 			NameList: []string{},
 		},
-		"台湾": {
-			Name:     "台湾",
+		"台湾省": {
+			Name:     "台湾省",
 			Emoji:    "🇹🇼",
 			NameList: []string{},
 		},
