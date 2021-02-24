@@ -4,6 +4,7 @@ const ClashTpl = `
 mixed-port: 7890
 allow-lan: false
 mode: Rule
+ipv6: true
 log-level: info
 external-controller: 127.0.0.1:9090
 dns:
