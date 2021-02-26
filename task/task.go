@@ -19,7 +19,7 @@ func InitWorker() error {
 	sched := clockwork.NewScheduler()
 
 	var w sync.WaitGroup
-	if !conf.Config.DisableCrawl {
+	if conf.Config.Crawler.Enable {
 		log.Info("register crawler")
 
 		w.Add(1)
@@ -42,7 +42,7 @@ func InitWorker() error {
 		log.Warnf("crawler not start")
 	}
 
-	if !conf.Config.DisableCheckAlive {
+	if conf.Config.ProxyCheck.Enable {
 		log.Info("register proxy check")
 		proxyCheck := proxycheck.NewProxyCheck()
 		err := proxyCheck.Init()

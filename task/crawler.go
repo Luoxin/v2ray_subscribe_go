@@ -59,7 +59,7 @@ func crawler() error {
 				rule := conf.Rule
 				if rule != nil {
 					if rule.UseProxy {
-						opt.Proxy = conf2.Config.Proxies
+						opt.Proxy = conf2.Config.Crawler.Proxies
 					}
 				}
 
@@ -122,7 +122,7 @@ func crawler() error {
 
 			if conf.NextAt < utils.Now() {
 				if conf.Interval == 0 {
-					conf.Interval = conf2.Config.CrawlerInterval
+					conf.Interval = conf2.Config.Crawler.CrawlerInterval
 				}
 
 				conf.NextAt = conf.Interval + utils.Now()
@@ -151,7 +151,7 @@ func AddNode(nodeUrl string) error {
 
 func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
 	if checkInterval == 0 {
-		checkInterval = conf.Config.CheckInterval
+		checkInterval = conf.Config.ProxyCheck.CheckInterval
 	}
 
 	proxyNodeType := utils.GetProxyNodeType(ru)

@@ -12,7 +12,7 @@ import (
 )
 
 func InitHttpService() error {
-	if conf.Config.DisableHttpService {
+	if !conf.Config.HttpService.Enable {
 		log.Warnf("http service not start")
 		return nil
 	}
@@ -34,7 +34,7 @@ func InitHttpService() error {
 	base.Register(group, new(Subscribe))
 
 	go func() {
-		err := router.Run(fmt.Sprintf("%s:%d", conf.Config.Host, conf.Config.Port))
+		err := router.Run(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

@@ -16,20 +16,43 @@ import (
 
 const Version = "0.0.0.4"
 
+type db struct {
+	Addr string `yaml:"addr" json:"addr"`
+}
+
+type crawler struct {
+	Enable  bool   `yaml:"enable" json:"enable"`
+	Proxies string `yaml:"proxies" json:"proxies"`
+
+	CrawlerInterval uint32 `yaml:"crawler_interval" json:"crawler_interval"`
+}
+
+type proxyCheck struct {
+	Enable        bool   `yaml:"enable" json:"enable"`
+	CheckInterval uint32 `yaml:"check_interval" json:"check_interval"`
+}
+
+type httpService struct {
+	Enable bool   `yaml:"enable" json:"enable"`
+	Host   string `yaml:"host" json:"host"`
+	Port   uint32 `yaml:"port" json:"port"`
+}
+
+type proxy struct {
+	Enable    bool   `yaml:"enable" json:"enable"`
+	MixedPort uint32 `yaml:"mixed-port" json:"mixed-port"`
+}
+
 type config struct {
-	Host  string `json:"host"`
-	Port  uint32 `json:"port"`
-	Debug bool   `json:"debug"`
+	Debug bool `yaml:"debug" json:"debug"`
 
-	DbAddr  string `json:"db_addr"`
-	Proxies string `json:"proxies"`
+	Db db `yaml:"db" json:"db"`
 
-	DisableCrawl       bool `json:"disable_crawl"`
-	DisableCheckAlive  bool `json:"disable_check_alive"`
-	DisableHttpService bool `json:"disable_http_service"`
+	Crawler     crawler     `yaml:"crawler" json:"crawler"`
+	ProxyCheck  proxyCheck  `yaml:"proxy_check" json:"proxy_check"`
+	HttpService httpService `yaml:"http_service" json:"http_service"`
 
-	CrawlerInterval uint32 `json:"crawler_interval"`
-	CheckInterval   uint32 `json:"check_interval"`
+	Proxy proxy `yaml:"proxy" json:"proxy"`
 }
 
 var Config config
@@ -71,17 +94,23 @@ func InitConfig() error {
 	viper.SetConfigType("yaml")
 
 	// 配置一些默认值
-	viper.SetDefault("port", 8080)
-	viper.SetDefault("host", "127.0.0.1")
+	viper.SetDefault("http_service.enable", true)
+	viper.SetDefault("http_service.port", 8080)
+	viper.SetDefault("http_service.host", "127.0.0.1")
 
-	viper.SetDefault("check_interval", 300)
-	viper.SetDefault("crawler_interval", 3600)
+	viper.SetDefault("debug", false)
 
-	viper.SetDefault("db_addr", "sqlite://.subscribe.vdb?check_same_thread=false")
+	viper.SetDefault("db.addr", "sqlite://.subscribe.vdb?check_same_thread=false")
 
-	viper.SetDefault("disable_crawl", false)
-	viper.SetDefault("disable_check_alive", false)
-	viper.SetDefault("disable_http_service", false)
+	viper.SetDefault("crawler.enable", true)
+	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")
+	viper.SetDefault("crawler.crawler_interval", 3600)
+
+	viper.SetDefault("proxy_check.enable", true)
+	viper.SetDefault("proxy_check.check_interval", 300)
+
+	viper.SetDefault("proxy.enable", false)
+	viper.SetDefault("proxy.mixed-port", 7890)
 
 	err := viper.ReadInConfig()
 	if err != nil {

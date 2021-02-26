@@ -1,17 +1,23 @@
-# host
-HOST: "127.0.0.1"
-# port
-PORT: 10808
+http_service:
+    enable: false
+    host: "127.0.0.1"
+    port: 8080
 
-# 数据库地址
-# DB_ADDR: "mysql://root:root@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
-DB_ADDR: "sqlite://subscribe.vdb?check_same_thread=false"
+debug: false
 
-# 对于需要翻墙才可以抓取的网页的翻墙地址
-PROXIES: "http://127.0.0.1:7890"
+db:
+    addr: "sqlite://.subscribe.vdb?check_same_thread=false"
 
-# 是否关闭测速，默认开启
-# DISABLE_CHECK_ALIVE: true
+crawler:
+    enable: false
+    proxies: "http://127.0.0.1:7890"
+    crawler_interval: 3600
 
-# 是否关闭抓取，默认开启
-# DISABLE_CRAWL: true
+proxy_check:
+    enable: false
+    check_interval: 300
+
+proxy:
+    enable: false
+    mixed-port: 7890
+
