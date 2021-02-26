@@ -39,7 +39,7 @@ func (h *HttpDownloader) Download(method string, urlStr string, reqBody interfac
 	}
 
 	if rule.UseProxy {
-		opt.Proxy = conf.Config.Proxies
+		opt.Proxy = conf.Config.Crawler.Proxies
 	}
 
 	var resp *nic.Response
