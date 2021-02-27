@@ -32,14 +32,33 @@ func NewPac() *pac {
 }
 
 func (p *pac) Get() string {
-	if utils.Now()-p.updateAt < 86400 {
-		lock.RLock()
-		defer lock.Unlock()
-		return p.js
+	_p := p.read()
+	if utils.Now()-_p.updateAt < 86400 {
+		return _p.js
 	}
 
 	p.UpdatePac()
 	return p.js
+}
+
+func (p *pac) read() pac {
+	lock.RLock()
+	defer lock.RUnlock()
+	return pac{
+		js:       p.js,
+		updateAt: p.updateAt,
+	}
+}
+
+func (p *pac) write(js string) {
+	lock.Lock()
+	defer lock.Unlock()
+	if js == "" {
+		return
+	}
+
+	p.js = js
+	p.updateAt = utils.Now()
 }
 
 func (p *pac) UpdatePac() {
@@ -47,10 +66,7 @@ func (p *pac) UpdatePac() {
 	lock.Unlock()
 
 	js := p.buildPac("PROXY 127.0.0.1:7890;", "DIRECT_PROXY", p.getRuleList())
-	if js != "" {
-		p.js = js
-		p.updateAt = utils.Now()
-	}
+	p.write(js)
 }
 
 func (p *pac) buildPac(proxy, defaultWay string, ruleList pie.Strings) string {
