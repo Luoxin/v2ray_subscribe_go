@@ -166,13 +166,13 @@ func (ps *Proxies) ToClashConfig() string {
 		countryNodeList = append(countryNodeList, v)
 	}
 
-	var b bytes.Buffer
-	t, err := template.New("").Parse(ClashTpl)
+	t, err := template.New("").Parse(clashTpl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return ""
 	}
 
+	var b bytes.Buffer
 	err = t.Execute(&b, map[string]interface{}{
 		"ProxyList":        proxyList,
 		"ProxyNameList":    proxyNameList,

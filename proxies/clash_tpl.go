@@ -1,6 +1,6 @@
 package proxies
 
-const ClashTpl = `
+const clashTpl = `
 mixed-port: 7890
 allow-lan: false
 mode: Rule

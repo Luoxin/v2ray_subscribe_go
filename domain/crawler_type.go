@@ -5,5 +5,5 @@ const (
 	CrawlTypeSubscription  = 1
 	CrawlTypeXpath         = 2
 	CrawlTypeFuzzyMatching = 3
-	CrawlTypeClashProxies = 4
+	CrawlTypeClashProxies  = 4
 )

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"subscribe/pac"
 	"time"
 
 	"github.com/bluele/gcache"
@@ -166,6 +167,7 @@ func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error)
 
 // @Router /pac [post,get]
 func (*Subscribe) Pac(c *api.Context) {
+	c.String(http.StatusOK, pac.Get())
 }
 
 func GetUsableNodeList() (domain.ProxyNodeList, error) {

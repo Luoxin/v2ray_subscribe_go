@@ -156,7 +156,7 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 		return 0, 0, err
 	}
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 1)
 
 	delay, speed, err := URLTest(proxy, "https://www.google.com")
 	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
