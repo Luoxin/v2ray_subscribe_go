@@ -89,7 +89,7 @@ func (p *pac) update2Sys() {
 		}
 
 		utils.SetProxy("127.0.0.1:7890", fmt.Sprintf("http://%s:%d/api/subscribe.pac?_=%d", pacHost, conf.Config.HttpService.Port, p.updateAt))
-		log.Infof("set system PAC finish")
+		log.Infof("set system PAC finish(%d)", p.updateAt)
 	}
 }
 
