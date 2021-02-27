@@ -23,6 +23,7 @@ var Pac = NewPac()
 var lock sync.RWMutex
 
 func InitPac() {
+	Pac = NewPac()
 	Pac.UpdatePac()
 }
 
@@ -32,6 +33,8 @@ func NewPac() *pac {
 
 func (p *pac) Get() string {
 	if utils.Now()-p.updateAt < 86400 {
+		lock.RLock()
+		defer lock.Unlock()
 		return p.js
 	}
 
