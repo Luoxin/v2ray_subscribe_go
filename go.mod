@@ -44,7 +44,7 @@ require (
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/net v0.0.0-20210222171744-9060382bd457 // indirect
-	golang.org/x/sys v0.0.0-20210223212115-eede4237b368 // indirect
+	golang.org/x/sys v0.0.0-20210223212115-eede4237b368
 	golang.org/x/text v0.3.5 // indirect
 	golang.org/x/tools v0.0.0-20200328031815-3db5fc6bac03 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
