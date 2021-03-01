@@ -1,23 +1,26 @@
 http_service:
-    enable: false
-    host: "127.0.0.1"
-    port: 8080
+        enable: false
+        host: "127.0.0.1"
+        port: 8080
 
 debug: false
 
 db:
-    addr: "sqlite://.subscribe.vdb?check_same_thread=false"
+        addr: "sqlite://.subscribe.vdb?check_same_thread=false"
 
 crawler:
-    enable: false
-    proxies: "http://127.0.0.1:7890"
-    crawler_interval: 3600
+        enable: false
+        proxies: "http://127.0.0.1:7890"
+        crawler_interval: 3600
 
 proxy_check:
-    enable: false
-    check_interval: 300
+        enable: false
+        check_interval: 300
 
 proxy:
-    enable: false
-    mixed-port: 7890
+        enable: false
+        mixed-port: 7890
 
+profiler:
+    enable: false
+    server_address: "http://localhost:4040"
