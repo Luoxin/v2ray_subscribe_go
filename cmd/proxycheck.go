@@ -54,7 +54,7 @@ func main() {
 				return err
 			}
 
-			err = db.InitDb(conf.Config.DbAddr)
+			err = db.InitDb(conf.Config.Db.Addr)
 			if err != nil {
 				log.Fatalf("init db err:%v", err)
 				return err

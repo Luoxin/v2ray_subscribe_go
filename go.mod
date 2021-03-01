@@ -26,8 +26,8 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/panjf2000/ants/v2 v2.4.3
-	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pkg/errors v0.9.1
+	github.com/pyroscope-io/pyroscope v0.0.25
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/sirupsen/logrus v1.8.0
 	github.com/spf13/afero v1.5.1 // indirect
@@ -46,7 +46,6 @@ require (
 	golang.org/x/net v0.0.0-20210222171744-9060382bd457 // indirect
 	golang.org/x/sys v0.0.0-20210223212115-eede4237b368
 	golang.org/x/text v0.3.5 // indirect
-	golang.org/x/tools v0.0.0-20200328031815-3db5fc6bac03 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect

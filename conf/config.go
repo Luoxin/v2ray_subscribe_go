@@ -3,6 +3,7 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 	"os"
 	"path"
 	"path/filepath"
@@ -43,6 +44,11 @@ type proxy struct {
 	MixedPort uint32 `yaml:"mixed-port" json:"mixed-port"`
 }
 
+type _profiler struct {
+	Enable        bool   `yaml:"enable" json:"enable"`
+	ServerAddress string `yaml:"server_address" json:"server_address"`
+}
+
 type config struct {
 	Debug bool `yaml:"debug" json:"debug"`
 
@@ -53,6 +59,8 @@ type config struct {
 	HttpService httpService `yaml:"http_service" json:"http_service"`
 
 	Proxy proxy `yaml:"proxy" json:"proxy"`
+
+	Profiler _profiler `yaml:"profiler" json:"profiler"`
 }
 
 var Config config
@@ -112,6 +120,9 @@ func InitConfig() error {
 	viper.SetDefault("proxy.enable", false)
 	viper.SetDefault("proxy.mixed-port", 7890)
 
+	viper.SetDefault("profiler.enable", false)
+	viper.SetDefault("profiler.server_address", "http://localhost:4040")
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -150,6 +161,13 @@ func InitConfig() error {
 		log.SetLevel(log.DebugLevel)
 	} else {
 		log.SetLevel(log.InfoLevel)
+	}
+
+	if Config.Profiler.Enable {
+		_, _ = profiler.Start(profiler.Config{
+			ApplicationName: "subscribe",
+			ServerAddress:   Config.Profiler.ServerAddress,
+		})
 	}
 
 	return nil
