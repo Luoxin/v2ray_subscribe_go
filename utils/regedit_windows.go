@@ -1,3 +1,5 @@
+// +build windows
+
 package utils
 
 import (
@@ -46,5 +48,4 @@ func SetProxy(proxyIp, pacUrl string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("代理设置成功")
 }
