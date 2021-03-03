@@ -2,7 +2,6 @@ package http
 
 import (
 	"fmt"
-	"subscribe/pac"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -34,10 +33,6 @@ func InitHttpService() error {
 			log.Errorf("err:%v", err)
 			return
 		}
-	}()
-
-	go func() {
-		pac.InitPac()
 	}()
 
 	return nil

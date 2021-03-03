@@ -10,6 +10,7 @@ import (
 	"subscribe"
 	"subscribe/domain"
 	"subscribe/http"
+	"subscribe/pac"
 	"subscribe/proxies"
 )
 
@@ -52,6 +53,8 @@ func main() {
 	}
 
 	restart(true)
+
+	pac.InitPac()
 
 	for {
 		select {
