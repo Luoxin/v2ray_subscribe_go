@@ -205,7 +205,7 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 			return instance, nil
 		},
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: false,
+			InsecureSkipVerify: false, // 不要忽略ssl校验
 		},
 	}
 

@@ -4,17 +4,16 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/base64"
-	"fmt"
+	"io"
+	"strings"
+	"sync"
+	"text/template"
+
 	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
-	"io"
-	"runtime"
-	"strings"
-	"subscribe/conf"
+
 	"subscribe/utils"
-	"sync"
-	"text/template"
 )
 
 type pac struct {
@@ -77,20 +76,20 @@ func (p *pac) UpdatePac() {
 }
 
 func (p *pac) update2Sys() {
-	// 没有开启http service，也就意味着没有pac
-	if !conf.Config.HttpService.Enable {
-		return
-	}
-
-	if runtime.GOOS == "windows" {
-		pacHost := conf.Config.HttpService.Host
-		if pacHost == "0.0.0.0" {
-			pacHost = "127.0.0.1"
-		}
-
-		utils.SetProxy("127.0.0.1:7890", fmt.Sprintf("http://%s:%d/api/subscribe.pac?_=%d", pacHost, conf.Config.HttpService.Port, p.updateAt))
-		log.Infof("set system PAC finish(%d)", p.updateAt)
-	}
+	// // 没有开启http service，也就意味着没有pac
+	// if !conf.Config.HttpService.Enable {
+	// 	return
+	// }
+	//
+	// if runtime.GOOS == "windows" {
+	// 	pacHost := conf.Config.HttpService.Host
+	// 	if pacHost == "0.0.0.0" {
+	// 		pacHost = "127.0.0.1"
+	// 	}
+	//
+	// 	utils.SetProxy("127.0.0.1:7890", fmt.Sprintf("http://%s:%d/api/subscribe.pac?_=%d", pacHost, conf.Config.HttpService.Port, p.updateAt))
+	// 	log.Infof("set system PAC finish(%d)", p.updateAt)
+	// }
 }
 
 func (p *pac) buildPac(proxy, defaultWay string, ruleList pie.Strings) string {

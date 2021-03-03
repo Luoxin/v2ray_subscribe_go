@@ -1,9 +1,11 @@
 package main
 
 import (
+	"time"
+
+	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
 	log "github.com/sirupsen/logrus"
-	"time"
 
 	"subscribe"
 	"subscribe/domain"
@@ -35,6 +37,12 @@ func main() {
 		})
 
 		clashConf, err := executor.ParseWithBytes([]byte(p.ToClashConfig()))
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+
+		err = hub.Parse(hub.WithExternalController(clashConf.General.ExternalController))
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

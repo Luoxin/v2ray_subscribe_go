@@ -18,12 +18,6 @@ func InitHttpService() error {
 		return nil
 	}
 
-	//// swagger
-	//myswagger.SetHost("https://localhost:8080")
-	//myswagger.SetBasePath("gmsec")
-	//myswagger.SetSchemes(true, false)
-	//// -----end --
-
 	base := ginrpc.New(
 		ginrpc.WithCtx(api.NewAPIFunc),
 		ginrpc.WithDebug(conf.Config.Debug),

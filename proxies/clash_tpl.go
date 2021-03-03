@@ -2,10 +2,10 @@ package proxies
 
 const clashTpl = `
 mixed-port: 7890
-allow-lan: false
+allow-lan: true
 mode: Rule
 ipv6: true
-log-level: info
+log-level: debug
 external-controller: 127.0.0.1:9090
 dns:
   enable: true # set true to enable dns (default is false)

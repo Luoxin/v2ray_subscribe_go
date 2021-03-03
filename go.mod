@@ -6,7 +6,7 @@ require (
 	github.com/Dreamacro/clash v1.4.1
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
-	github.com/antchfx/xmlquery v1.3.4 // indirect
+	github.com/antchfx/xmlquery v1.3.5 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/bluele/gcache v0.0.2
@@ -17,7 +17,7 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.2.0 // indirect
-	github.com/gookit/color v1.3.7 // indirect
+	github.com/gookit/color v1.3.8 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magefile/mage v1.11.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
@@ -39,12 +39,12 @@ require (
 	github.com/ugorji/go v1.2.4 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
-	github.com/xxjwxc/public v0.0.0-20210208094626-30def31db320 // indirect
+	github.com/xxjwxc/public v0.0.0-20210303034518-3d2086731fb9 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
-	golang.org/x/net v0.0.0-20210222171744-9060382bd457 // indirect
-	golang.org/x/sys v0.0.0-20210223212115-eede4237b368
+	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
+	golang.org/x/sys v0.0.0-20210301091718-77cc2087c03b
 	golang.org/x/text v0.3.5 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
