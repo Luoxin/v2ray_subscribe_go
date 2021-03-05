@@ -15,6 +15,7 @@ import (
 	"github.com/Dreamacro/clash/adapters/outbound"
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
+	"github.com/Luoxin/faker"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
@@ -27,6 +28,7 @@ type ProxyCheck struct {
 	w    sync.WaitGroup
 
 	maxSize int
+	faker   *faker.Faker
 }
 
 //go:generate pie ResultList.*
@@ -41,6 +43,7 @@ type Result struct {
 func NewProxyCheck() *ProxyCheck {
 	return &ProxyCheck{
 		maxSize: 10,
+		faker:   faker.New(),
 	}
 }
 
@@ -158,7 +161,7 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 
 	time.Sleep(time.Second * 1)
 
-	delay, speed, err := URLTest(proxy, "https://www.google.com")
+	delay, speed, err := p.URLTest(proxy, "https://www.google.com")
 	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		return 0, 0, err
@@ -180,7 +183,7 @@ func (p *ProxyCheck) WaitFinish() {
 	p.w.Wait()
 }
 
-func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
+func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
 	ctx, _ := context.WithTimeout(context.Background(), time.Minute)
 
 	addr, err := urlToMetadata(url)
@@ -188,7 +191,7 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 		return
 	}
 
-	instance, err := p.DialContext(ctx, &addr)
+	instance, err := proxy.DialContext(ctx, &addr)
 	if err != nil {
 		return
 	}
@@ -199,6 +202,7 @@ func URLTest(p constant.Proxy, url string) (delay time.Duration, speed float64, 
 		return
 	}
 	req = req.WithContext(ctx)
+	req.Header.Set("User-Agent", p.faker.UserAgent())
 
 	transport := &http.Transport{
 		Dial: func(string, string) (net.Conn, error) {

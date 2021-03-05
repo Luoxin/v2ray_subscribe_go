@@ -7,23 +7,23 @@ mode: Rule
 ipv6: true
 log-level: debug
 external-controller: 127.0.0.1:9090
-dns:
-  enable: true # set true to enable dns (default is false)
-  ipv6: true
-  enhanced-mode: fake-ip 
-  fake-ip-range: 198.18.0.1/16 
-  nameserver:
-    - 223.5.5.5
-    - 8.8.8.8
-    - 114.114.114.114
-    - tcp://1.1.1.1
-  fallback: 
-    - tls://dns.rubyfish.cn:853 
-    - https://1.1.1.1/dns-query 
-  fallback-filter:
-    geoip: true 
-    ipcidr:
-      - 240.0.0.0/4
+# dns:
+#   enable: true # set true to enable dns (default is false)
+#   ipv6: true
+#   enhanced-mode: fake-ip 
+#   fake-ip-range: 198.18.0.1/16 
+#   nameserver:
+#     - 223.5.5.5
+#     - 8.8.8.8
+#     - 114.114.114.114
+#     - tcp://1.1.1.1
+#   fallback: 
+#     - tls://dns.rubyfish.cn:853 
+#     - https://1.1.1.1/dns-query 
+#   fallback-filter:
+#     geoip: true 
+#     ipcidr:
+#       - 240.0.0.0/4
 proxies:
 {{ range .ProxyList}}  - {{ .}}
 {{ end}}proxy-groups:

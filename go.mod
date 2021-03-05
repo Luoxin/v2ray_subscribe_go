@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/Dreamacro/clash v1.4.1
+	github.com/Luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
 	github.com/antchfx/xmlquery v1.3.5 // indirect
