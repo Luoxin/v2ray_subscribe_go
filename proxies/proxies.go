@@ -9,6 +9,7 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
+	"subscribe/conf"
 	"subscribe/geolite"
 	"subscribe/proxy"
 	"subscribe/proxycheck"
@@ -178,7 +179,10 @@ func (ps *Proxies) ToClashConfig() string {
 		"ProxyNameList":    proxyNameList,
 		"CountryNodeList":  countryNodeList,
 		"CountryGroupList": countryGroupList,
-		"TestUrl":          "http://www.gstatic.com/generate_204",
+
+		"TestUrl": "http://www.gstatic.com/generate_204",
+
+		"MixedPort": conf.Config.Proxy.MixedPort,
 	})
 	if err != nil {
 		log.Errorf("err:%v", err)

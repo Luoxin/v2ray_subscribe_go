@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/Dreamacro/clash/hub"
@@ -12,9 +14,11 @@ import (
 	"subscribe/http"
 	"subscribe/pac"
 	"subscribe/proxies"
+	"subscribe/utils"
 )
 
 func main() {
+
 	err := subscribe.Init()
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -43,7 +47,18 @@ func main() {
 			return
 		}
 
-		err = hub.Parse(hub.WithExternalController(clashConf.General.ExternalController))
+		var options []hub.Option
+		options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
+
+		{
+			pwd, _ := os.Executable()
+			uiPath := filepath.Join(filepath.Dir(pwd), "./ui")
+			if utils.IsDir(uiPath) {
+				options = append(options, hub.WithExternalUI(uiPath))
+			}
+		}
+
+		err = hub.Parse(options...)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

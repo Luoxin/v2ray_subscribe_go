@@ -1,7 +1,7 @@
 package proxies
 
 const clashTpl = `
-mixed-port: 7890
+mixed-port: {{ .MixedPort }}
 allow-lan: true
 mode: Rule
 ipv6: true
