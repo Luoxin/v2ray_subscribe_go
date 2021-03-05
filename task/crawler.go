@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Luoxin/faker"
+
 	"subscribe/conf"
 	"subscribe/db"
 	"subscribe/parser"
@@ -54,6 +56,10 @@ func crawler() error {
 					AllowRedirect: true,
 
 					DisableKeepAlives: true,
+				}
+
+				opt.Headers = nic.KV{
+					"User-Agent": faker.New().UserAgent(),
 				}
 
 				rule := conf.Rule
