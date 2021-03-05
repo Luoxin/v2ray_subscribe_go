@@ -334,20 +334,20 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
-  - DOMAIN-KEYWORD,amazon,Proxy
-  - DOMAIN-KEYWORD,google,Proxy
-  - DOMAIN-KEYWORD,gmail,Proxy
-  - DOMAIN-KEYWORD,youtube,Proxy
-  - DOMAIN-KEYWORD,facebook,Proxy
-  - DOMAIN-SUFFIX,fb.me,Proxy
-  - DOMAIN-SUFFIX,fbcdn.net,Proxy
-  - DOMAIN-KEYWORD,twitter,Proxy
-  - DOMAIN-KEYWORD,instagram,Proxy
-  - DOMAIN-KEYWORD,dropbox,Proxy
-  - DOMAIN-SUFFIX,twimg.com,Proxy
-  - DOMAIN-KEYWORD,blogspot,Proxy
-  - DOMAIN-SUFFIX,youtu.be,Proxy
-  - DOMAIN-KEYWORD,whatsapp,Proxy
+  - DOMAIN-KEYWORD,amazon,🎯 全球直连
+  - DOMAIN-KEYWORD,google,🎯 全球直连
+  - DOMAIN-KEYWORD,gmail,🎯 全球直连
+  - DOMAIN-KEYWORD,youtube,🎯 全球直连
+  - DOMAIN-KEYWORD,facebook,🎯 全球直连
+  - DOMAIN-SUFFIX,fb.me,🎯 全球直连
+  - DOMAIN-SUFFIX,fbcdn.net,🎯 全球直连
+  - DOMAIN-KEYWORD,twitter,🎯 全球直连
+  - DOMAIN-KEYWORD,instagram,🎯 全球直连
+  - DOMAIN-KEYWORD,dropbox,🎯 全球直连
+  - DOMAIN-SUFFIX,twimg.com,🎯 全球直连
+  - DOMAIN-KEYWORD,blogspot,🎯 全球直连
+  - DOMAIN-SUFFIX,youtu.be,🎯 全球直连
+  - DOMAIN-KEYWORD,whatsapp,🎯 全球直连
   - DOMAIN-SUFFIX,acl4.ssr,🎯 全球直连
   - DOMAIN-SUFFIX,ip6-localhost,🎯 全球直连
   - DOMAIN-SUFFIX,ip6-loopback,🎯 全球直连

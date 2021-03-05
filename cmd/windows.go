@@ -7,6 +7,7 @@ import (
 
 	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
+	"github.com/Dreamacro/clash/tunnel"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe"
@@ -71,11 +72,38 @@ func main() {
 
 	pac.InitPac()
 
+	const restartInterval = time.Minute * 30
+	restartTimer := time.NewTicker(restartInterval)
+	checkTimer := time.NewTicker(time.Minute * 5)
+
 	for {
 		select {
-		case <-time.After(time.Minute * 30):
+		case <-restartTimer.C:
+			log.Info("restart proxy")
 			restart(false)
+		case <-checkTimer.C:
+			var aliveCount int
+			for _, proxy := range tunnel.Proxies() {
+				if !proxy.Alive() {
+					continue
+				}
+
+				if proxy.LastDelay() > 500 {
+					continue
+				}
+
+				aliveCount++
+				if aliveCount > 5 {
+					goto WAIT
+				}
+			}
+
+			log.Info("restart proxy because proxy death")
+			restart(true)
+			restartTimer.Reset(restartInterval)
 		}
+
+	WAIT:
 	}
 
 	// a := app.New()
