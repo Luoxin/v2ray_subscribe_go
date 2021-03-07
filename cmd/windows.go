@@ -29,7 +29,7 @@ func main() {
 	}
 
 	restart := func(force bool) {
-		nodes, err := http.GetUsableNodeList()
+		nodes, err := http.GetUsableNodeList(-1)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

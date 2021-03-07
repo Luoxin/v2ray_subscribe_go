@@ -48,7 +48,7 @@ func (*Subscribe) Version(c *api.Context) {
 
 // @Router /subscription [get]
 func (*Subscribe) Subscription(c *api.Context) {
-	nodes, err := GetUsableNodeList()
+	nodes, err := GetUsableNodeList(50)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -127,7 +127,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 		}
 	}
 
-	nodes, err := GetUsableNodeList()
+	nodes, err := GetUsableNodeList(50)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -171,9 +171,8 @@ func (*Subscribe) Pac(c *api.Context) {
 	c.String(http.StatusOK, pac.Get())
 }
 
-func GetUsableNodeList() (domain.ProxyNodeList, error) {
-	var nodes domain.ProxyNodeList
-	err := db.Db.Where("is_close = ?", false).
+func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
+	query := db.Db.Where("is_close = ?", false).
 		Where("proxy_speed > 0 ").
 		// Where("proxy_node_type = 1").
 		Where("available_count > 0 ").
@@ -184,9 +183,14 @@ func GetUsableNodeList() (domain.ProxyNodeList, error) {
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
 		Order("death_count").
-		Order("last_crawler_at DESC").
-		Limit(100).
-		Find(&nodes).Error
+		Order("last_crawler_at DESC")
+
+	if quantity >= 0 {
+		query.Limit(quantity)
+	}
+
+	var nodes domain.ProxyNodeList
+	err := query.Find(&nodes).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return nil, err
