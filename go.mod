@@ -1,6 +1,6 @@
 module subscribe
 
-go 1.15
+go 1.16
 
 require (
 	github.com/Dreamacro/clash v1.4.1
