@@ -150,7 +150,7 @@ func main() {
 			healthiness := aliveCount / proxyCount
 
 			log.Infof("uesd proxies healthiness is %.2f%%", healthiness*100)
-			if healthiness < 0.3 {
+			if healthiness < 0.1 {
 				restart(false)
 				restartTimer.Reset(restartInterval)
 			}
