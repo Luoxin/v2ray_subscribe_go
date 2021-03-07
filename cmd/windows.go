@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"sync"
 	"syscall"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/tunnel"
+	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe"
@@ -28,6 +30,12 @@ func main() {
 		return
 	}
 
+	antPool, err := ants.NewPool(50)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
+
 	restart := func(force bool) {
 		nodes, err := http.GetUsableNodeList(-1)
 		if err != nil {
@@ -36,13 +44,24 @@ func main() {
 		}
 
 		p := proxies.NewProxies()
+
+		var w sync.WaitGroup
 		nodes.Each(func(node *domain.ProxyNode) {
 			if node.NodeDetail == nil {
 				return
 			}
 
-			p.AppendWithUrl(node.NodeDetail.Buf)
+			w.Add(1)
+			err = antPool.Submit(func() {
+				defer w.Done()
+				p.AppendWithUrl(node.NodeDetail.Buf)
+			})
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
+			}
 		})
+		w.Done()
 
 		log.Infof("get proxies %v", p.Len())
 
