@@ -11,7 +11,7 @@ require (
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.0
 	github.com/bluele/gcache v0.0.2
-	github.com/d-tsuji/clipboard v0.0.3
+	github.com/d-tsuji/clipboard v0.0.3 // indirect
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
 	github.com/gin-gonic/gin v1.6.3

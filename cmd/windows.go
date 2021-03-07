@@ -44,6 +44,8 @@ func main() {
 			p.AppendWithUrl(node.NodeDetail.Buf)
 		})
 
+		log.Infof("get proxies %v", p.Len())
+
 		clashConf, err := executor.ParseWithBytes([]byte(p.ToClashConfig()))
 		if err != nil {
 			log.Errorf("err:%v", err)

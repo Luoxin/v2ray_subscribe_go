@@ -30,6 +30,10 @@ func NewProxies() *Proxies {
 	}
 }
 
+func (ps *Proxies) Len() int {
+	return len(ps.proxyList)
+}
+
 func (ps *Proxies) NameAddIndex() *Proxies {
 	num := len(ps.proxyList)
 	for i := 0; i < num; i++ {
