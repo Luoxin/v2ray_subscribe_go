@@ -6,6 +6,7 @@ import (
 	"net"
 	"strings"
 
+	"github.com/Dreamacro/clash/component/fakeip"
 	"github.com/Dreamacro/clash/component/trie"
 	"github.com/Dreamacro/clash/dns"
 	"github.com/elliotchance/pie/pie"
@@ -94,6 +95,7 @@ func init() {
 				Addr: strings.TrimPrefix(service, "tls://"),
 			})
 		} else if strings.HasPrefix(service, "http://") {
+			return
 			nameServices = append(nameServices, dns.NameServer{
 				Net:  "http",
 				Addr: service,
@@ -114,6 +116,9 @@ func init() {
 
 	log.Infof("%+v", nameServices)
 
+	_, ipnet, _ := net.ParseCIDR("192.168.0.1/29")
+	fakeIpPool, _ := fakeip.New(ipnet, 10, nil)
+
 	dnsConfig := dns.Config{
 		Main:           nameServices,
 		Fallback:       nameServices,
@@ -121,7 +126,7 @@ func init() {
 		IPv6:           true,
 		EnhancedMode:   dns.MAPPING,
 		FallbackFilter: dns.FallbackFilter{},
-		Pool:           nil,
+		Pool:           fakeIpPool,
 		Hosts:          trie.New(),
 	}
 
@@ -154,8 +159,21 @@ func GetCountry(host string) (c *Country, err error) {
 	if err != nil {
 		return nil, err
 	}
+	ip := ns.String()
 
-	record, err := db.Country(net.ParseIP(ns.String()))
+	// ns, err := net.LookupIP(host)
+	// if err != nil {
+	// 	log.Errorf("err:%v", err)
+	// 	return nil, err
+	// }
+	//
+	// if len(ns) == 0 {
+	// 	return nil, errors.New("not found ip")
+	// }
+	//
+	// ip := ns[0].String()
+
+	record, err := db.Country(net.ParseIP(ip))
 	if err != nil {
 		return nil, err
 	}
