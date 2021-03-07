@@ -21,12 +21,15 @@ type ProxyList []proxy.Proxy
 
 type Proxies struct {
 	proxyList ProxyList
-	nameList  pie.Strings
+
+	nameMap, proxyMap map[string]bool
 }
 
 func NewProxies() *Proxies {
 	return &Proxies{
 		proxyList: ProxyList{},
+		nameMap:   make(map[string]bool),
+		proxyMap:  make(map[string]bool),
 	}
 }
 
@@ -68,21 +71,31 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 		return ps
 	}
 
+	p.SetName("Proxies")
+
+	baseUrl := p.Link()
+
 	// 去重
-	if ps.proxyList.FindFirstUsing(func(value proxy.Proxy) bool {
-		return value.BaseInfo().GetUrl() == p.BaseInfo().GetUrl()
-	}) >= 0 {
-		return ps
+	if ps.proxyMap[baseUrl] {
+		return nil
 	}
 
 	// 改名字
-	for {
-		name := title.Random()
+	var name string
+	{
+		var found bool
+		for {
+			name = title.Random()
 
-		if !ps.nameList.Contains(name) {
-			ps.nameList = append(ps.nameList, name)
-			p.SetName(name)
-			break
+			if ps.nameMap[name] {
+				p.SetName(name)
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			return ps
 		}
 	}
 
@@ -92,6 +105,9 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 		p.SetName(fmt.Sprintf("(%s)%s", c.CnName, p.BaseInfo().Name))
 		p.SetEmoji(c.Emoji)
 	}
+
+	ps.nameMap[name] = true
+	ps.proxyMap[baseUrl] = true
 
 	ps.proxyList = append(ps.proxyList, p)
 	return ps
