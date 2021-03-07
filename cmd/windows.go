@@ -61,7 +61,7 @@ func main() {
 				return
 			}
 		})
-		w.Done()
+		w.Wait()
 
 		log.Infof("get proxies %v", p.Len())
 
