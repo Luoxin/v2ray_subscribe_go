@@ -2,9 +2,13 @@ package geolite
 
 import (
 	"errors"
+	"fmt"
 	"net"
 	"strings"
 
+	"github.com/Dreamacro/clash/component/trie"
+	"github.com/Dreamacro/clash/dns"
+	"github.com/elliotchance/pie/pie"
 	"github.com/oschwald/geoip2-golang"
 	log "github.com/sirupsen/logrus"
 
@@ -12,13 +16,124 @@ import (
 )
 
 var db *geoip2.Reader
+var dnsResolver *dns.Resolver
 
 func init() {
+	var dnsServices = pie.Strings{
+		"tls://dns.alidns.com:853",
+		"tls://dns.cfiec.net:853",
+		"https://2400:3200:baba::1/dns-query",
+		"https://2400:3200::1/dns-query",
+		"https://dns.cfiec.net/dns-query",
+		"https://223.5.5.5/dns-query",
+		"https://223.6.6.6/dns-query",
+		"https://dns.alidns.com/dns-query",
+		"https://dns.ipv6dns.com/dns-query",
+		"tls://dns.ipv6dns.com:853",
+		"tls://dns.pub:853",
+		"tls://doh.pub:853",
+		"https://doh.pub/dns-query",
+		"223.5.5.5",
+		"2400:3200::1",
+		"2001:dc7:1000::1",
+		"2400:da00::6666",
+		"2001:cc0:2fff:1::6666",
+		"114.114.114.114",
+		"1.2.4.8",
+		"180.76.76.76",
+		"119.29.29.29",
+		"119.28.28.28",
+		"https://dns.google/dns-query",
+		"tls://dns.google:853",
+		"https://dns.quad9.net/dns-query",
+		"https://dns11.quad9.net/dns-query",
+		"https://dns.twnic.tw/dns-query",
+		"https://1.1.1.1/dns-query",
+		"https://1.0.0.1/dns-query",
+		"https://cloudflare-dns.com/dns-query",
+		"https://dns.adguard.com/dns-query",
+		"https://doh.dns.sb/dns-query",
+		"tls://185.184.222.222@853",
+		"tls://185.222.222.222@853",
+		"https://doh-jp.blahdns.com/dns-query",
+		"https://public.dns.iij.jp/dns-query",
+		"https://v6.rubyfish.cn/dns-query",
+		"tls://v6.rubyfish.cn:853",
+		"https://[2001:4860:4860::6464]/dns-query",
+		"https://[2001:4860:4860::64]/dns-query",
+		"https://[2606:4700:4700::1111]/dns-query",
+		"https://[2606:4700:4700::64]/dns-query",
+		"https://dns.quad9.net/dns-query",
+		"tls://2a09::@853",
+		"tls://2a09::1@853",
+		"8.8.8.8",
+		"203.112.2.4",
+		"9.9.9.9",
+		"101.101.101.101",
+		"203.80.96.10",
+		"218.102.23.228",
+		"61.10.0.130",
+		"202.181.240.44",
+		"112.121.178.187",
+		"168.95.192.1",
+		"202.76.4.1",
+		"202.14.67.4",
+	}
+
 	var err error
 	db, err = geoip2.Open("./GeoLite2-Country.mmdb")
 	if err != nil {
 		log.Fatalf("err:%v", err)
 	}
+
+	var nameServices []dns.NameServer
+	dnsServices.Unique().Each(func(service string) {
+		if strings.HasPrefix(service, "tls://") {
+			nameServices = append(nameServices, dns.NameServer{
+				Net:  "tcp-tls",
+				Addr: strings.TrimPrefix(service, "tls://"),
+			})
+		} else if strings.HasPrefix(service, "http://") {
+			nameServices = append(nameServices, dns.NameServer{
+				Net:  "http",
+				Addr: service,
+			})
+		} else if strings.HasPrefix(service, "https://") {
+			return
+			nameServices = append(nameServices, dns.NameServer{
+				Net:  "https",
+				Addr: service,
+			})
+		} else {
+			nameServices = append(nameServices, dns.NameServer{
+				Net:  "",
+				Addr: service + ":53",
+			})
+		}
+	})
+
+	log.Infof("%+v", nameServices)
+
+	dnsConfig := dns.Config{
+		Main:           nameServices,
+		Fallback:       nameServices,
+		Default:        nameServices,
+		IPv6:           true,
+		EnhancedMode:   dns.MAPPING,
+		FallbackFilter: dns.FallbackFilter{},
+		Pool:           nil,
+		Hosts:          trie.New(),
+	}
+
+	dnsResolver = dns.NewResolver(dnsConfig)
+	//
+	// ns, err := dnsResolver.ResolveIP("google.com")
+	// if err != nil {
+	// 	log.Error(err)
+	// 	return
+	// }
+	//
+	// log.Info(ns)
 }
 
 type Country struct {
@@ -28,22 +143,24 @@ type Country struct {
 	Emoji  string
 }
 
-func GetCountry(host string) (*Country, error) {
-	ns, err := net.LookupIP(host)
+func GetCountry(host string) (c *Country, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = errors.New(fmt.Sprintf("panic:%v", r))
+		}
+	}()
+
+	ns, err := dnsResolver.ResolveIPv4(host)
 	if err != nil {
 		return nil, err
 	}
 
-	if len(ns) == 0 {
-		return nil, errors.New("not found ip")
-	}
-
-	record, err := db.Country(net.ParseIP(ns[0].String()))
+	record, err := db.Country(net.ParseIP(ns.String()))
 	if err != nil {
 		return nil, err
 	}
 
-	c := Country{
+	c = &Country{
 		CnName: record.Country.Names["zh-CN"],
 		EnName: record.Country.Names["en"],
 	}
@@ -62,5 +179,5 @@ func GetCountry(host string) (*Country, error) {
 		log.Warnf("not found country:%+v", record)
 	}
 
-	return &c, nil
+	return c, nil
 }
