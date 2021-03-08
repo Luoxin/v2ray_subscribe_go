@@ -81,7 +81,7 @@ func init() {
 	}
 
 	var err error
-	db, err = geoip2.Open("./GeoLite2.mmdb")
+	db, err = geoip2.Open("./GeoLite2-Country.mmdb")
 	if err != nil {
 		log.Fatalf("err:%v", err)
 	}
@@ -167,7 +167,7 @@ func GetCountry(host string) (c *Country, err error) {
 	//
 	// ip := ns[0].String()
 
-	record, err := db.City(net.ParseIP(ip))
+	record, err := db.Country(net.ParseIP(ip))
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ func GetCountry(host string) (c *Country, err error) {
 		c.CnName = country.CnName
 		c.EnName = country.EnName
 	} else {
-		log.Warnf("not found country(host:%s, ip:%s):%+v", host, ip, record)
+		log.Warnf("not found country:%+v", record)
 	}
 
 	return c, nil

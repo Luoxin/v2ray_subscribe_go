@@ -22,8 +22,6 @@ import (
 )
 
 func main() {
-	var isFirst = true
-
 	err := subscribe.Init()
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -37,12 +35,7 @@ func main() {
 	// }
 
 	restart := func(force bool) {
-		var quantity = -1
-		if !isFirst {
-			quantity = 50
-		}
-
-		nodes, err := http.GetUsableNodeList(quantity)
+		nodes, err := http.GetUsableNodeList(-1)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return
@@ -67,10 +60,6 @@ func main() {
 			// }
 		})
 		// w.Wait()
-
-		if !isFirst {
-			p = p.GetUsableList()
-		}
 
 		log.Infof("get proxies %v", p.Len())
 
@@ -98,7 +87,6 @@ func main() {
 		}
 
 		executor.ApplyConfig(clashConf, force)
-		isFirst = false
 	}
 
 	stop := func() {
@@ -179,7 +167,7 @@ func main() {
 
 			healthiness := aliveCount / proxyCount
 
-			log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
+			log.Infof("uesd proxies healthiness is %.2f%%", healthiness*100)
 			if healthiness < 0.1 {
 				restart(false)
 				restartTimer.Reset(restartInterval)

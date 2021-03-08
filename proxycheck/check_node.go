@@ -91,7 +91,6 @@ func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) erro
 			return nil
 		})
 		if err != nil {
-			p.w.Done()
 			log.Errorf("err:%v", err)
 			return
 		}
@@ -129,7 +128,6 @@ func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error
 		}
 	})
 	if err != nil {
-		p.w.Done()
 		log.Errorf("err:%v", err)
 		return err
 	}
