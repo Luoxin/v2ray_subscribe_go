@@ -18,3 +18,4 @@
 /releases/
 /vendor/
 /docs/
+*.mmdb
