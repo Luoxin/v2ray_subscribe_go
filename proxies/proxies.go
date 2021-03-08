@@ -79,8 +79,14 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	baseUrl := p.Link()
 
 	// 去重
-	if ps.proxyMap[baseUrl] {
-		return nil
+	{
+		ps.proxyLock.Lock()
+		exist := ps.proxyMap[baseUrl]
+		ps.proxyLock.Unlock()
+
+		if exist {
+			return nil
+		}
 	}
 
 	// 改名字
@@ -93,13 +99,15 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 		p.SetEmoji(c.Emoji)
 	}
 
+	ps.proxyLock.Lock()
 	ps.proxyMap[baseUrl] = true
+	ps.proxyLock.Unlock()
 
 	ps.proxyList = append(ps.proxyList, p)
 	return ps
 }
 
-func (ps *Proxies) SortWithTest() (psn *Proxies) {
+func (ps *Proxies) GetUsableList() (psn *Proxies) {
 	check := proxycheck.NewProxyCheck()
 	err := check.Init()
 	if err != nil {
@@ -107,17 +115,37 @@ func (ps *Proxies) SortWithTest() (psn *Proxies) {
 		return
 	}
 
-	ps.proxyList.Each(func(p proxy.Proxy) {
-		err := check.AddWithClash(p.ToClash(), func(result proxycheck.Result) error {
+	psn = NewProxies()
 
+	var w sync.WaitGroup
+	ps.proxyList.Each(func(p proxy.Proxy) {
+		w.Add(1)
+		err := check.AddWithLink(p.Link(), func(result proxycheck.Result) (err error) {
+			defer w.Done()
+			if result.Err != nil {
+				return nil
+			}
+
+			if result.Delay < 0 || result.Speed < 0 {
+				return nil
+			}
+
+			psn.AppendWithUrl(result.ProxyUrl)
 			return nil
 		})
 		if err != nil {
 			log.Errorf("err:%v", err)
+			w.Done()
 		}
 	})
 
-	return
+	w.Wait()
+
+	if psn.Len() == 0 {
+		return ps
+	}
+
+	return psn
 }
 
 func (ps *Proxies) ToClashConfig() string {

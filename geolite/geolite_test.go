@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetCountry(t *testing.T) {
-	x, _ := GetCountry("google.com")
+	x, _ := GetCountry("141.101.115.17")
 	fmt.Printf("%+v", x)
 }
