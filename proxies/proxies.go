@@ -20,16 +20,18 @@ import (
 type ProxyList []proxy.Proxy
 
 type Proxies struct {
-	proxyList ProxyList
+	proxyList  ProxyList
+	proxyTitle *title.ProxyTitle
 
 	nameMap, proxyMap map[string]bool
 }
 
 func NewProxies() *Proxies {
 	return &Proxies{
-		proxyList: ProxyList{},
-		nameMap:   make(map[string]bool),
-		proxyMap:  make(map[string]bool),
+		proxyList:  ProxyList{},
+		nameMap:    make(map[string]bool),
+		proxyMap:   make(map[string]bool),
+		proxyTitle: title.NewProxyTitle(),
 	}
 }
 
@@ -85,9 +87,8 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	{
 		var found bool
 		for {
-			name = title.Random()
-
-			if ps.nameMap[name] {
+			name = ps.proxyTitle.Get()
+			if !ps.nameMap[name] {
 				p.SetName(name)
 				found = true
 				break

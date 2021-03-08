@@ -2,14 +2,16 @@ package title
 
 import (
 	"math/rand"
+	"sync"
 	"time"
 
+	"github.com/Luoxin/faker"
 	"github.com/elliotchance/pie/pie"
 )
 
 type ProxyTitle struct {
+	lock      sync.Mutex
 	titleList pie.Strings
-	usedList  pie.Strings
 }
 
 func NewProxyTitle() *ProxyTitle {
@@ -18,10 +20,19 @@ func NewProxyTitle() *ProxyTitle {
 	}
 }
 
-func (t *ProxyTitle) Get() string {
-	_, canUseList := t.titleList.Diff(t.usedList)
-	title := canUseList.Random(rand.NewSource(time.Now().UnixNano()))
-	t.usedList = append(t.usedList, title)
+func (p *ProxyTitle) Get() string {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	if len(p.titleList) == 0 {
+		return faker.New().RandomLetter() + "IsFaker"
+	}
+
+	title := p.titleList.Random(rand.NewSource(time.Now().UnixNano()))
+	p.titleList = p.titleList.FilterNot(func(t string) bool {
+		return t == title
+	})
+
 	return title
 }
 
