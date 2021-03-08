@@ -5,8 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Luoxin/faker"
 	"github.com/elliotchance/pie/pie"
+
+	"subscribe/utils"
 )
 
 type ProxyTitle struct {
@@ -25,7 +26,7 @@ func (p *ProxyTitle) Get() string {
 	defer p.lock.Unlock()
 
 	if len(p.titleList) == 0 {
-		return faker.New().RandomLetter() + "IsFaker"
+		return utils.RandStringRunes(20) + "IsFaker"
 	}
 
 	title := p.titleList.Random(rand.NewSource(time.Now().UnixNano()))
@@ -34,10 +35,6 @@ func (p *ProxyTitle) Get() string {
 	})
 
 	return title
-}
-
-func Random() string {
-	return TitleList.Random(rand.NewSource(time.Now().UnixNano()))
 }
 
 var TitleList = pie.Strings{

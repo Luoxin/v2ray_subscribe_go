@@ -6,7 +6,6 @@ import (
 	"net"
 	"strings"
 
-	"github.com/Dreamacro/clash/component/fakeip"
 	"github.com/Dreamacro/clash/component/trie"
 	"github.com/Dreamacro/clash/dns"
 	"github.com/elliotchance/pie/pie"
@@ -114,11 +113,6 @@ func init() {
 		}
 	})
 
-	log.Infof("%+v", nameServices)
-
-	_, ipnet, _ := net.ParseCIDR("192.168.0.1/29")
-	fakeIpPool, _ := fakeip.New(ipnet, 10, nil)
-
 	dnsConfig := dns.Config{
 		Main:           nameServices,
 		Fallback:       nameServices,
@@ -126,7 +120,7 @@ func init() {
 		IPv6:           true,
 		EnhancedMode:   dns.MAPPING,
 		FallbackFilter: dns.FallbackFilter{},
-		Pool:           fakeIpPool,
+		Pool:           nil,
 		Hosts:          trie.New(),
 	}
 

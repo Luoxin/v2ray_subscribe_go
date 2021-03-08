@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
+	"sync"
 	"text/template"
 
 	"github.com/elliotchance/pie/pie"
@@ -23,13 +24,13 @@ type Proxies struct {
 	proxyList  ProxyList
 	proxyTitle *title.ProxyTitle
 
-	nameMap, proxyMap map[string]bool
+	proxyMap  map[string]bool
+	proxyLock sync.Mutex
 }
 
 func NewProxies() *Proxies {
 	return &Proxies{
 		proxyList:  ProxyList{},
-		nameMap:    make(map[string]bool),
 		proxyMap:   make(map[string]bool),
 		proxyTitle: title.NewProxyTitle(),
 	}
@@ -83,22 +84,7 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	}
 
 	// 改名字
-	var name string
-	{
-		var found bool
-		for {
-			name = ps.proxyTitle.Get()
-			if !ps.nameMap[name] {
-				p.SetName(name)
-				found = true
-				break
-			}
-		}
-
-		if !found {
-			return ps
-		}
-	}
+	p.SetName(ps.proxyTitle.Get())
 
 	c, err := geolite.GetCountry(p.BaseInfo().Server)
 	if err == nil {
@@ -107,7 +93,6 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 		p.SetEmoji(c.Emoji)
 	}
 
-	ps.nameMap[name] = true
 	ps.proxyMap[baseUrl] = true
 
 	ps.proxyList = append(ps.proxyList, p)

@@ -1,0 +1,335 @@
+2021-03-08T12:48:58+08:00(subscribe/conf.InitConfig config.go:157)[36m [info] [0mget config {Debug:false Db:{Addr:mysql://root:N6qCcRQf2zNlxmHz7OtdeJ6T67zWJj7l@tcp(203.195.187.254:3306)/release?charset=utf8mb4&parseTime=True&loc=Local} Crawler:{Enable:false Proxies:http://127.0.0.1:7890 CrawlerInterval:3600} ProxyCheck:{Enable:false CheckInterval:300} HttpService:{Enable:false Host:127.0.0.1 Port:2003} Proxy:{Enable:true MixedPort:7891} Profiler:{Enable:false ServerAddress:http://localhost:4040}}
+2021-03-08T12:48:58+08:00(subscribe/db.InitDb db.go:19)[36m [info] [0mconnect to database mysql://root:N6qCcRQf2zNlxmHz7OtdeJ6T67zWJj7l@tcp(203.195.187.254:3306)/release?charset=utf8mb4&parseTime=True&loc=Local
+2021-03-08T12:48:58+08:00(subscribe/db.InitDb db.go:54)[36m [info] [0mauto migrate tables
+2021-03-08T12:48:58+08:00(subscribe.Init start.go:25)[36m [info] [0minit conf success
+2021-03-08T12:48:58+08:00(subscribe/task.InitWorker task.go:42)[33m [warn] [0mcrawler not start
+2021-03-08T12:48:58+08:00(subscribe/task.InitWorker task.go:88)[33m [warn] [0mproxy check not start
+2021-03-08T12:48:58+08:00(subscribe.Init start.go:33)[36m [info] [0minit worker success
+2021-03-08T12:48:58+08:00(subscribe/http.InitHttpService service.go:16)[33m [warn] [0mhttp service not start
+2021-03-08T12:48:58+08:00(subscribe.Init start.go:41)[36m [info] [0minit http service success
+fatal error: concurrent map read and map write
+
+goroutine 57 [running]:
+runtime.throw(0x1715da1, 0x21)
+	D:/Scoop/apps/go/current/src/runtime/panic.go:1117 +0x79 fp=0xc000245e18 sp=0xc000245de8 pc=0x81bd99
+runtime.mapaccess1_faststr(0x159a920, 0xc000814ea0, 0x17242f8, 0x30, 0x2006e20)
+	D:/Scoop/apps/go/current/src/runtime/map_faststr.go:21 +0x465 fp=0xc000245e88 sp=0xc000245e18 pc=0x7f5e85
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0002e43f0, 0x86, 0xc0001806c0)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:91 +0x15a fp=0xc000245f40 sp=0xc000245e88 pc=0x118c0fa
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75 fp=0xc000245f88 sp=0xc000245f40 pc=0x1224355
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc0008150e0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b fp=0xc000245fd8 sp=0xc000245f88 pc=0xd5c89b
+runtime.goexit()
+	D:/Scoop/apps/go/current/src/runtime/asm_amd64.s:1371 +0x1 fp=0xc000245fe0 sp=0xc000245fd8 pc=0x850921
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 1 [sync.Cond.Wait]:
+sync.runtime_notifyListWait(0xc0004d64d0, 0x2ad0000005d)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:513 +0x117
+sync.(*Cond).Wait(0xc0004d64c0)
+	D:/Scoop/apps/go/current/src/sync/cond.go:56 +0x9f
+github.com/panjf2000/ants/v2.(*Pool).retrieveWorker(0xc0002eb500, 0x0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:236 +0x105
+github.com/panjf2000/ants/v2.(*Pool).Submit(0xc0002eb500, 0xc0005a05c0, 0x0, 0x0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:150 +0x3e
+main.main.func1.1(0xc0002097a0)
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:55 +0xc8
+subscribe/domain.ProxyNodeList.Each(0xc000662000, 0x6f8, 0x7d0, 0xc0008bbd48, 0x52f, 0x6a8, 0xc0004d6440)
+	D:/Coding/v2ray_subscribe_go/domain/proxynodelist_pie.go:155 +0x44
+main.main.func1(0x1)
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:49 +0x2ea
+main.main()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:98 +0x1cd
+
+goroutine 6 [chan receive]:
+github.com/Dreamacro/clash/common/observable.(*Observable).process(0xc000066540)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/common/observable/observable.go:16 +0xd0
+created by github.com/Dreamacro/clash/common/observable.NewObservable
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/common/observable/observable.go:63 +0x8b
+
+goroutine 7 [chan receive]:
+github.com/Dreamacro/clash/tunnel/statistic.(*Manager).handle(0xc0000704e0)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/statistic/manager.go:83 +0xb1
+created by github.com/Dreamacro/clash/tunnel/statistic.init.0
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/statistic/manager.go:22 +0x145
+
+goroutine 8 [chan receive]:
+github.com/Dreamacro/clash/tunnel.process()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:111 +0xdd
+created by github.com/Dreamacro/clash/tunnel.init.0
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:37 +0x3c
+
+goroutine 18 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 19 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 20 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 21 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 22 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 23 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 24 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 25 [chan receive]:
+github.com/Dreamacro/clash/tunnel.processUDP()
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:96 +0x6a
+created by github.com/Dreamacro/clash/tunnel.process
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/tunnel/tunnel.go:107 +0x65
+
+goroutine 9 [chan receive]:
+github.com/panjf2000/ants/v2.(*Pool).purgePeriodically(0xc0001617a0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:69 +0x111
+created by github.com/panjf2000/ants/v2.NewPool
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:137 +0x23d
+
+goroutine 12 [select]:
+database/sql.(*DB).connectionOpener(0xc0005ad520, 0x19ec9d8, 0xc0000a7000)
+	D:/Scoop/apps/go/current/src/database/sql/sql.go:1133 +0xbc
+created by database/sql.OpenDB
+	D:/Scoop/apps/go/current/src/database/sql/sql.go:740 +0x132
+
+goroutine 29 [select]:
+github.com/roylee0704/gron.(*Cron).run(0xc0002d4db0)
+	D:/Scoop/go/pkg/mod/github.com/roylee0704/gron@v0.0.0-20160621042432-e78485adab46/cron.go:133 +0x4ca
+created by github.com/roylee0704/gron.(*Cron).Start
+	D:/Scoop/go/pkg/mod/github.com/roylee0704/gron@v0.0.0-20160621042432-e78485adab46/cron.go:73 +0x4a
+
+goroutine 14 [select]:
+github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher.func1(0xc000087080, 0xc000409e60, 0xc00000a180)
+	D:/Scoop/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:621 +0xa7
+created by github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher
+	D:/Scoop/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:618 +0xcc
+
+goroutine 30 [sleep]:
+time.Sleep(0x13d92d40)
+	D:/Scoop/apps/go/current/src/runtime/time.go:193 +0xe5
+github.com/whiteshtef/clockwork.(*Scheduler).Run(0xc0002d4e10)
+	D:/Scoop/go/pkg/mod/github.com/whiteshtef/clockwork@v0.0.0-20200221012748-027e62affd84/clockwork.go:451 +0xcd
+subscribe/task.InitWorker.func6(0xc0002d4e10)
+	D:/Coding/v2ray_subscribe_go/task/task.go:94 +0x32
+created by subscribe/task.InitWorker
+	D:/Coding/v2ray_subscribe_go/task/task.go:93 +0x74a
+
+goroutine 31 [chan receive]:
+github.com/panjf2000/ants/v2.(*Pool).purgePeriodically(0xc0002eb500)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:69 +0x111
+created by github.com/panjf2000/ants/v2.NewPool
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/pool.go:137 +0x23d
+
+goroutine 15 [chan receive]:
+github.com/Dreamacro/clash/dns.(*Resolver).ipExchange(0xc00026b560, 0xc00026b5f0, 0x2030000, 0x20, 0x19bc960)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:213 +0xfb
+github.com/Dreamacro/clash/dns.(*Resolver).exchangeWithoutCache.func1(0x0, 0x0, 0x0, 0x0)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:131 +0xbe
+golang.org/x/sync/singleflight.(*Group).doCall.func2(0xc0009a3b6e, 0xc000086360, 0xc0009a3c80)
+	D:/Scoop/go/pkg/mod/golang.org/x/sync@v0.0.0-20201207232520-09787c993a3a/singleflight/singleflight.go:193 +0x69
+golang.org/x/sync/singleflight.(*Group).doCall(0xc00026b5d0, 0xc000086360, 0xc000526d68, 0x15, 0xc0009a3c80)
+	D:/Scoop/go/pkg/mod/golang.org/x/sync@v0.0.0-20201207232520-09787c993a3a/singleflight/singleflight.go:195 +0xc5
+golang.org/x/sync/singleflight.(*Group).Do(0xc00026b5d0, 0xc000526d68, 0x15, 0xc0009a3c80, 0xc000526900, 0x15, 0xc0009a3ca0, 0xc9fbb5, 0x0)
+	D:/Scoop/go/pkg/mod/golang.org/x/sync@v0.0.0-20201207232520-09787c993a3a/singleflight/singleflight.go:108 +0x154
+github.com/Dreamacro/clash/dns.(*Resolver).exchangeWithoutCache(0xc00026b560, 0xc00026b5f0, 0xc0009a3d40, 0x0, 0x0)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:118 +0xfb
+github.com/Dreamacro/clash/dns.(*Resolver).Exchange(0xc00026b560, 0xc00026b5f0, 0xe, 0x19c0001, 0xc00026b5f0)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:111 +0x2ef
+github.com/Dreamacro/clash/dns.(*Resolver).resolveIP(0xc00026b560, 0xc000848123, 0xd, 0xc000360001, 0x4cb, 0x7f5ca7, 0xc0009a3e98, 0xc667db7d, 0x5c8581f08b682dbb)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:245 +0x205
+github.com/Dreamacro/clash/dns.(*Resolver).ResolveIPv4(...)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:75
+subscribe/geolite.GetCountry(0xc000848123, 0xd, 0x0, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:152 +0xeb
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc00016d400, 0x130, 0xc000180360)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000814f30)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 16 [runnable]:
+subscribe/proxy.mapStrInter2VmessLinkJson(0xc000704630, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)
+	D:/Coding/v2ray_subscribe_go/proxy/vmess.go:405 +0x2d3
+subscribe/proxy.ParseVmessLink(0xc000706480, 0x16c, 0xc000706480, 0x16c, 0x16c)
+	D:/Coding/v2ray_subscribe_go/proxy/vmess.go:288 +0x12bd
+subscribe/proxy.ParseProxy(0xc0003a6780, 0x16c, 0xc000062800, 0x81e9da, 0x18d62f8, 0xc000044000)
+	D:/Coding/v2ray_subscribe_go/proxy/parse.go:32 +0x5d5
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0003a6780, 0x16c, 0xc0001803c0)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:71 +0x54
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000814f60)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 50 [runnable]:
+sync.runtime_SemacquireMutex(0xc00030e084, 0x16f3800, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:71 +0x4e
+sync.(*Mutex).lockSlow(0xc00030e080)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:138 +0x10f
+sync.(*Mutex).Lock(...)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:81
+subscribe/title.(*ProxyTitle).Get(0xc00030e080, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/title/proxy_title.go:24 +0x357
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0000c3380, 0xce, 0xc000180420)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:90 +0x11b
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000814f90)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 51 [runnable]:
+sync.runtime_Semrelease(0x2004aec, 0x1, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:66 +0x45
+sync.(*Mutex).unlockSlow(0x2004ae8, 0xc00000000c)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:224 +0xbb
+sync.(*Mutex).Unlock(0x2004ae8)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:190 +0x4f
+subscribe/geolite.GetCountry(0xc00045026a, 0xe, 0xc0006d3d00, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:194 +0x407
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0002e42d0, 0x86, 0xc000180480)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000814fc0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 52 [runnable]:
+sync.runtime_Semrelease(0x2004aec, 0x1, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:66 +0x45
+sync.(*Mutex).unlockSlow(0x2004ae8, 0xc000000014)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:224 +0xbb
+sync.(*Mutex).Unlock(0x2004ae8)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:190 +0x4f
+subscribe/geolite.GetCountry(0xc000228900, 0xf, 0xc0006d3c40, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:194 +0x407
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0003a6300, 0x171, 0xc0001804e0)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000814ff0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 53 [runnable]:
+sync.runtime_Semrelease(0x2004aec, 0x1, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:66 +0x45
+sync.(*Mutex).unlockSlow(0x2004ae8, 0xc00000001c)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:224 +0xbb
+sync.(*Mutex).Unlock(0x2004ae8)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:190 +0x4f
+subscribe/geolite.GetCountry(0xc000228240, 0xd, 0xc0006d3b80, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:194 +0x407
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc000205e00, 0x16e, 0xc000180540)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000815020)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 54 [runnable]:
+sync.runtime_Semrelease(0x2004aec, 0x1, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:66 +0x45
+sync.(*Mutex).unlockSlow(0x2004ae8, 0xc000000024)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:224 +0xbb
+sync.(*Mutex).Unlock(0x2004ae8)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:190 +0x4f
+subscribe/geolite.GetCountry(0xc0006a41e0, 0xc, 0xc0006d3ac0, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:194 +0x407
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0000c31e0, 0xce, 0xc0001805a0)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000815050)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 55 [semacquire]:
+sync.runtime_SemacquireMutex(0x2004aec, 0x500, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:71 +0x4e
+sync.(*Mutex).lockSlow(0x2004ae8)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:138 +0x10f
+sync.(*Mutex).Lock(...)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:81
+subscribe/geolite.GetCountry(0xc000038300, 0xd, 0x0, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/geolite/geolite.go:143 +0x5ed
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0000a2b40, 0xb2, 0xc000180600)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:103 +0x1bd
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc000815080)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 56 [semacquire]:
+sync.runtime_SemacquireMutex(0xc00030e084, 0xc00002e700, 0x1)
+	D:/Scoop/apps/go/current/src/runtime/sema.go:71 +0x4e
+sync.(*Mutex).lockSlow(0xc00030e080)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:138 +0x10f
+sync.(*Mutex).Lock(...)
+	D:/Scoop/apps/go/current/src/sync/mutex.go:81
+subscribe/title.(*ProxyTitle).Get(0xc00030e080, 0x0, 0x0)
+	D:/Coding/v2ray_subscribe_go/title/proxy_title.go:24 +0x357
+subscribe/proxies.(*Proxies).AppendWithUrl(0xc000814f00, 0xc0002e4510, 0x86, 0xc000180660)
+	D:/Coding/v2ray_subscribe_go/proxies/proxies.go:90 +0x11b
+main.main.func1.1.1()
+	D:/Coding/v2ray_subscribe_go/cmd/windows.go:57 +0x75
+github.com/panjf2000/ants/v2.(*goWorker).run.func1(0xc0008150b0)
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:68 +0x9b
+created by github.com/panjf2000/ants/v2.(*goWorker).run
+	D:/Scoop/go/pkg/mod/github.com/panjf2000/ants/v2@v2.4.3/worker.go:48 +0x53
+
+goroutine 184 [runnable]:
+github.com/Dreamacro/clash/dns.(*Resolver).asyncExchange.func1(0xc00026b560, 0xc00021adb0, 0x1, 0x1, 0xc00026b5f0, 0xc000086420)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:270
+created by github.com/Dreamacro/clash/dns.(*Resolver).asyncExchange
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:270 +0x9e
+
+goroutine 185 [runnable]:
+github.com/Dreamacro/clash/dns.(*Resolver).asyncExchange.func1(0xc00026b560, 0xc00021add0, 0x1, 0x1, 0xc00026b5f0, 0xc0000865a0)
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:270
+created by github.com/Dreamacro/clash/dns.(*Resolver).asyncExchange
+	D:/Scoop/go/pkg/mod/github.com/!dreamacro/clash@v1.4.1/dns/resolver.go:270 +0x9e
+exit status 2
