@@ -14,6 +14,12 @@ import (
 )
 
 func InitWorker() error {
+	err := InitProxy()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	c := gron.New()
 
 	sched := clockwork.NewScheduler()

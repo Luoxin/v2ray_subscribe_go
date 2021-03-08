@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"subscribe/node"
 	"subscribe/pac"
 
 	"github.com/bluele/gcache"
@@ -15,10 +16,8 @@ import (
 	"github.com/xxjwxc/ginrpc/api"
 
 	"subscribe/conf"
-	"subscribe/db"
 	"subscribe/domain"
 	"subscribe/proxies"
-	"subscribe/task"
 	"subscribe/title"
 	"subscribe/utils"
 )
@@ -48,7 +47,7 @@ func (*Subscribe) Version(c *api.Context) {
 
 // @Router /subscription [get]
 func (*Subscribe) Subscription(c *api.Context) {
-	nodes, err := GetUsableNodeList(50)
+	nodes, err := node.GetUsableNodeList(50)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -127,7 +126,7 @@ func (*Subscribe) SubClash(c *api.Context) {
 		}
 	}
 
-	nodes, err := GetUsableNodeList(50)
+	nodes, err := node.GetUsableNodeList(50)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -154,10 +153,10 @@ func (*Subscribe) SubClash(c *api.Context) {
 }
 
 // @Router /addnode [post,get]
-func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error) {
+func (*Subscribe) AddNode(c *gin.Context, req *AddNodeReq) (*AddNodeRsp, error) {
 	var rsp AddNodeRsp
 
-	err := task.AddNode(node.NodeUrl)
+	err := node.AddNode(req.NodeUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return nil, err
@@ -169,32 +168,4 @@ func (*Subscribe) AddNode(c *gin.Context, node *AddNodeReq) (*AddNodeRsp, error)
 // @Router /pac [post,get]
 func (*Subscribe) Pac(c *api.Context) {
 	c.String(http.StatusOK, pac.Get())
-}
-
-func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
-	query := db.Db.Where("is_close = ?", false).
-		Where("proxy_speed > 0 ").
-		// Where("proxy_node_type = 1").
-		Where("available_count > 0 ").
-		Where("proxy_network_delay >= 0").
-		//Where("death_count < ?", 10).
-		// Order("proxy_node_type").
-		Order("available_count DESC").
-		Order("proxy_speed DESC").
-		Order("proxy_network_delay").
-		Order("death_count").
-		Order("last_crawler_at DESC")
-
-	if quantity >= 0 {
-		query.Limit(quantity)
-	}
-
-	var nodes domain.ProxyNodeList
-	err := query.Find(&nodes).Error
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return nil, err
-	}
-
-	return nodes, err
 }

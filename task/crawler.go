@@ -7,17 +7,14 @@ import (
 
 	"github.com/Luoxin/faker"
 
-	"subscribe/conf"
-	"subscribe/db"
-	"subscribe/parser"
-	"subscribe/proxy"
-
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 
 	conf2 "subscribe/conf"
+	"subscribe/db"
 	"subscribe/domain"
+	"subscribe/node"
+	"subscribe/parser"
 	"subscribe/utils"
 )
 
@@ -90,7 +87,7 @@ func crawler() error {
 					}
 
 					p.ParserText(resp.Text).Each(func(nodeUrl string) {
-						err = addNode(nodeUrl, conf.Id, conf.Interval)
+						err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
 						if err != nil {
 							log.Errorf("err:%v", err)
 							return
@@ -141,87 +138,6 @@ func crawler() error {
 				return
 			}
 		})
-
-	return nil
-}
-
-func AddNode(nodeUrl string) error {
-	err := addNode(nodeUrl, 0, 0)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	return nil
-}
-
-func addNode(ru string, crawlerId uint64, checkInterval uint32) error {
-	if checkInterval == 0 {
-		checkInterval = conf.Config.ProxyCheck.CheckInterval
-	}
-
-	proxyNodeType := utils.GetProxyNodeType(ru)
-
-	node := &domain.ProxyNode{
-		NodeDetail: &domain.ProxyNode_NodeDetail{
-			Buf: ru,
-		},
-		CrawlId: crawlerId,
-
-		LastCrawlerAt: utils.Now(),
-		CheckInterval: checkInterval,
-		ProxyNodeType: uint32(proxyNodeType),
-	}
-
-	proxyNode, err := proxy.ParseProxy(ru)
-	if err != nil {
-		return err
-	}
-
-	proxyNode.SetCountry("")
-	proxyNode.SetName("proxy")
-
-	node.Url = proxyNode.Link()
-
-	var oldNode domain.ProxyNode
-	err = db.Db.Where("url = ?", node.Url).First(&oldNode).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			// 创建
-			log.Infof("add new proxy node: %v", node.Url)
-			node.CreatedAt = utils.Now()
-			err = db.Db.Create(&node).Error
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return err
-			}
-		} else {
-			log.Errorf("err:%v", err)
-			return err
-		}
-	} else {
-		// 更新
-		log.Infof("update proxy node: %v", node.Url)
-
-		node.Id = oldNode.Id
-		node.CheckInterval = oldNode.CheckInterval
-
-		node.ProxyNetworkDelay = oldNode.ProxyNetworkDelay
-		node.ProxySpeed = oldNode.ProxySpeed
-		node.NextCheckAt = oldNode.NextCheckAt
-
-		if oldNode.DeathCount > 10 {
-			node.DeathCount = 10
-		} else {
-			node.AvailableCount = oldNode.AvailableCount
-		}
-
-		err = db.Db.Save(node).Error
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		}
-	}
 
 	return nil
 }
