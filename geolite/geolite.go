@@ -126,6 +126,104 @@ func init() {
 
 	dnsResolver = dns.NewResolver(dnsConfig)
 	//
+	// overtrurConfig := config.Config{
+	// 	BindAddress:              "7891",
+	// 	DebugHTTPAddress:         "127.0.0.1:2006",
+	// 	PrimaryDNS:               []*common.DNSUpstream{},
+	// 	OnlyPrimaryDNS:           true,
+	// 	IPv6UseAlternativeDNS:    false,
+	// 	AlternativeDNSConcurrent: true,
+	// 	IPNetworkFile: struct {
+	// 		Primary     string
+	// 		Alternative string
+	// 	}{
+	// 		Primary:     "./ip_network_primary_sample",
+	// 		Alternative: "./ip_network_alternative_sample",
+	// 	},
+	// 	DomainFile: struct {
+	// 		Primary            string
+	// 		Alternative        string
+	// 		PrimaryMatcher     string
+	// 		AlternativeMatcher string
+	// 		Matcher            string
+	// 	}{
+	// 		Primary:            "./domain_primary",
+	// 		Alternative:        "./domain_alternative",
+	// 		PrimaryMatcher:     "",
+	// 		AlternativeMatcher: "",
+	// 		Matcher:            "full-map",
+	// 	},
+	// 	HostsFile: struct {
+	// 		HostsFile string
+	// 		Finder    string
+	// 	}{
+	// 		HostsFile: "./hosts",
+	// 		Finder:    "full-map",
+	// 	},
+	// 	MinimumTTL:    86400,
+	// 	DomainTTLFile: "./domain_ttl",
+	// 	CacheSize:     10000,
+	// 	// RejectQType:                 255,
+	// 	WhenPrimaryDNSAnswerNoneUse: "primaryDNS",
+	// }
+	//
+	// dnsServices.Unique().Each(func(service string) {
+	// 	var dnsUpstream common.DNSUpstream
+	// 	if strings.HasPrefix(service, "tls://") {
+	// 		return
+	// 		nameServices = append(nameServices, dns.NameServer{
+	// 			Net:  "tcp-tls",
+	// 			Addr: strings.TrimPrefix(service, "tls://"),
+	// 		})
+	// 	} else if strings.HasPrefix(service, "http://") {
+	// 		return
+	// 		nameServices = append(nameServices, dns.NameServer{
+	// 			Net:  "http",
+	// 			Addr: service,
+	// 		})
+	// 	} else if strings.HasPrefix(service, "https://") {
+	// 		return
+	// 		nameServices = append(nameServices, dns.NameServer{
+	// 			Net:  "https",
+	// 			Addr: service,
+	// 		})
+	// 	} else {
+	// 		dnsUpstream = common.DNSUpstream{
+	// 			Name:     service,
+	// 			Address:  service,
+	// 			Protocol: "udp",
+	// 			Timeout:  1,
+	// 			EDNSClientSubnet: &common.EDNSClientSubnetType{
+	// 				Policy:     "disable",
+	// 				ExternalIP: "",
+	// 				NoCookie:   true,
+	// 			},
+	// 		}
+	// 	}
+	//
+	// 	overtrurConfig.PrimaryDNS = append(overtrurConfig.PrimaryDNS, &dnsUpstream)
+	// })
+	//
+	// dispatcher := outbound.Dispatcher{
+	// 	PrimaryDNS:                  overtrurConfig.PrimaryDNS,
+	// 	AlternativeDNS:              overtrurConfig.AlternativeDNS,
+	// 	OnlyPrimaryDNS:              overtrurConfig.OnlyPrimaryDNS,
+	// 	WhenPrimaryDNSAnswerNoneUse: overtrurConfig.WhenPrimaryDNSAnswerNoneUse,
+	// 	// IPNetworkPrimarySet:         overtrurConfig.IPNetworkPrimarySet,
+	// 	// IPNetworkAlternativeSet:     overtrurConfig.IPNetworkAlternativeSet,
+	// 	DomainPrimaryList:     overtrurConfig.DomainPrimaryList,
+	// 	DomainAlternativeList: overtrurConfig.DomainAlternativeList,
+	//
+	// 	RedirectIPv6Record:       overtrurConfig.IPv6UseAlternativeDNS,
+	// 	AlternativeDNSConcurrent: overtrurConfig.AlternativeDNSConcurrent,
+	// 	MinimumTTL:               overtrurConfig.MinimumTTL,
+	// 	DomainTTLMap:             overtrurConfig.DomainTTLMap,
+	//
+	// 	Hosts: overtrurConfig.Hosts,
+	// 	Cache: overtrurConfig.Cache,
+	// }
+	// dispatcher.Init()
+
 	// ns, err := dnsResolver.ResolveIP("google.com")
 	// if err != nil {
 	// 	log.Error(err)

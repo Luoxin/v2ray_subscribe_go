@@ -118,7 +118,7 @@ func InitProxy() error {
 			select {
 			case <-restartTimer.C:
 				log.Info("restart proxy")
-				restart(false)
+				restart(true)
 
 			case <-checkTimer.C:
 				var aliveCount, proxyCount float64
@@ -180,7 +180,7 @@ func InitProxy() error {
 
 				log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
 				if healthiness < 0.5 {
-					restart(false)
+					restart(true)
 					restartTimer.Reset(restartInterval)
 				}
 

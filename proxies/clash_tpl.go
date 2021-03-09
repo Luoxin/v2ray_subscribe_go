@@ -9,75 +9,75 @@ experimental:
   ignore-resolve-fail: true
 log-level: debug
 external-controller: 127.0.0.1:9090
-dns:
-  enable: true
-  ipv6: true
+# dns:
+#   enable: true
+#   ipv6: true
 #   enhanced-mode: fake-ip 
 #   fake-ip-range: 198.18.0.1/16 
-  nameserver:
-    - tls://dns.alidns.com
-    - tls://dns.cfiec.net
-    - https://2400:3200:baba::1/dns-query
-    - https://2400:3200::1/dns-query
-    - https://dns.cfiec.net/dns-query
-    - https://223.5.5.5/dns-query
-    - https://223.6.6.6/dns-query
-    - https://dns.alidns.com/dns-query
-    - https://dns.ipv6dns.com/dns-query
-    - tls://dns.ipv6dns.com
-    - tls://dns.pub
-    - tls://doh.pub
-    - https://doh.pub/dns-query
-    - 223.5.5.5
+#   nameserver:
+#     - tls://dns.alidns.com
+#     - tls://dns.cfiec.net
+#     - https://2400:3200:baba::1/dns-query
+#     - https://2400:3200::1/dns-query
+#     - https://dns.cfiec.net/dns-query
+#     - https://223.5.5.5/dns-query
+#     - https://223.6.6.6/dns-query
+#     - https://dns.alidns.com/dns-query
+#     - https://dns.ipv6dns.com/dns-query
+#     - tls://dns.ipv6dns.com
+#     - tls://dns.pub
+#     - tls://doh.pub
+#     - https://doh.pub/dns-query
+#     - 223.5.5.5
 #     - 2400:3200::1
 #     - 2001:dc7:1000::1
 #     - 2400:da00::6666
 #     - 2001:cc0:2fff:1::6666
-    - 114.114.114.114
-    - 1.2.4.8
-    - 180.76.76.76
-    - 119.29.29.29
-    - 119.28.28.28
-  fallback: 
-    - https://dns.google/dns-query
-    - tls://dns.google
-    - https://dns.quad9.net/dns-query
-    - https://dns11.quad9.net/dns-query
-    - https://dns.twnic.tw/dns-query
-    - https://1.1.1.1/dns-query
-    - https://1.0.0.1/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.adguard.com/dns-query
-    - https://doh.dns.sb/dns-query
-    - tls://185.184.222.222@853
-    - tls://185.222.222.222@853
-    - https://doh-jp.blahdns.com/dns-query
-    - https://public.dns.iij.jp/dns-query
-    - https://v6.rubyfish.cn/dns-query
-    - tls://v6.rubyfish.cn
-    - https://[2001:4860:4860::6464]/dns-query
-    - https://[2001:4860:4860::64]/dns-query
-    - https://[2606:4700:4700::1111]/dns-query
-    - https://[2606:4700:4700::64]/dns-query
-    - https://dns.quad9.net/dns-query
-    - tls://2a09::@853
-    - tls://2a09::1@853
-    - 8.8.8.8
-    - 203.112.2.4
-    - 9.9.9.9
-    - 101.101.101.101
-    - 203.80.96.10
-    - 218.102.23.228
-    - 61.10.0.130
-    - 202.181.240.44
-    - 112.121.178.187
-    - 168.95.192.1
-    - 202.76.4.1
-    - 202.14.67.4
-  fallback-filter:
-    geoip: true 
-    ipcidr:
-      - 240.0.0.0/4
+#     - 114.114.114.114
+#     - 1.2.4.8
+#     - 180.76.76.76
+#     - 119.29.29.29
+#     - 119.28.28.28
+#   fallback: 
+#     - https://dns.google/dns-query
+#     - tls://dns.google
+#     - https://dns.quad9.net/dns-query
+#     - https://dns11.quad9.net/dns-query
+#     - https://dns.twnic.tw/dns-query
+#     - https://1.1.1.1/dns-query
+#     - https://1.0.0.1/dns-query
+#     - https://cloudflare-dns.com/dns-query
+#     - https://dns.adguard.com/dns-query
+#     - https://doh.dns.sb/dns-query
+#     - tls://185.184.222.222@853
+#     - tls://185.222.222.222@853
+#     - https://doh-jp.blahdns.com/dns-query
+#     - https://public.dns.iij.jp/dns-query
+#     - https://v6.rubyfish.cn/dns-query
+#     - tls://v6.rubyfish.cn
+#     - https://[2001:4860:4860::6464]/dns-query
+#     - https://[2001:4860:4860::64]/dns-query
+#     - https://[2606:4700:4700::1111]/dns-query
+#     - https://[2606:4700:4700::64]/dns-query
+#     - https://dns.quad9.net/dns-query
+#     - tls://2a09::@853
+#     - tls://2a09::1@853
+#     - 8.8.8.8
+#     - 203.112.2.4
+#     - 9.9.9.9
+#     - 101.101.101.101
+#     - 203.80.96.10
+#     - 218.102.23.228
+#     - 61.10.0.130
+#     - 202.181.240.44
+#     - 112.121.178.187
+#     - 168.95.192.1
+#     - 202.76.4.1
+#     - 202.14.67.4
+#   fallback-filter:
+#     geoip: true 
+#     ipcidr:
+#       - 240.0.0.0/4
 proxies:
 {{ range .ProxyList}}  - {{ .}}
 {{ end}}proxy-groups:
