@@ -130,6 +130,10 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 				return nil
 			}
 
+			if result.Speed > 5000 {
+				return nil
+			}
+
 			psn.AppendWithUrl(result.ProxyUrl)
 			return nil
 		})

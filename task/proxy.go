@@ -29,7 +29,7 @@ func InitProxy() error {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
-		var isFirst = false
+		var isFirst = true
 
 		// antPool, err := ants.NewPool(10)
 		// if err != nil {
@@ -179,7 +179,7 @@ func InitProxy() error {
 				healthiness := aliveCount / proxyCount
 
 				log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
-				if healthiness < 0.1 {
+				if healthiness < 0.5 {
 					restart(false)
 					restartTimer.Reset(restartInterval)
 				}
