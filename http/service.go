@@ -3,10 +3,8 @@ package http
 import (
 	"fmt"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	log "github.com/sirupsen/logrus"
-	"github.com/xxjwxc/ginrpc"
-	"github.com/xxjwxc/ginrpc/api"
 
 	"subscribe/conf"
 )
@@ -17,23 +15,50 @@ func InitHttpService() error {
 		return nil
 	}
 
-	base := ginrpc.New(
-		ginrpc.WithCtx(api.NewAPIFunc),
-		ginrpc.WithDebug(conf.Config.Debug),
-		ginrpc.WithOutDoc(true),
-	)
+	// https://github.com/gofiber/fiber
 
-	router := gin.Default()
-	group := router.Group("/api")
-	base.Register(group, new(Subscribe))
+	app := fiber.New()
 
-	go func() {
-		err := router.Run(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return
-		}
-	}()
+	app.Use("/api", func(c *fiber.Ctx) error {
+		fmt.Println("🥈 Second handler")
+		return c.Next()
+	})
+
+	// GET /john
+	app.Get("/:name", func(c *fiber.Ctx) error {
+		msg := fmt.Sprintf("Hello, %s 👋!", c.Params("name"))
+		return c.SendString(msg) // => Hello john 👋!
+	})
+
+	// GET /john/75
+	app.Get("/:name/:age", func(c *fiber.Ctx) error {
+		msg := fmt.Sprintf("👴 %s is %s years old", c.Params("name"), c.Params("age"))
+		return c.SendString(msg) // => 👴 john is 75 years old
+	})
+
+	// GET /dictionary.txt
+	app.Get("/:file.:ext", func(c *fiber.Ctx) error {
+		msg := fmt.Sprintf("📃 %s.%s", c.Params("file"), c.Params("ext"))
+		return c.SendString(msg) // => 📃 dictionary.txt
+	})
+
+	// GET /flights/LAX-SFO
+	app.Get("/flights/:from-:to", func(c *fiber.Ctx) error {
+		msg := fmt.Sprintf("💸 From: %s, To: %s", c.Params("from"), c.Params("to"))
+		return c.SendString(msg) // => 💸 From: LAX, To: SFO
+	})
+
+	// GET /api/register
+	app.Get("/api/*", func(c *fiber.Ctx) error {
+		msg := fmt.Sprintf("✋ %s", c.Params("*"))
+		return c.SendString(msg) // => ✋ register
+	})
+
+	err := app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 
 	return nil
 }

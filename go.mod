@@ -16,9 +16,11 @@ require (
 	github.com/elliotchance/pie v1.38.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/gofiber/fiber/v2 v2.5.0 // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gookit/color v1.3.8 // indirect
+	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magefile/mage v1.11.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
@@ -41,6 +43,8 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
 	github.com/ugorji/go v1.2.4 // indirect
+	github.com/valyala/fasthttp v1.22.0 // indirect
+	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
 	github.com/xxjwxc/public v0.0.0-20210303034518-3d2086731fb9 // indirect
@@ -49,7 +53,7 @@ require (
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20210309040221-94ec62e08169
+	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
 	golang.org/x/text v0.3.5 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
