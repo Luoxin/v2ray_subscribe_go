@@ -21,8 +21,19 @@ import (
 	"subscribe/utils"
 )
 
-func InitProxy() error {
+func InitProxy(finishC chan bool) error {
+	finish := func() {
+		if finishC != nil {
+			select {
+			case finishC <- true:
+			default:
+
+			}
+		}
+	}
+
 	if !conf.Config.Proxy.Enable {
+		finish()
 		return nil
 	}
 
@@ -107,6 +118,7 @@ func InitProxy() error {
 		}
 
 		restart(true)
+		finish()
 
 		pac.InitPac()
 

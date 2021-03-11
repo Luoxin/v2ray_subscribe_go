@@ -2,6 +2,7 @@ package task
 
 import (
 	"sync"
+	"time"
 
 	"github.com/roylee0704/gron"
 	"github.com/roylee0704/gron/xtime"
@@ -14,7 +15,8 @@ import (
 )
 
 func InitWorker() error {
-	err := InitProxy()
+	finishC := make(chan bool, 1)
+	err := InitProxy(finishC)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -23,6 +25,12 @@ func InitWorker() error {
 	c := gron.New()
 
 	sched := clockwork.NewScheduler()
+
+	select {
+	case <-finishC:
+	case <-time.After(time.Minute * 10):
+		log.Warn("proxy start timeout")
+	}
 
 	var w sync.WaitGroup
 	if conf.Config.Crawler.Enable {
