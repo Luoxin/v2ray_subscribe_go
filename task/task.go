@@ -22,8 +22,6 @@ func InitWorker() error {
 		return err
 	}
 
-	c := gron.New()
-
 	sched := clockwork.NewScheduler()
 
 	select {
@@ -31,6 +29,8 @@ func InitWorker() error {
 	case <-time.After(time.Minute * 10):
 		log.Warn("proxy start timeout")
 	}
+
+	c := gron.New()
 
 	var w sync.WaitGroup
 	if conf.Config.Crawler.Enable {
@@ -85,12 +85,9 @@ func InitWorker() error {
 
 		sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
 			err := db.Db.
-				Where("death_count > ?", 40).
-				Where("available_count > ?", 0).
+				Where("death_count > ?", 20).
 				Updates(map[string]interface{}{
-					"death_count": 0,
-
-					"available_count": 0,
+					"death_count": "death_count - 10",
 				}).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
