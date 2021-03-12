@@ -209,9 +209,10 @@ proxies:
   - name: 🎯 全球直连
     type: select
     proxies:
-      - DIRECT
-      - 🚀 节点选择
+      - 🔯 故障转移
       - ♻️ 自动选择
+      - 🚀 节点选择
+      - DIRECT
   - name: 🛑 广告拦截
     type: select
     proxies:
