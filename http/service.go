@@ -7,6 +7,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/utils"
+	"github.com/gofiber/storage/sqlite3"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe/conf"
@@ -21,6 +25,7 @@ func InitHttpService() error {
 	// https://github.com/gofiber/fiber
 
 	app := fiber.New()
+	app.Server().Logger = log.New()
 
 	err := registerRouting(app)
 	if err != nil {
@@ -28,49 +33,46 @@ func InitHttpService() error {
 		return err
 	}
 
-	app.Use(cache.New(cache.Config{
-		Next: func(c *fiber.Ctx) bool {
-			refresh := c.Query("refresh")
-			return refresh == "1" || strings.ToLower(refresh) == "true"
-		},
-		Expiration:   time.Minute * 5,
-		CacheControl: true,
-	}))
-
-	app.Use("/api", func(c *fiber.Ctx) error {
-		fmt.Println("🥈 Second handler")
-		return c.Next()
+	storage := sqlite3.New(sqlite3.Config{
+		Database:   "fiber.vdb",
+		Reset:      false,
+		GCInterval: time.Hour,
 	})
-
-	// GET /john
-	app.Get("/:name", func(c *fiber.Ctx) error {
-		msg := fmt.Sprintf("Hello, %s 👋!", c.Params("name"))
-		return c.SendString(msg) // => Hello john 👋!
-	})
-
-	// GET /john/75
-	app.Get("/:name/:age", func(c *fiber.Ctx) error {
-		msg := fmt.Sprintf("👴 %s is %s years old", c.Params("name"), c.Params("age"))
-		return c.SendString(msg) // => 👴 john is 75 years old
-	})
-
-	// GET /dictionary.txt
-	app.Get("/:file.:ext", func(c *fiber.Ctx) error {
-		msg := fmt.Sprintf("📃 %s.%s", c.Params("file"), c.Params("ext"))
-		return c.SendString(msg) // => 📃 dictionary.txt
-	})
-
-	// GET /flights/LAX-SFO
-	app.Get("/flights/:from-:to", func(c *fiber.Ctx) error {
-		msg := fmt.Sprintf("💸 From: %s, To: %s", c.Params("from"), c.Params("to"))
-		return c.SendString(msg) // => 💸 From: LAX, To: SFO
-	})
-
-	// GET /api/register
-	app.Get("/api/*", func(c *fiber.Ctx) error {
-		msg := fmt.Sprintf("✋ %s", c.Params("*"))
-		return c.SendString(msg) // => ✋ register
-	})
+	app.Use(
+		cache.New(cache.Config{
+			Next: func(c *fiber.Ctx) bool {
+				refresh := c.Query("refresh")
+				return refresh == "1" || strings.ToLower(refresh) == "true"
+			},
+			Expiration:   time.Minute * 5,
+			CacheControl: true,
+			Storage:      storage,
+		}),
+		csrf.New(csrf.Config{
+			KeyLookup:      "header:x-csrf-token",
+			CookieName:     "csrf_",
+			CookieSameSite: "Strict",
+			Expiration:     time.Hour,
+			Storage:        storage,
+			KeyGenerator:   utils.UUID,
+		}),
+		compress.New(compress.Config{
+			Level: compress.LevelBestCompression,
+		}),
+		// rewrite.New(rewrite.Config{
+		// 	Rules: map[string]string{
+		// 		"/api/subscribe\\.subscription": "/api/subscribe/sub/v2ray",
+		// 		"/api/subscribe\\.sub_clash":    "/api/subscribe/sub/clash",
+		// 	},
+		// }),
+		// logger.New(logger.Config{
+		// 	Format:       "[${time}] ${status} - ${latency} ${ip} ${ua} ${method} ${path} ${header} ${body}\n",
+		// 	TimeFormat:   "15:04:05",
+		// 	TimeZone:     "Local",
+		// 	TimeInterval: 500 * time.Millisecond,
+		// 	Output:       os.Stdout,
+		// }),
+	)
 
 	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
 	if err != nil {

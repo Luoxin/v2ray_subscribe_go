@@ -2,6 +2,7 @@ package proxies
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"strings"
 	"sync"
@@ -228,4 +229,13 @@ func (ps *Proxies) ToClashConfig() string {
 	}
 
 	return b.String()
+}
+
+func (ps *Proxies) ToV2rayConfig() string {
+	var linkList pie.Strings
+	ps.proxyList.Each(func(p proxy.Proxy) {
+		linkList = append(linkList, p.Link())
+	})
+
+	return base64.URLEncoding.EncodeToString([]byte(strings.Join(linkList, "\n")))
 }
