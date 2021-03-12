@@ -15,21 +15,18 @@ require (
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
-	github.com/gofiber/fiber v1.14.6
 	github.com/gofiber/fiber/v2 v2.5.0
-	github.com/gofiber/rewrite/v2 v2.1.0
 	github.com/gofiber/storage/sqlite3 v0.0.0-20201214031209-9829073dd76f
+	github.com/gofiber/websocket/v2 v2.0.2
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/google/uuid v1.2.0 // indirect
+	github.com/gorilla/websocket v1.4.2
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/magefile/mage v1.11.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
-	github.com/miekg/dns v1.1.40 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
@@ -50,9 +47,6 @@ require (
 	github.com/valyala/fasthttp v1.22.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
-	github.com/xxjwxc/ginrpc v0.0.0-20200904081558-8004c9db8189
-	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
