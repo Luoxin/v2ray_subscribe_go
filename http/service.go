@@ -2,8 +2,11 @@ package http
 
 import (
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe/conf"
@@ -24,6 +27,15 @@ func InitHttpService() error {
 		log.Errorf("err:%v", err)
 		return err
 	}
+
+	app.Use(cache.New(cache.Config{
+		Next: func(c *fiber.Ctx) bool {
+			refresh := c.Query("refresh")
+			return refresh == "1" || strings.ToLower(refresh) == "true"
+		},
+		Expiration:   time.Minute * 5,
+		CacheControl: true,
+	}))
 
 	app.Use("/api", func(c *fiber.Ctx) error {
 		fmt.Println("🥈 Second handler")
@@ -60,7 +72,7 @@ func InitHttpService() error {
 		return c.SendString(msg) // => ✋ register
 	})
 
-	err := app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
+	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

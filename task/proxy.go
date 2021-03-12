@@ -51,7 +51,7 @@ func InitProxy(finishC chan bool) error {
 		restart := func(force bool) {
 			var quantity = -1
 			if !isFirst {
-				quantity = 50
+				quantity = 10
 			}
 
 			nodes, err := node.GetUsableNodeList(quantity)
@@ -119,6 +119,7 @@ func InitProxy(finishC chan bool) error {
 
 		restart(true)
 		finish()
+		restart(true)
 
 		pac.InitPac()
 
