@@ -19,6 +19,12 @@ func InitHttpService() error {
 
 	app := fiber.New()
 
+	err := registerRouting(app)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	app.Use("/api", func(c *fiber.Ctx) error {
 		fmt.Println("🥈 Second handler")
 		return c.Next()

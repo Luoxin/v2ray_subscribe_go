@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
+
 	"subscribe/node"
 	"subscribe/pac"
 
@@ -22,12 +24,8 @@ import (
 	"subscribe/utils"
 )
 
-func registerRouting(r *gin.Engine) error {
-	//r.GET("/version", func(c *gin.Context) {
-	//	c.String(200, version)
-	//})
-
-	return nil
+func Version(c *fiber.Ctx) error {
+	return c.SendString(conf.Version)
 }
 
 type Subscribe struct {
