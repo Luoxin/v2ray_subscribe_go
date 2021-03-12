@@ -352,7 +352,7 @@ rules:
   - DOMAIN-SUFFIX,twimg.com,🔯 故障转移
   - DOMAIN-KEYWORD,blogspot,🔯 故障转移
   - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
-  - DOMAIN-KEYWORD,whatsapp,🎯🔯 故障转移
+  - DOMAIN-KEYWORD,whatsapp,🔯 故障转移
   - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
   - DOMAIN-SUFFIX,ip6-localhost,DIRECT
   - DOMAIN-SUFFIX,ip6-loopback,DIRECT
