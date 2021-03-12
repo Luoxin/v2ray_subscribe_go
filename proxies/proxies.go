@@ -162,11 +162,11 @@ func (ps *Proxies) ToClashConfig() string {
 	}
 
 	countryMap := map[string]*countryNode{
-		"香港": {
-			Name:     "香港",
-			Emoji:    "🇭🇰",
-			NameList: []string{},
-		},
+		// "香港": {
+		// 	Name:     "香港",
+		// 	Emoji:    "🇭🇰",
+		// 	NameList: []string{},
+		// },
 		"台湾省": {
 			Name:     "台湾省",
 			Emoji:    "🇹🇼",

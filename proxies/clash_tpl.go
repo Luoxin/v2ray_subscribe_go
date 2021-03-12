@@ -161,7 +161,6 @@ proxies:
       - DIRECT
       - 🎯 全球直连
       - 🇹🇼 台湾省
-      - 🇭🇰 香港
   - name: 🌍 国外媒体
     type: select
     proxies:
