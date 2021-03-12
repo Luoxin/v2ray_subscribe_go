@@ -12,7 +12,6 @@ import (
 	"github.com/gofiber/fiber/v2/utils"
 	"github.com/gofiber/storage/sqlite3"
 	"github.com/gofiber/websocket/v2"
-	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe/conf"
