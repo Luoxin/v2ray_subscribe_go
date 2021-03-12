@@ -177,8 +177,10 @@ proxies:
   - name: 📢 谷歌FCM
     type: select
     proxies:
-      - DIRECT
+      - 🔯 故障转移
+      - ♻️ 自动选择
       - 🚀 节点选择
+      - DIRECT
 {{ range .CountryGroupList}}      - {{ .}}
 {{ end}}      - 🚀 手动切换
   - name: Ⓜ️ 微软云盘
