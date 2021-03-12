@@ -339,25 +339,25 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
-  - DOMAIN-KEYWORD,amazon,🎯 全球直连
-  - DOMAIN-KEYWORD,google,🎯 全球直连
-  - DOMAIN-KEYWORD,gmail,🎯 全球直连
-  - DOMAIN-KEYWORD,youtube,🎯 全球直连
-  - DOMAIN-KEYWORD,facebook,🎯 全球直连
-  - DOMAIN-SUFFIX,fb.me,🎯 全球直连
-  - DOMAIN-SUFFIX,fbcdn.net,🎯 全球直连
-  - DOMAIN-KEYWORD,twitter,🎯 全球直连
-  - DOMAIN-KEYWORD,instagram,🎯 全球直连
-  - DOMAIN-KEYWORD,dropbox,🎯 全球直连
-  - DOMAIN-SUFFIX,twimg.com,🎯 全球直连
-  - DOMAIN-KEYWORD,blogspot,🎯 全球直连
-  - DOMAIN-SUFFIX,youtu.be,🎯 全球直连
-  - DOMAIN-KEYWORD,whatsapp,🎯 全球直连
-  - DOMAIN-SUFFIX,acl4.ssr,🎯 全球直连
-  - DOMAIN-SUFFIX,ip6-localhost,🎯 全球直连
-  - DOMAIN-SUFFIX,ip6-loopback,🎯 全球直连
-  - DOMAIN-SUFFIX,local,🎯 全球直连
-  - DOMAIN-SUFFIX,localhost,🎯 全球直连
+  - DOMAIN-KEYWORD,amazon,🔯 故障转移
+  - DOMAIN-KEYWORD,google,🔯 故障转移
+  - DOMAIN-KEYWORD,gmail,🔯 故障转移
+  - DOMAIN-KEYWORD,youtube,🔯 故障转移
+  - DOMAIN-KEYWORD,facebook,🔯 故障转移
+  - DOMAIN-SUFFIX,fb.me,🔯 故障转移
+  - DOMAIN-SUFFIX,fbcdn.net,🔯 故障转移
+  - DOMAIN-KEYWORD,twitter,🔯 故障转移
+  - DOMAIN-KEYWORD,instagram,🔯 故障转移
+  - DOMAIN-KEYWORD,dropbox,🔯 故障转移
+  - DOMAIN-SUFFIX,twimg.com,🔯 故障转移
+  - DOMAIN-KEYWORD,blogspot,🔯 故障转移
+  - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
+  - DOMAIN-KEYWORD,whatsapp,🎯🔯 故障转移
+  - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
+  - DOMAIN-SUFFIX,ip6-localhost,DIRECT
+  - DOMAIN-SUFFIX,ip6-loopback,DIRECT
+  - DOMAIN-SUFFIX,local,DIRECT
+  - DOMAIN-SUFFIX,localhost,DIRECT
   - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
   - IP-CIDR,100.64.0.0/10,🎯 全球直连,no-resolve
   - IP-CIDR,127.0.0.0/8,🎯 全球直连,no-resolve
@@ -381,12 +381,12 @@ rules:
   - DOMAIN-SUFFIX,zte.home,🎯 全球直连
   - DOMAIN-SUFFIX,ol.epicgames.com,🎯 全球直连
   - DOMAIN-SUFFIX,dizhensubao.getui.com,🎯 全球直连
-  - DOMAIN,dl.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,googletraveladservices.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tracking-protection.cdn.mozilla.net,🎯 全球直连
+  - DOMAIN,dl.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,googletraveladservices.com,🔯 故障转移
+  - DOMAIN-SUFFIX,tracking-protection.cdn.mozilla.net,🔯 故障转移
   - DOMAIN,origin-a.akamaihd.net,🎯 全球直连
-  - DOMAIN,livew.l.qq.com,🎯 全球直连
-  - DOMAIN,vd.l.qq.com,🎯 全球直连
+  - DOMAIN,livew.l.qq.com,DIRECT
+  - DOMAIN,vd.l.qq.com,DIRECT
   - DOMAIN,analytics.strava.com,🎯 全球直连
   - DOMAIN,msg.umeng.com,🎯 全球直连
   - DOMAIN,msg.umengcloud.com,🎯 全球直连
@@ -28960,6 +28960,6 @@ rules:
   - IP-CIDR,10.0.0.0/8,DIRECT
   - IP-CIDR,17.0.0.0/8,DIRECT
   - IP-CIDR,100.64.0.0/10,DIRECT
-  - GEOIP,CN,🎯 全球直连
+  - GEOIP,CN,DIRECT
   - MATCH,🐟 漏网之鱼
 `
