@@ -3,13 +3,13 @@ module subscribe
 go 1.16
 
 require (
-	github.com/Dreamacro/clash v1.4.1
+	github.com/Dreamacro/clash v1.4.2
 	github.com/Luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
 	github.com/antchfx/xmlquery v1.3.5 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
-	github.com/antonfisher/nested-logrus-formatter v1.3.0
+	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bluele/gcache v0.0.2
 	github.com/d-tsuji/clipboard v0.0.3 // indirect
 	github.com/eddieivan01/nic v0.3.1
@@ -29,11 +29,11 @@ require (
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/panjf2000/ants/v2 v2.4.3
 	github.com/pkg/errors v0.9.1
-	github.com/pyroscope-io/pyroscope v0.0.26
+	github.com/pyroscope-io/pyroscope v0.0.28
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/shawn1m/overture v1.6.1
 	github.com/silenceper/pool v1.0.0 // indirect
-	github.com/sirupsen/logrus v1.8.0
+	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -49,13 +49,13 @@ require (
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20210309040221-94ec62e08169
+	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
 	golang.org/x/text v0.3.5 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	gorm.io/driver/mysql v1.0.4
+	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.3
 )
