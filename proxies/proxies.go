@@ -237,5 +237,5 @@ func (ps *Proxies) ToV2rayConfig() string {
 		linkList = append(linkList, p.Link())
 	})
 
-	return base64.URLEncoding.EncodeToString([]byte(strings.Join(linkList, "\n")))
+	return base64.RawStdEncoding.EncodeToString([]byte(strings.Join(linkList, "\n")))
 }
