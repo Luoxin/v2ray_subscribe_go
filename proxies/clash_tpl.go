@@ -341,6 +341,7 @@ rule-providers:
 rules:
   - DOMAIN-KEYWORD,amazon,🔯 故障转移
   - DOMAIN-KEYWORD,google,🔯 故障转移
+  - DOMAIN-KEYWORD,github,🔯 故障转移
   - DOMAIN-KEYWORD,gmail,🔯 故障转移
   - DOMAIN-KEYWORD,youtube,🔯 故障转移
   - DOMAIN-KEYWORD,facebook,🔯 故障转移
