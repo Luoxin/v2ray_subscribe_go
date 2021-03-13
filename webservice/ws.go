@@ -41,18 +41,35 @@ func (p *WsClient) Init(clientId string) error {
 	})
 
 	c.SetPingHandler(func(appData string) error {
-		return c.WriteJSON(map[string]interface{}{
+		return p.SendMsg(map[string]interface{}{
 			"ping": time.Now().UnixNano(),
 		})
 	})
 
 	c.SetPongHandler(func(appData string) error {
-		return c.WriteJSON(map[string]interface{}{
+		return p.SendMsg(map[string]interface{}{
 			"pong": time.Now().UnixNano(),
 		})
 	})
 
 	return nil
+}
+
+func (p *WsClient) SendMsg(msg interface{}) error {
+	return p.c.WriteJSON(msg)
+}
+
+func (p *WsClient) RecvMsgForever() {
+	c := p.c
+	for {
+		_, recvData, err := c.ReadMessage()
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+
+		log.Infof("rcv data:%s", string(recvData))
+	}
 }
 
 type WsClientDispatch struct {
@@ -83,6 +100,8 @@ func (p *WsClientDispatch) Add(c *websocket.Conn) error {
 	p.clientsMap[clientId] = w
 	p.clientLock.Unlock()
 
+	w.RecvMsgForever()
+
 	return nil
 }
 
@@ -112,30 +131,25 @@ func InitWs(app *fiber.App) error {
 		log.Println(c.Cookies("session")) // ""
 
 		// websocket.Conn bindings https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index
-		var (
-			mt  int
-			msg []byte
-			err error
-		)
 
-		err = wsClientDispatch.Add(c)
+		err := wsClientDispatch.Add(c)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return
 		}
 
-		for {
-			if mt, msg, err = c.ReadMessage(); err != nil {
-				log.Println("read:", err)
-				break
-			}
-			log.Printf("recv: %s", msg)
-
-			if err = c.WriteMessage(mt, msg); err != nil {
-				log.Println("write:", err)
-				break
-			}
-		}
+		// for {
+		// 	if mt, msg, err = c.ReadMessage(); err != nil {
+		// 		log.Println("read:", err)
+		// 		break
+		// 	}
+		// 	log.Printf("recv: %s", msg)
+		//
+		// 	if err = c.WriteMessage(mt, msg); err != nil {
+		// 		log.Println("write:", err)
+		// 		break
+		// 	}
+		// }
 
 	},
 		websocket.Config{
