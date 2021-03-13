@@ -6,7 +6,6 @@ import (
 	"subscribe/node"
 	"subscribe/pac"
 
-	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe/conf"
@@ -60,25 +59,25 @@ func Pac(c *fiber.Ctx) error {
 	return c.SendString(pac.Get())
 }
 
-type Subscribe struct {
-}
-
 type AddNodeReq struct {
 	NodeUrl string `json:"node_url" validate:"required"`
 }
 
-type AddNodeRsp struct {
-}
-
-// @Router /addnode [post,get]
-func (*Subscribe) AddNode(c *gin.Context, req *AddNodeReq) (*AddNodeRsp, error) {
-	var rsp AddNodeRsp
-
-	err := node.AddNode(req.NodeUrl)
+func AddNode(c *fiber.Ctx) error {
+	var req AddNodeReq
+	err := c.BodyParser(&req)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return nil, err
+		return err
 	}
 
-	return &rsp, nil
+	if req.NodeUrl != "" {
+		err := node.AddNode(req.NodeUrl)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+	}
+
+	return c.SendStatus(200)
 }

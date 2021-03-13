@@ -56,5 +56,10 @@ func registerRouting(app *fiber.App) error {
 	sub.Get("clash", timeout.New(SubClash, time.Minute))
 	sub.Post("clash", timeout.New(SubClash, time.Minute))
 
+	node := api.Group("node/", func(c *fiber.Ctx) error {
+		return c.Next()
+	})
+	node.Post("add", AddNode)
+
 	return nil
 }
