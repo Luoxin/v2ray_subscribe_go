@@ -10,7 +10,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/utils"
-	"github.com/gofiber/storage/sqlite3"
 	"github.com/gofiber/websocket/v2"
 	log "github.com/sirupsen/logrus"
 
@@ -37,11 +36,11 @@ func InitHttpService() error {
 		return err
 	}
 
-	storage := sqlite3.New(sqlite3.Config{
-		Database:   "fiber.vdb",
-		Reset:      false,
-		GCInterval: time.Hour,
-	})
+	// storage := sqlite3.New(sqlite3.Config{
+	// 	Database:   "fiber.vdb",
+	// 	Reset:      false,
+	// 	GCInterval: time.Hour,
+	// })
 	app.Use(
 		cache.New(cache.Config{
 			Next: func(c *fiber.Ctx) bool {
@@ -50,15 +49,15 @@ func InitHttpService() error {
 			},
 			Expiration:   time.Minute * 5,
 			CacheControl: true,
-			Storage:      storage,
+			// Storage:      storage,
 		}),
 		csrf.New(csrf.Config{
 			KeyLookup:      "header:x-csrf-token",
 			CookieName:     "csrf_",
 			CookieSameSite: "Strict",
 			Expiration:     time.Hour,
-			Storage:        storage,
-			KeyGenerator:   utils.UUID,
+			// Storage:        storage,
+			KeyGenerator: utils.UUID,
 		}),
 		compress.New(compress.Config{
 			Level: compress.LevelBestCompression,
@@ -85,6 +84,7 @@ func InitHttpService() error {
 			c.Locals("allowed", true)
 			return c.Next()
 		}
+
 		return fiber.ErrUpgradeRequired
 	})
 

@@ -14,6 +14,14 @@ import (
 )
 
 func registerRouting(app *fiber.App) error {
+	app.Use(func(c *fiber.Ctx) error {
+		start := time.Now()
+		err := c.Next()
+		duration := time.Now().Sub(start)
+		c.Response().Header.Set("X-Response-Time", fmt.Sprintf("%v", duration))
+		return err
+	})
+
 	base := app.Group("/", func(c *fiber.Ctx) error {
 		reqId := strings.ReplaceAll(fiberUtils.UUIDv4(), "-", "")
 		msg := fmt.Sprintf("<%s>[%s]%s %s %s", reqId, c.IP(), c.Method(), c.Path(), utils.ShortStr(string(c.Body()), 400))
