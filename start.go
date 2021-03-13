@@ -5,7 +5,7 @@ import (
 
 	"subscribe/conf"
 	"subscribe/db"
-	"subscribe/http"
+	"subscribe/webservice"
 	"subscribe/task"
 )
 
@@ -32,7 +32,7 @@ func Init() error {
 
 	log.Info("init worker success")
 
-	err = http.InitHttpService()
+	err = webservice.InitHttpService()
 	if err != nil {
 		log.Fatalf("init http service err:%v", err)
 		return err

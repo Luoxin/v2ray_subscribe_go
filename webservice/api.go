@@ -1,4 +1,4 @@
-package http
+package webservice
 
 import (
 	"github.com/gofiber/fiber/v2"

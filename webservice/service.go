@@ -1,4 +1,4 @@
-package http
+package webservice
 
 import (
 	"fmt"
@@ -9,9 +9,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/fiber/v2/utils"
-	"github.com/gofiber/websocket/v2"
 	log "github.com/sirupsen/logrus"
+	"github.com/valyala/fasthttp"
 
 	"subscribe/conf"
 )
@@ -25,12 +26,18 @@ func InitHttpService() error {
 	// https://github.com/gofiber/fiber
 
 	app := fiber.New()
-	logger := log.New()
-	logger.SetLevel(log.InfoLevel)
-	logger.Formatter = conf.LogFormatter
-	app.Server().Logger = logger
 
-	err := registerRouting(app)
+	err := InitWs(app)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	app.Server().ErrorHandler = func(ctx *fasthttp.RequestCtx, err error) {
+		log.Errorf("%s err:%v", ctx.Request.String(), err)
+	}
+
+	err = registerRouting(app)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -75,46 +82,21 @@ func InitHttpService() error {
 		// 	TimeInterval: 500 * time.Millisecond,
 		// 	Output:       os.Stdout,
 		// }),
+		requestid.New(requestid.Config{
+			Header: "x-request-id",
+			Generator: func() string {
+				return strings.ReplaceAll(utils.UUIDv4(), "-", "")
+			},
+			ContextKey: "request-id",
+		}),
+		// logger.New(logger.Config{
+		// 	Next: nil,
+		// 	// For more options, see the Config section
+		// 	Format:   "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
+		// 	TimeZone: "Local",
+		// 	Output:   os.Stdout,
+		// }),
 	)
-
-	app.Use("/ws", func(c *fiber.Ctx) error {
-		// IsWebSocketUpgrade returns true if the client
-		// requested upgrade to the WebSocket protocol.
-		if websocket.IsWebSocketUpgrade(c) {
-			c.Locals("allowed", true)
-			return c.Next()
-		}
-
-		return fiber.ErrUpgradeRequired
-	})
-
-	app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
-		// c.Locals is added to the *websocket.Conn
-		log.Println(c.Locals("allowed"))  // true
-		log.Println(c.Params("id"))       // 123
-		log.Println(c.Query("v"))         // 1.0
-		log.Println(c.Cookies("session")) // ""
-
-		// websocket.Conn bindings https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index
-		var (
-			mt  int
-			msg []byte
-			err error
-		)
-		for {
-			if mt, msg, err = c.ReadMessage(); err != nil {
-				log.Println("read:", err)
-				break
-			}
-			log.Printf("recv: %s", msg)
-
-			if err = c.WriteMessage(mt, msg); err != nil {
-				log.Println("write:", err)
-				break
-			}
-		}
-
-	}))
 
 	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
 	if err != nil {

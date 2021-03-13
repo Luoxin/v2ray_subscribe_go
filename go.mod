@@ -46,6 +46,7 @@ require (
 	github.com/valyala/fasthttp v1.22.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
+	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
