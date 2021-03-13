@@ -87,7 +87,7 @@ func (p *pac) update2Sys() {
 	// 		pacHost = "127.0.0.1"
 	// 	}
 	//
-	// 	utils.SetProxy(fmt.Sprintf("127.0.0.1:%d", conf.Config.Proxy.MixedPort), fmt.Sprintf("http://%s:%d/api/subscribe.pac?_=%d", pacHost, conf.Config.HttpService.Port, p.updateAt))
+	// 	utils.SetProxy(fmt.Sprintf("127.0.0.1:%d", conf.Config.Proxy.MixedPort), fmt.Sprintf("http://%s:%d/api/subscribe/pac?_=%d", pacHost, conf.Config.HttpService.Port, p.updateAt))
 	// 	log.Infof("set system PAC finish(%d)", p.updateAt)
 	// }
 }
