@@ -14,6 +14,7 @@ require (
 	github.com/d-tsuji/clipboard v0.0.3
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
+	github.com/ethereum/go-ethereum v1.10.1 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/gofiber/fiber/v2 v2.5.0
@@ -35,6 +36,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/pyroscope-io/pyroscope v0.0.28
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
+	github.com/savsgio/gotils v0.0.0-20210225112730-595c7e5a8a7a // indirect
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
@@ -43,11 +45,11 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
 	github.com/ugorji/go v1.2.4 // indirect
-	github.com/valyala/fasthttp v1.22.0 // indirect
+	github.com/valyala/fasthttp v1.22.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	go.uber.org/atomic v1.7.0 // indirect
-	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
+	golang.org/x/sys v0.0.0-20210313202042-bd2e13477e9c
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect

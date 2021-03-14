@@ -12,7 +12,7 @@ import (
 	"subscribe/conf"
 	"subscribe/db"
 	"subscribe/domain"
-	"subscribe/webservice"
+	"subscribe/node"
 	"subscribe/parser"
 	"subscribe/proxycheck"
 )
@@ -60,7 +60,7 @@ func main() {
 				return err
 			}
 
-			nodes, err := webservice.GetUsableNodeList(50)
+			nodes, err := node.GetUsableNodeList(50)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
