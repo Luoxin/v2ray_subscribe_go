@@ -4,11 +4,13 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
+	"strings"
 	"sync"
 	"time"
 
@@ -237,6 +239,11 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 	}
 
 	delay = time.Now().Sub(start)
+
+	if strings.Contains(string(body), "GLaDOS 停止工作") {
+		err = errors.New("unusable")
+		return
+	}
 
 	if resp.ContentLength > 0 {
 		speed = float64(resp.ContentLength) / float64(delay.Milliseconds())

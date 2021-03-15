@@ -61,5 +61,11 @@ func registerRouting(app *fiber.App) error {
 	})
 	node.Post("add", AddNode)
 
+	err := registerTohru(base.Group("api/subscribe/tohru/"))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	return nil
 }

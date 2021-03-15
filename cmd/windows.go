@@ -10,6 +10,9 @@ import (
 	"subscribe"
 )
 
+// netsh interface ipv4 show excludedportrange protocol=tcp
+// https://superuser.com/questions/1486417/unable-to-start-kestrel-getting-an-attempt-was-made-to-access-a-socket-in-a-way
+
 func main() {
 	err := subscribe.Init()
 	if err != nil {

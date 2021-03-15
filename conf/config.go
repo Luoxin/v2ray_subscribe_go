@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const Version = "0.0.0.4"
+
 
 var roleList = pie.Strings{
 	"Kobayashi-san",

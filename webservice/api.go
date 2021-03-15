@@ -5,16 +5,16 @@ import (
 
 	"subscribe/node"
 	"subscribe/pac"
+	"subscribe/version"
 
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/conf"
 	"subscribe/domain"
 	"subscribe/proxies"
 )
 
 func Version(c *fiber.Ctx) error {
-	return c.SendString(conf.Version)
+	return c.SendString(version.Version)
 }
 
 func SubV2ray(c *fiber.Ctx) error {

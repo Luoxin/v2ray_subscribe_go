@@ -45,9 +45,12 @@ require (
 	golang.org/x/sys v0.0.0-20210313202042-bd2e13477e9c
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	gopkg.in/go-playground/validator.v10 v10.4.1
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.3
 )
+
+replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1
