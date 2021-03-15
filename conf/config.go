@@ -3,12 +3,14 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 	"os"
 	"path"
 	"path/filepath"
 	"runtime"
 	"time"
+
+	"github.com/elliotchance/pie/pie"
+	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	log "github.com/sirupsen/logrus"
@@ -16,6 +18,17 @@ import (
 )
 
 const Version = "0.0.0.4"
+
+var roleList = pie.Strings{
+	"Kobayashi-san",
+	"Tohru",
+}
+
+type base struct {
+	Role                string `yaml:"role" json:"role"`
+	KobayashiSanAddr    string `yaml:"Kobayashi-san_addr" json:"Kobayashi-san_addr"`
+	KobayashiSanHomeKey string `yaml:"Kobayashi-san_home_key" json:"Kobayashi-san_home_key"`
+}
 
 type db struct {
 	Addr string `yaml:"addr" json:"addr"`
@@ -50,6 +63,8 @@ type _profiler struct {
 }
 
 type config struct {
+	Base base `yaml:"base" json:"base"`
+
 	Debug bool `yaml:"debug" json:"debug"`
 
 	Db db `yaml:"db" json:"db"`
@@ -63,7 +78,16 @@ type config struct {
 	Profiler _profiler `yaml:"profiler" json:"profiler"`
 }
 
+func (p config) IsTohru() bool {
+	return p.Base.Role == "Tohru"
+}
+
+func (p config) KobayashiSan() bool {
+	return p.Base.Role == "Kobayashi-san"
+}
+
 var Config config
+
 var LogFormatter = &nested.Formatter{
 	FieldsOrder: []string{
 		log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
@@ -102,6 +126,10 @@ func InitConfig() error {
 	viper.SetConfigType("yaml")
 
 	// 配置一些默认值
+	viper.SetDefault("base.role", "Kobayashi-san")
+	viper.SetDefault("base.Kobayashi-san_addr", "http://127.0.0.1:8080/api/subscribe")
+	viper.SetDefault("base.Kobayashi-san_home_key", "T6Z14ey@rj)?LjMvkih+?.W}JAU?V{qvsD+H_)R/")
+
 	viper.SetDefault("http_service.enable", true)
 	viper.SetDefault("http_service.port", 8080)
 	viper.SetDefault("http_service.host", "127.0.0.1")
@@ -157,6 +185,10 @@ func InitConfig() error {
 		log.Infof("get config %+v", Config)
 	}
 
+	if !roleList.Contains(Config.Base.Role) {
+		Config.Base.Role = "Kobayashi-san"
+	}
+
 	if Config.Debug {
 		log.SetLevel(log.DebugLevel)
 	} else {
@@ -168,6 +200,12 @@ func InitConfig() error {
 			ApplicationName: "subscribe",
 			ServerAddress:   Config.Profiler.ServerAddress,
 		})
+	}
+
+	err = Ecc.Init(Config.Base.KobayashiSanHomeKey)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
 	}
 
 	return nil

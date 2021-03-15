@@ -25,9 +25,8 @@ func (p *Ecc) Init(key string) error {
 	// 初始化椭圆曲线
 	pubkeyCurve := elliptic.P256()
 
-	reader := new(bytes.Buffer)
-	reader.WriteString(key)
-	// reader.WriteString("0000000000000000000000000000000000000000")
+	reader := bytes.NewBufferString(key + "0000000000000000000000000000000000000000")
+	// reader.WriteString()
 
 	// 随机挑选基点,生成私钥
 	private, err := ecdsa.GenerateKey(pubkeyCurve, reader)

@@ -1,25 +1,30 @@
+base:
+    role: "Kobayashi-san" # 默认为 `Kobayashi-san`，如果需要加入某一个`Kobayashi-san`获取分发的节点信息以及上报节点信息则使用 `Tohru`，大小写敏感
+    Kobayashi-san_addr: http://127.0.0.1:8080/api/subscribe # Kobayashi-san的地址，如果需要自己部署的化，一般更换一下 host 部分就可以了
+    Kobayashi-san_home_key: T6Z14ey@rj)?LjMvkih+?.W}JAU?V{qvsD+H_)R/ # Kobayashi-san 的家钥匙，要求长度是40，小于40会补0
+
 http_service:
-        enable: false
-        host: "127.0.0.1"
-        port: 8080
+    enable: false
+    host: "127.0.0.1"
+    port: 8080
 
 debug: false
 
 db:
-        addr: "sqlite://.subscribe.vdb?check_same_thread=false"
+    addr: "sqlite://.subscribe.vdb?check_same_thread=false"
 
 crawler:
-        enable: false
-        proxies: "http://127.0.0.1:7890"
-        crawler_interval: 3600
+    enable: false
+    proxies: "http://127.0.0.1:7890"
+    crawler_interval: 3600
 
 proxy_check:
-        enable: false
-        check_interval: 300
+    enable: false
+    check_interval: 300
 
 proxy:
-        enable: false
-        mixed-port: 7890
+    enable: false
+    mixed-port: 7890
 
 profiler:
     enable: false

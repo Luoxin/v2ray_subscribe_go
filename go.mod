@@ -14,17 +14,13 @@ require (
 	github.com/d-tsuji/clipboard v0.0.3
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
-	github.com/ethereum/go-ethereum v1.10.1 // indirect
-	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/ethereum/go-ethereum v1.10.1
 	github.com/gofiber/fiber/v2 v2.5.0
-	github.com/gofiber/storage/sqlite3 v0.0.0-20201214031209-9829073dd76f
 	github.com/gofiber/websocket/v2 v2.0.2
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/klauspost/compress v1.11.12 // indirect
-	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
@@ -41,14 +37,11 @@ require (
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
-	github.com/ugorji/go v1.2.4 // indirect
 	github.com/valyala/fasthttp v1.22.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
-	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/sys v0.0.0-20210313202042-bd2e13477e9c
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect

@@ -5,8 +5,9 @@ package utils
 import (
 	"encoding/hex"
 	"fmt"
-	"golang.org/x/sys/windows/registry"
 	"strconv"
+
+	"golang.org/x/sys/windows/registry"
 )
 
 func SetProxy(proxyIp, pacUrl string) {
