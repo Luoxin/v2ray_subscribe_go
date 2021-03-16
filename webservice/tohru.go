@@ -51,13 +51,13 @@ func CheckUsable(c *fiber.Ctx) error {
 		return err
 	}
 
-	hello, err := conf.Ecc.ECCDecrypt([]byte(req.Hello))
+	hello, err := conf.Ecc.ECCDecrypt(req.Hello)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
 	}
 
-	if string(hello) != tohru.Hello {
+	if hello != tohru.Hello {
 		c.Status(403)
 		return errors.New("hello not match")
 	}

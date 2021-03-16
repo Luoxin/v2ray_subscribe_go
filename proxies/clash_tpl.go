@@ -29019,15 +29019,14 @@ rules:
   - PROCESS-NAME,WebTorrent.exe,DIRECT
   - DOMAIN,clash.razord.top,🔯 故障转移
   - DOMAIN,yacd.haishan.me,🔯 故障转移
-  - RULE-SET,private,DIRECT
-  - RULE-SET,reject,REJECT
-  - RULE-SET,icloud,🔯 故障转移
-  - RULE-SET,apple,🔯 故障转移
-  - RULE-SET,google,🔯 故障转移
-  - RULE-SET,proxy,🔯 故障转移
-  - RULE-SET,direct,DIRECT
-  - RULE-SET,telegramcidr,🔯 故障转移
-  - GEOIP,,DIRECT
+  # - RULE-SET,private,DIRECT
+  # - RULE-SET,reject,REJECT
+  # - RULE-SET,icloud,🔯 故障转移
+  # - RULE-SET,apple,🔯 故障转移
+  # - RULE-SET,google,🔯 故障转移
+  # - RULE-SET,proxy,🔯 故障转移
+  # - RULE-SET,direct,DIRECT
+  # - RULE-SET,telegramcidr,🔯 故障转移
   - GEOIP,CN,DIRECT
   - MATCH,🐟 漏网之鱼
 `

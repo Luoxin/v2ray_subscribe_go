@@ -1,0 +1,31 @@
+base:
+    role: "Kobayashi-san" # 默认为 `Kobayashi-san`，如果需要加入某一个`Kobayashi-san`获取分发的节点信息以及上报节点信息则使用 `Tohru`
+    Kobayashi-san_addr: http://127.0.0.1:8080/api/subscribe # Kobayashi-san的地址，如果需要自己部署的化，一般更换一下 host 部分就可以了
+    Kobayashi-san_home_key: $cbQ~5xz9KBha_{~<F^TB3>9z~?D/V\/Hd=D(Nc/ # Kobayashi-san 的家钥匙，要求长度是40，小于40会补0，建议替换
+
+http_service:
+    enable: true
+    host: "127.0.0.1"
+    port: 2003
+
+debug: 
+
+db:
+    addr: "mysql://root:N6qCcRQf2zNlxmHz7OtdeJ6T67zWJj7l@tcp(203.195.187.254:3306)/release?charset=utf8mb4&parseTime=True&loc=Local"
+
+crawler:
+    enable: false
+    proxies: "http://127.0.0.1:7890"
+    crawler_interval: 3600
+
+proxy_check:
+    enable: false
+    check_interval: 300
+
+proxy:
+    enable: false
+    mixed-port: 7891
+
+profiler:
+    enable: false
+    server_address: "http://localhost:4040"

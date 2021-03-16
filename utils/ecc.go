@@ -5,6 +5,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"math/big"
 
@@ -41,15 +42,25 @@ func (p *Ecc) Init(key string) error {
 }
 
 // ess 加密
-func (p *Ecc) ECCEncrypt(pt []byte) ([]byte, error) {
-	ct, err := ecies.Encrypt(rand.Reader, &p.prv2.PublicKey, pt, nil, nil)
-	return ct, err
+func (p *Ecc) ECCEncrypt(pt string) (string, error) {
+	ct, err := ecies.Encrypt(rand.Reader, &p.prv2.PublicKey, []byte(pt), nil, nil)
+	if err != nil {
+		return "", err
+	}
+
+	raw := base64.RawStdEncoding.EncodeToString(ct)
+	return raw, nil
 }
 
 // ecc(ecies)解密
-func (p *Ecc) ECCDecrypt(ct []byte) ([]byte, error) {
-	pt, err := p.prv2.Decrypt(ct, nil, nil)
-	return pt, err
+func (p *Ecc) ECCDecrypt(ct string) (string, error) {
+	raw, err := base64.RawStdEncoding.DecodeString(ct)
+	if err != nil {
+		return "", err
+	}
+
+	pt, err := p.prv2.Decrypt(raw, nil, nil)
+	return string(pt), err
 }
 
 // ecc签名
