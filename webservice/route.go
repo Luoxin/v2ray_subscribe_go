@@ -2,7 +2,6 @@ package webservice
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,15 +20,15 @@ func registerRouting(app *fiber.App) error {
 		return err
 	})
 
-	base := app.Group("/", func(c *fiber.Ctx) error {
+	app.Group("/", func(c *fiber.Ctx) error {
 		reqId := c.Context().ID()
-		msg := fmt.Sprintf("<%v>[%s]%s %s %s", reqId, c.IP(), c.Method(), c.Path(), utils.ShortStr(string(c.Body()), 400))
+		msg := fmt.Sprintf("<%v>[%s]%s %s %s", reqId, c.IP(), c.Method(), c.Path(), utils.ShortStr4Web(string(c.Body()), 400))
 		log.Info(msg)
 
 		err := c.Next()
 
 		msg = fmt.Sprintf("<%v>%d %s", reqId, c.Response().StatusCode(),
-			strings.ReplaceAll(utils.ShortStr(string(c.Response().Body()), 400), "\n", "\\n"))
+			utils.ShortStr4Web(string(c.Response().Body()), 400))
 		if err != nil {
 			msg += fmt.Sprintf(" err:%v", err)
 			log.Error(msg)
@@ -40,28 +39,28 @@ func registerRouting(app *fiber.App) error {
 		return err
 	})
 
-	api := base.Group("api/subscribe/", func(c *fiber.Ctx) error {
+	api := app.Group("/api/subscribe", func(c *fiber.Ctx) error {
 		return c.Next()
 	})
 
-	api.Get("version", timeout.New(Version, time.Second))
-	api.Post("version", timeout.New(Version, time.Second))
-	api.Get("pac", timeout.New(Pac, time.Second))
+	api.Get("/version", timeout.New(Version, time.Second))
+	api.Post("/version", timeout.New(Version, time.Second))
+	api.Get("/pac", timeout.New(Pac, time.Second))
 
-	sub := api.Group("sub/", func(c *fiber.Ctx) error {
+	sub := api.Group("/sub", func(c *fiber.Ctx) error {
 		return c.Next()
 	})
-	sub.Get("v2ray", timeout.New(SubV2ray, time.Minute))
-	sub.Post("v2ray", timeout.New(SubV2ray, time.Minute))
-	sub.Get("clash", timeout.New(SubClash, time.Minute))
-	sub.Post("clash", timeout.New(SubClash, time.Minute))
+	sub.Get("/v2ray", timeout.New(SubV2ray, time.Minute))
+	sub.Post("/v2ray", timeout.New(SubV2ray, time.Minute))
+	sub.Get("/clash", timeout.New(SubClash, time.Minute))
+	sub.Post("/clash", timeout.New(SubClash, time.Minute))
 
-	node := api.Group("node/", func(c *fiber.Ctx) error {
+	node := api.Group("/node", func(c *fiber.Ctx) error {
 		return c.Next()
 	})
-	node.Post("add", AddNode)
+	node.Post("/add", AddNode)
 
-	err := registerTohru(base.Group("api/subscribe/tohru/"))
+	err := registerTohru(api.Group("/tohru"))
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

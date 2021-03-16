@@ -15,7 +15,10 @@ require (
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
 	github.com/ethereum/go-ethereum v1.10.1
+	github.com/form3tech-oss/jwt-go v3.2.2+incompatible
+	github.com/go-resty/resty/v2 v2.5.0
 	github.com/gofiber/fiber/v2 v2.5.0
+	github.com/gofiber/jwt/v2 v2.1.0
 	github.com/gofiber/websocket/v2 v2.0.2
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.4 // indirect
@@ -42,6 +45,7 @@ require (
 	github.com/valyala/fasthttp v1.22.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
+	golang.org/x/net v0.0.0-20210315170653-34ac3e1c2000 // indirect
 	golang.org/x/sys v0.0.0-20210313202042-bd2e13477e9c
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect

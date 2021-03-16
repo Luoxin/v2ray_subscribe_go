@@ -41,6 +41,10 @@ func (p *Ecc) Init(key string) error {
 	return nil
 }
 
+func (p *Ecc) GetPrivate() *ecdsa.PrivateKey {
+	return p.private
+}
+
 // ess 加密
 func (p *Ecc) ECCEncrypt(pt string) (string, error) {
 	ct, err := ecies.Encrypt(rand.Reader, &p.prv2.PublicKey, []byte(pt), nil, nil)

@@ -1,9 +1,9 @@
 package tohru
 
 import (
-	"fmt"
+	"time"
 
-	"github.com/eddieivan01/nic"
+	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
 
 	"subscribe/conf"
@@ -13,6 +13,7 @@ import (
 const Hello = "B3vUNO|I,|\"FAco9b<fIPj0K:r,Zsj\"?KFOA}.z1N&LZOP1GYq"
 
 type tohru struct {
+	client *resty.Client
 }
 
 func newTohru() *tohru {
@@ -22,18 +23,13 @@ func newTohru() *tohru {
 var Tohru = newTohru()
 
 func (p *tohru) Init() error {
-	err := p.CheckUsable()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
+	p.client = resty.New().
+		SetTimeout(time.Second * 5).
+		SetRetryMaxWaitTime(time.Second * 5).
+		SetRetryWaitTime(time.Second)
 
-	return nil
-}
-
-func (p *tohru) CheckUsable() error {
 	if conf.Config.IsTohru() {
-		err := p.DoRequest("/tohru/CheckUsable")
+		err := p.CheckUsable()
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
@@ -43,27 +39,52 @@ func (p *tohru) CheckUsable() error {
 	return nil
 }
 
-func (p *tohru) DoRequest(path string) error {
+func (p *tohru) CheckUsable() error {
 	hello, err := conf.Ecc.ECCEncrypt(Hello)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
 	}
 
-	fmt.Println(hello)
-
-	resp, err := nic.Post(conf.Config.Base.KobayashiSanAddr+path, nic.H{
-		JSON: nic.KV{
-			"version": version.Version,
-			"hello":   hello,
-		},
-	})
+	var rsp CheckUsableRsp
+	err = p.DoRequest("/tohru/CheckUsable", CheckUsableReq{
+		Version: version.Version,
+		Hello:   hello,
+	}, &rsp)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
 	}
 
-	log.Info(resp.Text)
+	return nil
+}
+
+func (p *tohru) DoRequest(path string, req, rsp interface{}) error {
+	resp, err := p.client.R().
+		SetBody(req).
+		SetResult(&rsp).
+		Post(conf.Config.Base.KobayashiSanAddr + path)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Info(resp.Result())
+
+	// resp, err := nic.Post(, nic.H{
+	// 	Headers:            nil,
+	// 	Cookies:            nil,
+	// 	Auth:               nil,
+	// 	Proxy:              "",
+	// 	JSON:               nil,
+	// 	Files:              nil,
+	// 	AllowRedirect:      true,
+	// 	Timeout:            5,
+	// 	Chunked:            false,
+	// 	DisableKeepAlives:  false,
+	// 	DisableCompression: false,
+	// 	SkipVerifyTLS:      false,
+	// })
 
 	return nil
 }

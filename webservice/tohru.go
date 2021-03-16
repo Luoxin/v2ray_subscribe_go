@@ -2,8 +2,10 @@ package webservice
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/go-playground/validator.v10"
 
@@ -13,9 +15,15 @@ import (
 )
 
 var validate = validator.New()
+var store = session.New(session.Config{
+	Expiration:   time.Hour * 20,
+	Storage:      nil,
+	CookieName:   "x-tohru-id",
+	KeyGenerator: nil,
+})
 
 func GetReq(c *fiber.Ctx, req interface{}) error {
-	err := c.BodyParser(req)
+	err := c.BodyParser(&req)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -30,20 +38,9 @@ func GetReq(c *fiber.Ctx, req interface{}) error {
 	return nil
 }
 
-type CheckUsableReq struct {
-	// 当前Tohru的版本
-	Version string `yaml:"version" json:"version" validate:"required"`
-	Hello   string `yaml:"hello" json:"hello" validate:"required"`
-}
-
-type CheckUsableRsp struct {
-	// 当前Kobayashi-san的版本
-	Version string `yaml:"version" json:"version" validate:"required"`
-}
-
 func CheckUsable(c *fiber.Ctx) error {
-	var req CheckUsableReq
-	var rsp CheckUsableRsp
+	var req tohru.CheckUsableReq
+	var rsp tohru.CheckUsableRsp
 
 	err := GetReq(c, &req)
 	if err != nil {
@@ -62,12 +59,45 @@ func CheckUsable(c *fiber.Ctx) error {
 		return errors.New("hello not match")
 	}
 
+	sess, err := store.Get(c)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	// Destry session
+	err = sess.Destroy()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	// save session
+	err = sess.Save()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	rsp.Version = version.Version
+	rsp.Token = sess.ID()
 	return c.JSON(rsp)
 }
 
+func SyncNode(c *fiber.Ctx) error {
+	return c.Next()
+}
+
 func registerTohru(app fiber.Router) error {
-	app.Post("CheckUsable", CheckUsable)
+	app.Use("/", func(c *fiber.Ctx) error {
+		if c.Path() == "/api/subscribe/tohru/CheckUsable" {
+			return c.Next()
+		}
+
+		return c.Next()
+	})
+
+	app.Post("/CheckUsable", CheckUsable)
 
 	return nil
 }
