@@ -18,6 +18,7 @@
 /releases/
 /vendor/
 /docs/
+
 *.mmdb
 *.vdb
-config.yaml
+*.yaml
