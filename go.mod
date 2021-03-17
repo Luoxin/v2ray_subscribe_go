@@ -17,7 +17,7 @@ require (
 	github.com/ethereum/go-ethereum v1.10.1
 	github.com/go-resty/resty/v2 v2.5.0
 	github.com/gofiber/fiber/v2 v2.5.0
-	github.com/gofiber/storage/sqlite3 v0.0.0-20201214031209-9829073dd76f
+	github.com/gofiber/storage/mysql v0.0.0-20201214031209-9829073dd76f
 	github.com/gofiber/websocket/v2 v2.0.2
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-cmp v0.5.4 // indirect

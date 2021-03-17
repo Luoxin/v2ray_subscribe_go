@@ -251,8 +251,8 @@ github.com/gocolly/colly v1.2.0/go.mod h1:Hof5T3ZswNVsOHYmba1u03W65HDWgpV5HifSuu
 github.com/gofiber/fiber/v2 v2.1.0/go.mod h1:aG+lMkwy3LyVit4CnmYUbUdgjpc3UYOltvlJZ78rgQ0=
 github.com/gofiber/fiber/v2 v2.5.0 h1:yml405Um7b98EeMjx63OjSFTATLmX985HPWFfNUPV0w=
 github.com/gofiber/fiber/v2 v2.5.0/go.mod h1:f8BRRIMjMdRyt2qmJ/0Sea3j3rwwfufPrh9WNBRiVZ0=
-github.com/gofiber/storage/sqlite3 v0.0.0-20201214031209-9829073dd76f h1:J9s7Ux8LG3BWLkZbwFmSSVBwx7HAFLhaTZOJ2hMCIJM=
-github.com/gofiber/storage/sqlite3 v0.0.0-20201214031209-9829073dd76f/go.mod h1:w6faxYByNWw9dIVKlX4wmk6gXpydoAYF0M6JPlraNOI=
+github.com/gofiber/storage/mysql v0.0.0-20201214031209-9829073dd76f h1:6n8tZhS0C3urehWjpTJ/c3Md/qMh4iY9NqqUju0m+K4=
+github.com/gofiber/storage/mysql v0.0.0-20201214031209-9829073dd76f/go.mod h1:x7ioB3vllylpjPHyBGPF5VcHvemiVq972FymuKQrnCQ=
 github.com/gofiber/utils v0.1.2 h1:1SH2YEz4RlNS0tJlMJ0bGwO0JkqPqvq6TbHK9tXZKtk=
 github.com/gofiber/utils v0.1.2/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
 github.com/gofiber/websocket/v2 v2.0.2 h1:UA/6NpyG+vmPGlvJvW8MJPJpRFuS7abinZ5HbLuV8u0=
