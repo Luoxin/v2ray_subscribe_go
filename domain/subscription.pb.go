@@ -249,7 +249,7 @@ type ProxyNode struct {
 	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime`
 	// HOST:PORT
 	// @v: max=1000
-	Url                  string   `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:节点的地址"`
+	Url                  string   `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"type:text;comment:节点的地址"`
 	ProxyNodeType        uint32   `protobuf:"varint,5,opt,name=proxy_node_type,json=proxyNodeType" json:"proxy_node_type,omitempty"`
 	ProxySpeed           float64  `protobuf:"fixed64,7,opt,name=proxy_speed,json=proxySpeed" json:"proxy_speed,omitempty"`
 	ProxyNetworkDelay    float64  `protobuf:"fixed64,8,opt,name=proxy_network_delay,json=proxyNetworkDelay" json:"proxy_network_delay,omitempty"`
