@@ -26,11 +26,7 @@ func SubV2ray(c *fiber.Ctx) error {
 
 	p := proxies.NewProxies()
 	nodes.Each(func(node *domain.ProxyNode) {
-		if node.NodeDetail == nil {
-			return
-		}
-
-		p.AppendWithUrl(node.NodeDetail.Buf)
+		p.AppendWithUrl(node.Url)
 	})
 
 	return c.SendString(p.ToV2rayConfig())
@@ -45,11 +41,7 @@ func SubClash(c *fiber.Ctx) error {
 
 	p := proxies.NewProxies()
 	nodes.Each(func(node *domain.ProxyNode) {
-		if node.NodeDetail == nil {
-			return
-		}
-
-		p.AppendWithUrl(node.NodeDetail.Buf)
+		p.AppendWithUrl(node.Url)
 	})
 
 	return c.SendString(p.ToClashConfig())

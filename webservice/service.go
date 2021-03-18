@@ -17,17 +17,25 @@ import (
 	"subscribe/conf"
 )
 
+var storage fiber.Storage
+
 func InitHttpService() error {
 	if !conf.Config.HttpService.Enable {
 		log.Warnf("http service not start")
 		return nil
 	}
 
-	// https://github.com/gofiber/fiber
+	var err error
+	storage, err = InitStorage(conf.Config.Db.Addr)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 
+	// https://github.com/gofiber/fiber
 	app := fiber.New()
 
-	err := InitWs(app)
+	err = InitWs(app)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

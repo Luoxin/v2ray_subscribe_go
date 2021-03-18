@@ -56,11 +56,3 @@ func (m *CrawlerConf_Rule) Scan(value interface{}) error {
 func (m *CrawlerConf_Rule) Value() (driver.Value, error) {
 	return Value(m)
 }
-
-func (m *ProxyNode_NodeDetail) Scan(value interface{}) error {
-	return Scan(value, m)
-}
-
-func (m *ProxyNode_NodeDetail) Value() (driver.Value, error) {
-	return Value(m)
-}

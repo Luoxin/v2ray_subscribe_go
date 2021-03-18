@@ -55,6 +55,7 @@ func InitDb(dbAddr string) error {
 	err = db.AutoMigrate(
 		&domain.CrawlerConf{},
 		&domain.ProxyNode{},
+		&domain.TohruFeed{},
 	)
 	if err != nil {
 		log.Errorf("err:%v", err)
