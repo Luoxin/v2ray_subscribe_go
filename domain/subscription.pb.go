@@ -35,7 +35,7 @@ func (x ErrCode) String() string {
 	return proto.EnumName(ErrCode_name, int32(x))
 }
 func (ErrCode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{0}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{0}
 }
 
 type ProxyNodeType int32
@@ -79,7 +79,7 @@ func (x ProxyNodeType) String() string {
 	return proto.EnumName(ProxyNodeType_name, int32(x))
 }
 func (ProxyNodeType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{1}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{1}
 }
 
 type CrawlerConf struct {
@@ -107,7 +107,7 @@ func (m *CrawlerConf) Reset()         { *m = CrawlerConf{} }
 func (m *CrawlerConf) String() string { return proto.CompactTextString(m) }
 func (*CrawlerConf) ProtoMessage()    {}
 func (*CrawlerConf) Descriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{0}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{0}
 }
 func (m *CrawlerConf) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CrawlerConf.Unmarshal(m, b)
@@ -209,7 +209,7 @@ func (m *CrawlerConf_Rule) Reset()         { *m = CrawlerConf_Rule{} }
 func (m *CrawlerConf_Rule) String() string { return proto.CompactTextString(m) }
 func (*CrawlerConf_Rule) ProtoMessage()    {}
 func (*CrawlerConf_Rule) Descriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{0, 0}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{0, 0}
 }
 func (m *CrawlerConf_Rule) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CrawlerConf_Rule.Unmarshal(m, b)
@@ -248,21 +248,15 @@ type ProxyNode struct {
 	CreatedAt uint32 `protobuf:"varint,2,opt,name=created_at,json=createdAt" json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
 	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime`
 	// HOST:PORT
-	// @gorm: type:varchar(1000); unique_index: idx_proxy_node_url
 	// @v: max=1000
-	Url           string `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:节点的地址"`
-	ProxyNodeType uint32 `protobuf:"varint,5,opt,name=proxy_node_type,json=proxyNodeType" json:"proxy_node_type,omitempty"`
-	// @gorm: type:text
-	NodeDetail        *ProxyNode_NodeDetail `protobuf:"bytes,6,opt,name=node_detail,json=nodeDetail" json:"node_detail,omitempty" gorm:type:text`
-	ProxySpeed        float64               `protobuf:"fixed64,7,opt,name=proxy_speed,json=proxySpeed" json:"proxy_speed,omitempty"`
-	ProxyNetworkDelay float64               `protobuf:"fixed64,8,opt,name=proxy_network_delay,json=proxyNetworkDelay" json:"proxy_network_delay,omitempty"`
-	// @grom: index: idx_next_check_at
-	NextCheckAt   uint32 `protobuf:"varint,9,opt,name=next_check_at,json=nextCheckAt" json:"next_check_at,omitempty" gorm:"index:idx_next_check_at"`
-	CheckInterval uint32 `protobuf:"varint,10,opt,name=check_interval,json=checkInterval" json:"check_interval,omitempty"`
-	CrawlId       uint64 `protobuf:"varint,11,opt,name=crawl_id,json=crawlId" json:"crawl_id,omitempty"`
-	// @grom: index: idx_next_check_at
-	DeathCount uint32 `protobuf:"varint,12,opt,name=death_count,json=deathCount" json:"death_count,omitempty" gorm:"index:idx_alive"`
-	// @grom: index: idx_next_check_at
+	Url                  string   `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:节点的地址"`
+	ProxyNodeType        uint32   `protobuf:"varint,5,opt,name=proxy_node_type,json=proxyNodeType" json:"proxy_node_type,omitempty"`
+	ProxySpeed           float64  `protobuf:"fixed64,7,opt,name=proxy_speed,json=proxySpeed" json:"proxy_speed,omitempty"`
+	ProxyNetworkDelay    float64  `protobuf:"fixed64,8,opt,name=proxy_network_delay,json=proxyNetworkDelay" json:"proxy_network_delay,omitempty"`
+	NextCheckAt          uint32   `protobuf:"varint,9,opt,name=next_check_at,json=nextCheckAt" json:"next_check_at,omitempty" gorm:"index:idx_next_check_at"`
+	CheckInterval        uint32   `protobuf:"varint,10,opt,name=check_interval,json=checkInterval" json:"check_interval,omitempty"`
+	CrawlId              uint64   `protobuf:"varint,11,opt,name=crawl_id,json=crawlId" json:"crawl_id,omitempty"`
+	DeathCount           uint32   `protobuf:"varint,12,opt,name=death_count,json=deathCount" json:"death_count,omitempty" gorm:"index:idx_alive"`
 	IsClose              bool     `protobuf:"varint,13,opt,name=is_close,json=isClose" json:"is_close,omitempty" gorm:"index:idx_next_check_at;index:idx_alive"`
 	LastCrawlerAt        uint32   `protobuf:"varint,14,opt,name=last_crawler_at,json=lastCrawlerAt" json:"last_crawler_at,omitempty"`
 	AvailableCount       uint64   `protobuf:"varint,15,opt,name=available_count,json=availableCount" json:"available_count,omitempty" gorm:"index:idx_alive"`
@@ -275,7 +269,7 @@ func (m *ProxyNode) Reset()         { *m = ProxyNode{} }
 func (m *ProxyNode) String() string { return proto.CompactTextString(m) }
 func (*ProxyNode) ProtoMessage()    {}
 func (*ProxyNode) Descriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{1}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{1}
 }
 func (m *ProxyNode) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ProxyNode.Unmarshal(m, b)
@@ -328,13 +322,6 @@ func (m *ProxyNode) GetProxyNodeType() uint32 {
 		return m.ProxyNodeType
 	}
 	return 0
-}
-
-func (m *ProxyNode) GetNodeDetail() *ProxyNode_NodeDetail {
-	if m != nil {
-		return m.NodeDetail
-	}
-	return nil
 }
 
 func (m *ProxyNode) GetProxySpeed() float64 {
@@ -400,48 +387,10 @@ func (m *ProxyNode) GetAvailableCount() uint64 {
 	return 0
 }
 
-type ProxyNode_NodeDetail struct {
-	Buf                  string   `protobuf:"bytes,1,opt,name=buf" json:"buf,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" gorm:"-"`
-	XXX_unrecognized     []byte   `json:"-" bson:"-" gorm:"-"`
-	XXX_sizecache        int32    `json:"-" bson:"-" gorm:"-"`
-}
-
-func (m *ProxyNode_NodeDetail) Reset()         { *m = ProxyNode_NodeDetail{} }
-func (m *ProxyNode_NodeDetail) String() string { return proto.CompactTextString(m) }
-func (*ProxyNode_NodeDetail) ProtoMessage()    {}
-func (*ProxyNode_NodeDetail) Descriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{1, 0}
-}
-func (m *ProxyNode_NodeDetail) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ProxyNode_NodeDetail.Unmarshal(m, b)
-}
-func (m *ProxyNode_NodeDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ProxyNode_NodeDetail.Marshal(b, m, deterministic)
-}
-func (dst *ProxyNode_NodeDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ProxyNode_NodeDetail.Merge(dst, src)
-}
-func (m *ProxyNode_NodeDetail) XXX_Size() int {
-	return xxx_messageInfo_ProxyNode_NodeDetail.Size(m)
-}
-func (m *ProxyNode_NodeDetail) XXX_DiscardUnknown() {
-	xxx_messageInfo_ProxyNode_NodeDetail.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ProxyNode_NodeDetail proto.InternalMessageInfo
-
-func (m *ProxyNode_NodeDetail) GetBuf() string {
-	if m != nil {
-		return m.Buf
-	}
-	return ""
-}
-
 type TohruFeed struct {
 	Id        uint64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	CreatedAt uint32 `protobuf:"varint,2,opt,name=created_at,json=createdAt" json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
-	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
+	CreatedAt uint32 `protobuf:"varint,2,opt,name=created_at,json=createdAt" json:"created_at,omitempty"`
+	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty"`
 	// 用户的唯一标识
 	UserId string `protobuf:"bytes,4,opt,name=user_id,json=userId" json:"user_id,omitempty" gorm:"uniqueIndexidx_user_id;not null"`
 	// 用户上传的数量
@@ -456,7 +405,7 @@ func (m *TohruFeed) Reset()         { *m = TohruFeed{} }
 func (m *TohruFeed) String() string { return proto.CompactTextString(m) }
 func (*TohruFeed) ProtoMessage()    {}
 func (*TohruFeed) Descriptor() ([]byte, []int) {
-	return fileDescriptor_subscription_ac888ac3ffd7a8a7, []int{2}
+	return fileDescriptor_subscription_042fa9a12bcaadd3, []int{2}
 }
 func (m *TohruFeed) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TohruFeed.Unmarshal(m, b)
@@ -522,15 +471,14 @@ func init() {
 	proto.RegisterType((*CrawlerConf)(nil), "domain.CrawlerConf")
 	proto.RegisterType((*CrawlerConf_Rule)(nil), "domain.CrawlerConf.Rule")
 	proto.RegisterType((*ProxyNode)(nil), "domain.ProxyNode")
-	proto.RegisterType((*ProxyNode_NodeDetail)(nil), "domain.ProxyNode.NodeDetail")
 	proto.RegisterType((*TohruFeed)(nil), "domain.TohruFeed")
 	proto.RegisterEnum("domain.ErrCode", ErrCode_name, ErrCode_value)
 	proto.RegisterEnum("domain.ProxyNodeType", ProxyNodeType_name, ProxyNodeType_value)
 }
 
-func init() { proto.RegisterFile("subscription.proto", fileDescriptor_subscription_ac888ac3ffd7a8a7) }
+func init() { proto.RegisterFile("subscription.proto", fileDescriptor_subscription_042fa9a12bcaadd3) }
 
-var fileDescriptor_subscription_ac888ac3ffd7a8a7 = []byte{
+var fileDescriptor_subscription_042fa9a12bcaadd3 = []byte{
 	// 697 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xcd, 0x6e, 0xda, 0x4c,
 	0x14, 0x8d, 0x09, 0x60, 0xfb, 0xf2, 0x01, 0xce, 0x24, 0x5f, 0xf0, 0x97, 0xef, 0x0f, 0x21, 0xb5,

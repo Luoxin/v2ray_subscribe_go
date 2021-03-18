@@ -64,14 +64,10 @@ func InitProxy(finishC chan bool) error {
 
 			// var w sync.WaitGroup
 			nodes.Each(func(node *domain.ProxyNode) {
-				if node.NodeDetail == nil {
-					return
-				}
-
 				// w.Add(1)
 				// err = antPool.Submit(func() {
 				// 	defer w.Done()
-				p.AppendWithUrl(node.NodeDetail.Buf)
+				p.AppendWithUrl(node.Url)
 				// })
 				// if err != nil {
 				// 	log.Errorf("err:%v", err)

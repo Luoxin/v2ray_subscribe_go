@@ -63,8 +63,6 @@ message ProxyNode {
 
 	uint32 proxy_node_type = 5;
 
-	NodeDetail node_detail = 6;
-
 	double proxy_speed = 7;
 
 	double proxy_network_delay = 8;

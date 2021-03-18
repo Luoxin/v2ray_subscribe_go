@@ -27,12 +27,7 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 	defer log.Infof("check proxy used %v", time.Now().Sub(t))
 
 	nodeList.Each(func(node *domain.ProxyNode) {
-		if node.NodeDetail == nil {
-			// TODO 移除节点
-			return
-		}
-
-		err = check.AddWithLink(node.NodeDetail.Buf, func(result proxycheck.Result) error {
+		err = check.AddWithLink(node.Url, func(result proxycheck.Result) error {
 			um := map[string]interface{}{}
 
 			if result.Err != nil {

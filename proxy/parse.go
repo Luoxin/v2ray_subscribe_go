@@ -1,7 +1,6 @@
 package proxy
 
 import (
-	"bufio"
 	"errors"
 	"strings"
 
@@ -18,44 +17,43 @@ func ParseProxyToClash(content string) (string, error) {
 }
 
 func ParseProxy(content string) (p Proxy, err error) {
-	scanner := bufio.NewScanner(strings.NewReader(content))
-	for scanner.Scan() {
-		switch {
-		case strings.HasPrefix(scanner.Text(), "ssr://"):
-			p, err = ParseSSRLink(strings.TrimSpace(scanner.Text()))
-			if err != nil {
-				log.Errorf("err:%v", err)
-			}
-			return
+	content = strings.TrimSpace(content)
 
-		case strings.HasPrefix(scanner.Text(), "vmess://"):
-			p, err = ParseVmessLink(strings.TrimSpace(scanner.Text()))
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-			return
-
-		case strings.HasPrefix(scanner.Text(), "ss://"):
-			p, err = ParseSSLink(strings.TrimSpace(scanner.Text()))
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-			return
-
-		case strings.HasPrefix(scanner.Text(), "trojan://"):
-			p, err = ParseTrojanLink(strings.TrimSpace(scanner.Text()))
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-			return
-
+	switch {
+	case strings.HasPrefix(content, "ssr://"):
+		p, err = ParseSSRLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
 		}
+		return
 
+	case strings.HasPrefix(content, "vmess://"):
+		p, err = ParseVmessLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	case strings.HasPrefix(content, "ss://"):
+		p, err = ParseSSLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	case strings.HasPrefix(content, "trojan://"):
+		p, err = ParseTrojanLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	default:
+		err = errors.New("nonsupport content")
 	}
 
-	err = errors.New("nonsupport content")
 	return
 }

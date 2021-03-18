@@ -29,9 +29,6 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 	proxyNodeType := utils.GetProxyNodeType(ru)
 
 	node := &domain.ProxyNode{
-		NodeDetail: &domain.ProxyNode_NodeDetail{
-			Buf: ru,
-		},
 		CrawlId: crawlerId,
 
 		LastCrawlerAt: utils.Now(),
