@@ -83,11 +83,10 @@ func (ProxyNodeType) EnumDescriptor() ([]byte, []int) {
 }
 
 type CrawlerConf struct {
-	Id        uint64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	Id        uint64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty" gorm:"primaryKey"`
 	CreatedAt uint32 `protobuf:"varint,2,opt,name=created_at,json=createdAt" json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
 	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
-	// @gorm: type:varchar(1000);unique_index:idx_crawl_url
-	CrawlUrl  string `protobuf:"bytes,4,opt,name=crawl_url,json=crawlUrl" json:"crawl_url,omitempty" gorm:"index:idx_crawl_url,unique,type:text,comment:抓取的地址"`
+	CrawlUrl  string `protobuf:"bytes,4,opt,name=crawl_url,json=crawlUrl" json:"crawl_url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:抓取的地址"`
 	CrawlType uint32 `protobuf:"varint,5,opt,name=crawl_type,json=crawlType" json:"crawl_type,omitempty"`
 	// @gorm: type:json
 	Rule *CrawlerConf_Rule `protobuf:"bytes,6,opt,name=rule" json:"rule,omitempty"" gorm:"type:json"`
@@ -251,7 +250,7 @@ type ProxyNode struct {
 	// HOST:PORT
 	// @gorm: type:varchar(1000); unique_index: idx_proxy_node_url
 	// @v: max=1000
-	Url           string `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"index:idx_crawl_url,unique,type:text,comment:节点的地址"`
+	Url           string `protobuf:"bytes,4,opt,name=url" json:"url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:节点的地址"`
 	ProxyNodeType uint32 `protobuf:"varint,5,opt,name=proxy_node_type,json=proxyNodeType" json:"proxy_node_type,omitempty"`
 	// @gorm: type:text
 	NodeDetail        *ProxyNode_NodeDetail `protobuf:"bytes,6,opt,name=node_detail,json=nodeDetail" json:"node_detail,omitempty" gorm:type:text`
