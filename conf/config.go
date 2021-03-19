@@ -17,8 +17,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-
-
 var roleList = pie.Strings{
 	"Kobayashi-san",
 	"Tohru",
@@ -109,6 +107,9 @@ func InitConfig() error {
 	log.SetReportCaller(true)
 
 	// 可能存在的目录
+	execPath, _ := os.Executable()
+	viper.AddConfigPath(execPath)
+
 	viper.AddConfigPath("./")
 	viper.AddConfigPath("../")
 	viper.AddConfigPath("./conf/")
