@@ -86,7 +86,7 @@ type CrawlerConf struct {
 	Id        uint64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty" gorm:"primaryKey"`
 	CreatedAt uint32 `protobuf:"varint,2,opt,name=created_at,json=createdAt" json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
 	UpdatedAt uint32 `protobuf:"varint,3,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
-	CrawlUrl  string `protobuf:"bytes,4,opt,name=crawl_url,json=crawlUrl" json:"crawl_url,omitempty" gorm:"index:idx_crawl_url,type:text,comment:抓取的地址"`
+	CrawlUrl  string `protobuf:"bytes,4,opt,name=crawl_url,json=crawlUrl" json:"crawl_url,omitempty" gorm:"type:text,comment:抓取的地址"`
 	CrawlType uint32 `protobuf:"varint,5,opt,name=crawl_type,json=crawlType" json:"crawl_type,omitempty"`
 	// @gorm: type:json
 	Rule *CrawlerConf_Rule `protobuf:"bytes,6,opt,name=rule" json:"rule,omitempty"" gorm:"type:json"`
@@ -95,7 +95,6 @@ type CrawlerConf struct {
 	// @grom: index: idx_next_crawl_at
 	NextAt   uint32 `protobuf:"varint,8,opt,name=next_at,json=nextAt" json:"next_at,omitempty" gorm:"index:idx_next_crawl_at"`
 	Interval uint32 `protobuf:"varint,9,opt,name=interval" json:"interval,omitempty"`
-	// @gorm: type:varchar(100)
 	// @v: max=100
 	Note                 string   `protobuf:"bytes,10,opt,name=note" json:"note,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-" bson:"-" gorm:"-"`

@@ -67,11 +67,7 @@ func main() {
 			}
 
 			nodes.Each(func(node *domain.ProxyNode) {
-				if node.NodeDetail == nil {
-					return
-				}
-
-				nodeUrl = append(nodeUrl, node.NodeDetail.Buf)
+				nodeUrl = append(nodeUrl, node.Url)
 			})
 		}
 
