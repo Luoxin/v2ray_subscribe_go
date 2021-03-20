@@ -10,8 +10,8 @@ http_service:
 
 debug: 
 
-db:
-    addr: "mysql://root:N6qCcRQf2zNlxmHz7OtdeJ6T67zWJj7l@tcp(203.195.187.254:3306)/release?charset=utf8mb4&parseTime=True&loc=Local"
+#db:
+#    addr: "mysql://root:N6qCcRQf2zNlxmHz7OtdeJ6T67zWJj7l@tcp(203.195.187.254:3306)/release?charset=utf8mb4&parseTime=True&loc=Local"
 
 crawler:
     enable: false

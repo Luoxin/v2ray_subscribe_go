@@ -1,28 +1,24 @@
 package domain
 
 import (
-	"bytes"
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
+	"github.com/mcuadros/go-defaults"
 	"reflect"
 
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
 	"github.com/pkg/errors"
 )
 
-func Scan(src interface{}, dst proto.Message) error {
+func Scan(src interface{}, dst interface{}) error {
 	x := func(buf []byte) error {
 		bufLen := len(buf)
-
 		if bufLen >= 2 && buf[0] == '{' && buf[bufLen-1] == '}' {
-			u := &jsonpb.Unmarshaler{AllowUnknownFields: true}
-			return u.Unmarshal(bytes.NewBuffer(buf), dst)
+			return json.Unmarshal(buf, dst)
 		} else if bufLen > 0 {
-			return proto.Unmarshal(buf, dst)
+			return json.Unmarshal(buf, dst)
 		} else {
-			dst.Reset()
+			defaults.SetDefaults(dst)
 		}
 		return nil
 	}
@@ -41,7 +37,7 @@ func Scan(src interface{}, dst proto.Message) error {
 	return nil
 }
 
-func Value(m proto.Message) (driver.Value, error) {
+func Value(m interface{}) (driver.Value, error) {
 	if m == nil {
 		return nil, nil
 	}

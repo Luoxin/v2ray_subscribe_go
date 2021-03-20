@@ -55,6 +55,12 @@ type AddNodeReq struct {
 	NodeUrl string `json:"node_url" validate:"required"`
 }
 
+type AddCrawlerNodeReq struct {
+	NodeUrl     string                  `json:"node_url" validate:"required"`
+	CrawlerType domain.CrawlType        `json:"crawler_type"`
+	Rule        *domain.CrawlerConf_Rule `json:"rule"`
+}
+
 func AddNode(c *fiber.Ctx) error {
 	var req AddNodeReq
 	err := c.BodyParser(&req)
@@ -65,6 +71,29 @@ func AddNode(c *fiber.Ctx) error {
 
 	if req.NodeUrl != "" {
 		err := node.AddNode(req.NodeUrl)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+	}
+
+	return c.SendStatus(200)
+}
+
+func AddCrawlerNode(c *fiber.Ctx) error {
+	var req AddCrawlerNodeReq
+	err := c.BodyParser(&req)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	if req.CrawlerType == domain.CrawlTypeNil {
+		req.CrawlerType = domain.CrawlTypeFuzzyMatching
+	}
+
+	if req.NodeUrl != "" {
+		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, req.Rule)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

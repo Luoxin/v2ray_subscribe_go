@@ -1,6 +1,9 @@
 package node
 
 import (
+	"crypto/sha512"
+	"fmt"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
@@ -33,7 +36,7 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 
 		LastCrawlerAt: utils.Now(),
 		CheckInterval: checkInterval,
-		ProxyNodeType: uint32(proxyNodeType),
+		ProxyNodeType: proxyNodeType,
 	}
 
 	proxyNode, err := proxy.ParseProxy(ru)
@@ -46,8 +49,10 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 
 	node.Url = proxyNode.Link()
 
+	node.UrlFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.Url)))
+
 	var oldNode domain.ProxyNode
-	err = db.Db.Where("url = ?", node.Url).First(&oldNode).Error
+	err = db.Db.Where("url_feature = ?", node.UrlFeature).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建
@@ -73,11 +78,12 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 		node.ProxySpeed = oldNode.ProxySpeed
 		node.NextCheckAt = oldNode.NextCheckAt
 
-		if oldNode.DeathCount > 10 {
-			node.DeathCount = 10
+		if oldNode.DeathCount > 20 {
+			node.DeathCount = node.DeathCount - 10
 		} else {
-			node.AvailableCount = oldNode.AvailableCount
+			node.DeathCount = oldNode.DeathCount
 		}
+		node.AvailableCount = oldNode.AvailableCount
 
 		err = db.Db.Save(node).Error
 		if err != nil {
