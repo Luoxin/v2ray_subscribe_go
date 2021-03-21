@@ -30,6 +30,12 @@ func InitWorker() error {
 		log.Warn("proxy start timeout")
 	}
 
+	err = InitTohru()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	c := gron.New()
 
 	var w sync.WaitGroup

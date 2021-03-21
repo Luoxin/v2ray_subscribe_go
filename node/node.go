@@ -14,17 +14,11 @@ import (
 	"subscribe/utils"
 )
 
-func AddNode(nodeUrl string) error {
-	err := AddNodeWithDetail(nodeUrl, 0, 0)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	return nil
+func AddNode(nodeUrl string) (bool, error) {
+	return AddNodeWithDetail(nodeUrl, 0, 0)
 }
 
-func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error {
+func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) (bool, error) {
 	if checkInterval == 0 {
 		checkInterval = conf.Config.ProxyCheck.CheckInterval
 	}
@@ -41,7 +35,7 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 
 	proxyNode, err := proxy.ParseProxy(ru)
 	if err != nil {
-		return err
+		return false, err
 	}
 
 	proxyNode.SetCountry("")
@@ -51,6 +45,7 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 
 	node.UrlFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.Url)))
 
+	var isNew bool
 	var oldNode domain.ProxyNode
 	err = db.Db.Where("url_feature = ?", node.UrlFeature).First(&oldNode).Error
 	if err != nil {
@@ -61,11 +56,12 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 			err = db.Db.Create(&node).Error
 			if err != nil {
 				log.Errorf("err:%v", err)
-				return err
+				return false, err
 			}
+			isNew = true
 		} else {
 			log.Errorf("err:%v", err)
-			return err
+			return false, err
 		}
 	} else {
 		// 更新
@@ -88,11 +84,11 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) error 
 		err = db.Db.Save(node).Error
 		if err != nil {
 			log.Errorf("err:%v", err)
-			return err
+			return false, err
 		}
 	}
 
-	return nil
+	return isNew, nil
 }
 
 func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
@@ -121,4 +117,26 @@ func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
 	}
 
 	return nodes, err
+}
+
+func GetNode4Tohru(limit int) (string, error) {
+	var nodeList domain.ProxyNodeList
+	err := db.Db.Select("url").Order("available_count DESC").Limit(limit).Find(&nodeList).Error
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return "", err
+	}
+
+	var urlList []string
+	nodeList.Each(func(proxyNode *domain.ProxyNode) {
+		urlList = append(urlList, proxyNode.Url)
+	})
+
+	str, err := conf.Ecc.ECCEncrypt(urlList)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return "", err
+	}
+
+	return str, nil
 }

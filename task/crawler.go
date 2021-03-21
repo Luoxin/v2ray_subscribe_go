@@ -87,7 +87,7 @@ func crawler() error {
 					}
 
 					p.ParserText(resp.Text).Each(func(nodeUrl string) {
-						err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
+						_, err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
 						if err != nil {
 							log.Errorf("link:%s, err:%v", nodeUrl, err)
 							return

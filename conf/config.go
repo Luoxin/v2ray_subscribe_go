@@ -26,6 +26,8 @@ type base struct {
 	Role                string `yaml:"role" json:"role"`
 	KobayashiSanAddr    string `yaml:"Kobayashi-san_addr" json:"Kobayashi-san_addr"`
 	KobayashiSanHomeKey string `yaml:"Kobayashi-san_home_key" json:"Kobayashi-san_home_key"`
+	TohruKey            string `yaml:"tohru_key" json:"tohru_key"`
+	TohruPassword       string `yaml:"tohru_password" json:"tohru_password"`
 }
 
 type db struct {

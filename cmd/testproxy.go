@@ -1,34 +1,12 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/Luoxin/faker"
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
-
-	"subscribe/utils"
 )
 
 func main() {
-	s := "test"
-	e, err := utils.ECCEncrypt([]byte(s))
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return
-	}
-
-	fmt.Println(string(e))
-
-	d, err := utils.ECCDecrypt(e)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return
-	}
-
-	fmt.Println(string(d))
-
-	return
 	opt := &nic.H{
 		AllowRedirect: true,
 	}

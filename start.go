@@ -5,8 +5,8 @@ import (
 
 	"subscribe/conf"
 	"subscribe/db"
-	"subscribe/webservice"
 	"subscribe/task"
+	"subscribe/webservice"
 )
 
 func Init() error {

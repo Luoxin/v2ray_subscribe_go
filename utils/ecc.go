@@ -6,7 +6,9 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"go/types"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/crypto/ecies"
@@ -46,14 +48,45 @@ func (p *Ecc) GetPrivate() *ecdsa.PrivateKey {
 }
 
 // ess 加密
-func (p *Ecc) ECCEncrypt(pt string) (string, error) {
-	ct, err := ecies.Encrypt(rand.Reader, &p.prv2.PublicKey, []byte(pt), nil, nil)
+func (p *Ecc) ECCEncrypt4Str(pt string) (string, error) {
+	return p.ECCEncrypt4Bytes([]byte(pt))
+}
+
+// ess 加密
+func (p *Ecc) ECCEncrypt4Bytes(pt []byte) (string, error) {
+	ct, err := ecies.Encrypt(rand.Reader, &p.prv2.PublicKey, pt, nil, nil)
 	if err != nil {
 		return "", err
 	}
 
 	raw := base64.RawStdEncoding.EncodeToString(ct)
 	return raw, nil
+}
+
+// ess 加密
+func (p *Ecc) ECCEncrypt(pt interface{}) (string, error) {
+	switch pt.(type) {
+	case string:
+		return p.ECCEncrypt4Str(pt.(string))
+	case []byte:
+		return p.ECCEncrypt4Bytes(pt.([]byte))
+	case types.Slice, types.Map, types.Struct:
+		b, err := json.Marshal(pt)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return "", err
+		}
+
+		return p.ECCEncrypt4Bytes(b)
+	default:
+		b, err := json.Marshal(pt)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return "", err
+		}
+
+		return p.ECCEncrypt4Bytes(b)
+	}
 }
 
 // ecc(ecies)解密

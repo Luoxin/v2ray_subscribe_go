@@ -2,14 +2,11 @@ package webservice
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
-	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
@@ -57,15 +54,15 @@ func InitHttpService() error {
 	// 	GCInterval: time.Hour,
 	// })
 	app.Use(
-		cache.New(cache.Config{
-			Next: func(c *fiber.Ctx) bool {
-				refresh := c.Query("refresh")
-				return refresh == "1" || strings.ToLower(refresh) == "true"
-			},
-			Expiration:   time.Minute * 5,
-			CacheControl: true,
-			// Storage:      storage,
-		}),
+		// cache.New(cache.Config{
+		// 	Next: func(c *fiber.Ctx) bool {
+		// 		refresh := c.Query("refresh")
+		// 		return refresh == "1" || strings.ToLower(refresh) == "true"
+		// 	},
+		// 	Expiration:   time.Minute * 5,
+		// 	CacheControl: true,
+		// 	// Storage:      storage,
+		// }),
 		csrf.New(csrf.Config{
 			KeyLookup:      "header:x-csrf-token",
 			CookieName:     "csrf_",
@@ -90,13 +87,13 @@ func InitHttpService() error {
 		// 	TimeInterval: 500 * time.Millisecond,
 		// 	Output:       os.Stdout,
 		// }),
-		requestid.New(requestid.Config{
-			Header: "x-request-id",
-			Generator: func() string {
-				return strings.ReplaceAll(utils.UUIDv4(), "-", "")
-			},
-			ContextKey: "request-id",
-		}),
+		// requestid.New(requestid.Config{
+		// 	Header: "x-request-id",
+		// 	Generator: func() string {
+		// 		return strings.ReplaceAll(utils.UUIDv4(), "-", "")
+		// 	},
+		// 	ContextKey: "request-id",
+		// }),
 		// logger.New(logger.Config{
 		// 	Next: nil,
 		// 	// For more options, see the Config section

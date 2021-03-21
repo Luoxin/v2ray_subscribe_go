@@ -2,9 +2,11 @@ package webservice
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/timeout"
 	log "github.com/sirupsen/logrus"
 
@@ -12,6 +14,16 @@ import (
 )
 
 func registerRouting4Sub(sub fiber.Router) error {
+	sub.Use("/",
+		cache.New(cache.Config{
+			Next: func(c *fiber.Ctx) bool {
+				refresh := c.Query("refresh")
+				return refresh == "1" || strings.ToLower(refresh) == "true"
+			},
+			Expiration:   time.Minute * 5,
+			CacheControl: true,
+			// Storage:      storage,
+		}))
 	sub.Get("/v2ray", timeout.New(SubV2ray, time.Minute))
 	sub.Post("/v2ray", timeout.New(SubV2ray, time.Minute))
 	sub.Get("/clash", timeout.New(SubClash, time.Minute))
