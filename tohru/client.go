@@ -107,9 +107,7 @@ func (p *tohru) CheckUsable() error {
 }
 
 func (p *tohru) SyncNode() error {
-	nodeList, err := conf.Ecc.ECCEncrypt([]string{
-		"xxxxx",
-	})
+	nodeList, err := node.GetNode4Tohru(100)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
