@@ -2,7 +2,7 @@ package utils
 
 import (
 	"strings"
-	"subscribe/domain"
+	"github.com/luoxin/subscribe/domain"
 )
 
 func GetProxyNodeType(u string) domain.ProxyNodeType {

@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/timeout"
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/utils"
+	"github.com/luoxin/subscribe/utils"
 )
 
 func registerRouting4Sub(sub fiber.Router) error {

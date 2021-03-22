@@ -13,12 +13,12 @@ import (
 	"github.com/Dreamacro/clash/tunnel"
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/conf"
-	"subscribe/domain"
-	"subscribe/node"
-	"subscribe/pac"
-	"subscribe/proxies"
-	"subscribe/utils"
+	"github.com/luoxin/subscribe/conf"
+	"github.com/luoxin/subscribe/domain"
+	"github.com/luoxin/subscribe/node"
+	"github.com/luoxin/subscribe/pac"
+	"github.com/luoxin/subscribe/proxies"
+	"github.com/luoxin/subscribe/utils"
 )
 
 func InitProxy(finishC chan bool) error {

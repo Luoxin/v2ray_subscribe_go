@@ -11,7 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
 
-	"subscribe/conf"
+	"github.com/luoxin/subscribe/conf"
 )
 
 var storage fiber.Storage

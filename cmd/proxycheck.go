@@ -9,12 +9,12 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/conf"
-	"subscribe/db"
-	"subscribe/domain"
-	"subscribe/node"
-	"subscribe/parser"
-	"subscribe/proxycheck"
+	"github.com/luoxin/subscribe/conf"
+	"github.com/luoxin/subscribe/db"
+	"github.com/luoxin/subscribe/domain"
+	"github.com/luoxin/subscribe/node"
+	"github.com/luoxin/subscribe/parser"
+	"github.com/luoxin/subscribe/proxycheck"
 )
 
 var subUrl string

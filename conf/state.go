@@ -3,7 +3,7 @@ package conf
 import (
 	"github.com/bluele/gcache"
 
-	"subscribe/utils"
+	"github.com/luoxin/subscribe/utils"
 )
 
 var Cache = gcache.New(20).LRU().Build()

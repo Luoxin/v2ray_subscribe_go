@@ -3,7 +3,7 @@ package task
 import (
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/tohru"
+	"github.com/luoxin/subscribe/tohru"
 )
 
 func InitTohru() error {

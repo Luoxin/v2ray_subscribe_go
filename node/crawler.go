@@ -7,10 +7,10 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
-	"subscribe/conf"
-	"subscribe/db"
-	"subscribe/domain"
-	"subscribe/utils"
+	"github.com/luoxin/subscribe/conf"
+	"github.com/luoxin/subscribe/db"
+	"github.com/luoxin/subscribe/domain"
+	"github.com/luoxin/subscribe/utils"
 )
 
 func AddCrawlerNode(crawlerUrl string, crawlerType domain.CrawlType, rule *domain.CrawlerConf_Rule) error {

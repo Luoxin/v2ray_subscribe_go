@@ -5,7 +5,7 @@
 package main
 
 import (
-	"subscribe"
+	"github.com/luoxin/subscribe"
 )
 
 func main() {

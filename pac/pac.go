@@ -13,7 +13,7 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/utils"
+	"github.com/luoxin/subscribe/utils"
 )
 
 type pac struct {

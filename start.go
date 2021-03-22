@@ -3,10 +3,10 @@ package subscribe
 import (
 	log "github.com/sirupsen/logrus"
 
-	"subscribe/conf"
-	"subscribe/db"
-	"subscribe/task"
-	"subscribe/webservice"
+	"github.com/luoxin/subscribe/conf"
+	"github.com/luoxin/subscribe/db"
+	"github.com/luoxin/subscribe/task"
+	"github.com/luoxin/subscribe/webservice"
 )
 
 func Init() error {
