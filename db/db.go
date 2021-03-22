@@ -13,8 +13,8 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/luoxin/v2ray_subscribe_go/conf"
-	"github.com/luoxin/v2ray_subscribe_go/domain"
+	"github.com/Luoxin/v2ray_subscribe_go/conf"
+	"github.com/Luoxin/v2ray_subscribe_go/domain"
 )
 
 var Db *gorm.DB

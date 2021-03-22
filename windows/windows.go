@@ -7,7 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/luoxin/v2ray_subscribe_go"
+	"github.com/Luoxin/v2ray_subscribe_go"
 )
 
 // netsh interface ipv4 show excludedportrange protocol=tcp

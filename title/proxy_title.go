@@ -7,7 +7,7 @@ import (
 
 	"github.com/elliotchance/pie/pie"
 
-	"github.com/luoxin/v2ray_subscribe_go/utils"
+	"github.com/Luoxin/v2ray_subscribe_go/utils"
 )
 
 type ProxyTitle struct {

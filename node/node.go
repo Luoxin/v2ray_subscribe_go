@@ -7,11 +7,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
-	"github.com/luoxin/v2ray_subscribe_go/conf"
-	"github.com/luoxin/v2ray_subscribe_go/db"
-	"github.com/luoxin/v2ray_subscribe_go/domain"
-	"github.com/luoxin/v2ray_subscribe_go/proxy"
-	"github.com/luoxin/v2ray_subscribe_go/utils"
+	"github.com/Luoxin/v2ray_subscribe_go/conf"
+	"github.com/Luoxin/v2ray_subscribe_go/db"
+	"github.com/Luoxin/v2ray_subscribe_go/domain"
+	"github.com/Luoxin/v2ray_subscribe_go/proxy"
+	"github.com/Luoxin/v2ray_subscribe_go/utils"
 )
 
 func AddNode(nodeUrl string) (bool, error) {

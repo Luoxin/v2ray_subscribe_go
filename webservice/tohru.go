@@ -15,12 +15,12 @@ import (
 	"gopkg.in/go-playground/validator.v10"
 	"gorm.io/gorm"
 
-	"github.com/luoxin/v2ray_subscribe_go/conf"
-	"github.com/luoxin/v2ray_subscribe_go/db"
-	"github.com/luoxin/v2ray_subscribe_go/domain"
-	"github.com/luoxin/v2ray_subscribe_go/node"
-	"github.com/luoxin/v2ray_subscribe_go/tohru"
-	"github.com/luoxin/v2ray_subscribe_go/version"
+	"github.com/Luoxin/v2ray_subscribe_go/conf"
+	"github.com/Luoxin/v2ray_subscribe_go/db"
+	"github.com/Luoxin/v2ray_subscribe_go/domain"
+	"github.com/Luoxin/v2ray_subscribe_go/node"
+	"github.com/Luoxin/v2ray_subscribe_go/tohru"
+	"github.com/Luoxin/v2ray_subscribe_go/version"
 )
 
 var validate = validator.New()
