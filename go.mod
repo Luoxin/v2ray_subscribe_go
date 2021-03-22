@@ -1,4 +1,4 @@
-module subscribe
+module github.com/luoxin/v2ray_subscribe_go
 
 go 1.16
 
