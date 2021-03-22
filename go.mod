@@ -25,7 +25,6 @@ require (
 	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
