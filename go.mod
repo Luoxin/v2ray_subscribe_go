@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/Dreamacro/clash v1.4.2
+	github.com/Dreamacro/go-shadowsocks2 v0.1.7 // indirect
 	github.com/Luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.0
@@ -47,7 +48,7 @@ require (
 	github.com/valyala/fasthttp v1.22.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
-	golang.org/x/crypto v0.0.0-20210317152858-513c2a44f670 // indirect
+	golang.org/x/crypto v0.0.0-20210317152858-513c2a44f670
 	golang.org/x/net v0.0.0-20210316092652-d523dce5a7f4 // indirect
 	golang.org/x/sys v0.0.0-20210320140829-1e4c9ba3b0c4
 	google.golang.org/appengine v1.6.7 // indirect

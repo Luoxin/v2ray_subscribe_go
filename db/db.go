@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 
+	_ "github.com/mattn/go-sqlite3"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
@@ -31,34 +33,35 @@ func InitDb(dbAddr string) error {
 	case "sqlite":
 		d = sqlite.Open(strings.Join(addrList[1:], ""))
 	case "mysql":
-		d = mysql.Open(strings.Join(addrList[1:], ""))
+		d = mysql.New(mysql.Config{
+			DSN: strings.Join(addrList[1:], ""),
+
+			DefaultStringSize: 256,
+
+			DontSupportRenameIndex: true,
+		})
 	default:
 		return errors.New("unsupported database")
 	}
 
 	dbConfig := gorm.Config{
-		SkipDefaultTransaction:                   true,
-		PrepareStmt:                              true,
-		DisableForeignKeyConstraintWhenMigrating: true,
-		AllowGlobalUpdate:                        true,
+		SkipDefaultTransaction: true,
 		NamingStrategy: &schema.NamingStrategy{
 			TablePrefix:   "subscribe_",
 			SingularTable: true,
 		},
+		FullSaveAssociations:                     false,
+		PrepareStmt:                              true,
+		DisableForeignKeyConstraintWhenMigrating: true,
+		DisableNestedTransaction:                 true,
+		AllowGlobalUpdate:                        true,
+		ClauseBuilders:                           nil,
+		ConnPool:                                 nil,
+		Dialector:                                nil,
+		Plugins:                                  nil,
 	}
 
 	db, err := gorm.Open(d, &dbConfig)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Infof("auto migrate tables")
-	err = db.AutoMigrate(
-		&domain.CrawlerConf{},
-		&domain.ProxyNode{},
-		&domain.TohruFeed{},
-	)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -70,6 +73,17 @@ func InitDb(dbAddr string) error {
 		Db.Logger = Db.Logger.LogMode(logger.Info)
 	} else {
 		Db.Logger = Db.Logger.LogMode(logger.Silent)
+	}
+
+	log.Infof("auto migrate tables")
+	err = Db.AutoMigrate(
+		&domain.CrawlerConf{},
+		&domain.ProxyNode{},
+		&domain.TohruFeed{},
+	)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
 	}
 
 	return nil
