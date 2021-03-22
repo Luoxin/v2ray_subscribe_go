@@ -11,9 +11,9 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/sha3"
 
-	"github.com/luoxin/subscribe/conf"
-	"github.com/luoxin/subscribe/node"
-	"github.com/luoxin/subscribe/version"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/conf"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/node"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/version"
 )
 
 const Hello = "B3vUNO|I,|\"FAco9b<fIPj0K:r,Zsj\"?KFOA}.z1N&LZOP1GYq"

@@ -9,12 +9,12 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/luoxin/subscribe/conf"
-	"github.com/luoxin/subscribe/db"
-	"github.com/luoxin/subscribe/domain"
-	"github.com/luoxin/subscribe/node"
-	"github.com/luoxin/subscribe/parser"
-	"github.com/luoxin/subscribe/proxycheck"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/conf"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/db"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/domain"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/node"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/parser"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/proxycheck"
 )
 
 var subUrl string

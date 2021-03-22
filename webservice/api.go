@@ -3,14 +3,14 @@ package webservice
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/luoxin/subscribe/node"
-	"github.com/luoxin/subscribe/pac"
-	"github.com/luoxin/subscribe/version"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/node"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/pac"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/version"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/luoxin/subscribe/domain"
-	"github.com/luoxin/subscribe/proxies"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/domain"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/proxies"
 )
 
 func Version(c *fiber.Ctx) error {

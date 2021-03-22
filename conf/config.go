@@ -121,7 +121,7 @@ func InitConfig() error {
 		if err != nil {
 			log.Errorf("err:%v", err)
 		} else {
-			viper.AddConfigPath(filepath.Join(homeDir, "github.com/luoxin/subscribe"))
+			viper.AddConfigPath(filepath.Join(homeDir, "github.com/luoxin/v2ray_subscribe_go/subscribe"))
 		}
 	}
 
@@ -200,7 +200,7 @@ func InitConfig() error {
 
 	if Config.Profiler.Enable {
 		_, _ = profiler.Start(profiler.Config{
-			ApplicationName: "github.com/luoxin/subscribe",
+			ApplicationName: "github.com/luoxin/v2ray_subscribe_go/subscribe",
 			ServerAddress:   Config.Profiler.ServerAddress,
 		})
 	}

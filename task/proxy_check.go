@@ -2,10 +2,10 @@ package task
 
 import (
 	log "github.com/sirupsen/logrus"
-	"github.com/luoxin/subscribe/db"
-	"github.com/luoxin/subscribe/domain"
-	"github.com/luoxin/subscribe/proxycheck"
-	"github.com/luoxin/subscribe/utils"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/db"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/domain"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/proxycheck"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/utils"
 	"time"
 )
 

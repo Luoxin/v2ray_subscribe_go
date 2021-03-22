@@ -7,8 +7,8 @@ import (
 	yaml "gopkg.in/yaml.v3"
 	"regexp"
 	"strings"
-	"github.com/luoxin/subscribe/proxy"
-	"github.com/luoxin/subscribe/utils"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/proxy"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/utils"
 )
 
 type FuzzyMatchingParser struct {

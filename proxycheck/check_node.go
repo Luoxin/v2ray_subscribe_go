@@ -17,12 +17,12 @@ import (
 	"github.com/Dreamacro/clash/adapters/outbound"
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
-	"github.com/Luoxin/faker"
+	"github.com/luoxin/v2ray_subscribe_go/faker"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
-	"github.com/luoxin/subscribe/proxy"
+	"github.com/luoxin/v2ray_subscribe_go/subscribe/proxy"
 )
 
 type ProxyCheck struct {
