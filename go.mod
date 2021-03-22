@@ -19,16 +19,15 @@ require (
 	github.com/ethereum/go-ethereum v1.10.1
 	github.com/go-resty/resty/v2 v2.5.0
 	github.com/gofiber/fiber/v2 v2.6.0
-	github.com/gofiber/storage/sqlite3 v0.0.0-20210320150805-3b18a594387c
 	github.com/gofiber/websocket/v2 v2.0.2
 	github.com/golang/protobuf v1.5.1 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/jinzhu/now v1.1.2 // indirect
-	github.com/karalabe/xgo v0.0.0-20191115072854-c5ccff8648a7 // indirect
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/magiconair/properties v1.8.4 // indirect
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
+	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/miekg/dns v1.1.41 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect

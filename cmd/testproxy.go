@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/luoxin/v2ray_subscribe_go/faker"
+	"github.com/luoxin/faker"
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 )

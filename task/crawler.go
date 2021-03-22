@@ -5,17 +5,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/luoxin/v2ray_subscribe_go/faker"
-
+	"github.com/Luoxin/faker"
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 
-	conf2 "github.com/luoxin/v2ray_subscribe_go/subscribe/conf"
-	"github.com/luoxin/v2ray_subscribe_go/subscribe/db"
-	"github.com/luoxin/v2ray_subscribe_go/subscribe/domain"
-	"github.com/luoxin/v2ray_subscribe_go/subscribe/node"
-	"github.com/luoxin/v2ray_subscribe_go/subscribe/parser"
-	"github.com/luoxin/v2ray_subscribe_go/subscribe/utils"
+	conf2 "github.com/luoxin/v2ray_subscribe_go/conf"
+	"github.com/luoxin/v2ray_subscribe_go/db"
+	"github.com/luoxin/v2ray_subscribe_go/domain"
+	"github.com/luoxin/v2ray_subscribe_go/node"
+	"github.com/luoxin/v2ray_subscribe_go/parser"
+	"github.com/luoxin/v2ray_subscribe_go/utils"
 )
 
 func crawler() error {

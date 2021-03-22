@@ -12,7 +12,7 @@ import (
 	"github.com/oschwald/geoip2-golang"
 	log "github.com/sirupsen/logrus"
 
-	country2 "github.com/luoxin/v2ray_subscribe_go/subscribe/country"
+	country2 "github.com/luoxin/v2ray_subscribe_go/country"
 )
 
 var db *geoip2.Reader
