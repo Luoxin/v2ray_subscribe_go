@@ -1,27 +1,18 @@
-FROM golang:alpine
+FROM golang:latest
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
 
 WORKDIR /app
 
 ENV GOBIN=$GOPATH/bin
 ENV GO111MODULE=on
+ENV CGO_ENABLED=1
 ENV GOPROXY=https://goproxy.io,direct
 
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#    ca-certificates \
-#    sudo \
-#    git \
-#    gcc \
-#    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-#    && rm -rf /var/lib/apt/lists/*g
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && rm -rf /var/lib/apt/lists/*g
 
-COPY go.mod go.sum ./
-RUN go mod tidy
 COPY . .
 
-RUN go build -o main ./cmd/windows.go
-
-ENV TZ=Asia/Shanghai
-
-ENTRYPOINT ["go", "build"]
-
+RUN go build -o windows_docker ./cmd/windows.go
