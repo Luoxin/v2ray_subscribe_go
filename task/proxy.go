@@ -142,72 +142,79 @@ func InitProxy(finishC chan bool) error {
 		restartTimer := time.NewTicker(restartInterval)
 		checkTimer := time.NewTicker(time.Minute * 5)
 
+		getHealthiness := func() float64 {
+			var aliveCount, proxyCount float64
+
+			proxyList := tunnel.Proxies()
+
+			for proxyName, proxy := range proxyList {
+				switch proxy.Type() {
+				case constant.Direct:
+					goto NEXT
+				case constant.Reject:
+					goto NEXT
+
+				case constant.Shadowsocks:
+
+				case constant.ShadowsocksR:
+
+				case constant.Snell:
+
+				case constant.Socks5:
+
+				case constant.Http:
+
+				case constant.Vmess:
+
+				case constant.Trojan:
+
+				case constant.Relay:
+					goto NEXT
+				case constant.Selector:
+					goto NEXT
+				case constant.Fallback:
+					goto NEXT
+				case constant.URLTest:
+					goto NEXT
+				case constant.LoadBalance:
+					goto NEXT
+
+				default:
+					goto NEXT
+				}
+
+				proxyCount++
+				log.Infof("%v(%v):%v", proxyName, proxy.Alive(), proxy.LastDelay())
+				if !proxy.Alive() {
+					continue
+				}
+
+				// if proxy.LastDelay() > 500 {
+				// 	continue
+				// }
+
+				aliveCount++
+
+			NEXT:
+			}
+
+			healthiness := aliveCount / proxyCount
+
+			log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
+
+			return healthiness
+		}
+
 		for {
 			select {
 			case <-restartTimer.C:
-				log.Info("restart proxy")
-				restart(true)
-
-			case <-checkTimer.C:
-				var aliveCount, proxyCount float64
-
-				proxyList := tunnel.Proxies()
-
-				for proxyName, proxy := range proxyList {
-					switch proxy.Type() {
-					case constant.Direct:
-						goto NEXT
-					case constant.Reject:
-						goto NEXT
-
-					case constant.Shadowsocks:
-
-					case constant.ShadowsocksR:
-
-					case constant.Snell:
-
-					case constant.Socks5:
-
-					case constant.Http:
-
-					case constant.Vmess:
-
-					case constant.Trojan:
-
-					case constant.Relay:
-						goto NEXT
-					case constant.Selector:
-						goto NEXT
-					case constant.Fallback:
-						goto NEXT
-					case constant.URLTest:
-						goto NEXT
-					case constant.LoadBalance:
-						goto NEXT
-
-					default:
-						goto NEXT
-					}
-
-					proxyCount++
-					log.Infof("%v(%v):%v", proxyName, proxy.Alive(), proxy.LastDelay())
-					if !proxy.Alive() {
-						continue
-					}
-
-					// if proxy.LastDelay() > 500 {
-					// 	continue
-					// }
-
-					aliveCount++
-
-				NEXT:
+				if getHealthiness() < 0.8 {
+					log.Info("restart proxy")
+					restart(true)
 				}
 
-				healthiness := aliveCount / proxyCount
-
-				log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
-				if healthiness < 0.5 {
+			case <-checkTimer.C:
+				if getHealthiness() < 0.5 {
 					restart(true)
 					restartTimer.Reset(restartInterval)
 				}
