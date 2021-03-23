@@ -86,7 +86,7 @@ func crawler() error {
 						return errors.New("nonsupport parser type")
 					}
 
-					p.ParserText(resp.Text).FilterNot(func(s string) bool {
+					p.ParserText(resp.Text).Filter(func(s string) bool {
 						return strings.Contains(s, "://")
 					}).Each(func(nodeUrl string) {
 						_, err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
