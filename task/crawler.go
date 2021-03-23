@@ -3,6 +3,7 @@ package task
 import (
 	"errors"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/Luoxin/faker"
@@ -85,7 +86,9 @@ func crawler() error {
 						return errors.New("nonsupport parser type")
 					}
 
-					p.ParserText(resp.Text).Each(func(nodeUrl string) {
+					p.ParserText(resp.Text).FilterNot(func(s string) bool {
+						return strings.Contains(s, "://")
+					}).Each(func(nodeUrl string) {
 						_, err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
 						if err != nil {
 							log.Errorf("link:%s, err:%v", nodeUrl, err)
