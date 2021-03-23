@@ -42,6 +42,25 @@ func InitProxy(finishC chan bool) error {
 	go func() {
 		var isFirst = true
 
+		homeDir, _ := os.UserHomeDir()
+		clashConfigDir := filepath.Join(homeDir, ".config", "clash")
+
+		clashGeoLiteFile := filepath.Join(clashConfigDir, "Country.mmdb")
+
+		if !utils.Exists(clashGeoLiteFile) {
+			err := os.MkdirAll(clashConfigDir, 0777)
+			if err != nil {
+				log.Fatalf("err:%v", err)
+				return
+			}
+
+			err = utils.CopyFile("./GeoLite2.mmdb", clashGeoLiteFile)
+			if err != nil {
+				log.Fatalf("err:%v", err)
+				return
+			}
+		}
+
 		// antPool, err := ants.NewPool(10)
 		// if err != nil {
 		// 	log.Errorf("err:%v", err)

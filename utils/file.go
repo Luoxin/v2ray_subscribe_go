@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io/ioutil"
 	"os"
 )
 
@@ -25,4 +26,18 @@ func Exists(path string) bool {
 
 func IsFile(path string) bool {
 	return !IsDir(path)
+}
+
+func CopyFile(from, to string) error {
+	input, err := ioutil.ReadFile(from)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(to, input, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
