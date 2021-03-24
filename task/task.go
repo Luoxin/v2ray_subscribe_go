@@ -26,6 +26,7 @@ func InitWorker() error {
 
 	select {
 	case <-finishC:
+		log.Info("init proxy success")
 	case <-time.After(time.Minute * 10):
 		log.Warn("proxy start timeout")
 	}

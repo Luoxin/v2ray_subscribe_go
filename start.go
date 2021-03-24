@@ -16,13 +16,15 @@ func Init() error {
 		return err
 	}
 
+	log.Info("init conf success")
+
 	err = db.InitDb(conf.Config.Db.Addr)
 	if err != nil {
 		log.Fatalf("init db err:%v", err)
 		return err
 	}
 
-	log.Info("init conf success")
+	log.Info("init db success")
 
 	err = task.InitWorker()
 	if err != nil {
