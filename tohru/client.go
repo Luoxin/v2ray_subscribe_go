@@ -34,6 +34,10 @@ func (p *tohru) Init() error {
 		SetRetryMaxWaitTime(time.Second * 5).
 		SetRetryWaitTime(time.Second)
 
+	if conf.Config.Debug {
+		p.client.SetDebug(true).EnableTrace()
+	}
+
 	return nil
 }
 
