@@ -128,10 +128,6 @@ func InitProxy(finishC chan bool) error {
 			isFirst = false
 		}
 
-		stop := func() {
-			log.Info("process stop")
-		}
-
 		restart(true)
 		finish()
 		restart(true)
@@ -139,8 +135,8 @@ func InitProxy(finishC chan bool) error {
 		pac.InitPac()
 
 		rtf := time.NewTicker(time.Hour)
-		rtfh := time.NewTicker(time.Minute * 45)
-		rtfm := time.NewTicker(time.Minute * 20)
+		rth := time.NewTicker(time.Minute * 45)
+		rtm := time.NewTicker(time.Minute * 20)
 		rtl := time.NewTicker(time.Minute * 5)
 
 		getHealthiness := func() float64 {
@@ -150,34 +146,13 @@ func InitProxy(finishC chan bool) error {
 
 			for proxyName, proxy := range proxyList {
 				switch proxy.Type() {
-				case constant.Direct:
-					goto NEXT
-				case constant.Reject:
+				case constant.Direct, constant.Reject:
 					goto NEXT
 
-				case constant.Shadowsocks:
+				case constant.Shadowsocks, constant.ShadowsocksR, constant.Snell,
+					constant.Socks5, constant.Http, constant.Vmess, constant.Trojan:
 
-				case constant.ShadowsocksR:
-
-				case constant.Snell:
-
-				case constant.Socks5:
-
-				case constant.Http:
-
-				case constant.Vmess:
-
-				case constant.Trojan:
-
-				case constant.Relay:
-					goto NEXT
-				case constant.Selector:
-					goto NEXT
-				case constant.Fallback:
-					goto NEXT
-				case constant.URLTest:
-					goto NEXT
-				case constant.LoadBalance:
+				case constant.Relay, constant.Selector, constant.Fallback, constant.URLTest, constant.LoadBalance:
 					goto NEXT
 
 				default:
@@ -212,13 +187,13 @@ func InitProxy(finishC chan bool) error {
 				log.Info("restart proxy forced")
 				restart(true)
 
-			case <-rtfh.C:
+			case <-rth.C:
 				if getHealthiness() < 0.9 {
 					log.Info("restart proxy health lower then 0.9")
 					restart(true)
 				}
 
-			case <-rtfm.C:
+			case <-rtm.C:
 				if getHealthiness() < 0.6 {
 					log.Info("restart proxy health lower then 0.6")
 					restart(true)
@@ -229,6 +204,8 @@ func InitProxy(finishC chan bool) error {
 					log.Info("restart proxy health lower then 0.3")
 					restart(true)
 				}
+			case <-sigCh:
+				return
 			}
 		}
 	}()
