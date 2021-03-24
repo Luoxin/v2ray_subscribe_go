@@ -117,12 +117,8 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 	}
 
 	psn = NewProxies()
-
-	var w sync.WaitGroup
 	ps.proxyList.Each(func(p proxy.Proxy) {
-		w.Add(1)
 		err := check.AddWithLink(p.Link(), func(result proxycheck.Result) (err error) {
-			defer w.Done()
 			if result.Err != nil {
 				return nil
 			}
@@ -140,11 +136,10 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 		})
 		if err != nil {
 			log.Errorf("err:%v", err)
-			w.Done()
 		}
 	})
 
-	w.Wait()
+	check.WaitFinish()
 
 	if psn.Len() == 0 {
 		return ps
