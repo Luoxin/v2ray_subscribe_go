@@ -16,6 +16,7 @@ import (
 
 func InitWorker() error {
 	finishC := make(chan bool, 1)
+
 	err := InitProxy(finishC)
 	if err != nil {
 		log.Errorf("err:%v", err)

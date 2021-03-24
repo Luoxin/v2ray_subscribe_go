@@ -1,6 +1,5 @@
 package task
 
-import "C"
 import (
 	"os"
 	"os/signal"
@@ -9,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Dreamacro/clash/constant"
+	C "github.com/Dreamacro/clash/constant"
 	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/tunnel"
