@@ -165,9 +165,9 @@ func InitProxy(finishC chan bool) error {
 					continue
 				}
 
-				// if proxy.LastDelay() > 500 {
-				// 	continue
-				// }
+				if proxy.LastDelay() > 1000 {
+					continue
+				}
 
 				aliveCount++
 
