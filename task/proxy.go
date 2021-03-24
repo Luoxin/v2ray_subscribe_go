@@ -140,7 +140,9 @@ func InitProxy(finishC chan bool) error {
 		rtl := time.NewTicker(time.Minute * 5)
 
 		getHealthiness := func() float64 {
-			var aliveCount, proxyCount float64
+			var proxyCount float64
+			var less100, less500, less1000, less2000, alive float64
+			//  5%       %20      %40       %20       %15
 
 			proxyList := tunnel.Proxies()
 
@@ -165,18 +167,46 @@ func InitProxy(finishC chan bool) error {
 					continue
 				}
 
-				if proxy.LastDelay() > 1000 {
-					continue
+				delay := proxy.LastDelay()
+				if delay < 100 {
+					less100++
 				}
 
-				aliveCount++
+				if delay < 500 {
+					less100++
+					less500++
+				}
+
+				if delay < 1000 {
+					less100++
+					less500++
+					less1000++
+				}
+
+				if delay < 2000 {
+					less100++
+					less500++
+					less1000++
+					less2000++
+				}
+
+				less100++
+				less500++
+				less1000++
+				less2000++
+				alive++
 
 			NEXT:
 			}
 
-			healthiness := aliveCount / proxyCount
+			healthiness := (less100/proxyCount)*0.05 +
+				(less500/proxyCount)*0.2 +
+				(less1000/proxyCount)*0.4 +
+				(less2000/proxyCount)*0.2 +
+				(alive/proxyCount)*0.15
 
-			log.Infof("uesd proxies healthiness is %.2f%%(%0.f/%0.f)", healthiness*100, aliveCount, proxyCount)
+			log.Infof("uesd proxies healthiness is %.2f%%(%0.f|%0.f|%0.f|%0.f|%0.f|%0.f)",
+				healthiness*100, less100, less500, less1000, less2000, alive, proxyCount)
 
 			return healthiness
 		}
