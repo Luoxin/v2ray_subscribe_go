@@ -1,5 +1,6 @@
 package task
 
+import "C"
 import (
 	"os"
 	"os/signal"
@@ -146,19 +147,26 @@ func InitProxy(finishC chan bool) error {
 
 			proxyList := tunnel.Proxies()
 
-			for proxyName, proxy := range proxyList {
+			needSkip := func(proxy C.Proxy) bool {
 				switch proxy.Type() {
 				case constant.Direct, constant.Reject:
-					goto NEXT
+					return true
 
 				case constant.Shadowsocks, constant.ShadowsocksR, constant.Snell,
 					constant.Socks5, constant.Http, constant.Vmess, constant.Trojan:
+					return false
 
 				case constant.Relay, constant.Selector, constant.Fallback, constant.URLTest, constant.LoadBalance:
-					goto NEXT
+					return true
 
 				default:
-					goto NEXT
+					return true
+				}
+			}
+
+			for proxyName, proxy := range proxyList {
+				if needSkip(proxy) {
+					continue
 				}
 
 				proxyCount++
@@ -195,8 +203,6 @@ func InitProxy(finishC chan bool) error {
 				less1000++
 				less2000++
 				alive++
-
-			NEXT:
 			}
 
 			healthiness := (less100/proxyCount)*0.05 +

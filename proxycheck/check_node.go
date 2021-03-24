@@ -51,7 +51,7 @@ func NewProxyCheck() *ProxyCheck {
 
 func (p *ProxyCheck) Init() error {
 	if p.pool == nil {
-		pool, err := ants.NewPool(10)x
+		pool, err := ants.NewPool(10)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
