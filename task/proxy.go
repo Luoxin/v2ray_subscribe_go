@@ -138,9 +138,10 @@ func InitProxy(finishC chan bool) error {
 
 		pac.InitPac()
 
-		const restartInterval = time.Minute * 30
-		restartTimer := time.NewTicker(restartInterval)
-		checkTimer := time.NewTicker(time.Minute * 5)
+		rtf := time.NewTicker(time.Hour)
+		rtfh := time.NewTicker(time.Minute * 45)
+		rtfm := time.NewTicker(time.Minute * 20)
+		rtl := time.NewTicker(time.Minute * 5)
 
 		getHealthiness := func() float64 {
 			var aliveCount, proxyCount float64
@@ -207,22 +208,27 @@ func InitProxy(finishC chan bool) error {
 
 		for {
 			select {
-			case <-restartTimer.C:
-				if getHealthiness() < 0.8 {
-					log.Info("restart proxy")
+			case <-rtf.C:
+				log.Info("restart proxy forced")
+				restart(true)
+
+			case <-rtfh.C:
+				if getHealthiness() < 0.9 {
+					log.Info("restart proxy health lower then 0.9")
 					restart(true)
 				}
 
-			case <-checkTimer.C:
-				if getHealthiness() < 0.5 {
+			case <-rtfm.C:
+				if getHealthiness() < 0.6 {
+					log.Info("restart proxy health lower then 0.6")
 					restart(true)
-					restartTimer.Reset(restartInterval)
 				}
 
-			case <-sigCh:
-				stop()
-				os.Exit(0)
-				return
+			case <-rtl.C:
+				if getHealthiness() < 0.3 {
+					log.Info("restart proxy health lower then 0.3")
+					restart(true)
+				}
 			}
 		}
 	}()
