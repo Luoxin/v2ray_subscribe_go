@@ -1,12 +1,14 @@
 package task
 
 import (
+	"time"
+
 	log "github.com/sirupsen/logrus"
+
 	"github.com/Luoxin/v2ray_subscribe_go/db"
 	"github.com/Luoxin/v2ray_subscribe_go/domain"
 	"github.com/Luoxin/v2ray_subscribe_go/proxycheck"
 	"github.com/Luoxin/v2ray_subscribe_go/utils"
-	"time"
 )
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {
