@@ -1090,3 +1090,6 @@ project/plugins/project/
 *.yaml
 *.mmdb
 *.vdb
+
+# go sum
+go.sum
