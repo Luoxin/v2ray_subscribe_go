@@ -181,27 +181,17 @@ func InitProxy(finishC chan bool) error {
 				}
 
 				if delay < 500 {
-					less100++
 					less500++
 				}
 
 				if delay < 1000 {
-					less100++
-					less500++
 					less1000++
 				}
 
 				if delay < 2000 {
-					less100++
-					less500++
-					less1000++
 					less2000++
 				}
 
-				less100++
-				less500++
-				less1000++
-				less2000++
 				alive++
 			}
 
