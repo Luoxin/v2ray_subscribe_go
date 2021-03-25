@@ -131,7 +131,7 @@ func InitProxy(finishC chan bool) error {
 
 		restart(true)
 		finish()
-		restart(false)
+		restart(true)
 
 		pac.InitPac()
 
