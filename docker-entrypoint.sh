@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cd code
-
-go build -o output/windows_docker ./cmd/windows.go
+go build -o windows_docker ./cmd/windows.go
