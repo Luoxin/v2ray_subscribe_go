@@ -1090,3 +1090,5 @@ project/plugins/project/
 *.yaml
 *.mmdb
 *.vdb
+
+output/
