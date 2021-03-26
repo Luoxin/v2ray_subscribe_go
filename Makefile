@@ -2,10 +2,10 @@ PWD = $(shell pwd)
 
 .PHONY: build cclinux
 
-build:
+buildLinux:
 	go mod download
 	go mod vendor
-	docker build -t sub:latest .
+	docker build -f Dockerfile_linux -t linuxSub:latest .
 
-cclinux:
-	docker run -it -v $(PWD):/build/ --rm sub:latest
+runLinux:
+	docker run -it -v $(PWD):/build/ --rm linuxSub:latest
