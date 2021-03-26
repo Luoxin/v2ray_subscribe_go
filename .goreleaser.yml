@@ -1,0 +1,81 @@
+env:
+    - GO111MODULE=on
+before:
+    hooks:
+        - go mod download
+builds:
+#    - id: darwin-amd64
+#      ldflags: -s -w
+#      binary: windows
+#      env:
+#          - CGO_ENABLED=1
+#          - CC=o64-clang
+#          - CXX=o64-clang++
+#          - GOPROXY=https://goproxy.cn,direct
+#      main: ./cmd/windows.go
+#      goos:
+#          - darwin
+#      goarch:
+#          - amd64
+    - id: linux_amd64
+      ldflags: -s -w
+      binary: windows
+      env:
+          - CC=gcc
+          - CGO_ENABLED=1
+          - GOPROXY=https://goproxy.cn,direct
+      main: ./cmd/windows.go
+      goos:
+          - linux
+      goarch:
+          - amd64
+    - id: windows_amd64
+      ldflags: -s -w 
+      binary: windows
+      env:
+          - CGO_ENABLED=1
+          - CC=x86_64-w64-mingw32-gcc
+          - CXX=x86_64-w64-mingw32-g++
+          - GOPROXY=https://goproxy.cn,direct
+      main: ./cmd/windows.go
+      goos:
+          - windows
+      goarch:
+          - amd64
+archives:
+    - format: tar.gz
+      format_overrides:
+          - goos: windows
+            format: zip
+      name_template: "{{.ProjectName}}-v{{.Version}}-{{.Os}}-{{.Arch}}"
+      replacements:
+          amd64: 64bit
+          386: 32bit
+          arm: ARM
+          arm64: ARM64
+          darwin: macOS
+          linux: Linux
+          windows: Windows
+          openbsd: OpenBSD
+          netbsd: NetBSD
+          freebsd: FreeBSD
+          dragonfly: DragonFlyBSD
+      files:
+          - Readme.MD
+          - LICENSE
+          - GeoLite2.mmdb
+          - config.yaml
+checksum:
+    name_template: 'checksums.txt'
+snapshot:
+    name_template: "{{ .Tag }}-next"
+changelog:
+    sort: asc
+    filters:
+        exclude:
+            - '^docs:'
+            - '^test:'
+            - '^dev:'
+            - 'README'
+            - Merge pull request
+            - Merge branch

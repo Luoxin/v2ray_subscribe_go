@@ -1094,3 +1094,4 @@ project/plugins/project/
 # go sum
 go.sum
 output/
+dist/

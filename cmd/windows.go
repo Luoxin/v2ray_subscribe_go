@@ -12,6 +12,8 @@ import (
 
 // netsh interface ipv4 show excludedportrange protocol=tcp
 // https://superuser.com/questions/1486417/unable-to-start-kestrel-getting-an-attempt-was-made-to-access-a-socket-in-a-way
+// https://gist.github.com/steeve/6905542
+// goreleaser --snapshot --skip-publish --rm-dist
 
 func main() {
 	err := subscribe.Init()
