@@ -7,7 +7,7 @@ require (
 	github.com/Dreamacro/go-shadowsocks2 v0.1.7 // indirect
 	github.com/Luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
-	github.com/Sansui233/proxypool v0.6.0
+	github.com/Sansui233/proxypool v0.6.1
 	github.com/antchfx/xmlquery v1.3.5 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
@@ -17,15 +17,16 @@ require (
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.1
 	github.com/ethereum/go-ethereum v1.10.1
+	github.com/fasthttp/websocket v1.4.3 // indirect
+	github.com/go-chi/cors v1.2.0 // indirect
 	github.com/go-resty/resty/v2 v2.5.0
 	github.com/gofiber/fiber/v2 v2.6.0
-	github.com/gofiber/websocket/v2 v2.0.2
+	github.com/gofiber/websocket/v2 v2.0.3
 	github.com/golang/protobuf v1.5.1 // indirect
 	github.com/google/uuid v1.2.0 // indirect
-	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/magiconair/properties v1.8.4 // indirect
+	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/miekg/dns v1.1.41 // indirect
@@ -47,16 +48,16 @@ require (
 	github.com/valyala/fasthttp v1.22.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
-	golang.org/x/crypto v0.0.0-20210317152858-513c2a44f670
-	golang.org/x/net v0.0.0-20210316092652-d523dce5a7f4 // indirect
-	golang.org/x/sys v0.0.0-20210320140829-1e4c9ba3b0c4
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
+	golang.org/x/net v0.0.0-20210324205630-d1beb07c2056 // indirect
+	golang.org/x/sys v0.0.0-20210324051608-47abb6519492
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/go-playground/validator.v10 v10.4.1
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.21.4
+	gorm.io/gorm v1.21.5
 )
 
 replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1
