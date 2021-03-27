@@ -69,7 +69,7 @@ func InitProxy(finishC chan bool) error {
 		// }
 
 		restart := func(force bool) {
-			var quantity = -1
+			var quantity = 50
 			if isFirst {
 				quantity = 10
 			}
