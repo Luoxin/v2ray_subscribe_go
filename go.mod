@@ -24,7 +24,7 @@ require (
 	github.com/gofiber/websocket/v2 v2.0.3
 	github.com/golang/protobuf v1.5.1 // indirect
 	github.com/google/uuid v1.2.0 // indirect
-	github.com/klauspost/compress v1.11.12 // indirect
+	github.com/klauspost/compress v1.11.13 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
@@ -49,15 +49,15 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
-	golang.org/x/net v0.0.0-20210324205630-d1beb07c2056 // indirect
-	golang.org/x/sys v0.0.0-20210324051608-47abb6519492
+	golang.org/x/net v0.0.0-20210326220855-61e056675ecf // indirect
+	golang.org/x/sys v0.0.0-20210326220804-49726bf1d181
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/go-playground/validator.v10 v10.4.1
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.21.5
+	gorm.io/gorm v1.21.6
 )
 
 replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1
