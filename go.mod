@@ -34,7 +34,7 @@ require (
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
-	github.com/panjf2000/ants/v2 v2.4.3
+	github.com/panjf2000/ants/v2 v2.4.4
 	github.com/pkg/errors v0.9.1
 	github.com/pyroscope-io/pyroscope v0.0.28
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
