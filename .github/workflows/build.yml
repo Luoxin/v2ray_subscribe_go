@@ -1,0 +1,20 @@
+name: Go
+
+on:
+  release:
+    types: 
+      - published 
+      - unpublished 
+      - created 
+      - edited 
+      - deleted 
+      - prereleased 
+      - released
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - run: make build
+
