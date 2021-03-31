@@ -1,5 +1,4 @@
-ARG GOLANG_CROSS_VERSION=1.13.15
-FROM dockercore/golang-cross:${GOLANG_CROSS_VERSION}
+FROM dockercore/golang-cross
 
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build
@@ -12,10 +11,10 @@ ENV GOPROXY=https://goproxy.io,direct
 RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 COPY . /build/
-COPY ./build.sh /build/
-RUN chmod +x /build/build.sh
+#COPY ./build.sh /build/
+#RUN chmod +x /build/build.sh
 
-RUN wget https://github.com/goreleaser/goreleaser/releases/download/v0.162.0/goreleaser_amd64.deb;\
+RUN wget https://github.com/goreleaser/goreleaser/releases/download/v0.162.0/goreleaser_amd64.deb
 #RUN	dpkg -i /build/goreleaser_amd64.deb
 
 RUN apt-get update && \

@@ -4,7 +4,7 @@ env:
 #    hooks:
 #        - go mod download
 builds:
-    - id: darwin-amd64
+    - id: darwin_amd64
       ldflags: -s -w
       binary: windows
       env:
@@ -47,19 +47,19 @@ archives:
       format_overrides:
           - goos: windows
             format: zip
-      name_template: "{{.ProjectName}}-v{{.Version}}-{{.Os}}-{{.Arch}}"
+      name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}"
       replacements:
           amd64: 64bit
           386: 32bit
-          arm: ARM
-          arm64: ARM64
-          darwin: macOS
-          linux: Linux
-          windows: Windows
-          openbsd: OpenBSD
-          netbsd: NetBSD
-          freebsd: FreeBSD
-          dragonfly: DragonFlyBSD
+          arm: arm
+          arm64: arm64
+          darwin: macos
+          linux: linux
+          windows: windows
+          openbsd: openbsd
+          netbsd: netbsd
+          freebsd: freebsd
+          dragonfly: dragonflybsd
       files:
           - README.md
           - LICENSE
