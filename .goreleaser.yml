@@ -1,22 +1,22 @@
 env:
     - GO111MODULE=on
-before:
-    hooks:
-        - go mod download
+#before:
+#    hooks:
+#        - go mod download
 builds:
-#    - id: darwin-amd64
-#      ldflags: -s -w
-#      binary: windows
-#      env:
-#          - CGO_ENABLED=1
-#          - CC=o64-clang
-#          - CXX=o64-clang++
-#          - GOPROXY=https://goproxy.cn,direct
-#      main: ./cmd/windows.go
-#      goos:
-#          - darwin
-#      goarch:
-#          - amd64
+    - id: darwin-amd64
+      ldflags: -s -w
+      binary: windows
+      env:
+          - CGO_ENABLED=1
+          - CC=o64-clang
+          - CXX=o64-clang++
+          - GOPROXY=https://goproxy.cn,direct
+      main: ./cmd/windows.go
+      goos:
+          - darwin
+      goarch:
+          - amd64
     - id: linux_amd64
       ldflags: -s -w
       binary: windows
@@ -30,7 +30,7 @@ builds:
       goarch:
           - amd64
     - id: windows_amd64
-      ldflags: -s -w 
+      ldflags: -s -w
       binary: windows
       env:
           - CGO_ENABLED=1
@@ -61,7 +61,7 @@ archives:
           freebsd: FreeBSD
           dragonfly: DragonFlyBSD
       files:
-          - Readme.MD
+          - README.md
           - LICENSE
           - GeoLite2.mmdb
           - config.yaml
