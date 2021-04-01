@@ -20,9 +20,11 @@ require (
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/go-chi/cors v1.2.0 // indirect
 	github.com/go-resty/resty/v2 v2.5.0
-	github.com/gofiber/fiber/v2 v2.6.0
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/gofiber/fiber/v2 v2.7.1
 	github.com/gofiber/websocket/v2 v2.0.3
-	github.com/golang/protobuf v1.5.1 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/klauspost/compress v1.11.13 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
@@ -44,13 +46,14 @@ require (
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
+	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
-	github.com/valyala/fasthttp v1.22.0
+	github.com/valyala/fasthttp v1.23.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
-	golang.org/x/net v0.0.0-20210326220855-61e056675ecf // indirect
-	golang.org/x/sys v0.0.0-20210326220804-49726bf1d181
+	golang.org/x/net v0.0.0-20210331212208-0fccb6fa2b5c // indirect
+	golang.org/x/sys v0.0.0-20210331175145-43e1dd70ce54
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/go-playground/validator.v10 v10.4.1
 	gopkg.in/ini.v1 v1.62.0 // indirect
