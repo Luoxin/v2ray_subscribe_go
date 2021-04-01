@@ -18,5 +18,4 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: Luoxin/v2ray_subscribe_go@master
-        run: make
+      - run: make
