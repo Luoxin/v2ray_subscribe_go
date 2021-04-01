@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: git cline https://github.com/Luoxin/v2ray_subscribe_go.git
+      - run: git clone https://github.com/Luoxin/v2ray_subscribe_go.git
       - run: cd v2ray_subscribe_go
       - run: cp ./config.yaml.simple ./config.yaml
       - run: go mod download
