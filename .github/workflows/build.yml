@@ -10,8 +10,8 @@ on:
       - deleted
       - prereleased
       - released
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
 
 jobs:
 

@@ -1,6 +1,6 @@
 PWD = $(shell pwd)
 
-.PHONY: build cclinux
+.PHONY: build
 
 build:
 	cp config.yaml.simple config.yaml
