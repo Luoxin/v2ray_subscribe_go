@@ -10,12 +10,13 @@ on:
       - deleted
       - prereleased
       - released
-#  push:
-#    branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: make build
+      - uses: Luoxin/v2ray_subscribe_go@master
+        run: make
