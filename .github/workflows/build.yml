@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: ls
+      - run: cd ${GITHUB_PATH}
       - run: cp ./config.yaml.simple ./config.yaml
       - run: go mod download
       - run: go mod vendor
