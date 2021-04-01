@@ -10,18 +10,12 @@ on:
       - deleted
       - prereleased
       - released
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: git clone https://github.com/Luoxin/v2ray_subscribe_go.git
-      - run: cd v2ray_subscribe_go
-      - run: cp ./config.yaml.simple ./config.yaml
-      - run: go mod download
-      - run: go mod vendor
-      - run: docker build -t sub:latest .
-      - run: docker run -it -v ${PWD}:/build/ --rm sub:latest
+      - run: make build
