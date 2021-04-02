@@ -7,4 +7,4 @@ build:
 	go mod download
 	go mod vendor
 	docker build -t sub:latest .
-	docker run -it -v ${PWD}:/build/ --rm sub:latest
+	docker run -it -v ${PWD}:/build/ sub:latest
