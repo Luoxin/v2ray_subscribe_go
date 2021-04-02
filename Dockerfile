@@ -8,7 +8,11 @@ ENV GO111MODULE=on
 ENV CGO_ENABLED=1
 ENV GOPROXY=https://goproxy.io,direct
 
-RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+# 安装golang
+# https://github.com/letseeqiji/oneinstall/blob/master/golang/goinstall.sh
+#RUN wget https://studygolang.com/dl/go1.16.2.linux-amd64.tar.gz && tar -zxvf go1.16.2.linux-amd64.tar.gz && sudo mv go /usr/local/
+# gourl=$(curl -s  https://studygolang.com/dl |  sed -n '/dl\/golang\/go.*\.linux-amd64\.tar\.gz/p' | sed -n '1p' | sed -n '/1/p' | awk 'BEGIN{FS="\""}{print $4}')
+#RUN wget "https://studygolang.com/dl/golang/go1.16.3.linux-amd64.tar.gz"   &&  tar -C /usr/local -zxvf go1.16.3.linux-amd64.tar.gz
 
 COPY . /build/
 #COPY ./build.sh /build/
@@ -19,9 +23,7 @@ RUN rm -rf /build/go.sum
 RUN wget https://github.com/goreleaser/goreleaser/releases/download/v0.162.0/goreleaser_amd64.deb && dpkg -i goreleaser_amd64.deb
 #RUN	dpkg -i /build/goreleaser_amd64.deb
 
-# 安装golang
-#ARG GOVERSION=1.16.2
-#RUN wget https://studygolang.com/dl/go{{GOVERSION}}.linux-amd64.tar.gz && tar -zxvf go{{GOVERSION}}.linux-amd64.tar.gz && sudo mv go /usr/local/
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y \
@@ -42,4 +44,4 @@ RUN apt-get update && \
 	docker-ce-cli
 
 #ENTRYPOINT ["build.sh"]
-ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist"]
+ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish", "--debug" ,"--snapshot" ,"--rm-dist"]

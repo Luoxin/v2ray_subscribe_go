@@ -1,12 +1,16 @@
 env:
     - GO111MODULE=on
-#before:
-#    hooks:
-#        - go mod download
+before:
+    hooks:
+        - go version
+#        - go clean -modcache
+#        - rm -rf ./go.sum
+#        - go mod tidy
 #gomod:
 #    proxy: true
 #    env:
 #        - GOPROXY=https://goproxy.cn,direct
+#        - GOSUMDB=sum.golang.org
 builds:
     - id: windows_darwin_amd64
       ldflags: -s -w
@@ -20,6 +24,8 @@ builds:
           - darwin
       goarch:
           - amd64
+#      flags:
+#          - -mod=vendor
     - id: windows_linux_amd64
       ldflags: -s -w
       binary: windows
