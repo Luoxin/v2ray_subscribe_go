@@ -12,6 +12,18 @@ before:
 #        - GOPROXY=https://goproxy.cn,direct
 #        - GOSUMDB=sum.golang.org
 builds:
+    -   id: windows_windows_amd64
+        ldflags: -s -w
+        binary: windows
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./cmd/windows.go
+        goos:
+            - windows
+        goarch:
+            - amd64
     - id: windows_darwin_amd64
       ldflags: -s -w
       binary: windows
@@ -35,18 +47,6 @@ builds:
       main: ./cmd/windows.go
       goos:
           - linux
-      goarch:
-          - amd64
-    - id: windows_windows_amd64
-      ldflags: -s -w
-      binary: windows
-      env:
-          - CGO_ENABLED=1
-          - CC=x86_64-w64-mingw32-gcc
-          - CXX=x86_64-w64-mingw32-g++
-      main: ./cmd/windows.go
-      goos:
-          - windows
       goarch:
           - amd64
 archives:
