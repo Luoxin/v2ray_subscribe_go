@@ -17,7 +17,13 @@ import (
 func InitWorker() error {
 	finishC := make(chan bool, 1)
 
-	err := InitProxy(finishC)
+	err := InitTohru()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = InitProxy(finishC)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -30,12 +36,6 @@ func InitWorker() error {
 		log.Info("init proxy success")
 	case <-time.After(time.Minute * 10):
 		log.Warn("proxy start timeout")
-	}
-
-	err = InitTohru()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
 	}
 
 	c := gron.New()

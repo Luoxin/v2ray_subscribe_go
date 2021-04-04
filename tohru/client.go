@@ -42,6 +42,10 @@ func (p *tohru) Init() error {
 }
 
 func (p *tohru) Start() error {
+	sync := func() error {
+		return p.SyncNode()
+	}
+
 	if conf.Config.IsTohru() {
 		err := p.CheckUsable()
 		if err != nil {
@@ -49,9 +53,15 @@ func (p *tohru) Start() error {
 			return err
 		}
 
+		err = sync()
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
 		go func() {
 			for {
-				err = p.SyncNode()
+				err = sync()
 				if err != nil {
 					log.Errorf("err:%v", err)
 					continue

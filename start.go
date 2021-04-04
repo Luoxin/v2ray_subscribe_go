@@ -9,8 +9,8 @@ import (
 	"github.com/Luoxin/v2ray_subscribe_go/webservice"
 )
 
-func Init() error {
-	err := conf.InitConfig()
+func Init(configFilePatch string) error {
+	err := conf.InitConfig(configFilePatch)
 	if err != nil {
 		log.Fatalf("init config err:%v", err)
 		return err
@@ -48,7 +48,7 @@ func Init() error {
 func Start() {
 	c := make(chan bool)
 
-	err := Init()
+	err := Init("")
 	if err != nil {
 		log.Fatalf("err:%v", err)
 		return

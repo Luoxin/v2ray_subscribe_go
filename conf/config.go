@@ -104,29 +104,35 @@ var LogFormatter = &nested.Formatter{
 	CallerFirst:      true,
 }
 
-func InitConfig() error {
+func InitConfig(configFilePatch string) error {
 	log.SetFormatter(LogFormatter)
 	log.SetReportCaller(true)
 
-	// 可能存在的目录
-	execPath, _ := os.Executable()
-	viper.AddConfigPath(execPath)
+	if configFilePatch == "" {
+		// 可能存在的目录
+		execPath, _ := os.Executable()
+		viper.AddConfigPath(execPath)
 
-	viper.AddConfigPath("./")
-	viper.AddConfigPath("../")
-	viper.AddConfigPath("./conf/")
-	viper.AddConfigPath("../conf/")
-	{
-		homeDir, err := os.UserHomeDir()
-		if err != nil {
-			log.Errorf("err:%v", err)
-		} else {
-			viper.AddConfigPath(filepath.Join(homeDir, "github.com/Luoxin/v2ray_subscribe_go"))
+		viper.AddConfigPath("./")
+		viper.AddConfigPath("../")
+		viper.AddConfigPath("./conf/")
+		viper.AddConfigPath("../conf/")
+		{
+			homeDir, err := os.UserHomeDir()
+			if err != nil {
+				log.Errorf("err:%v", err)
+			} else {
+				viper.AddConfigPath(filepath.Join(homeDir, "github.com/Luoxin/v2ray_subscribe_go"))
+			}
 		}
-	}
 
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+	} else {
+		pwd, _ := os.Getwd()
+		log.Info(filepath.Join(pwd, configFilePatch))
+		viper.SetConfigFile(filepath.Join(pwd, configFilePatch))
+	}
 
 	// 配置一些默认值
 	viper.SetDefault("base.role", "Kobayashi-san")

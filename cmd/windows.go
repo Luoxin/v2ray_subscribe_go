@@ -7,6 +7,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	arg "github.com/alexflint/go-arg"
+
 	"github.com/Luoxin/v2ray_subscribe_go"
 )
 
@@ -16,7 +18,13 @@ import (
 // goreleaser --snapshot --skip-publish --rm-dist
 
 func main() {
-	err := subscribe.Init()
+	var cmdArgs struct {
+		ConfigPath string `env:"C" arg:"-c,--config" help:"config file path"`
+	}
+
+	arg.MustParse(&cmdArgs)
+
+	err := subscribe.Init(cmdArgs.ConfigPath)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
