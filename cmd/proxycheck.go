@@ -1,9 +1,9 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 
+	"github.com/alexflint/go-arg"
 	"github.com/d-tsuji/clipboard"
 	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
@@ -17,13 +17,13 @@ import (
 	"github.com/Luoxin/v2ray_subscribe_go/proxycheck"
 )
 
-var subUrl string
-
-func init() {
-	flag.StringVar(&subUrl, "u", "", "web for maybe has url")
-}
-
 func main() {
+	var cmdArgs struct {
+		SubUrl string `arg:"-u" help:"sub url"`
+	}
+
+	arg.MustParse(&cmdArgs)
+
 	err := func() error {
 		check := proxycheck.NewProxyCheck()
 		err := check.Init()
@@ -39,8 +39,8 @@ func main() {
 		}
 
 		var nodeUrl pie.Strings
-		if subUrl != "" {
-			resp, err := nic.Get(subUrl, nil)
+		if cmdArgs.SubUrl != "" {
+			resp, err := nic.Get(cmdArgs.SubUrl, nil)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err
@@ -48,7 +48,7 @@ func main() {
 
 			nodeUrl = parser.NewFuzzyMatchingParser().ParserText(resp.Text).Unique()
 		} else {
-			err := conf.InitConfig()
+			err := conf.InitConfig("")
 			if err != nil {
 				log.Fatalf("init config err:%v", err)
 				return err

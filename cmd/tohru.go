@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	err := subscribe.Init()
+	err := subscribe.Init("")
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
