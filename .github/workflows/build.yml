@@ -18,4 +18,4 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: make
+      - run: make build

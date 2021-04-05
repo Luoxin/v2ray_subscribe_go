@@ -73,7 +73,7 @@ archives:
           - GeoLite2.mmdb
           - config.yaml
 checksum:
-    name_template: "checksums.txt"
+    name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
     algorithm: sha512
 snapshot:
     name_template: "{{ .Tag }}"
