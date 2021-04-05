@@ -1095,3 +1095,5 @@ project/plugins/project/
 go.sum
 output/
 dist/
+.idea/
+.vcode/
