@@ -1,4 +1,5 @@
-FROM dockercore/golang-cross
+FROM troian/golang-cross
+#https://hub.docker.com/r/troian/golang-cross
 
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build
@@ -19,8 +20,10 @@ COPY . /build/
 #RUN chmod +x /build/build.sh
 RUN rm -rf /build/go.sum
 
+# goreleaser version
+ARG GORELEASER_VERSION=0.162.0
 # 安装 goreleaser
-RUN wget https://github.com/goreleaser/goreleaser/releases/download/v0.162.0/goreleaser_amd64.deb && dpkg -i goreleaser_amd64.deb
+RUN wget "https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_amd64.deb" && dpkg -i goreleaser_amd64.deb
 #RUN	dpkg -i /build/goreleaser_amd64.deb
 
 RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list

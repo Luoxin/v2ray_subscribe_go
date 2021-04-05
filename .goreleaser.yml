@@ -1,11 +1,13 @@
+project_name: sub
 env:
     - GO111MODULE=on
-before:
-    hooks:
-        - go version
+#before:
+#    hooks:
+#        - go version
+#        - go env
+#        - rm -rf /build/go.sum
 #        - go clean -modcache
-#        - rm -rf ./go.sum
-#        - go mod tidy
+#        - go mod download
 #gomod:
 #    proxy: true
 #    env:
@@ -24,6 +26,17 @@ builds:
             - windows
         goarch:
             - amd64
+    -   id: windows_linux_amd64
+        ldflags: -s -w
+        binary: windows
+        env:
+            - CC=gcc
+            - CGO_ENABLED=1
+        main: ./cmd/windows.go
+        goos:
+            - linux
+        goarch:
+            - amd64
     - id: windows_darwin_amd64
       ldflags: -s -w
       binary: windows
@@ -34,19 +47,6 @@ builds:
       main: ./cmd/windows.go
       goos:
           - darwin
-      goarch:
-          - amd64
-#      flags:
-#          - -mod=vendor
-    - id: windows_linux_amd64
-      ldflags: -s -w
-      binary: windows
-      env:
-          - CC=gcc
-          - CGO_ENABLED=1
-      main: ./cmd/windows.go
-      goos:
-          - linux
       goarch:
           - amd64
 archives:
@@ -73,7 +73,7 @@ archives:
           - GeoLite2.mmdb
           - config.yaml
 checksum:
-    name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}_checksums.txt"
+    name_template: "checksums.txt"
     algorithm: sha512
 snapshot:
     name_template: "{{ .Tag }}"

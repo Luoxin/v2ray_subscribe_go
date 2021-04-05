@@ -1,7 +1,7 @@
 base:
     role: "Kobayashi-san" # 默认为 `Kobayashi-san`，如果需要加入某一个`Kobayashi-san`获取分发的节点信息以及上报节点信息则使用 `Tohru`，大小写敏感
     Kobayashi-san_addr: http://127.0.0.1:8080/api/subscribe # Kobayashi-san的地址，如果需要自己部署的化，一般更换一下 host 部分就可以了
-    Kobayashi-san_home_key: T6Z14ey@rj)?LjMvkih+?.W}JAU?V{qvsD+H_)R/ # Kobayashi-san 的家钥匙，要求长度是40，小于40会补0
+    Kobayashi-san_home_key: 1v@?'yl!dL`{%uN8?KIiaoKMTO3A*z}`"7)Q"2CS # Kobayashi-san 的家钥匙，要求长度是40，小于40会补0
     tohru_key: tohru # tohru的key，用于区分用户
     tohru_password: tohru # tohru的秘钥，用于校验用户身份
 
