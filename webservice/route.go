@@ -24,10 +24,16 @@ func registerRouting4Sub(sub fiber.Router) error {
 			CacheControl: true,
 			// Storage:      storage,
 		}))
-	sub.Get("/v2ray", timeout.New(SubV2ray, time.Minute))
-	sub.Post("/v2ray", timeout.New(SubV2ray, time.Minute))
-	sub.Get("/clash", timeout.New(SubClash, time.Minute))
-	sub.Post("/clash", timeout.New(SubClash, time.Minute))
+	sub.Get("/v2ray/", timeout.New(SubV2ray, time.Minute))
+	sub.Post("/v2ray/", timeout.New(SubV2ray, time.Minute))
+	sub.Get("/clash/", timeout.New(SubClash, time.Minute))
+	sub.Post("/clash/", timeout.New(SubClash, time.Minute))
+	return nil
+}
+
+func registerRouting4Node(node fiber.Router) error {
+	node.Post("/add", AddNode)
+	node.Post("/addCrawlNode", AddCrawlerNode)
 	return nil
 }
 
@@ -63,9 +69,9 @@ func registerRouting(app *fiber.App) error {
 		return c.Next()
 	})
 
-	api.Get("/version", timeout.New(Version, time.Second))
-	api.Post("/version", timeout.New(Version, time.Second))
-	api.Get("/pac", timeout.New(Pac, time.Second))
+	api.Get("/version/", timeout.New(Version, time.Second))
+	api.Post("/version/", timeout.New(Version, time.Second))
+	api.Get("/pac/", timeout.New(Pac, time.Second))
 
 	err := registerRouting4Sub(api.Group("/sub", func(c *fiber.Ctx) error {
 		return c.Next()
@@ -75,11 +81,13 @@ func registerRouting(app *fiber.App) error {
 		return err
 	}
 
-	node := api.Group("/node", func(c *fiber.Ctx) error {
+	err = registerRouting4Node(api.Group("/node", func(c *fiber.Ctx) error {
 		return c.Next()
-	})
-	node.Post("/add", AddNode)
-	node.Post("/addCrawlNode", AddCrawlerNode)
+	}))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 
 	err = registerTohru(api.Group("/tohru"))
 	if err != nil {

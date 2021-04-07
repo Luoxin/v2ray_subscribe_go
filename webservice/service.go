@@ -30,7 +30,19 @@ func InitHttpService() error {
 	}
 
 	// https://github.com/gofiber/fiber
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		ServerHeader:             "",
+		CaseSensitive:            true,
+		UnescapePath:             true,
+		ETag:                     true,
+		ReadTimeout:              time.Minute * 5,
+		WriteTimeout:             time.Minute * 5,
+		CompressedFileSuffix:     ".gz",
+		ProxyHeader:              "",
+		DisableDefaultDate:       true,
+		DisableHeaderNormalizing: true,
+		ReduceMemoryUsage:        true,
+	})
 
 	err = InitWs(app)
 	if err != nil {
