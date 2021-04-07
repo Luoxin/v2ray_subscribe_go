@@ -16,7 +16,7 @@ require (
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
 	github.com/d-tsuji/clipboard v0.0.3
 	github.com/eddieivan01/nic v0.3.1
-	github.com/elliotchance/pie v1.38.1
+	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.1
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/go-chi/cors v1.2.0 // indirect
@@ -35,12 +35,14 @@ require (
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/miekg/dns v1.1.41 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/panjf2000/ants/v2 v2.4.4
+	github.com/pelletier/go-toml v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/pyroscope-io/pyroscope v0.0.28
+	github.com/pyroscope-io/pyroscope v0.0.29
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
 	github.com/sirupsen/logrus v1.8.1
@@ -54,7 +56,7 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
-	golang.org/x/net v0.0.0-20210331212208-0fccb6fa2b5c // indirect
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
@@ -64,6 +66,7 @@ require (
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.6
+	k8s.io/klog v1.0.0 // indirect
 )
 
 replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1

@@ -16,3 +16,11 @@ build1:
 	go mod vendor
 	docker build -t sub:latest .
 	docker run -it -v E:/v2ray_subscribe_go:/build/ sub:latest
+
+build2:
+	rm -rf ./go.sum
+	rm -rf ./vendor
+	go mod download
+	go mod vendor
+	docker build -t sub:latest .
+	docker run -it -v D:/develop/v2ray_subscribe_go:/build/ sub:latest
