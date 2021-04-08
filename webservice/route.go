@@ -34,6 +34,7 @@ func registerRouting4Sub(sub fiber.Router) error {
 func registerRouting4Node(node fiber.Router) error {
 	node.Post("/add", AddNode)
 	node.Post("/addCrawlNode", AddCrawlerNode)
+	node.Post("/list", NodeList)
 	return nil
 }
 

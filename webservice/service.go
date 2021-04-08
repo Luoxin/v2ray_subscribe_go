@@ -2,11 +2,15 @@ package webservice
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
@@ -31,10 +35,13 @@ func InitHttpService() error {
 
 	// https://github.com/gofiber/fiber
 	app := fiber.New(fiber.Config{
-		ServerHeader:             "",
-		CaseSensitive:            true,
-		UnescapePath:             true,
-		ETag:                     true,
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			return ctx.SendStatus(500)
+		},
+		ServerHeader:  "",
+		CaseSensitive: true,
+		UnescapePath:  true,
+		// ETag:                     true,
 		ReadTimeout:              time.Minute * 5,
 		WriteTimeout:             time.Minute * 5,
 		CompressedFileSuffix:     ".gz",
@@ -113,13 +120,43 @@ func InitHttpService() error {
 		// 	TimeZone: "Local",
 		// 	Output:   os.Stdout,
 		// }),
+		recover.New(recover.Config{
+			Next: func(c *fiber.Ctx) bool {
+				_ = c.SendStatus(500)
+				return false
+			},
+			EnableStackTrace: false,
+			StackTraceHandler: func(e interface{}) {
+				log.Errorf("panic:%v", err)
+			},
+		}),
+		// func(c *fiber.Ctx) {
+		// 	_ = c.Status(500).JSON(map[string]interface{}{
+		// 		"code": -1,
+		// 		"msg":  "sys error",
+		// 	})
+		// 	_ = c.Status(404).JSON(map[string]interface{}{
+		// 		"code": 404,
+		// 		"msg":  "api not found",
+		// 	})
+		// },
 	)
 
 	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return err
+		os.Exit(1)
 	}
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigCh
+		err = app.Shutdown()
+		if err != nil {
+			log.Errorf("err:%v", err)
+		}
+	}()
 
 	return nil
 }

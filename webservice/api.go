@@ -102,3 +102,13 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 
 	return c.SendStatus(200)
 }
+
+func NodeList(ctx *fiber.Ctx) error {
+	nodeList, err := node.GetUsableNodeList(100)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return ctx.JSON(nodeList)
+}
