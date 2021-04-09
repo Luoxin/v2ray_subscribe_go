@@ -67,7 +67,13 @@ func InitWorker() error {
 	if conf.Config.ProxyCheck.Enable {
 		log.Info("register proxy check")
 		proxyCheck := proxycheck.NewProxyCheck()
-		err := proxyCheck.Init()
+		err = proxyCheck.SetMaxSize(50)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		err = proxyCheck.Init()
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
