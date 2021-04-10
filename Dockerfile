@@ -1,4 +1,4 @@
-FROM troian/golang-cross
+FROM troian/golang-cross:latest
 #https://hub.docker.com/r/troian/golang-cross
 
 MAINTAINER luoxin <luoxin.ttt@gmail.com>

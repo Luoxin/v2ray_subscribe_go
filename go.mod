@@ -3,9 +3,9 @@ module github.com/Luoxin/v2ray_subscribe_go
 go 1.16
 
 require (
-	github.com/Dreamacro/clash v1.4.2
+	github.com/Dreamacro/clash v1.5.0
 	github.com/Dreamacro/go-shadowsocks2 v0.1.7 // indirect
-	github.com/Luoxin/faker v0.0.0-20200717023926-35d122eb4b5a
+	github.com/Luoxin/faker v0.0.0-20210410033611-489499c2bfab
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.6.1
 	github.com/alexflint/go-arg v1.3.0
@@ -17,10 +17,10 @@ require (
 	github.com/d-tsuji/clipboard v0.0.3
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.2
-	github.com/ethereum/go-ethereum v1.10.1
+	github.com/ethereum/go-ethereum v1.10.2
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/go-chi/cors v1.2.0 // indirect
-	github.com/go-resty/resty/v2 v2.5.0
+	github.com/go-resty/resty/v2 v2.6.0
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.7.1
 	github.com/gofiber/websocket/v2 v2.0.3
@@ -60,12 +60,12 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gopkg.in/go-playground/validator.v10 v10.4.1
+	gopkg.in/go-playground/validator.v10 v10.5.0
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.21.6
+	gorm.io/gorm v1.21.7
 )
 
 replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1
