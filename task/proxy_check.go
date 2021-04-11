@@ -5,10 +5,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Luoxin/v2ray_subscribe_go/db"
-	"github.com/Luoxin/v2ray_subscribe_go/domain"
-	"github.com/Luoxin/v2ray_subscribe_go/proxycheck"
-	"github.com/Luoxin/v2ray_subscribe_go/utils"
+	"github.com/Luoxin/Eutamias/db"
+	"github.com/Luoxin/Eutamias/domain"
+	"github.com/Luoxin/Eutamias/proxycheck"
+	"github.com/Luoxin/Eutamias/utils"
 )
 
 func checkProxyNode(check *proxycheck.ProxyCheck) error {

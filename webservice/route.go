@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/timeout"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Luoxin/v2ray_subscribe_go/utils"
+	"github.com/Luoxin/Eutamias/utils"
 )
 
 func registerRouting4Sub(sub fiber.Router) error {
@@ -66,23 +66,15 @@ func registerRouting(app *fiber.App) error {
 		return err
 	})
 
-	api := app.Group("/api/subscribe", func(c *fiber.Ctx) error {
-		return c.Next()
-	})
+	// api := app.Group("/api/subscribe", func(c *fiber.Ctx) error {
+	// 	return c.Next()
+	// })
 
-	api.Get("/version/", timeout.New(Version, time.Second))
-	api.Post("/version/", timeout.New(Version, time.Second))
-	api.Get("/pac/", timeout.New(Pac, time.Second))
+	app.Get("/version/", timeout.New(Version, time.Second))
+	app.Post("/version/", timeout.New(Version, time.Second))
+	app.Get("/pac/", timeout.New(Pac, time.Second))
 
-	err := registerRouting4Sub(api.Group("/sub", func(c *fiber.Ctx) error {
-		return c.Next()
-	}))
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	err = registerRouting4Node(api.Group("/node", func(c *fiber.Ctx) error {
+	err := registerRouting4Sub(app.Group("/sub", func(c *fiber.Ctx) error {
 		return c.Next()
 	}))
 	if err != nil {
@@ -90,7 +82,15 @@ func registerRouting(app *fiber.App) error {
 		return err
 	}
 
-	err = registerTohru(api.Group("/tohru"))
+	err = registerRouting4Node(app.Group("/node", func(c *fiber.Ctx) error {
+		return c.Next()
+	}))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = registerTohru(app.Group("/tohru"))
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

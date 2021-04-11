@@ -9,9 +9,9 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/whiteshtef/clockwork"
 
-	"github.com/Luoxin/v2ray_subscribe_go/conf"
-	"github.com/Luoxin/v2ray_subscribe_go/db"
-	"github.com/Luoxin/v2ray_subscribe_go/proxycheck"
+	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/db"
+	"github.com/Luoxin/Eutamias/proxycheck"
 )
 
 func InitWorker() error {

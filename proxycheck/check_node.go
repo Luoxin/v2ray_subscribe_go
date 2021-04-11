@@ -22,7 +22,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
-	"github.com/Luoxin/v2ray_subscribe_go/proxy"
+	"github.com/Luoxin/Eutamias/proxy"
 )
 
 type ProxyCheck struct {

@@ -122,7 +122,7 @@ func InitConfig(configFilePatch string) error {
 			if err != nil {
 				log.Errorf("err:%v", err)
 			} else {
-				viper.AddConfigPath(filepath.Join(homeDir, "github.com/Luoxin/v2ray_subscribe_go"))
+				viper.AddConfigPath(filepath.Join(homeDir, "Eutamias"))
 			}
 		}
 
@@ -162,37 +162,31 @@ func InitConfig(configFilePatch string) error {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Fatalf("not found conf file, use default")
-		} else if e, ok := err.(*os.PathError); ok {
-			log.Fatalf("not find conf file in %s", e.Path)
-		} else {
-			log.Errorf("err:%v", err)
-			return err
-		}
-	} else {
-		// log.Infof("read config %+v", viper.AllSettings())
-
-		// err = viper.Unmarshal(&Config)
-		// if err != nil {
-		// 	log.Errorf("err:%v", err)
-		// 	return err
-		// }
-
-		j, err := json.Marshal(viper.AllSettings())
-		if err != nil {
+		switch e := err.(type) {
+		case viper.ConfigFileNotFoundError:
+			log.Warnf("not found conf file, use default")
+		case *os.PathError:
+			log.Warnf("not find conf file in %s", e.Path)
+		default:
 			log.Errorf("err:%v", err)
 			return err
 		}
 
-		err = json.Unmarshal(j, &Config)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		}
-
-		log.Infof("get config %+v", Config)
 	}
+
+	j, err := json.Marshal(viper.AllSettings())
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = json.Unmarshal(j, &Config)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Infof("get config %+v", Config)
 
 	if !roleList.Contains(Config.Base.Role) {
 		Config.Base.Role = "Kobayashi-san"
@@ -206,7 +200,7 @@ func InitConfig(configFilePatch string) error {
 
 	if Config.Profiler.Enable {
 		_, _ = profiler.Start(profiler.Config{
-			ApplicationName: "github.com/Luoxin/v2ray_subscribe_go",
+			ApplicationName: "github.com/Luoxin/Eutamias",
 			ServerAddress:   Config.Profiler.ServerAddress,
 		})
 	}

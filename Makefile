@@ -15,7 +15,9 @@ build1:
 	go mod download
 	go mod vendor
 	docker build -t sub:latest .
-	docker run -it -v E:/v2ray_subscribe_go:/build/ sub:latest
+	docker run -it -v E:/Eutamias:/build/ sub:latest
+	rm -rf ./go.sum
+	rm -rf ./vendor
 
 build2:
 	rm -rf ./go.sum
@@ -23,4 +25,6 @@ build2:
 	go mod download
 	go mod vendor
 	docker build -t sub:latest .
-	docker run -it -v D:/develop/v2ray_subscribe_go:/build/ sub:latest
+	docker run -it -v D:/develop/Eutamias:/build/ sub:latest
+	rm -rf ./go.sum
+	rm -rf ./vendor

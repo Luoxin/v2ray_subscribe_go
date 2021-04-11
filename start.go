@@ -3,10 +3,10 @@ package subscribe
 import (
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Luoxin/v2ray_subscribe_go/conf"
-	"github.com/Luoxin/v2ray_subscribe_go/db"
-	"github.com/Luoxin/v2ray_subscribe_go/task"
-	"github.com/Luoxin/v2ray_subscribe_go/webservice"
+	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/db"
+	"github.com/Luoxin/Eutamias/task"
+	"github.com/Luoxin/Eutamias/webservice"
 )
 
 func Init(configFilePatch string) error {

@@ -1,4 +1,4 @@
-module github.com/Luoxin/v2ray_subscribe_go
+module github.com/Luoxin/Eutamias
 
 go 1.16
 

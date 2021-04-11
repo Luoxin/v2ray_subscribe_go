@@ -3,8 +3,8 @@ package main
 import (
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Luoxin/v2ray_subscribe_go"
-	"github.com/Luoxin/v2ray_subscribe_go/tohru"
+	"github.com/Luoxin/Eutamias"
+	"github.com/Luoxin/Eutamias/tohru"
 )
 
 func main() {

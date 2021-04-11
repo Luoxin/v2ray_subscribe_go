@@ -1,4 +1,4 @@
-project_name: sub
+project_name: Eutamias
 #tag: 0.0.0.4
 env:
     - GO111MODULE=on

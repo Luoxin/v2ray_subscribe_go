@@ -9,7 +9,7 @@ import (
 
 	arg "github.com/alexflint/go-arg"
 
-	"github.com/Luoxin/v2ray_subscribe_go"
+	"github.com/Luoxin/Eutamias"
 )
 
 // netsh interface ipv4 show excludedportrange protocol=tcp

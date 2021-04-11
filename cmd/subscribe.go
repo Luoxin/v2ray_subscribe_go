@@ -5,7 +5,7 @@
 package main
 
 import (
-	"github.com/Luoxin/v2ray_subscribe_go"
+	"github.com/Luoxin/Eutamias"
 )
 
 func main() {

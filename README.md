@@ -1,4 +1,4 @@
-# v2ray_subscribe_go
+# Eutamias
 v2ray_subscribe的golang版本
 
 ### TODO

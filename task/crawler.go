@@ -10,12 +10,12 @@ import (
 	"github.com/eddieivan01/nic"
 	log "github.com/sirupsen/logrus"
 
-	conf2 "github.com/Luoxin/v2ray_subscribe_go/conf"
-	"github.com/Luoxin/v2ray_subscribe_go/db"
-	"github.com/Luoxin/v2ray_subscribe_go/domain"
-	"github.com/Luoxin/v2ray_subscribe_go/node"
-	"github.com/Luoxin/v2ray_subscribe_go/parser"
-	"github.com/Luoxin/v2ray_subscribe_go/utils"
+	conf2 "github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/db"
+	"github.com/Luoxin/Eutamias/domain"
+	"github.com/Luoxin/Eutamias/node"
+	"github.com/Luoxin/Eutamias/parser"
+	"github.com/Luoxin/Eutamias/utils"
 )
 
 func crawler() error {

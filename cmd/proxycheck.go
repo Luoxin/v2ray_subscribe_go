@@ -9,12 +9,12 @@ import (
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Luoxin/v2ray_subscribe_go/conf"
-	"github.com/Luoxin/v2ray_subscribe_go/db"
-	"github.com/Luoxin/v2ray_subscribe_go/domain"
-	"github.com/Luoxin/v2ray_subscribe_go/node"
-	"github.com/Luoxin/v2ray_subscribe_go/parser"
-	"github.com/Luoxin/v2ray_subscribe_go/proxycheck"
+	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/db"
+	"github.com/Luoxin/Eutamias/domain"
+	"github.com/Luoxin/Eutamias/node"
+	"github.com/Luoxin/Eutamias/parser"
+	"github.com/Luoxin/Eutamias/proxycheck"
 )
 
 func main() {
