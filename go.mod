@@ -3,7 +3,7 @@ module github.com/Luoxin/Eutamias
 go 1.16
 
 require (
-	github.com/Dreamacro/clash v1.5.0
+	github.com/Dreamacro/clash v1.4.2
 	github.com/Dreamacro/go-shadowsocks2 v0.1.7 // indirect
 	github.com/Luoxin/faker v0.0.0-20210410033611-489499c2bfab
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
@@ -57,7 +57,6 @@ require (
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 	golang.org/x/net v0.0.0-20210410081132-afb366fc7cd1 // indirect
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
-	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.5.0
