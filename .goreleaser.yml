@@ -8,10 +8,10 @@ env:
 #        - rm -rf /build/go.sum
 #        - go clean -modcache
 #        - go mod download
-#gomod:
-#    proxy: true
-#    env:
-#        - GOPROXY=https://goproxy.cn,direct
+gomod:
+    proxy: true
+    env:
+        - GOPROXY=https://goproxy.cn,direct
 #        - GOSUMDB=sum.golang.org
 builds:
     -   id: windows_windows_amd64

@@ -9,15 +9,7 @@ ENV GO111MODULE=on
 ENV CGO_ENABLED=1
 ENV GOPROXY=https://goproxy.io,direct
 
-# 安装golang
-# https://github.com/letseeqiji/oneinstall/blob/master/golang/goinstall.sh
-#RUN wget https://studygolang.com/dl/go1.16.2.linux-amd64.tar.gz && tar -zxvf go1.16.2.linux-amd64.tar.gz && sudo mv go /usr/local/
-# gourl=$(curl -s  https://studygolang.com/dl |  sed -n '/dl\/golang\/go.*\.linux-amd64\.tar\.gz/p' | sed -n '1p' | sed -n '/1/p' | awk 'BEGIN{FS="\""}{print $4}')
-#RUN wget "https://studygolang.com/dl/golang/go1.16.3.linux-amd64.tar.gz"   &&  tar -C /usr/local -zxvf go1.16.3.linux-amd64.tar.gz
-
 COPY . /build/
-#COPY ./build.sh /build/
-#RUN chmod +x /build/build.sh
 RUN rm -rf /build/go.sum
 
 # goreleaser version
@@ -46,5 +38,4 @@ RUN apt-get update && \
 	apt-get install -y docker-ce \
 	docker-ce-cli
 
-#ENTRYPOINT ["build.sh"]
 ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist"]
