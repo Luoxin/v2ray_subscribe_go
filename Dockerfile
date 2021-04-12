@@ -47,4 +47,4 @@ RUN apt-get update && \
 	docker-ce-cli
 
 #ENTRYPOINT ["build.sh"]
-ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish", "--debug" ,"--snapshot" ,"--rm-dist"]
+ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist"]
