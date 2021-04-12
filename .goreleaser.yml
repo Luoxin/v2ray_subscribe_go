@@ -2,6 +2,7 @@ project_name: Eutamias
 #tag: 0.0.0.4
 env:
     - GO111MODULE=on
+    - GOSUMDB=off
 #before:
 #    hooks:
 #        - go version
