@@ -18,35 +18,35 @@ env:
 builds:
     -   id: windows_windows_amd64
         ldflags: -s -w
-        binary: windows
+        binary: Eutamias
         env:
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
             - CXX=x86_64-w64-mingw32-g++
-        main: ./cmd/windows.go
+        main: ./cmd/Eutamias.go
         goos:
             - windows
         goarch:
             - amd64
     -   id: windows_linux_amd64
         ldflags: -s -w
-        binary: windows
+        binary: Eutamias
         env:
             - CC=gcc
             - CGO_ENABLED=1
-        main: ./cmd/windows.go
+        main: ./cmd/Eutamias.go
         goos:
             - linux
         goarch:
             - amd64
     - id: windows_darwin_amd64
       ldflags: -s -w
-      binary: windows
+      binary: Eutamias
       env:
           - CGO_ENABLED=1
           - CC=o64-clang
           - CXX=o64-clang++
-      main: ./cmd/windows.go
+      main: ./cmd/Eutamias.go
       goos:
           - darwin
       goarch:
