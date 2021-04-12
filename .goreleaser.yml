@@ -1,5 +1,3 @@
-project_name: Eutamias
-#tag: 0.0.0.4
 env:
     - GO111MODULE=on
     - GOSUMDB=off
@@ -79,13 +77,13 @@ checksum:
     algorithm: sha512
 snapshot:
     name_template: "{{ .Tag }}"
-changelog:
-    sort: asc
-    filters:
-        exclude:
-            - '^docs:'
-            - '^test:'
-            - '^dev:'
-            - 'README'
-            - Merge pull request
-            - Merge branch
+#changelog:
+#    sort: asc
+#    filters:
+#        exclude:
+#            - '^docs:'
+#            - '^test:'
+#            - '^dev:'
+#            - 'README'
+#            - Merge pull request
+#            - Merge branch
