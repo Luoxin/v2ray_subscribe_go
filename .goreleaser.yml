@@ -8,13 +8,13 @@ env:
 #        - rm -rf /build/go.sum
 #        - go clean -modcache
 #        - go mod download
-gomod:
-    proxy: true
-    env:
-        - GOPROXY=https://goproxy.cn,direct
+#gomod:
+#    proxy: true
+#    env:
+#        - GOPROXY=https://goproxy.cn,direct
 #        - GOSUMDB=sum.golang.org
 builds:
-    -   id: windows_windows_amd64
+    -   id: windows_amd64
         ldflags: -s -w
         binary: Eutamias
         env:
@@ -26,7 +26,7 @@ builds:
             - windows
         goarch:
             - amd64
-    -   id: windows_linux_amd64
+    -   id: linux_amd64
         ldflags: -s -w
         binary: Eutamias
         env:
@@ -37,7 +37,7 @@ builds:
             - linux
         goarch:
             - amd64
-    - id: windows_darwin_amd64
+    - id: darwin_amd64
       ldflags: -s -w
       binary: Eutamias
       env:

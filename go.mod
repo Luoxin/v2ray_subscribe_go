@@ -31,6 +31,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
+	github.com/mattn/go-runewidth v0.0.12 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/miekg/dns v1.1.41 // indirect
@@ -44,6 +45,7 @@ require (
 	github.com/pyroscope-io/pyroscope v0.0.29
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
+	github.com/schollz/progressbar/v3 v3.7.6 // indirect
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
@@ -57,6 +59,7 @@ require (
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 	golang.org/x/net v0.0.0-20210410081132-afb366fc7cd1 // indirect
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
+	golang.org/x/term v0.0.0-20210406210042-72f3dc4e9b72 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.5.0

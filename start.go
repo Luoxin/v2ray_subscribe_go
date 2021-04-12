@@ -1,6 +1,7 @@
 package subscribe
 
 import (
+	"github.com/Luoxin/Eutamias/geolite"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -17,6 +18,12 @@ func Init(configFilePatch string) error {
 	}
 
 	log.Info("init conf success")
+
+	err = geolite.InitGeoLite()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 
 	err = db.InitDb(conf.Config.Db.Addr)
 	if err != nil {

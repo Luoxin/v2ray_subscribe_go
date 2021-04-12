@@ -14,9 +14,14 @@ RUN rm -rf /build/go.sum
 
 # goreleaser version
 ARG GORELEASER_VERSION=0.162.0
+ARG GORELEASER_FILENAME=goreleaser_amd64.deb
 # 安装 goreleaser
-RUN wget "https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_amd64.deb" && dpkg -i goreleaser_amd64.deb
-#RUN	dpkg -i /build/goreleaser_amd64.deb
+RUN  #!/bin/bash \
+	if [ ! -f "$${GORELEASER_FILENAME}" ]; then \
+		dpkg -i /build/goreleaser_amd64.deb \
+	else \
+		wget "https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/${GORELEASER_FILENAME}" && dpkg -i ${GORELEASER_FILENAME} \
+	fi
 
 RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
 

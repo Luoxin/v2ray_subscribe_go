@@ -48,7 +48,7 @@ func InitProxy(finishC chan bool) error {
 
 		clashGeoLiteFile := filepath.Join(clashConfigDir, "Country.mmdb")
 
-		if !utils.Exists(clashGeoLiteFile) {
+		if !utils.FileExists(clashGeoLiteFile) {
 			err := os.MkdirAll(clashConfigDir, 0777)
 			if err != nil {
 				log.Fatalf("err:%v", err)

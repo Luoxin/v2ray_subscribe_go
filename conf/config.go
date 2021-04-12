@@ -9,6 +9,7 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
 	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 
@@ -209,6 +210,12 @@ func InitConfig(configFilePatch string) error {
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
+	}
+
+	err = os.MkdirAll(utils.GetConfigDir(), 0777)
+	if err != nil {
+	    log.Errorf("err:%v", err)
+	    return err
 	}
 
 	return nil
