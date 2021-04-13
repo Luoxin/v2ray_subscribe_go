@@ -60,7 +60,7 @@ func main() {
 				return err
 			}
 
-			nodes, err := node.GetUsableNodeList(50)
+			nodes, err := node.GetUsableNodeList(50, true)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return err

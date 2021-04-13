@@ -147,7 +147,7 @@ func InitConfig(configFilePatch string) error {
 
 	viper.SetDefault("debug", false)
 
-	viper.SetDefault("db.addr", fmt.Sprintf("sqlite://%s?check_same_thread=false", filepath.Join(execPath, ".Eutamias")))
+	viper.SetDefault("db.addr", fmt.Sprintf("sqlite://%s?check_same_thread=false", filepath.ToSlash(filepath.Join(execPath, ".eutamias.es"))))
 
 	viper.SetDefault("crawler.enable", true)
 	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")

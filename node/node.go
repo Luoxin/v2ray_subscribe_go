@@ -91,14 +91,8 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) (bool,
 	return isNew, nil
 }
 
-func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
+func GetUsableNodeList(quantity int, mustUsable bool) (domain.ProxyNodeList, error) {
 	query := db.Db.Where("is_close = ?", false).
-		Where("proxy_speed > 0 ").
-		// Where("proxy_node_type = 1").
-		Where("available_count > 0 ").
-		Where("proxy_network_delay >= 0").
-		//Where("death_count < ?", 10).
-		// Order("proxy_node_type").
 		Order("available_count DESC").
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
@@ -106,7 +100,16 @@ func GetUsableNodeList(quantity int) (domain.ProxyNodeList, error) {
 		Order("last_crawler_at DESC")
 
 	if quantity >= 0 {
-		query.Limit(quantity)
+		query = query.Limit(quantity)
+	}
+
+	if mustUsable {
+		query = query.Where("proxy_speed > 0 ").
+			// Where("proxy_node_type = 1").
+			// Where("death_count < ?", 10).
+			// Order("proxy_node_type").
+			Where("available_count > 0 ").
+			Where("proxy_network_delay >= 0")
 	}
 
 	var nodes domain.ProxyNodeList

@@ -74,7 +74,7 @@ func InitProxy(finishC chan bool) error {
 				quantity = 10
 			}
 
-			nodes, err := node.GetUsableNodeList(quantity)
+			nodes, err := node.GetUsableNodeList(quantity, !isFirst)
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return
@@ -98,6 +98,11 @@ func InitProxy(finishC chan bool) error {
 
 			if !isFirst {
 				p = p.GetUsableList()
+			}
+
+			if p.Len() == 0 {
+				log.Warnf("not found usabel proxies, skip update")
+				return
 			}
 
 			log.Infof("get proxies %v", p.Len())
