@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
@@ -93,12 +97,6 @@ func InitHttpService() error {
 		compress.New(compress.Config{
 			Level: compress.LevelBestCompression,
 		}),
-		// rewrite.New(rewrite.Config{
-		// 	Rules: map[string]string{
-		// 		"/api/subscribe\\.subscription": "/api/subscribe/sub/v2ray",
-		// 		"/api/subscribe\\.sub_clash":    "/api/subscribe/sub/clash",
-		// 	},
-		// }),
 		// logger.New(logger.Config{
 		// 	Format:       "[${time}] ${status} - ${latency} ${ip} ${ua} ${method} ${path} ${header} ${body}\n",
 		// 	TimeFormat:   "15:04:05",
@@ -106,20 +104,20 @@ func InitHttpService() error {
 		// 	TimeInterval: 500 * time.Millisecond,
 		// 	Output:       os.Stdout,
 		// }),
-		// requestid.New(requestid.Config{
-		// 	Header: "x-request-id",
-		// 	Generator: func() string {
-		// 		return strings.ReplaceAll(utils.UUIDv4(), "-", "")
-		// 	},
-		// 	ContextKey: "request-id",
-		// }),
-		// logger.New(logger.Config{
-		// 	Next: nil,
-		// 	// For more options, see the Config section
-		// 	Format:   "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
-		// 	TimeZone: "Local",
-		// 	Output:   os.Stdout,
-		// }),
+		requestid.New(requestid.Config{
+			Header: "x-request-id",
+			Generator: func() string {
+				return strings.ReplaceAll(utils.UUIDv4(), "-", "")
+			},
+			ContextKey: "request-id",
+		}),
+		logger.New(logger.Config{
+			Next: nil,
+			// For more options, see the Config section
+			Format:   "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
+			TimeZone: "Local",
+			Output:   os.Stdout,
+		}),
 		recover.New(recover.Config{
 			Next: func(c *fiber.Ctx) bool {
 				_ = c.SendStatus(500)
@@ -140,6 +138,24 @@ func InitHttpService() error {
 		// 		"msg":  "api not found",
 		// 	})
 		// },
+		limiter.New(limiter.Config{
+			Next: func(c *fiber.Ctx) bool {
+				return c.IP() == "127.0.0.1"
+			},
+			Max: 40,
+			KeyGenerator: func(c *fiber.Ctx) string {
+				sess, err := store.Get(c)
+				if err == nil {
+					uid := sess.Get(SessionKeyUid)
+					if uid != nil {
+						return fmt.Sprintf("limiter_user_id_%v", uid)
+					}
+				}
+
+				return fmt.Sprintf("limiter_user_ip_%s", c.IP())
+			},
+			Expiration: time.Minute,
+		}),
 	)
 
 	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
