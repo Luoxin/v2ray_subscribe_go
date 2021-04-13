@@ -96,3 +96,8 @@ func DownloadWithProgressbar(fileUrl, fileName string) error {
 
 	return nil
 }
+
+func GetExecPath() string {
+	execPath, _ := os.Executable()
+	return filepath.Dir(execPath)
+}

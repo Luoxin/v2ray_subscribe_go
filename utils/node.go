@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"strings"
 	"github.com/Luoxin/Eutamias/domain"
+	"strings"
 )
 
 func GetProxyNodeType(u string) domain.ProxyNodeType {

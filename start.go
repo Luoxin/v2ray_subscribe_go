@@ -1,4 +1,4 @@
-package subscribe
+package eutamias
 
 import (
 	"github.com/Luoxin/Eutamias/geolite"

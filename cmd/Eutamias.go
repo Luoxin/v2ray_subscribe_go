@@ -24,7 +24,7 @@ func main() {
 
 	arg.MustParse(&cmdArgs)
 
-	err := subscribe.Init(cmdArgs.ConfigPath)
+	err := eutamias.Init(cmdArgs.ConfigPath)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return

@@ -2,13 +2,13 @@ package parser
 
 import (
 	"fmt"
+	"github.com/Luoxin/Eutamias/proxy"
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
 	yaml "gopkg.in/yaml.v3"
 	"regexp"
 	"strings"
-	"github.com/Luoxin/Eutamias/proxy"
-	"github.com/Luoxin/Eutamias/utils"
 )
 
 type FuzzyMatchingParser struct {

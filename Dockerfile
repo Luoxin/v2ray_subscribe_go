@@ -10,7 +10,6 @@ ENV CGO_ENABLED=1
 ENV GOPROXY=https://goproxy.io,direct
 
 COPY . /build/
-RUN rm -rf /build/go.sum
 
 # goreleaser version
 ARG GORELEASER_VERSION=0.162.0

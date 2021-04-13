@@ -109,9 +109,10 @@ func InitConfig(configFilePatch string) error {
 	log.SetFormatter(LogFormatter)
 	log.SetReportCaller(true)
 
+	execPath := utils.GetExecPath()
+
 	if configFilePatch == "" {
 		// 可能存在的目录
-		execPath, _ := os.Executable()
 		viper.AddConfigPath(execPath)
 
 		viper.AddConfigPath("./")
@@ -137,7 +138,7 @@ func InitConfig(configFilePatch string) error {
 
 	// 配置一些默认值
 	viper.SetDefault("base.role", "Kobayashi-san")
-	viper.SetDefault("base.Kobayashi-san_addr", "http://127.0.0.1:8080/api/subscribe")
+	viper.SetDefault("base.Kobayashi-san_addr", "http://127.0.0.1:8080")
 	viper.SetDefault("base.Kobayashi-san_home_key", "T6Z14ey@rj)?LjMvkih+?.W}JAU?V{qvsD+H_)R/")
 
 	viper.SetDefault("http_service.enable", true)
@@ -146,7 +147,7 @@ func InitConfig(configFilePatch string) error {
 
 	viper.SetDefault("debug", false)
 
-	viper.SetDefault("db.addr", "sqlite://.subscribe.vdb?check_same_thread=false")
+	viper.SetDefault("db.addr", fmt.Sprintf("sqlite://%s?check_same_thread=false", filepath.Join(execPath, ".Eutamias")))
 
 	viper.SetDefault("crawler.enable", true)
 	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")
@@ -187,8 +188,6 @@ func InitConfig(configFilePatch string) error {
 		return err
 	}
 
-	log.Infof("get config %+v", Config)
-
 	if !roleList.Contains(Config.Base.Role) {
 		Config.Base.Role = "Kobayashi-san"
 	}
@@ -198,6 +197,8 @@ func InitConfig(configFilePatch string) error {
 	} else {
 		log.SetLevel(log.InfoLevel)
 	}
+
+	log.Debugf("get config %+v", Config)
 
 	if Config.Profiler.Enable {
 		_, _ = profiler.Start(profiler.Config{
@@ -214,8 +215,8 @@ func InitConfig(configFilePatch string) error {
 
 	err = os.MkdirAll(utils.GetConfigDir(), 0777)
 	if err != nil {
-	    log.Errorf("err:%v", err)
-	    return err
+		log.Errorf("err:%v", err)
+		return err
 	}
 
 	return nil

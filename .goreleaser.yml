@@ -16,7 +16,7 @@ env:
 builds:
     -   id: windows_amd64
         ldflags: -s -w
-        binary: Eutamias
+        binary: eutamias
         env:
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
@@ -28,7 +28,7 @@ builds:
             - amd64
     -   id: linux_amd64
         ldflags: -s -w
-        binary: Eutamias
+        binary: eutamias
         env:
             - CC=gcc
             - CGO_ENABLED=1
@@ -39,7 +39,7 @@ builds:
             - amd64
     - id: darwin_amd64
       ldflags: -s -w
-      binary: Eutamias
+      binary: eutamias
       env:
           - CGO_ENABLED=1
           - CC=o64-clang

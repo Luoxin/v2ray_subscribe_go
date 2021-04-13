@@ -300,9 +300,9 @@ func SyncNode(c *fiber.Ctx) error {
 func registerTohru(app fiber.Router) error {
 	app.Use("/", func(c *fiber.Ctx) error {
 		var whiteList = pie.Strings{
-			"/api/subscribe/tohru/CheckUsable",
-			"/api/subscribe/tohru/Registration",
-			"/api/subscribe/tohru/ChangePassword",
+			"/tohru/CheckUsable",
+			"/tohru/Registration",
+			"/tohru/ChangePassword",
 		}
 
 		path := c.Path()

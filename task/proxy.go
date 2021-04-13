@@ -112,8 +112,8 @@ func InitProxy(finishC chan bool) error {
 			options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
 
 			{
-				pwd, _ := os.Executable()
-				uiPath := filepath.Join(filepath.Dir(pwd), "./ui")
+				pwd := utils.GetExecPath()
+				uiPath := filepath.Join(pwd, "./ui")
 				if utils.IsDir(uiPath) {
 					options = append(options, hub.WithExternalUI(uiPath))
 				}

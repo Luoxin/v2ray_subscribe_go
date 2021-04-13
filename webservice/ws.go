@@ -112,7 +112,7 @@ func (p *WsClientDispatch) OnClose(clientId string) {
 }
 
 func InitWs(app *fiber.App) error {
-	app.Use("api/subscribe/ws", func(c *fiber.Ctx) error {
+	app.Use("ws", func(c *fiber.Ctx) error {
 		// IsWebSocketUpgrade returns true if the client
 		// requested upgrade to the WebSocket protocol.
 		if websocket.IsWebSocketUpgrade(c) {
@@ -123,7 +123,7 @@ func InitWs(app *fiber.App) error {
 		return fiber.ErrUpgradeRequired
 	})
 
-	app.Get("api/subscribe/ws/", websocket.New(func(c *websocket.Conn) {
+	app.Get("ws/", websocket.New(func(c *websocket.Conn) {
 		// c.Locals is added to the *websocket.Conn
 		log.Println(c.Locals("allowed"))  // true
 		log.Println(c.Params("id"))       // 123

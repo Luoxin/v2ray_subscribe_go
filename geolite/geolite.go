@@ -30,11 +30,12 @@ const (
 func InitGeoLite() error {
 	geoLite2Path := filepath.Join(utils.GetConfigDir(), geoLiteDbName)
 
+	execPath := utils.GetExecPath()
+	pwdPath, _ := os.Getwd()
+
 	var retryCount = 0
 RETRY:
 	retryCount++
-	execPath, _ := os.Executable()
-	pwdPath, _ := os.Getwd()
 	if utils.FileExists(filepath.Join(execPath, geoLiteDbName)) {
 		err := utils.CopyFile(filepath.Join(execPath, geoLiteDbName), geoLite2Path)
 		if err != nil {
