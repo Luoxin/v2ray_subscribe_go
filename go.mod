@@ -39,13 +39,14 @@ require (
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
+	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/panjf2000/ants/v2 v2.4.4
 	github.com/pelletier/go-toml v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/pyroscope-io/pyroscope v0.0.29
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
-	github.com/schollz/progressbar/v3 v3.7.6 // indirect
+	github.com/schollz/progressbar/v3 v3.7.6
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect

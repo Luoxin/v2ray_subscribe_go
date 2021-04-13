@@ -13,6 +13,7 @@ import (
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
 	"github.com/oschwald/geoip2-golang"
+	"github.com/oschwald/maxminddb-golang"
 	log "github.com/sirupsen/logrus"
 
 	country2 "github.com/Luoxin/Eutamias/country"
@@ -22,16 +23,26 @@ var db *geoip2.Reader
 var dnsResolver *dns.Resolver
 
 const (
-	geoLiteUrl    = "https://cdn8.99store.cn/ori3Store/lm-3Xx4amfUMJWnCAY5imlmWtpID10sj9q/wcs/user/GeoLite2.mmdb?userId=140595&file=889a2280cada8d29c75c52b37b616b48&wsSecret=7036bf4a8d049e39994225271874e179&wsTime=60743d76&fz=10sj9q&ts=caloc4jeci4x&i=14.18.111.75&ck=3c06a19329d635a3f2d918e390f40c90&store=0"
+	geoLiteUrl    = "http://api.luoxin.live/api/eutamias/file/GeoLite2.mmdb"
 	geoLiteDbName = "GeoLite2.mmdb"
 )
 
 func InitGeoLite() error {
 	geoLite2Path := filepath.Join(utils.GetConfigDir(), geoLiteDbName)
 
+	var retryCount = 0
+RETRY:
+	retryCount++
 	execPath, _ := os.Executable()
+	pwdPath, _ := os.Getwd()
 	if utils.FileExists(filepath.Join(execPath, geoLiteDbName)) {
 		err := utils.CopyFile(filepath.Join(execPath, geoLiteDbName), geoLite2Path)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+	} else if utils.FileExists(filepath.Join(pwdPath, geoLiteDbName)) {
+		err := utils.CopyFile(filepath.Join(pwdPath, geoLiteDbName), geoLite2Path)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
@@ -54,7 +65,22 @@ func InitGeoLite() error {
 	var err error
 	db, err = geoip2.Open(geoLite2Path)
 	if err != nil {
-		log.Fatalf("err:%v", err)
+		switch err.(type) {
+		case maxminddb.InvalidDatabaseError:
+			if retryCount > 4 {
+				return err
+			}
+			e := os.Remove(geoLite2Path)
+			if e != nil {
+				log.Errorf("err:%v", e)
+				log.Errorf("remove %v fail. please delete manually", geoLite2Path)
+				return e
+			}
+			log.Warnf("geo lite file damage, try fix")
+			goto RETRY
+		}
+		log.Errorf("err:%v", err)
+		return err
 	}
 
 	var dnsServices = pie.Strings{

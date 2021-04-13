@@ -55,7 +55,7 @@ func InitProxy(finishC chan bool) error {
 				return
 			}
 
-			err = utils.CopyFile("./GeoLite2.mmdb", clashGeoLiteFile)
+			err = utils.CopyFile(filepath.Join(utils.GetConfigDir(), "GeoLite2.mmdb"), clashGeoLiteFile)
 			if err != nil {
 				log.Fatalf("err:%v", err)
 				return

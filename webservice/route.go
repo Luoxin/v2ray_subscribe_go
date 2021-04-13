@@ -74,6 +74,14 @@ func registerRouting(app *fiber.App) error {
 	app.Post("/version/", timeout.New(Version, time.Second))
 	app.Get("/pac/", timeout.New(Pac, time.Second))
 
+	app.Static("/file/", utils.GetConfigDir(), fiber.Static{
+		Compress:      true,
+		ByteRange:     true,
+		Browse:        true,
+		CacheDuration: time.Hour,
+		MaxAge:        0,
+	})
+
 	err := registerRouting4Sub(app.Group("/sub", func(c *fiber.Ctx) error {
 		return c.Next()
 	}))
