@@ -56,7 +56,7 @@ func (p *pac) write(js string) {
 }
 
 func (p *pac) needUpdate() bool {
-	return utils.Now()-p.updateAt > 86400
+	return p.js == "" || utils.Now()-p.updateAt > 86400
 }
 
 func (p *pac) UpdatePac() {
