@@ -70,8 +70,10 @@ archives:
       files:
           - README.md
           - LICENSE
-          - GeoLite2.mmdb
+#          - GeoLite2.mmdb
           - config.yaml
+          - ui/**/*
+#      allow_different_binary_count: true
 checksum:
     name_template: "{{ .ProjectName }}_v{{ .Version }}_checksums.txt"
     algorithm: sha512
