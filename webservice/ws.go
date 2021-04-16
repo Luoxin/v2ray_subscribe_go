@@ -11,6 +11,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// https://github.com/antoniodipinto/ikisocket
+
 type WsClient struct {
 	c *websocket.Conn
 
