@@ -1,6 +1,10 @@
 package main
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
+
 	log "github.com/sirupsen/logrus"
 
 	arg "github.com/alexflint/go-arg"
@@ -14,7 +18,8 @@ import (
 // goreleaser --snapshot --skip-publish --rm-dist
 
 func main() {
-	c := make(chan bool)
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
 
 	var cmdArgs struct {
 		ConfigPath string `env:"C" arg:"-c,--config" help:"config file path"`
@@ -28,18 +33,5 @@ func main() {
 		return
 	}
 
-	c <- true
-
-	// a := app.New()
-	// w := a.NewWindow("Hello")
-	//
-	// hello := widget.NewLabel("Hello Fyne!")
-	// w.SetContent(container.NewVBox(
-	// 	hello,
-	// 	widget.NewButton("Hi!", func() {
-	// 		hello.SetText("Welcome :)")
-	// 	}),
-	// ))
-
-	// w.ShowAndRun()
+	<-sigCh
 }
