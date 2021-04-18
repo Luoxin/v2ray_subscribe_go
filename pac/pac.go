@@ -113,8 +113,8 @@ func (p *pac) buildPac(proxy, defaultWay string, ruleList pie.Strings) string {
 
 func (p *pac) getRuleList() pie.Strings {
 	var gfwUrlList = pie.Strings{
-		"http://cdn.jsdelivr.net/gh/gfwlist/gfwlist@master/gfwlist.txt",
-		"https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt",
+		"https://cdn.jsdelivr.net/gh/gfwlist/gfwlist@master/gfwlist.txt",
+		"https://cdn.jsdelivr.net/gh/gfwlist/gfwlist@master/gfwlist.txt",
 		"https://pagure.io/gfwlist/raw/master/f/gfwlist.txt",
 		"http://repo.or.cz/gfwlist.git/blob_plain/HEAD:/gfwlist.txt",
 		"https://bitbucket.org/gfwlist/gfwlist/raw/HEAD/gfwlist.txt",

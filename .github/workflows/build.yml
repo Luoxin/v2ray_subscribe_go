@@ -1,18 +1,17 @@
 name: Build
 
-#on:
-#  release:
-#    types:
-#      - published
-#      - unpublished
-#      - created
-#      - edited
-#      - deleted
-#      - prereleased
-#      - released
-#  push:
-#    branches: [ master ]
-#
+on:
+  release:
+    types:
+      - published
+      - unpublished
+      - created
+      - edited
+      - prereleased
+      - released
+  push:
+    branches: [ test ]
+
 jobs:
 
   build:
