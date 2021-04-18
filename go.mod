@@ -28,12 +28,14 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
-	github.com/kardianos/service v1.2.0 // indirect
+	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.11.13 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
+	github.com/lestrrat-go/strftime v1.0.4 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
-	github.com/martinlindhe/notify v0.0.0-20181008203735-20632c9a275a // indirect
+	github.com/martinlindhe/notify v0.0.0-20181008203735-20632c9a275a
 	github.com/mattn/go-runewidth v0.0.12 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
@@ -48,6 +50,7 @@ require (
 	github.com/pelletier/go-toml v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/pyroscope-io/pyroscope v0.0.29
+	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
 	github.com/schollz/progressbar/v3 v3.7.6
@@ -56,7 +59,6 @@ require (
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
-	github.com/takama/daemon v1.0.0 // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
 	github.com/valyala/fasthttp v1.23.0

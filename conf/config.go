@@ -11,7 +11,9 @@ import (
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
+	"github.com/rifflock/lfshook"
 
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	log "github.com/sirupsen/logrus"
@@ -106,10 +108,46 @@ var LogFormatter = &nested.Formatter{
 }
 
 func InitConfig(configFilePatch string) error {
+	execPath := utils.GetExecPath()
+	logPath := filepath.Join(execPath, "eutamias.log")
+
+	writer, err := rotatelogs.New(
+		logPath+".%Y%m%d%H%M",
+		rotatelogs.WithLinkName(logPath),
+		rotatelogs.WithMaxAge(time.Duration(86400)*time.Second),
+		rotatelogs.WithRotationTime(time.Duration(604800)*time.Second),
+	)
+	if err != nil {
+		log.Fatalf("err:%v", err)
+	}
+
+	log.AddHook(lfshook.NewHook(
+		lfshook.WriterMap{
+			log.InfoLevel:  writer,
+			log.WarnLevel:  writer,
+			log.ErrorLevel: writer,
+			log.FatalLevel: writer,
+			log.PanicLevel: writer,
+		},
+		&nested.Formatter{
+			FieldsOrder: []string{
+				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+				log.FieldKeyFunc, log.FieldKeyMsg,
+			},
+			CustomCallerFormatter: func(f *runtime.Frame) string {
+				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+			},
+			TimestampFormat:  time.RFC3339,
+			HideKeys:         true,
+			NoFieldsSpace:    true,
+			NoUppercaseLevel: true,
+			TrimMessages:     true,
+			CallerFirst:      true,
+		},
+	))
+
 	log.SetFormatter(LogFormatter)
 	log.SetReportCaller(true)
-
-	execPath := utils.GetExecPath()
 
 	if configFilePatch == "" {
 		// 可能存在的目录
@@ -162,7 +200,7 @@ func InitConfig(configFilePatch string) error {
 	viper.SetDefault("profiler.enable", false)
 	viper.SetDefault("profiler.server_address", "http://localhost:4040")
 
-	err := viper.ReadInConfig()
+	err = viper.ReadInConfig()
 	if err != nil {
 		switch e := err.(type) {
 		case viper.ConfigFileNotFoundError:
