@@ -23,6 +23,7 @@ require (
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.7.1
+	github.com/gofiber/storage/sqlite3 v0.0.0-20210414071633-6afe536cce80
 	github.com/gofiber/websocket/v2 v2.0.3
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
