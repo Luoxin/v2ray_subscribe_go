@@ -18,12 +18,15 @@ import (
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
 	"github.com/Luoxin/faker"
+	"github.com/panjf2000/ants"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
 	"github.com/Luoxin/Eutamias/proxy"
 )
+
+// https://github.com/letsfire/factory
 
 type ProxyCheck struct {
 	pool *ants.Pool

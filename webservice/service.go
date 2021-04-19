@@ -55,6 +55,8 @@ func InitHttpService() error {
 		ReduceMemoryUsage:        true,
 	})
 
+	app.Server().Logger = log.New()
+
 	err = InitWs(app)
 	if err != nil {
 		log.Errorf("err:%v", err)
