@@ -46,7 +46,6 @@ require (
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
-	github.com/panjf2000/ants v1.3.0
 	github.com/panjf2000/ants/v2 v2.4.4
 	github.com/pelletier/go-toml v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1
