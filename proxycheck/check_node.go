@@ -18,7 +18,7 @@ import (
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
 	"github.com/Luoxin/faker"
-bit	"github.com/panjf2000/ants/v2"
+	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
