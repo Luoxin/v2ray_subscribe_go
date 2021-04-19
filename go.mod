@@ -20,7 +20,6 @@ require (
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.2
 	github.com/fasthttp/websocket v1.4.3 // indirect
-	github.com/go-chi/cors v1.2.0 // indirect
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.7.1
