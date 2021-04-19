@@ -59,7 +59,28 @@ func main() {
 		} else {
 			fmt.Println("Uninstall success")
 		}
-	case "run", "start":
+	case "start":
+		err = s.Start()
+		if err != nil {
+			fmt.Println("Start err", err)
+		} else {
+			fmt.Println("Start success")
+		}
+	case "restart":
+		err = s.Restart()
+		if err != nil {
+			fmt.Println("Restart err", err)
+		} else {
+			fmt.Println("Restart success")
+		}
+	case "stop":
+		err = s.Stop()
+		if err != nil {
+			fmt.Println("Stop err", err)
+		} else {
+			fmt.Println("Stop success")
+		}
+	case "run":
 		fallthrough
 	default:
 		err = s.Run() // 运行服务
