@@ -112,7 +112,7 @@ func InitConfig(configFilePatch string) error {
 	logPath := filepath.Join(execPath)
 
 	writer, err := rotatelogs.New(
-		filepath.Join(execPath, "eutamias-%Y%m%d%H%M.log"),
+		filepath.Join(execPath, "eutamias-%Y%m%d%H.log"),
 		rotatelogs.WithLinkName(logPath),
 		rotatelogs.WithMaxAge(time.Duration(86400)*time.Second),
 		rotatelogs.WithRotationTime(time.Duration(604800)*time.Second),

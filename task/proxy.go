@@ -236,6 +236,7 @@ func InitProxy(finishC chan bool) error {
 					restart(false)
 				}
 			case <-sigCh:
+				log.Info("proxy stop")
 				return
 			}
 		}
