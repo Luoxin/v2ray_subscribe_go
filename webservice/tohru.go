@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/elliotchance/pie/pie"
 	"github.com/gofiber/fiber/v2"
