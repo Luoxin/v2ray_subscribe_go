@@ -213,25 +213,27 @@ func InitProxy(finishC chan bool) error {
 		for {
 			select {
 			case <-rtf.C:
-				log.Info("restart proxy forced")
-				restart(true)
-
-			case <-rth.C:
 				if getHealthiness() < 0.9 {
 					log.Info("restart proxy health lower then 0.9")
 					restart(true)
 				}
 
-			case <-rtm.C:
-				if getHealthiness() < 0.6 {
-					log.Info("restart proxy health lower then 0.6")
+			case <-rth.C:
+				if getHealthiness() < 0.7 {
+					log.Info("restart proxy health lower then 0.7")
 					restart(true)
 				}
 
+			case <-rtm.C:
+				if getHealthiness() < 0.5 {
+					log.Info("restart proxy health lower then 0.5")
+					restart(false)
+				}
+
 			case <-rtl.C:
-				if getHealthiness() < 0.3 {
-					log.Info("restart proxy health lower then 0.3")
-					restart(true)
+				if getHealthiness() < 0.2 {
+					log.Info("restart proxy health lower then 0.2")
+					restart(false)
 				}
 			case <-sigCh:
 				return
