@@ -109,7 +109,7 @@ var LogFormatter = &nested.Formatter{
 
 func InitConfig(configFilePatch string) error {
 	execPath := utils.GetExecPath()
-	logPath := filepath.Join(execPath)
+	logPath := filepath.Join(execPath, "eutamias.log")
 
 	writer, err := rotatelogs.New(
 		filepath.Join(execPath, "eutamias-%Y-%m-%d-%H.log"),
