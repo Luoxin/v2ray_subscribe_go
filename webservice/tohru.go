@@ -24,18 +24,7 @@ import (
 )
 
 var validate = validator.New()
-var store = session.New(session.Config{
-	Expiration: time.Hour * 24,
-	// Storage: sqlite3.New(sqlite3.Config{
-	// 	Database:   "session",
-	// 	Table:      "session",
-	// 	Reset:      true,
-	// 	GCInterval: time.Minute,
-	// }),
-	CookieName:     "x-tohru-id",
-	CookieSecure:   true,
-	CookieHTTPOnly: true,
-})
+var store *session.Store
 
 const (
 	SessionKeyUid     = "Uid"

@@ -77,6 +77,6 @@ func (h *HttpDownloader) Download(method string, urlStr string, reqBody interfac
 
 	default:
 		log.Warnf("nonsupport status code %v", resp.StatusCode)
-		return "", errors.New(fmt.Sprintf("nonsupport status code %v", resp.StatusCode))
+		return "", fmt.Errorf("nonsupport status code %v", resp.StatusCode)
 	}
 }

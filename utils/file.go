@@ -22,10 +22,7 @@ func IsDir(path string) bool {
 func FileExists(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
-		if os.IsExist(err) {
-			return true
-		}
-		return false
+		return os.IsExist(err)
 	}
 	return true
 }
@@ -74,6 +71,10 @@ func DownloadWithProgressbar(fileUrl, fileName string) error {
 		Chunked:       true,
 		SkipVerifyTLS: true,
 	})
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
 	defer resp.Body.Close()
 
 	f, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0644)

@@ -65,11 +65,11 @@ func (p *Ecc) ECCEncrypt4Bytes(pt []byte) (string, error) {
 
 // ess 加密
 func (p *Ecc) ECCEncrypt(pt interface{}) (string, error) {
-	switch pt.(type) {
+	switch pt := pt.(type) {
 	case string:
-		return p.ECCEncrypt4Str(pt.(string))
+		return p.ECCEncrypt4Str(pt)
 	case []byte:
-		return p.ECCEncrypt4Bytes(pt.([]byte))
+		return p.ECCEncrypt4Bytes(pt)
 	case types.Slice, types.Map, types.Struct:
 		b, err := json.Marshal(pt)
 		if err != nil {
@@ -129,8 +129,19 @@ func (p *Ecc) EccSignVer(pt, sign []byte) bool {
 	var rint, sint big.Int
 	// 根据sign，解析出r，s
 	rs := bytes.Split(sign, []byte("+"))
-	rint.UnmarshalText(rs[0])
-	sint.UnmarshalText(rs[1])
+
+	err := rint.UnmarshalText(rs[0])
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return false
+	}
+
+	err = sint.UnmarshalText(rs[1])
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return false
+	}
+
 	// 根据公钥，明文，r，s验证签名
 	v := ecdsa.Verify(&p.private.PublicKey, pt, &rint, &sint)
 	return v

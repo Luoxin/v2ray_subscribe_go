@@ -1,7 +1,6 @@
 package geolite
 
 import (
-	"errors"
 	"fmt"
 	"net"
 	"os"
@@ -153,17 +152,17 @@ RETRY:
 				Addr: strings.TrimPrefix(service, "tls://"),
 			})
 		} else if strings.HasPrefix(service, "http://") {
-			return
-			nameServices = append(nameServices, dns.NameServer{
-				Net:  "http",
-				Addr: service,
-			})
+			// return
+			// nameServices = append(nameServices, dns.NameServer{
+			// 	Net:  "http",
+			// 	Addr: service,
+			// })
 		} else if strings.HasPrefix(service, "https://") {
-			return
-			nameServices = append(nameServices, dns.NameServer{
-				Net:  "https",
-				Addr: service,
-			})
+			// return
+			// nameServices = append(nameServices, dns.NameServer{
+			// 	Net:  "https",
+			// 	Addr: service,
+			// })
 		} else {
 			nameServices = append(nameServices, dns.NameServer{
 				Net:  "",
@@ -304,7 +303,7 @@ type Country struct {
 func GetCountry(host string) (c *Country, err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			err = errors.New(fmt.Sprintf("panic:%v", r))
+			err = fmt.Errorf("panic:%v", r)
 		}
 	}()
 

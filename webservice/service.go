@@ -15,6 +15,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
@@ -31,11 +32,19 @@ func InitHttpService() error {
 	}
 
 	var err error
-	storage, err = InitStorage(conf.Config.Db.Addr)
+	err = InitStorage(conf.Config.Db.Addr)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
 	}
+
+	store = session.New(session.Config{
+		Storage:        storage,
+		Expiration:     time.Hour * 24,
+		CookieName:     "x-tohru-id",
+		CookieSecure:   true,
+		CookieHTTPOnly: true,
+	})
 
 	// https://github.com/gofiber/fiber
 	app := fiber.New(fiber.Config{
@@ -93,8 +102,8 @@ func InitHttpService() error {
 			CookieName:     "csrf_",
 			CookieSameSite: "Strict",
 			Expiration:     time.Hour,
-			// Storage:        storage,
-			KeyGenerator: utils.UUID,
+			Storage:        storage,
+			KeyGenerator:   utils.UUID,
 		}),
 		compress.New(compress.Config{
 			Level: compress.LevelBestCompression,
@@ -156,6 +165,7 @@ func InitHttpService() error {
 
 				return fmt.Sprintf("limiter_user_ip_%s", c.IP())
 			},
+			Storage:    storage,
 			Expiration: time.Minute,
 		}),
 	)

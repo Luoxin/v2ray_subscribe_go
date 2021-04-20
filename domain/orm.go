@@ -4,8 +4,9 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
-	"github.com/mcuadros/go-defaults"
 	"reflect"
+
+	"github.com/mcuadros/go-defaults"
 
 	"github.com/pkg/errors"
 )
@@ -34,7 +35,6 @@ func Scan(src interface{}, dst interface{}) error {
 		return errors.New(
 			fmt.Sprintf("unknown type %v %s to scan", r, reflect.ValueOf(src).String()))
 	}
-	return nil
 }
 
 func Value(m interface{}) (driver.Value, error) {

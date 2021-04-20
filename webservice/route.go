@@ -22,7 +22,7 @@ func registerRouting4Sub(sub fiber.Router) error {
 			},
 			Expiration:   time.Minute * 5,
 			CacheControl: true,
-			// Storage:      storage,
+			Storage:      storage,
 		}))
 	sub.Get("/v2ray/", timeout.New(SubV2ray, time.Minute))
 	sub.Post("/v2ray/", timeout.New(SubV2ray, time.Minute))
@@ -79,7 +79,6 @@ func registerRouting(app *fiber.App) error {
 		ByteRange:     true,
 		Browse:        true,
 		CacheDuration: time.Hour,
-		MaxAge:        0,
 	})
 
 	err := registerRouting4Sub(app.Group("/sub", func(c *fiber.Ctx) error {

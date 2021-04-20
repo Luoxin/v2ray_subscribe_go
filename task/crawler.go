@@ -33,7 +33,7 @@ func crawler() error {
 	}
 
 	log.Infof("crawler for %v website", len(crawlerList))
-	defer log.Infof("crawler used %v", time.Now().Sub(t))
+	defer log.Infof("crawler used %v", time.Since(t))
 
 	domain.CrawlerConfList(crawlerList).
 		Each(func(conf *domain.CrawlerConf) {

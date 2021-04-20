@@ -6,18 +6,16 @@ import (
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/gofiber/storage/sqlite3"
-
-	"github.com/gofiber/fiber/v2"
 )
 
-func InitStorage(dbAddr string) (fiber.Storage, error) {
+func InitStorage(dbAddr string) error {
 	// addrList := strings.Split(dbAddr, "://")
 	// if len(addrList) < 2 {
 	// 	log.Errorf("Wrong database address")
 	// 	return nil, errors.New("invalid args")
 	// }
 	//
-	var storage fiber.Storage
+
 	// switch strings.ToLower(addrList[0]) {
 	// case "sqlite":
 
@@ -45,5 +43,5 @@ func InitStorage(dbAddr string) (fiber.Storage, error) {
 	// 	return nil, errors.New("unsupported database")
 	// }
 
-	return storage, nil
+	return nil
 }

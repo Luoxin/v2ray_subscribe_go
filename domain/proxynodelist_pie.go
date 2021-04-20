@@ -419,7 +419,7 @@ func (ss ProxyNodeList) Mode() ProxyNodeList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*ProxyNode]int, 0)
+	values := make(map[*ProxyNode]int)
 	for _, s := range ss {
 		values[s]++
 	}

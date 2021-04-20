@@ -26,7 +26,7 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 	}
 
 	log.Infof("check proxy for %v node", len(nodeList))
-	defer log.Infof("check proxy used %v", time.Now().Sub(t))
+	defer log.Infof("check proxy used %v", time.Since(t))
 
 	nodeList.Each(func(node *domain.ProxyNode) {
 		err = check.AddWithLink(node.Url, func(result proxycheck.Result) error {

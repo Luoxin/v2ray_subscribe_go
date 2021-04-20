@@ -240,7 +240,7 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 		return
 	}
 
-	delay = time.Now().Sub(start)
+	delay = time.Since(start)
 
 	if strings.Contains(string(body), "GLaDOS 停止工作") {
 		err = errors.New("unusable")

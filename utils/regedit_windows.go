@@ -28,10 +28,10 @@ func SetProxy(proxyIp, pacUrl string) {
 		"000000" + hex.EncodeToString([]byte(pacUrl)) + "00000000000000000000000000000000000000000000000000000000000000"
 
 	key, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections`, registry.ALL_ACCESS)
-	defer key.Close()
 	if err != nil {
 		panic(err)
 	}
+	defer key.Close()
 
 	//把16进制字符串转为byte切片
 	bytedata := []byte{}

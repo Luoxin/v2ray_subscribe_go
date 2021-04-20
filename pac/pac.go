@@ -61,7 +61,7 @@ func (p *pac) needUpdate() bool {
 
 func (p *pac) UpdatePac() {
 	lock.Lock()
-	lock.Unlock()
+	defer lock.Unlock()
 
 	if !p.needUpdate() {
 		return

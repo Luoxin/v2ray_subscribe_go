@@ -419,7 +419,7 @@ func (ss CrawlerConfList) Mode() CrawlerConfList {
 	if len(ss) == 0 {
 		return nil
 	}
-	values := make(map[*CrawlerConf]int, 0)
+	values := make(map[*CrawlerConf]int)
 	for _, s := range ss {
 		values[s]++
 	}
