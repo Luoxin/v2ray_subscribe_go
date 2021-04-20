@@ -1,16 +1,12 @@
 package task
 
 import (
-	"sync"
 	"time"
 
-	"github.com/roylee0704/gron"
-	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
 	"github.com/whiteshtef/clockwork"
 
 	"github.com/Luoxin/Eutamias/conf"
-	"github.com/Luoxin/Eutamias/db"
 	"github.com/Luoxin/Eutamias/proxycheck"
 )
 
@@ -38,28 +34,30 @@ func InitWorker() error {
 		log.Warn("proxy start timeout")
 	}
 
-	c := gron.New()
-
-	var w sync.WaitGroup
+	beforeFunChan := make(chan func(), 10)
 	if conf.Config.Crawler.Enable {
 		log.Info("register crawler")
 
-		w.Add(1)
-		go func() {
-			defer w.Done()
-
+		beforeFunChan <- func() {
 			err := crawler()
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
-		}()
+		}
 
-		c.AddFunc(gron.Every(xtime.Minute*10), func() {
+		sched.Schedule().EverySingle().Minute().Do(func() {
 			err := crawler()
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
 		})
+
+		// c.AddFunc(gron.Every(xtime.Minute*10), func() {
+		// 	err := crawler()
+		// 	if err != nil {
+		// 		log.Errorf("err:%v", err)
+		// 	}
+		// })
 	} else {
 		log.Warnf("crawler not start")
 	}
@@ -73,43 +71,53 @@ func InitWorker() error {
 			return err
 		}
 
-		go func() {
-			w.Wait()
-			w.Add(1)
-			defer w.Done()
-
+		beforeFunChan <- func() {
 			err := checkProxyNode(proxyCheck)
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
-		}()
+		}
 
-		c.AddFunc(gron.Every(xtime.Minute*10), func() {
+		sched.Schedule().EverySingle().Minute().Do(func() {
 			err := checkProxyNode(proxyCheck)
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
 		})
 
-		sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
-			err := db.Db.
-				Where("death_count > ?", 20).
-				Updates(map[string]interface{}{
-					"death_count": "death_count - 10",
-				}).Error
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-		})
+		// c.AddFunc(gron.Every(xtime.Minute*10), func() {
+		// 	err := checkProxyNode(proxyCheck)
+		// 	if err != nil {
+		// 		log.Errorf("err:%v", err)
+		// 	}
+		// })
+
+		// sched.Schedule().EverySingle().Friday().At("00:00").Do(func() {
+		// 	err := db.Db.
+		// 		Where("death_count > ?", 20).
+		// 		Updates(map[string]interface{}{
+		// 			"death_count": "death_count - 10",
+		// 		}).Error
+		// 	if err != nil {
+		// 		log.Errorf("err:%v", err)
+		// 		return
+		// 	}
+		// })
 
 	} else {
 		log.Warnf("proxy check not start")
 	}
 
-	c.Start()
-
+	beforeFunChan <- nil
 	go func() {
+		for {
+			f := <-beforeFunChan
+			if f == nil {
+				break
+			}
+
+			f()
+		}
 		sched.Run()
 	}()
 
