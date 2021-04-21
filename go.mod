@@ -51,7 +51,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/pyroscope-io/pyroscope v0.0.29
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
-	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
 	github.com/schollz/progressbar/v3 v3.7.6
 	github.com/sirupsen/logrus v1.8.1
