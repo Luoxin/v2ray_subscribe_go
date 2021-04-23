@@ -26,6 +26,7 @@ import (
 )
 
 // https://github.com/letsfire/factory
+// https://github.com/alitto/pond
 
 type ProxyCheck struct {
 	pool *ants.Pool
