@@ -89,8 +89,6 @@ func InitConfig(configFilePatch string) error {
 
 	if configFilePatch == "" {
 		// 可能存在的目录
-		viper.AddConfigPath(execPath)
-
 		viper.AddConfigPath("./")
 		viper.AddConfigPath("../")
 		viper.AddConfigPath("./conf/")
@@ -103,6 +101,8 @@ func InitConfig(configFilePatch string) error {
 				viper.AddConfigPath(filepath.Join(homeDir, "Eutamias"))
 			}
 		}
+
+		viper.AddConfigPath(execPath)
 
 		viper.SetConfigName("config")
 		viper.SetConfigType("yaml")
