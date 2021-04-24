@@ -1,7 +1,17 @@
 package eutamias
 
 import (
+	"fmt"
+	"path"
+	"path/filepath"
+	"runtime"
+	"time"
+
 	"github.com/Luoxin/Eutamias/geolite"
+	"github.com/Luoxin/Eutamias/utils"
+	nested "github.com/antonfisher/nested-logrus-formatter"
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	"github.com/rifflock/lfshook"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -9,6 +19,10 @@ import (
 	"github.com/Luoxin/Eutamias/task"
 	"github.com/Luoxin/Eutamias/webservice"
 )
+
+func init() {
+	InitLog()
+}
 
 func Init(configFilePatch string) error {
 	err := conf.InitConfig(configFilePatch)
@@ -62,4 +76,63 @@ func Start() {
 	}
 
 	<-c
+}
+
+var LogFormatter = &nested.Formatter{
+	FieldsOrder: []string{
+		log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+		log.FieldKeyFunc, log.FieldKeyMsg,
+	},
+	CustomCallerFormatter: func(f *runtime.Frame) string {
+		return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+	},
+	TimestampFormat:  time.RFC3339,
+	HideKeys:         true,
+	NoFieldsSpace:    true,
+	NoUppercaseLevel: true,
+	TrimMessages:     true,
+	CallerFirst:      true,
+}
+
+func InitLog() {
+	execPath := utils.GetExecPath()
+	logPath := filepath.Join(execPath, "eutamias.log")
+
+	writer, err := rotatelogs.New(
+		filepath.Join(execPath, "eutamias-%Y-%m-%d-%H.log"),
+		rotatelogs.WithLinkName(logPath),
+		rotatelogs.WithMaxAge(time.Hour),
+		rotatelogs.WithRotationTime(time.Minute),
+	)
+	if err != nil {
+		log.Fatalf("err:%v", err)
+	}
+
+	log.AddHook(lfshook.NewHook(
+		lfshook.WriterMap{
+			log.InfoLevel:  writer,
+			log.WarnLevel:  writer,
+			log.ErrorLevel: writer,
+			log.FatalLevel: writer,
+			log.PanicLevel: writer,
+		},
+		&nested.Formatter{
+			FieldsOrder: []string{
+				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+				log.FieldKeyFunc, log.FieldKeyMsg,
+			},
+			CustomCallerFormatter: func(f *runtime.Frame) string {
+				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+			},
+			TimestampFormat:  time.RFC3339,
+			HideKeys:         true,
+			NoFieldsSpace:    true,
+			NoUppercaseLevel: true,
+			TrimMessages:     true,
+			CallerFirst:      true,
+		},
+	))
+
+	log.SetFormatter(LogFormatter)
+	log.SetReportCaller(true)
 }

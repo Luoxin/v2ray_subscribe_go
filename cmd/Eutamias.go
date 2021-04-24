@@ -7,10 +7,9 @@ import (
 	"syscall"
 
 	eutamias "github.com/Luoxin/Eutamias"
-	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/notify"
 	"github.com/alexflint/go-arg"
 	"github.com/kardianos/service"
-	"github.com/martinlindhe/notify"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -24,20 +23,12 @@ var cmdArgs struct {
 	Action     string `arg:"-s" help:"install,uninstall,start,run"`
 }
 
-const (
-	serviceName = "eutamias"
-)
-
-func init() {
-	conf.InitLog()
-}
-
 func main() {
 	arg.MustParse(&cmdArgs)
 
 	serConfig := &service.Config{
-		Name:        serviceName,
-		DisplayName: serviceName,
+		Name:        eutamias.ServiceName,
+		DisplayName: eutamias.ServiceName,
 		Description: "eutamias service",
 		Executable:  os.Args[0],
 	}
@@ -99,7 +90,7 @@ func main() {
 type Program struct{}
 
 func (p *Program) Start(s service.Service) error {
-	notify.Notify(serviceName, serviceName, fmt.Sprintf("%v: service starting", serviceName), "")
+	notify.Msg(fmt.Sprintf("%v: service starting", eutamias.ServiceName))
 	log.Info("service start")
 	go p.run(s)
 	return nil
@@ -112,10 +103,15 @@ func (p *Program) run(s service.Service) {
 	err := eutamias.Init(cmdArgs.ConfigPath)
 	if err != nil {
 		log.Errorf("err:%v", err)
+		notify.Msg(fmt.Sprintf("%v: service start fail", eutamias.ServiceName))
 		return
 	}
 
-	notify.Notify(serviceName, serviceName, fmt.Sprintf("%v: service started", serviceName), "")
+	defer func() {
+		notify.Msg(fmt.Sprintf("%v: service start stop", eutamias.ServiceName))
+	}()
+
+	notify.Msg(fmt.Sprintf("%v: service started", eutamias.ServiceName))
 
 	<-sigCh
 }

@@ -4,18 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path"
 	"path/filepath"
-	"runtime"
-	"time"
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
-	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
-	"github.com/rifflock/lfshook"
-
-	nested "github.com/antonfisher/nested-logrus-formatter"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -90,65 +83,6 @@ func (p config) KobayashiSan() bool {
 }
 
 var Config config
-
-var LogFormatter = &nested.Formatter{
-	FieldsOrder: []string{
-		log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-		log.FieldKeyFunc, log.FieldKeyMsg,
-	},
-	CustomCallerFormatter: func(f *runtime.Frame) string {
-		return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-	},
-	TimestampFormat:  time.RFC3339,
-	HideKeys:         true,
-	NoFieldsSpace:    true,
-	NoUppercaseLevel: true,
-	TrimMessages:     true,
-	CallerFirst:      true,
-}
-
-func InitLog() {
-	execPath := utils.GetExecPath()
-	logPath := filepath.Join(execPath, "eutamias.log")
-
-	writer, err := rotatelogs.New(
-		filepath.Join(execPath, "eutamias-%Y-%m-%d-%H.log"),
-		rotatelogs.WithLinkName(logPath),
-		rotatelogs.WithMaxAge(time.Hour),
-		rotatelogs.WithRotationTime(time.Minute),
-	)
-	if err != nil {
-		log.Fatalf("err:%v", err)
-	}
-
-	log.AddHook(lfshook.NewHook(
-		lfshook.WriterMap{
-			log.InfoLevel:  writer,
-			log.WarnLevel:  writer,
-			log.ErrorLevel: writer,
-			log.FatalLevel: writer,
-			log.PanicLevel: writer,
-		},
-		&nested.Formatter{
-			FieldsOrder: []string{
-				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-				log.FieldKeyFunc, log.FieldKeyMsg,
-			},
-			CustomCallerFormatter: func(f *runtime.Frame) string {
-				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-			},
-			TimestampFormat:  time.RFC3339,
-			HideKeys:         true,
-			NoFieldsSpace:    true,
-			NoUppercaseLevel: true,
-			TrimMessages:     true,
-			CallerFirst:      true,
-		},
-	))
-
-	log.SetFormatter(LogFormatter)
-	log.SetReportCaller(true)
-}
 
 func InitConfig(configFilePatch string) error {
 	execPath := utils.GetExecPath()
