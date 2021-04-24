@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -118,7 +120,12 @@ func ParseTrojanLink(link string) (*Trojan, error) {
 
 	moreInfos := uri.Query()
 	sni := moreInfos.Get("sni")
-	sni, _ = url.QueryUnescape(sni)
+	sni, err = url.QueryUnescape(sni)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return nil, err
+	}
+
 	transformType := moreInfos.Get("type")
 	transformType, _ = url.QueryUnescape(transformType)
 	host := moreInfos.Get("host")

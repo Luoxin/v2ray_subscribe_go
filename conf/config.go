@@ -107,7 +107,7 @@ var LogFormatter = &nested.Formatter{
 	CallerFirst:      true,
 }
 
-func InitConfig(configFilePatch string) error {
+func InitLog() {
 	execPath := utils.GetExecPath()
 	logPath := filepath.Join(execPath, "eutamias.log")
 
@@ -148,6 +148,10 @@ func InitConfig(configFilePatch string) error {
 
 	log.SetFormatter(LogFormatter)
 	log.SetReportCaller(true)
+}
+
+func InitConfig(configFilePatch string) error {
+	execPath := utils.GetExecPath()
 
 	if configFilePatch == "" {
 		// 可能存在的目录
@@ -200,7 +204,7 @@ func InitConfig(configFilePatch string) error {
 	viper.SetDefault("profiler.enable", false)
 	viper.SetDefault("profiler.server_address", "http://localhost:4040")
 
-	err = viper.ReadInConfig()
+	err := viper.ReadInConfig()
 	if err != nil {
 		switch e := err.(type) {
 		case viper.ConfigFileNotFoundError:

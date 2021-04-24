@@ -42,8 +42,7 @@ func registerRouting(app *fiber.App) error {
 	app.Use(func(c *fiber.Ctx) error {
 		start := time.Now()
 		err := c.Next()
-		duration := time.Now().Sub(start)
-		c.Response().Header.Set("X-Response-Time", fmt.Sprintf("%v", duration))
+		c.Response().Header.Set("X-Response-Time", fmt.Sprintf("%v", time.Since(start)))
 		return err
 	})
 

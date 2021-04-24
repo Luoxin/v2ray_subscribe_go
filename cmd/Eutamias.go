@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	eutamias "github.com/Luoxin/Eutamias"
+	"github.com/Luoxin/Eutamias/conf"
 	"github.com/alexflint/go-arg"
 	"github.com/kardianos/service"
 	"github.com/martinlindhe/notify"
@@ -26,6 +27,10 @@ var cmdArgs struct {
 const (
 	serviceName = "eutamias"
 )
+
+func init() {
+	conf.InitLog()
+}
 
 func main() {
 	arg.MustParse(&cmdArgs)
@@ -94,16 +99,13 @@ func main() {
 type Program struct{}
 
 func (p *Program) Start(s service.Service) error {
+	notify.Notify(serviceName, serviceName, fmt.Sprintf("%v: service starting", serviceName), "")
 	log.Info("service start")
 	go p.run(s)
 	return nil
 }
 
 func (p *Program) run(s service.Service) {
-	defer func() {
-		_ = s.Stop()
-	}()
-
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
 
