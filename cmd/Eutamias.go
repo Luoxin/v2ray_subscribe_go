@@ -95,11 +95,15 @@ type Program struct{}
 
 func (p *Program) Start(s service.Service) error {
 	log.Info("service start")
-	go p.run()
+	go p.run(s)
 	return nil
 }
 
-func (p *Program) run() {
+func (p *Program) run(s service.Service) {
+	defer func() {
+		_ = s.Stop()
+	}()
+
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
 
