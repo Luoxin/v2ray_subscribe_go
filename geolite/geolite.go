@@ -62,6 +62,7 @@ RETRY:
 		}
 	}
 
+	log.Infof("loading from %v", geoLite2Path)
 	var err error
 	db, err = geoip2.Open(geoLite2Path)
 	if err != nil {
