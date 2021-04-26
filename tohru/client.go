@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Luoxin/Eutamias/notify"
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
@@ -65,7 +64,6 @@ func (p *tohru) Start() error {
 				err = sync()
 				if err != nil {
 					log.Errorf("err:%v", err)
-					notify.Msg("sync node err:%v", err)
 				}
 				time.Sleep(time.Minute * 30)
 			}
