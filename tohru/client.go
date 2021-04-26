@@ -64,7 +64,6 @@ func (p *tohru) Start() error {
 				err = sync()
 				if err != nil {
 					log.Errorf("err:%v", err)
-					continue
 				}
 				time.Sleep(time.Minute * 30)
 			}
