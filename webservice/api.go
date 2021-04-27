@@ -1,8 +1,6 @@
 package webservice
 
 import (
-	"strings"
-
 	"github.com/Luoxin/Eutamias/parser"
 	"github.com/gofiber/fiber/v2"
 
@@ -76,9 +74,7 @@ func AddNode(c *fiber.Ctx) error {
 	if req.NodeUrl != "" {
 		p := parser.NewFuzzyMatchingParser()
 
-		p.ParserText(req.NodeUrl).Filter(func(s string) bool {
-			return strings.Contains(s, "://")
-		}).Each(func(nodeUrl string) {
+		p.ParserText(req.NodeUrl).Each(func(nodeUrl string) {
 			_, err = node.AddNode(nodeUrl)
 			if err != nil {
 				log.Errorf("link:%s, err:%v", nodeUrl, err)
