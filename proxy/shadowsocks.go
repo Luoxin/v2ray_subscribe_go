@@ -84,7 +84,7 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 		return nil, ErrorNotSSRLink
 	}
 
-	var server, path, password string
+	var server, path, password, plugin, cipher string
 
 	var port int
 	pluginOpts := make(map[string]interface{})
@@ -134,7 +134,6 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 			return nil, ErrorNotSSLink
 		}
 
-		cipher := ""
 		if uri.User.String() == "" {
 			// base64的情况
 			infos, err := tool.Base64DecodeString(uri.Hostname())
@@ -164,7 +163,6 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 
 		moreInfos := uri.Query()
 		pluginString := moreInfos.Get("plugin")
-		plugin := ""
 		if strings.Contains(pluginString, ";") {
 			pluginInfos, err := url.ParseQuery(pluginString)
 			if err == nil {
