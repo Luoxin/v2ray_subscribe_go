@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/Sansui233/proxypool/pkg/tool"
 )
 
@@ -83,69 +84,114 @@ func ParseSSLink(link string) (*Shadowsocks, error) {
 		return nil, ErrorNotSSRLink
 	}
 
-	uri, err := url.Parse(link)
-	if err != nil {
-		return nil, ErrorNotSSLink
-	}
+	var server, path, password string
 
-	cipher := ""
-	password := ""
-	if uri.User.String() == "" {
-		// base64的情况
-		infos, err := tool.Base64DecodeString(uri.Hostname())
-		if err != nil {
-			return nil, err
-		}
-		uri, err = url.Parse("ss://" + infos)
-		if err != nil {
-			return nil, err
-		}
-		cipher = uri.User.Username()
-		password, _ = uri.User.Password()
-	} else {
-		cipherInfoString, err := tool.Base64DecodeString(uri.User.Username())
-		if err != nil {
-			return nil, ErrorPasswordParseFail
-		}
-		cipherInfo := strings.SplitN(cipherInfoString, ":", 2)
-		if len(cipherInfo) < 2 {
-			return nil, ErrorPasswordParseFail
-		}
-		cipher = strings.ToLower(cipherInfo[0])
-		password = cipherInfo[1]
-	}
-	server := uri.Hostname()
-	port, _ := strconv.Atoi(uri.Port())
-
-	moreInfos := uri.Query()
-	pluginString := moreInfos.Get("plugin")
-	plugin := ""
+	var port int
 	pluginOpts := make(map[string]interface{})
-	if strings.Contains(pluginString, ";") {
-		pluginInfos, err := url.ParseQuery(pluginString)
-		if err == nil {
-			if strings.Contains(pluginString, "obfs") {
-				plugin = "obfs"
-				pluginOpts["mode"] = pluginInfos.Get("obfs")
-				pluginOpts["host"] = pluginInfos.Get("obfs-host")
-			} else if strings.Contains(pluginString, "v2ray") {
-				plugin = "v2ray-plugin"
-				pluginOpts["mode"] = pluginInfos.Get("mode")
-				pluginOpts["host"] = pluginInfos.Get("host")
-				pluginOpts["tls"] = strings.Contains(pluginString, "tls")
+
+	_, err := utils.Base64DecodeStripped(strings.TrimPrefix(link, "ss://"))
+	if err == nil {
+		return nil, errors.New("not support")
+		// var m struct {
+		// 	V    string `json:"v"`
+		// 	Ps   string `json:"ps"`
+		// 	Add  string `json:"add"`
+		// 	Port int    `json:"port"`
+		// 	Id   string `json:"id"`
+		// 	Aid  string `json:"aid"`
+		// 	Net  string `json:"net"`
+		// 	Type string `json:"type"`
+		// 	Host string `json:"host"`
+		// 	Path string `json:"path"`
+		// 	Tls  string `json:"tls"`
+		// 	Sni  string `json:"sni"`
+		// }
+		//
+		// err = json.Unmarshal([]byte(str), &m)
+		// if err != nil {
+		// 	return nil, err
+		// }
+		//
+		// server = m.Add
+		// port = m.Port
+		// path = m.Path
+		// pluginOpts["tls"] = m.Tls
+		//
+		// if strings.Contains(pluginString, "obfs") {
+		// 	plugin = "obfs"
+		// 	pluginOpts["mode"] = pluginInfos.Get("obfs")
+		// 	pluginOpts["host"] = pluginInfos.Get("obfs-host")
+		// } else if strings.Contains(pluginString, "v2ray") {
+		// 	plugin = "v2ray-plugin"
+		// 	pluginOpts["mode"] = pluginInfos.Get("mode")
+		// 	pluginOpts["host"] = pluginInfos.Get("host")
+		// 	pluginOpts["tls"] = strings.Contains(pluginString, "tls")
+		// }
+
+	} else {
+		uri, err := url.Parse(link)
+		if err != nil {
+			return nil, ErrorNotSSLink
+		}
+
+		cipher := ""
+		if uri.User.String() == "" {
+			// base64的情况
+			infos, err := tool.Base64DecodeString(uri.Hostname())
+			if err != nil {
+				return nil, err
+			}
+			uri, err = url.Parse("ss://" + infos)
+			if err != nil {
+				return nil, err
+			}
+			cipher = uri.User.Username()
+			password, _ = uri.User.Password()
+		} else {
+			cipherInfoString, err := tool.Base64DecodeString(uri.User.Username())
+			if err != nil {
+				return nil, ErrorPasswordParseFail
+			}
+			cipherInfo := strings.SplitN(cipherInfoString, ":", 2)
+			if len(cipherInfo) < 2 {
+				return nil, ErrorPasswordParseFail
+			}
+			cipher = strings.ToLower(cipherInfo[0])
+			password = cipherInfo[1]
+		}
+		server = uri.Hostname()
+		port, _ = strconv.Atoi(uri.Port())
+
+		moreInfos := uri.Query()
+		pluginString := moreInfos.Get("plugin")
+		plugin := ""
+		if strings.Contains(pluginString, ";") {
+			pluginInfos, err := url.ParseQuery(pluginString)
+			if err == nil {
+				if strings.Contains(pluginString, "obfs") {
+					plugin = "obfs"
+					pluginOpts["mode"] = pluginInfos.Get("obfs")
+					pluginOpts["host"] = pluginInfos.Get("obfs-host")
+				} else if strings.Contains(pluginString, "v2ray") {
+					plugin = "v2ray-plugin"
+					pluginOpts["mode"] = pluginInfos.Get("mode")
+					pluginOpts["host"] = pluginInfos.Get("host")
+					pluginOpts["tls"] = strings.Contains(pluginString, "tls")
+				}
 			}
 		}
-	}
-	if port == 0 || cipher == "" {
-		return nil, ErrorNotSSLink
+		if port == 0 || cipher == "" {
+			return nil, ErrorNotSSLink
+		}
 	}
 
 	return &Shadowsocks{
 		Base: Base{
 			Name:   "",
 			Server: server,
-			Port:   port,
+			Path:   path,
 			Type:   "ss",
+			Port:   port,
 		},
 		Password:   password,
 		Cipher:     cipher,

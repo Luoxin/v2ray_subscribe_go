@@ -47,10 +47,11 @@ func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 	reg(`ss://[^\s]*`)
 	reg(`vless://[^\s]*`)
 
-	pie.
-		Strings(regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
-			FindStringSubmatch(body)).
-		Each(func(s string) {
+	base64List := regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
+		FindAllStringSubmatch(body, -1)
+
+	for _, x := range base64List {
+		pie.Strings(x).Each(func(s string) {
 			str, err := utils.Base64DecodeStripped(s)
 			if err != nil {
 				log.Errorf("err:%v", err)
@@ -59,6 +60,7 @@ func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 
 			adds(strings.Split(str, "\n")...)
 		})
+	}
 
 	type clashConfig struct {
 		Proxy []map[interface{}]interface{} `yaml:"proxies"`
