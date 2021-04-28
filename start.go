@@ -2,6 +2,7 @@ package eutamias
 
 import (
 	"fmt"
+	"os"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -117,6 +118,30 @@ func InitLog() {
 			log.ErrorLevel: writer,
 			log.FatalLevel: writer,
 			log.PanicLevel: writer,
+		},
+		&nested.Formatter{
+			FieldsOrder: []string{
+				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+				log.FieldKeyFunc, log.FieldKeyMsg,
+			},
+			CustomCallerFormatter: func(f *runtime.Frame) string {
+				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+			},
+			TimestampFormat:  time.RFC3339,
+			HideKeys:         true,
+			NoFieldsSpace:    true,
+			NoUppercaseLevel: true,
+			TrimMessages:     true,
+			CallerFirst:      true,
+		},
+	))
+	log.AddHook(lfshook.NewHook(
+		lfshook.WriterMap{
+			log.InfoLevel:  os.Stdout,
+			log.WarnLevel:  os.Stdout,
+			log.ErrorLevel: os.Stdout,
+			log.FatalLevel: os.Stdout,
+			log.PanicLevel: os.Stdout,
 		},
 		&nested.Formatter{
 			FieldsOrder: []string{

@@ -8,12 +8,12 @@ require (
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.7.1
 	github.com/alexflint/go-arg v1.3.0
+	github.com/andybalholm/brotli v1.0.2 // indirect
 	github.com/antchfx/xmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bluele/gcache v0.0.2
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
-	github.com/d-tsuji/clipboard v0.0.3
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.2
@@ -27,7 +27,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/kardianos/service v1.2.0
-	github.com/klauspost/compress v1.12.1 // indirect
+	github.com/klauspost/compress v1.12.2 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
@@ -60,7 +60,7 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
-	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
+	golang.org/x/net v0.0.0-20210427231257-85d9c07bbe3a // indirect
 	golang.org/x/sys v0.0.0-20210426230700-d19ff857e887
 	golang.org/x/term v0.0.0-20210422114643-f5beecf764ed // indirect
 	google.golang.org/appengine v1.6.7 // indirect
