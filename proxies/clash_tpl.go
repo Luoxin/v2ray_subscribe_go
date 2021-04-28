@@ -28176,95 +28176,95 @@ rules:
   - DOMAIN-SUFFIX,kaikeba.com,🎯 全球直连
   - DOMAIN-SUFFIX,laomo.me,🎯 全球直连
   - DOMAIN-SUFFIX,mpyit.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cn,🎯 全球直连
-  - DOMAIN-SUFFIX,中国,🎯 全球直连
-  - DOMAIN-SUFFIX,公司,🎯 全球直连
-  - DOMAIN-SUFFIX,网络,🎯 全球直连
-  - DOMAIN-KEYWORD,-cn,🎯 全球直连
-  - DOMAIN-KEYWORD,360buy,🎯 全球直连
-  - DOMAIN-KEYWORD,alicdn,🎯 全球直连
-  - DOMAIN-KEYWORD,alimama,🎯 全球直连
-  - DOMAIN-KEYWORD,alipay,🎯 全球直连
-  - DOMAIN-KEYWORD,appzapp,🎯 全球直连
-  - DOMAIN-KEYWORD,baidupcs,🎯 全球直连
-  - DOMAIN-KEYWORD,bilibili,🎯 全球直连
-  - DOMAIN-KEYWORD,ccgslb,🎯 全球直连
-  - DOMAIN-KEYWORD,chinacache,🎯 全球直连
-  - DOMAIN-KEYWORD,duobao,🎯 全球直连
-  - DOMAIN-KEYWORD,duolingo,🎯 全球直连
-  - DOMAIN-KEYWORD,jdpay,🎯 全球直连
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-SUFFIX,中国,DIRECT
+  - DOMAIN-SUFFIX,公司,DIRECT
+  - DOMAIN-SUFFIX,网络,DIRECT
+  - DOMAIN-KEYWORD,-cn,DIRECT
+  - DOMAIN-KEYWORD,360buy,DIRECT
+  - DOMAIN-KEYWORD,alicdn,DIRECT
+  - DOMAIN-KEYWORD,alimama,DIRECT
+  - DOMAIN-KEYWORD,alipay,DIRECT
+  - DOMAIN-KEYWORD,appzapp,DIRECT
+  - DOMAIN-KEYWORD,baidupcs,DIRECT
+  - DOMAIN-KEYWORD,bilibili,DIRECT
+  - DOMAIN-KEYWORD,ccgslb,DIRECT
+  - DOMAIN-KEYWORD,chinacache,DIRECT
+  - DOMAIN-KEYWORD,duobao,DIRECT
+  - DOMAIN-KEYWORD,duolingo,DIRECT
+  - DOMAIN-KEYWORD,jdpay,DIRECT
   - DOMAIN-KEYWORD,moke,🎯 全球直连
   - DOMAIN-KEYWORD,qhimg,🎯 全球直连
   - DOMAIN-KEYWORD,vpimg,🎯 全球直连
-  - DOMAIN-KEYWORD,xiami,🎯 全球直连
-  - DOMAIN-KEYWORD,xiaomi,🎯 全球直连
-  - DOMAIN-SUFFIX,360.com,🎯 全球直连
-  - DOMAIN-SUFFIX,360kuai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,360safe.com,🎯 全球直连
+  - DOMAIN-KEYWORD,xiami,DIRECT
+  - DOMAIN-KEYWORD,xiaomi,DIRECT
+  - DOMAIN-SUFFIX,360.com,DIRECT
+  - DOMAIN-SUFFIX,360kuai.com,DIRECT
+  - DOMAIN-SUFFIX,360safe.com,DIRECT
   - DOMAIN-SUFFIX,dhrest.com,🎯 全球直连
   - DOMAIN-SUFFIX,qhres.com,🎯 全球直连
   - DOMAIN-SUFFIX,qhstatic.com,🎯 全球直连
   - DOMAIN-SUFFIX,qhupdate.com,🎯 全球直连
-  - DOMAIN-SUFFIX,so.com,🎯 全球直连
-  - DOMAIN-SUFFIX,4399.com,🎯 全球直连
-  - DOMAIN-SUFFIX,4399pk.com,🎯 全球直连
+  - DOMAIN-SUFFIX,so.com,DIRECT
+  - DOMAIN-SUFFIX,4399.com,DIRECT
+  - DOMAIN-SUFFIX,4399pk.com,DIRECT
   - DOMAIN-SUFFIX,5054399.com,🎯 全球直连
   - DOMAIN-SUFFIX,img4399.com,🎯 全球直连
   - DOMAIN-SUFFIX,58.com,🎯 全球直连
-  - DOMAIN-SUFFIX,1688.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliapp.org,🎯 全球直连
-  - DOMAIN-SUFFIX,alibaba.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alibabacloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alibabausercontent.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alicdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliexpress.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alikunlun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alipay.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alipayobjects.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alisoft.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliyun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliyuncdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,aliyuncs.com,🎯 全球直连
+  - DOMAIN-SUFFIX,1688.com,DIRECT
+  - DOMAIN-SUFFIX,aliapp.org,DIRECT
+  - DOMAIN-SUFFIX,alibaba.com,DIRECT
+  - DOMAIN-SUFFIX,alibabacloud.com,DIRECT
+  - DOMAIN-SUFFIX,alibabausercontent.com,DIRECT
+  - DOMAIN-SUFFIX,alicdn.com,DIRECT
+  - DOMAIN-SUFFIX,aliexpress.com,DIRECT
+  - DOMAIN-SUFFIX,aliimg.com,DIRECT
+  - DOMAIN-SUFFIX,alikunlun.com,DIRECT
+  - DOMAIN-SUFFIX,alipay.com,DIRECT
+  - DOMAIN-SUFFIX,alipayobjects.com,DIRECT
+  - DOMAIN-SUFFIX,alisoft.com,DIRECT
+  - DOMAIN-SUFFIX,aliyun.com,DIRECT
+  - DOMAIN-SUFFIX,aliyuncdn.com,DIRECT
+  - DOMAIN-SUFFIX,aliyuncs.co,DIRECT连
   - DOMAIN-SUFFIX,amap.com,🎯 全球直连
   - DOMAIN-SUFFIX,autonavi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,dingtalk.com,🎯 全球直连
+  - DOMAIN-SUFFIX,dingtalk.com,DIRECT
   - DOMAIN-SUFFIX,ele.me,🎯 全球直连
   - DOMAIN-SUFFIX,hichina.com,🎯 全球直连
   - DOMAIN-SUFFIX,mmstat.com,🎯 全球直连
   - DOMAIN-SUFFIX,mxhichina.com,🎯 全球直连
-  - DOMAIN-SUFFIX,soku.com,🎯 全球直连
-  - DOMAIN-SUFFIX,taobao.com,🎯 全球直连
-  - DOMAIN-SUFFIX,taobaocdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tbcache.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tbcdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tmall.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tmall.hk,🎯 全球直连
+  - DOMAIN-SUFFIX,soku.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,taobaocdn.com,DIRECT
+  - DOMAIN-SUFFIX,tbcache.com,DIRECT
+  - DOMAIN-SUFFIX,tbcdn.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.hk,DIRECT
   - DOMAIN-SUFFIX,ucweb.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xiami.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xiami.net,🎯 全球直连
+  - DOMAIN-SUFFIX,xiami.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.ne,DIRECT
   - DOMAIN-SUFFIX,ykimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,youku.com,🎯 全球直连
-  - DOMAIN-SUFFIX,baidu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,baidubcr.com,🎯 全球直连
-  - DOMAIN-SUFFIX,baidupcs.com,🎯 全球直连
-  - DOMAIN-SUFFIX,baidustatic.com,🎯 全球直连
+  - DOMAIN-SUFFIX,youku.com,DIRECT
+  - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-SUFFIX,baidubcr.com,DIRECT
+  - DOMAIN-SUFFIX,baidupcs.com,DIRECT
+  - DOMAIN-SUFFIX,baidustatic.com,DIRECT
   - DOMAIN-SUFFIX,bcebos.com,🎯 全球直连
   - DOMAIN-SUFFIX,bdimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,bdstatic.com,🎯 全球直连
   - DOMAIN-SUFFIX,bdurl.net,🎯 全球直连
-  - DOMAIN-SUFFIX,hao123.com,🎯 全球直连
-  - DOMAIN-SUFFIX,hao123img.com,🎯 全球直连
+  - DOMAIN-SUFFIX,hao123.com,DIRECT
+  - DOMAIN-SUFFIX,hao123img.com,DIRECT
   - DOMAIN-SUFFIX,jomodns.com,🎯 全球直连
   - DOMAIN-SUFFIX,yunjiasu-cdn.net,🎯 全球直连
-  - DOMAIN-SUFFIX,acg.tv,🎯 全球直连
+  - DOMAIN-SUFFIX,acg.tv,DIRECT
   - DOMAIN-SUFFIX,acgvideo.com,🎯 全球直连
-  - DOMAIN-SUFFIX,b23.tv,🎯 全球直连
-  - DOMAIN-SUFFIX,biliapi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,biliapi.net,🎯 全球直连
-  - DOMAIN-SUFFIX,biligame.com,🎯 全球直连
-  - DOMAIN-SUFFIX,biligame.net,🎯 全球直连
-  - DOMAIN-SUFFIX,bilivideo.com,🎯 全球直连
+  - DOMAIN-SUFFIX,b23.tv,DIRECT
+  - DOMAIN-SUFFIX,biliapi.com,DIRECT
+  - DOMAIN-SUFFIX,biliapi.net,DIRECT
+  - DOMAIN-SUFFIX,biligame.com,DIRECT
+  - DOMAIN-SUFFIX,biligame.net,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.com,DIRECT
   - DOMAIN-SUFFIX,hdslb.com,🎯 全球直连
   - DOMAIN-SUFFIX,im9.com,🎯 全球直连
   - DOMAIN-SUFFIX,battle.net,🎯 全球直连
@@ -28295,110 +28295,110 @@ rules:
   - DOMAIN-SUFFIX,zijieimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,zjbyte.com,🎯 全球直连
   - DOMAIN-SUFFIX,zjcdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cctv.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cctvpic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,livechina.com,🎯 全球直连
-  - DOMAIN-SUFFIX,21cn.com,🎯 全球直连
+  - DOMAIN-SUFFIX,cctv.com,DIRECT
+  - DOMAIN-SUFFIX,cctvpic.com,DIRECT
+  - DOMAIN-SUFFIX,livechina.com,DIRECT
+  - DOMAIN-SUFFIX,21cn.com,DIRECT
   - DOMAIN-SUFFIX,didialift.com,🎯 全球直连
   - DOMAIN-SUFFIX,didiglobal.com,🎯 全球直连
   - DOMAIN-SUFFIX,udache.com,🎯 全球直连
-  - DOMAIN-SUFFIX,douyu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,douyu.tv,🎯 全球直连
-  - DOMAIN-SUFFIX,douyuscdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,douyutv.com,🎯 全球直连
-  - DOMAIN-SUFFIX,epicgames.com,🎯 全球直连
-  - DOMAIN-SUFFIX,helpshift.com,🎯 全球直连
+  - DOMAIN-SUFFIX,douyu.com,DIRECT
+  - DOMAIN-SUFFIX,douyu.tv,DIRECT
+  - DOMAIN-SUFFIX,douyuscdn.com,DIRECT
+  - DOMAIN-SUFFIX,douyutv.com,DIRECT
+  - DOMAIN-SUFFIX,epicgames.com,DIRECT
+  - DOMAIN-SUFFIX,helpshift.com,DIRECT
   - DOMAIN-SUFFIX,paragon.com,🎯 全球直连
   - DOMAIN-SUFFIX,unrealengine.com,🎯 全球直连
-  - DOMAIN-SUFFIX,dbankcdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,hc-cdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,hicloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,huawei.com,🎯 全球直连
-  - DOMAIN-SUFFIX,huaweicloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,huaweishop.net,🎯 全球直连
-  - DOMAIN-SUFFIX,hwccpc.com,🎯 全球直连
-  - DOMAIN-SUFFIX,vmall.com,🎯 全球直连
-  - DOMAIN-SUFFIX,vmallres.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iflyink.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iflyrec.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iflytek.com,🎯 全球直连
+  - DOMAIN-SUFFIX,dbankcdn.com,DIRECT
+  - DOMAIN-SUFFIX,hc-cdn.com,DIRECT
+  - DOMAIN-SUFFIX,hicloud.com,DIRECT
+  - DOMAIN-SUFFIX,huawei.com,DIRECT
+  - DOMAIN-SUFFIX,huaweicloud.com,DIRECT
+  - DOMAIN-SUFFIX,huaweishop.net,DIRECT
+  - DOMAIN-SUFFIX,hwccpc.com,DIRECT
+  - DOMAIN-SUFFIX,vmall.com,DIRECT
+  - DOMAIN-SUFFIX,vmallres.com,DIRECT
+  - DOMAIN-SUFFIX,iflyink.com,DIRECT
+  - DOMAIN-SUFFIX,iflyrec.com,DIRECT
+  - DOMAIN-SUFFIX,iflytek.com,DIRECT
   - DOMAIN-SUFFIX,71.am,🎯 全球直连
   - DOMAIN-SUFFIX,71edge.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iqiyi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iqiyipic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ppsimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qiyi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qiyipic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qy.net,🎯 全球直连
-  - DOMAIN-SUFFIX,360buy.com,🎯 全球直连
-  - DOMAIN-SUFFIX,360buyimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jcloudcs.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jd.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jd.hk,🎯 全球直连
-  - DOMAIN-SUFFIX,jdcloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jdpay.com,🎯 全球直连
-  - DOMAIN-SUFFIX,paipai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,iciba.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ksosoft.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ksyun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,kuaishou.com,🎯 全球直连
-  - DOMAIN-SUFFIX,yximgs.com,🎯 全球直连
-  - DOMAIN-SUFFIX,meitu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,meitudata.com,🎯 全球直连
-  - DOMAIN-SUFFIX,meitustat.com,🎯 全球直连
-  - DOMAIN-SUFFIX,meipai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,le.com,🎯 全球直连
-  - DOMAIN-SUFFIX,lecloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,letv.com,🎯 全球直连
-  - DOMAIN-SUFFIX,letvcloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,letvimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,letvlive.com,🎯 全球直连
-  - DOMAIN-SUFFIX,letvstore.com,🎯 全球直连
-  - DOMAIN-SUFFIX,hitv.com,🎯 全球直连
-  - DOMAIN-SUFFIX,hunantv.com,🎯 全球直连
+  - DOMAIN-SUFFIX,iqiyi.com,DIRECT
+  - DOMAIN-SUFFIX,iqiyipic.com,DIRECT
+  - DOMAIN-SUFFIX,ppsimg.com,DIRECT
+  - DOMAIN-SUFFIX,qiyi.com,DIRECT
+  - DOMAIN-SUFFIX,qiyipic.com,DIRECT
+  - DOMAIN-SUFFIX,qy.net,DIRECT
+  - DOMAIN-SUFFIX,360buy.com,DIRECT
+  - DOMAIN-SUFFIX,360buyimg.com,DIRECT
+  - DOMAIN-SUFFIX,jcloudcs.com,DIRECT
+  - DOMAIN-SUFFIX,jd.com,DIRECT
+  - DOMAIN-SUFFIX,jd.hk,DIRECT
+  - DOMAIN-SUFFIX,jdcloud.com,DIRECT
+  - DOMAIN-SUFFIX,jdpay.com,DIRECT
+  - DOMAIN-SUFFIX,paipai.com,DIRECT
+  - DOMAIN-SUFFIX,iciba.com,DIRECT
+  - DOMAIN-SUFFIX,ksosoft.com,DIRECT
+  - DOMAIN-SUFFIX,ksyun.com,DIRECT
+  - DOMAIN-SUFFIX,kuaishou.com,DIRECT
+  - DOMAIN-SUFFIX,yximgs.com,DIRECT
+  - DOMAIN-SUFFIX,meitu.com,DIRECT
+  - DOMAIN-SUFFIX,meitudata.com,DIRECT
+  - DOMAIN-SUFFIX,meitustat.com,DIRECT
+  - DOMAIN-SUFFIX,meipai.com,DIRECT
+  - DOMAIN-SUFFIX,le.com,DIRECT
+  - DOMAIN-SUFFIX,lecloud.com,DIRECT
+  - DOMAIN-SUFFIX,letv.com,DIRECT
+  - DOMAIN-SUFFIX,letvcloud.com,DIRECT
+  - DOMAIN-SUFFIX,letvimg.com,DIRECT
+  - DOMAIN-SUFFIX,letvlive.com,DIRECT
+  - DOMAIN-SUFFIX,letvstore.com,DIRECT
+  - DOMAIN-SUFFIX,hitv.com,DIRECT
+  - DOMAIN-SUFFIX,hunantv.com,DIRECT
   - DOMAIN-SUFFIX,mgtv.com,🎯 全球直连
   - DOMAIN-SUFFIX,duokan.com,🎯 全球直连
-  - DOMAIN-SUFFIX,mi-img.com,🎯 全球直连
-  - DOMAIN-SUFFIX,mi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,miui.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xiaomi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xiaomi.net,🎯 全球直连
-  - DOMAIN-SUFFIX,xiaomicp.com,🎯 全球直连
-  - DOMAIN-SUFFIX,126.com,🎯 全球直连
-  - DOMAIN-SUFFIX,126.net,🎯 全球直连
-  - DOMAIN-SUFFIX,127.net,🎯 全球直连
-  - DOMAIN-SUFFIX,163.com,🎯 全球直连
-  - DOMAIN-SUFFIX,163yun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,lofter.com,🎯 全球直连
-  - DOMAIN-SUFFIX,netease.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ydstatic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,youdao.com,🎯 全球直连
-  - DOMAIN-SUFFIX,pplive.com,🎯 全球直连
-  - DOMAIN-SUFFIX,pptv.com,🎯 全球直连
-  - DOMAIN-SUFFIX,pinduoduo.com,🎯 全球直连
-  - DOMAIN-SUFFIX,yangkeduo.com,🎯 全球直连
+  - DOMAIN-SUFFIX,mi-img.com,DIRECT
+  - DOMAIN-SUFFIX,mi.com,DIRECT
+  - DOMAIN-SUFFIX,miui.com,DIRECT
+  - DOMAIN-SUFFIX,xiaomi.com,DIRECT
+  - DOMAIN-SUFFIX,xiaomi.net,DIRECT
+  - DOMAIN-SUFFIX,xiaomicp.com,DIRECT
+  - DOMAIN-SUFFIX,126.com,DIRECT
+  - DOMAIN-SUFFIX,126.net,DIRECT
+  - DOMAIN-SUFFIX,127.net,DIRECT
+  - DOMAIN-SUFFIX,163.com,DIRECT
+  - DOMAIN-SUFFIX,163yun.com,DIRECT
+  - DOMAIN-SUFFIX,lofter.com,DIRECT
+  - DOMAIN-SUFFIX,netease.com,DIRECT
+  - DOMAIN-SUFFIX,ydstatic.com,DIRECT
+  - DOMAIN-SUFFIX,youdao.com,DIRECT
+  - DOMAIN-SUFFIX,pplive.com,DIRECT
+  - DOMAIN-SUFFIX,pptv.com,DIRECT
+  - DOMAIN-SUFFIX,pinduoduo.com,DIRECT
+  - DOMAIN-SUFFIX,yangkeduo.com,DIRECT
   - DOMAIN-SUFFIX,leju.com,🎯 全球直连
   - DOMAIN-SUFFIX,miaopai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sina.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sinaapp.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sinaimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,weibo.com,🎯 全球直连
-  - DOMAIN-SUFFIX,weibocdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xiaoka.tv,🎯 全球直连
+  - DOMAIN-SUFFIX,sina.com,DIRECT
+  - DOMAIN-SUFFIX,sinaapp.com,DIRECT
+  - DOMAIN-SUFFIX,sinaimg.com,DIRECT
+  - DOMAIN-SUFFIX,weibo.com,DIRECT
+  - DOMAIN-SUFFIX,weibocdn.com,DIRECT
+  - DOMAIN-SUFFIX,xiaoka.tv,DIRECT
   - DOMAIN-SUFFIX,go2map.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sogo.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sogou.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sogoucdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sohu-inc.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sohu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sohucs.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sohuno.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sohurdc.com,🎯 全球直连
-  - DOMAIN-SUFFIX,v-56.com,🎯 全球直连
+  - DOMAIN-SUFFIX,sogo.com,DIRECT
+  - DOMAIN-SUFFIX,sogou.com,DIRECT
+  - DOMAIN-SUFFIX,sogoucdn.com,DIRECT
+  - DOMAIN-SUFFIX,sohu-inc.com,DIRECT
+  - DOMAIN-SUFFIX,sohu.com,DIRECT
+  - DOMAIN-SUFFIX,sohucs.com,DIRECT
+  - DOMAIN-SUFFIX,sohuno.com,DIRECT
+  - DOMAIN-SUFFIX,sohurdc.com,DIRECT
+  - DOMAIN-SUFFIX,v-56.com,DIRECT
   - DOMAIN-SUFFIX,playstation.com,🎯 全球直连
   - DOMAIN-SUFFIX,playstation.net,🎯 全球直连
   - DOMAIN-SUFFIX,playstationnetwork.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sony.com,🎯 全球直连
+  - DOMAIN-SUFFIX,sony.com,DIRECT
   - DOMAIN-SUFFIX,sonyentertainmentnetwork.com,🎯 全球直连
   - DOMAIN-SUFFIX,csgo.wmsj.cn,🎯 全球直连
   - DOMAIN-SUFFIX,dl.steam.ksyna.com,🎯 全球直连
@@ -28418,36 +28418,36 @@ rules:
   - DOMAIN-SUFFIX,gtimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,idqqimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,igamecj.com,🎯 全球直连
-  - DOMAIN-SUFFIX,myapp.com,🎯 全球直连
-  - DOMAIN-SUFFIX,myqcloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qq.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qqmail.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qqurl.com,🎯 全球直连
+  - DOMAIN-SUFFIX,myapp.com,DIRECT
+  - DOMAIN-SUFFIX,myqcloud.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,qqmail.com,DIRECT
+  - DOMAIN-SUFFIX,qqurl.com,DIRECT
   - DOMAIN-SUFFIX,smtcdns.com,🎯 全球直连
   - DOMAIN-SUFFIX,smtcdns.net,🎯 全球直连
-  - DOMAIN-SUFFIX,soso.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tencent-cloud.net,🎯 全球直连
-  - DOMAIN-SUFFIX,tencent.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tencentmind.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tenpay.com,🎯 全球直连
-  - DOMAIN-SUFFIX,wechat.com,🎯 全球直连
-  - DOMAIN-SUFFIX,weixin.com,🎯 全球直连
-  - DOMAIN-SUFFIX,weiyun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,appsimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,appvipshop.com,🎯 全球直连
-  - DOMAIN-SUFFIX,vip.com,🎯 全球直连
-  - DOMAIN-SUFFIX,vipstatic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ximalaya.com,🎯 全球直连
-  - DOMAIN-SUFFIX,xmcdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,00cdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,88cdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,kanimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,kankan.com,🎯 全球直连
+  - DOMAIN-SUFFIX,soso.com,DIRECT
+  - DOMAIN-SUFFIX,tencent-cloud.net,DIRECT
+  - DOMAIN-SUFFIX,tencent.com,DIRECT
+  - DOMAIN-SUFFIX,tencentmind.com,DIRECT
+  - DOMAIN-SUFFIX,tenpay.com,DIRECT
+  - DOMAIN-SUFFIX,wechat.com,DIRECT
+  - DOMAIN-SUFFIX,weixin.com,DIRECT
+  - DOMAIN-SUFFIX,weiyun.com,DIRECT
+  - DOMAIN-SUFFIX,appsimg.com,DIRECT
+  - DOMAIN-SUFFIX,appvipshop.com,DIRECT
+  - DOMAIN-SUFFIX,vip.com,DIRECT
+  - DOMAIN-SUFFIX,vipstatic.com,DIRECT
+  - DOMAIN-SUFFIX,ximalaya.com,DIRECT
+  - DOMAIN-SUFFIX,xmcdn.com,DIRECT
+  - DOMAIN-SUFFIX,00cdn.com,DIRECT
+  - DOMAIN-SUFFIX,88cdn.com,DIRECT
+  - DOMAIN-SUFFIX,kanimg.com,DIRECT
+  - DOMAIN-SUFFIX,kankan.com,DIRECT
   - DOMAIN-SUFFIX,p2cdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,sandai.net,🎯 全球直连
   - DOMAIN-SUFFIX,thundercdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,xunlei.com,🎯 全球直连
-  - DOMAIN-SUFFIX,got001.com,🎯 全球直连
+  - DOMAIN-SUFFIX,got001.com,DIRECT全球直连
   - DOMAIN-SUFFIX,p4pfile.com,🎯 全球直连
   - DOMAIN-SUFFIX,rrys.tv,🎯 全球直连
   - DOMAIN-SUFFIX,rrys2020.com,🎯 全球直连
@@ -28510,29 +28510,29 @@ rules:
   - IP-CIDR6,2a0b:b581::/48,🎯 全球直连,no-resolve
   - IP-CIDR6,2a0b:b582::/48,🎯 全球直连,no-resolve
   - IP-CIDR6,2a0b:b583::/48,🎯 全球直连,no-resolve
-  - DOMAIN-SUFFIX,baomitu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,bootcss.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jiasule.com,🎯 全球直连
-  - DOMAIN-SUFFIX,jsdelivr.net,🎯 全球直连
-  - DOMAIN-SUFFIX,staticfile.org,🎯 全球直连
-  - DOMAIN-SUFFIX,upaiyun.com,🎯 全球直连
-  - DOMAIN-SUFFIX,10010.com,🎯 全球直连
-  - DOMAIN-SUFFIX,115.com,🎯 全球直连
-  - DOMAIN-SUFFIX,12306.com,🎯 全球直连
-  - DOMAIN-SUFFIX,17173.com,🎯 全球直连
-  - DOMAIN-SUFFIX,178.com,🎯 全球直连
-  - DOMAIN-SUFFIX,17k.com,🎯 全球直连
-  - DOMAIN-SUFFIX,360doc.com,🎯 全球直连
-  - DOMAIN-SUFFIX,36kr.com,🎯 全球直连
-  - DOMAIN-SUFFIX,3dmgame.com,🎯 全球直连
-  - DOMAIN-SUFFIX,51cto.com,🎯 全球直连
-  - DOMAIN-SUFFIX,51job.com,🎯 全球直连
-  - DOMAIN-SUFFIX,51jobcdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,56.com,🎯 全球直连
-  - DOMAIN-SUFFIX,8686c.com,🎯 全球直连
-  - DOMAIN-SUFFIX,abchina.com,🎯 全球直连
-  - DOMAIN-SUFFIX,abercrombie.com,🎯 全球直连
-  - DOMAIN-SUFFIX,acfun.tv,🎯 全球直连
+  - DOMAIN-SUFFIX,baomitu.com,DIRECT
+  - DOMAIN-SUFFIX,bootcss.com,DIRECT
+  - DOMAIN-SUFFIX,jiasule.com,DIRECT
+  - DOMAIN-SUFFIX,jsdelivr.net,DIRECT
+  - DOMAIN-SUFFIX,staticfile.org,DIRECT
+  - DOMAIN-SUFFIX,upaiyun.com,DIRECT
+  - DOMAIN-SUFFIX,10010.com,DIRECT
+  - DOMAIN-SUFFIX,115.com,DIRECT
+  - DOMAIN-SUFFIX,12306.com,DIRECT
+  - DOMAIN-SUFFIX,17173.com,DIRECT
+  - DOMAIN-SUFFIX,178.com,DIRECT
+  - DOMAIN-SUFFIX,17k.com,DIRECT
+  - DOMAIN-SUFFIX,360doc.com,DIRECT
+  - DOMAIN-SUFFIX,36kr.com,DIRECT
+  - DOMAIN-SUFFIX,3dmgame.com,DIRECT
+  - DOMAIN-SUFFIX,51cto.com,DIRECT
+  - DOMAIN-SUFFIX,51job.com,DIRECT
+  - DOMAIN-SUFFIX,51jobcdn.com,DIRECT
+  - DOMAIN-SUFFIX,56.com,DIRECT
+  - DOMAIN-SUFFIX,8686c.com,DIRECT
+  - DOMAIN-SUFFIX,abchina.com,DIRECT
+  - DOMAIN-SUFFIX,abercrombie.com,DIRECT
+  - DOMAIN-SUFFIX,acfun.tv,DIRECT
   - DOMAIN-SUFFIX,air-matters.com,🎯 全球直连
   - DOMAIN-SUFFIX,air-matters.io,🎯 全球直连
   - DOMAIN-SUFFIX,aixifan.com,🎯 全球直连
@@ -28547,10 +28547,10 @@ rules:
   - DOMAIN-SUFFIX,bitauto.com,🎯 全球直连
   - DOMAIN-SUFFIX,c-ctrip.com,🎯 全球直连
   - DOMAIN-SUFFIX,camera360.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cdnmama.com,🎯 全球直连
+  - DOMAIN-SUFFIX,cdnmama.com,DIRECT
   - DOMAIN-SUFFIX,chaoxing.com,🎯 全球直连
-  - DOMAIN-SUFFIX,che168.com,🎯 全球直连
-  - DOMAIN-SUFFIX,chinacache.net,🎯 全球直连
+  - DOMAIN-SUFFIX,che168.com,DIRECT
+  - DOMAIN-SUFFIX,chinacache.net,DIRECT
   - DOMAIN-SUFFIX,chinaso.com,🎯 全球直连
   - DOMAIN-SUFFIX,chinaz.com,🎯 全球直连
   - DOMAIN-SUFFIX,chinaz.net,🎯 全球直连
@@ -28558,7 +28558,7 @@ rules:
   - DOMAIN-SUFFIX,cibntv.net,🎯 全球直连
   - DOMAIN-SUFFIX,clouddn.com,🎯 全球直连
   - DOMAIN-SUFFIX,cloudxns.net,🎯 全球直连
-  - DOMAIN-SUFFIX,cn163.net,🎯 全球直连
+  - DOMAIN-SUFFIX,cn163.net,DIRECT
   - DOMAIN-SUFFIX,cnbeta.com,🎯 全球直连
   - DOMAIN-SUFFIX,cnbetacdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,cnblogs.com,🎯 全球直连
@@ -28566,12 +28566,12 @@ rules:
   - DOMAIN-SUFFIX,cnmstl.net,🎯 全球直连
   - DOMAIN-SUFFIX,coolapk.com,🎯 全球直连
   - DOMAIN-SUFFIX,coolapkmarket.com,🎯 全球直连
-  - DOMAIN-SUFFIX,csdn.net,🎯 全球直连
+  - DOMAIN-SUFFIX,csdn.net,DIRECT
   - DOMAIN-SUFFIX,ctrip.com,🎯 全球直连
   - DOMAIN-SUFFIX,dangdang.com,🎯 全球直连
   - DOMAIN-SUFFIX,dfcfw.com,🎯 全球直连
-  - DOMAIN-SUFFIX,dianping.com,🎯 全球直连
-  - DOMAIN-SUFFIX,dilidili.wang,🎯 全球直连
+  - DOMAIN-SUFFIX,dianping.com,DIRECT
+  - DOMAIN-SUFFIX,dilidili.wang,DIRECT
   - DOMAIN-SUFFIX,douban.com,🎯 全球直连
   - DOMAIN-SUFFIX,doubanio.com,🎯 全球直连
   - DOMAIN-SUFFIX,dpfile.com,🎯 全球直连
@@ -28604,7 +28604,7 @@ rules:
   - DOMAIN-SUFFIX,haosou.com,🎯 全球直连
   - DOMAIN-SUFFIX,hollisterco.com,🎯 全球直连
   - DOMAIN-SUFFIX,hongxiu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,huajiao.com,🎯 全球直连
+  - DOMAIN-SUFFIX,huajiao.com,DIRECT
   - DOMAIN-SUFFIX,hupu.com,🎯 全球直连
   - DOMAIN-SUFFIX,huxiucdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,huya.com,🎯 全球直连
@@ -28612,7 +28612,7 @@ rules:
   - DOMAIN-SUFFIX,ifengimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,images-amazon.com,🎯 全球直连
   - DOMAIN-SUFFIX,infzm.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ipip.net,🎯 全球直连
+  - DOMAIN-SUFFIX,ipip.net,DIRECT
   - DOMAIN-SUFFIX,it168.com,🎯 全球直连
   - DOMAIN-SUFFIX,ithome.com,🎯 全球直连
   - DOMAIN-SUFFIX,ixdzs.com,🎯 全球直连
@@ -28646,7 +28646,7 @@ rules:
   - DOMAIN-SUFFIX,meilishuo.com,🎯 全球直连
   - DOMAIN-SUFFIX,meituan.com,🎯 全球直连
   - DOMAIN-SUFFIX,meituan.net,🎯 全球直连
-  - DOMAIN-SUFFIX,meizu.com,🎯 全球直连
+  - DOMAIN-SUFFIX,meizu.com,DIRECT
   - DOMAIN-SUFFIX,migucloud.com,🎯 全球直连
   - DOMAIN-SUFFIX,miguvideo.com,🎯 全球直连
   - DOMAIN-SUFFIX,mobike.com,🎯 全球直连
