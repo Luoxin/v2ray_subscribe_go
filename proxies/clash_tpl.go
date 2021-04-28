@@ -28225,7 +28225,7 @@ rules:
   - DOMAIN-SUFFIX,alisoft.com,DIRECT
   - DOMAIN-SUFFIX,aliyun.com,DIRECT
   - DOMAIN-SUFFIX,aliyuncdn.com,DIRECT
-  - DOMAIN-SUFFIX,aliyuncs.co,DIRECT连
+  - DOMAIN-SUFFIX,aliyuncs.co,DIRECT
   - DOMAIN-SUFFIX,amap.com,🎯 全球直连
   - DOMAIN-SUFFIX,autonavi.com,🎯 全球直连
   - DOMAIN-SUFFIX,dingtalk.com,DIRECT
@@ -28447,7 +28447,7 @@ rules:
   - DOMAIN-SUFFIX,sandai.net,🎯 全球直连
   - DOMAIN-SUFFIX,thundercdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,xunlei.com,🎯 全球直连
-  - DOMAIN-SUFFIX,got001.com,DIRECT全球直连
+  - DOMAIN-SUFFIX,got001.com,DIRECT
   - DOMAIN-SUFFIX,p4pfile.com,🎯 全球直连
   - DOMAIN-SUFFIX,rrys.tv,🎯 全球直连
   - DOMAIN-SUFFIX,rrys2020.com,🎯 全球直连
