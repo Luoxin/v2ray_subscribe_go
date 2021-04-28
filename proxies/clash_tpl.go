@@ -28,7 +28,7 @@ dns:
      - 223.5.5.5
      - tls://dns.rubyfish.cn:853
      #- https://dns.rubyfish.cn/dns-query
-     
+
   fallback: # 与 nameserver 内的服务器列表同时发起请求，当规则符合 GEOIP 在 CN 以外时，fallback 列表内的域名服务器生效。
      - tls://dns.rubyfish.cn:853
      - tls://1.0.0.1:853
@@ -40,8 +40,8 @@ dns:
 # dns:
 #   enable: true
 #   ipv6: true
-#   enhanced-mode: fake-ip 
-#   fake-ip-range: 198.18.0.1/16 
+#   enhanced-mode: fake-ip
+#   fake-ip-range: 198.18.0.1/16
 #   nameserver:
 #     - tls://dns.alidns.com
 #     - tls://dns.cfiec.net
@@ -66,7 +66,7 @@ dns:
 #     - 180.76.76.76
 #     - 119.29.29.29
 #     - 119.28.28.28
-#   fallback: 
+#   fallback:
 #     - https://dns.google/dns-query
 #     - tls://dns.google
 #     - https://dns.quad9.net/dns-query
@@ -103,7 +103,7 @@ dns:
 #     - 202.76.4.1
 #     - 202.14.67.4
 #   fallback-filter:
-#     geoip: true 
+#     geoip: true
 #     ipcidr:
 #       - 240.0.0.0/4
 proxies:
@@ -28994,6 +28994,9 @@ rules:
   - PROCESS-NAME,DownloadService.exe,🎯 全球直连
   - PROCESS-NAME,Weiyun.exe,🎯 全球直连
   - PROCESS-NAME,baidunetdisk.exe,🎯 全球直连
+  - DOMAIN-SUFFIX,luoxin.live,DIRECT
+  - DOMAIN-SUFFIX,pinquest.cn,DIRECT
+  - DOMAIN-SUFFIX,aquanliang.com,DIRECT
   - DOMAIN-SUFFIX,local,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
   - IP-CIDR,172.16.0.0/12,DIRECT
