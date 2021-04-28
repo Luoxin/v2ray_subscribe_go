@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	github.com/Dreamacro/clash v1.5.0
-	github.com/Dreamacro/go-shadowsocks2 v0.1.7 // indirect
 	github.com/Luoxin/faker v0.0.0-20210410033611-489499c2bfab
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.7.1
@@ -37,7 +36,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.12 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
-	github.com/miekg/dns v1.1.41 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect

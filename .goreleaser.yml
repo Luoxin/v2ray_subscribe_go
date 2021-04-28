@@ -1,18 +1,20 @@
 env:
     - GO111MODULE=on
     - GOSUMDB=off
-#before:
-#    hooks:
+    - GOPROXY=https://goproxy.cn,direct
+before:
+    hooks:
 #        - go version
 #        - go env
 #        - rm -rf /build/go.sum
 #        - go clean -modcache
-#        - go mod download
+        - go mod tidy
 #gomod:
 #    proxy: true
 #    env:
 #        - GOPROXY=https://goproxy.cn,direct
 #        - GOSUMDB=sum.golang.org
+#        - GONOSUMDB=github.com
 builds:
     -   id: windows_amd64
         ldflags: -s -w
