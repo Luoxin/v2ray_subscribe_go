@@ -11,7 +11,7 @@ log-level: debug
 external-controller: 127.0.0.1:9090
 dns:
   enable: true
-  ipv6: false
+  ipv6: true
   # listen: 0.0.0.0:53
   # enhanced-mode: redir-host # 或 fake-ip
   # # fake-ip-range: 198.18.0.1/16 # 如果你不知道这个参数的作用，请勿修改
