@@ -28,3 +28,9 @@ build2:
 	docker run -it -v D:/develop/Eutamias:/build/ sub:latest
 	rm -rf ./go.sum
 	#rm -rf ./vendor
+
+sync1:
+	CGO_ENABLED=1 go build -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
+
+sync2:
+	CGO_ENABLED=1 go build -o D:/Server/Subscribe/eutamias.exe ./cmd/eutamias.go
