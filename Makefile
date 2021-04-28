@@ -1,6 +1,10 @@
 PWD = $(shell pwd)
 
-.PHONY: build
+.PHONY: run
+
+run:
+	go mod download
+	CGO_ENABLED=1 go run ./cmd/eutamias.go
 
 build:
 	cp config.yaml.simple config.yaml
