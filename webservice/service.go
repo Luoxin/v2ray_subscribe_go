@@ -49,7 +49,7 @@ func InitHttpService() error {
 	// https://github.com/gofiber/fiber
 	app := fiber.New(fiber.Config{
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
-			return ctx.SendStatus(500)
+			return ctx.Status(500).SendString(err.Error())
 		},
 		ServerHeader:  "",
 		CaseSensitive: true,
