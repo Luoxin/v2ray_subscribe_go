@@ -29,7 +29,7 @@ func main() {
 	serConfig := &service.Config{
 		Name:        eutamias.ServiceName,
 		DisplayName: eutamias.ServiceName,
-		Description: "eutamias service",
+		Description: "一个可以自我维护的网络代理工具",
 		Executable:  os.Args[0],
 	}
 
