@@ -14,6 +14,7 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bluele/gcache v0.0.2
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
+	github.com/deckarep/gosx-notifier v0.0.0-20180201035817-e127226297fb // indirect
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.2
