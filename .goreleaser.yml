@@ -17,7 +17,7 @@ before:
 #        - GONOSUMDB=github.com
 builds:
     -   id: windows_amd64
-        ldflags: -s -w
+        ldflags: -s -w --extldflags "-static -fpic"
         binary: eutamias
         env:
             - CGO_ENABLED=1
@@ -29,7 +29,7 @@ builds:
         goarch:
             - amd64
     -   id: linux_amd64
-        ldflags: -s -w
+        ldflags: -s -w --extldflags "-static -fpic"
         binary: eutamias
         env:
             - CC=gcc

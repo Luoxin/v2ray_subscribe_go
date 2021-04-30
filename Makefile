@@ -16,22 +16,22 @@ build:
 build1:
 	rm -rf ./go.sum
 	rm -rf ./vendor
-	go mod download
-	go mod vendor
+	#go mod download
+#	go mod vendor
 	docker build -t sub:latest .
 	docker run -it -v E:/Eutamias:/build/ sub:latest
 	rm -rf ./go.sum
-	rm -rf ./vendor
+	#rm -rf ./vendor
 
 build2:
 	rm -rf ./go.sum
 	#rm -rf ./vendor
-	go mod download
+	#go mod download
 	#go mod vendor
 	docker build -t sub:latest .
 	docker run -it -v D:/develop/Eutamias:/build/ sub:latest
 	rm -rf ./go.sum
-	#rm -rf ./vendor
+	rm -rf ./vendor
 
 sync1:
 	CGO_ENABLED=1 go build -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
