@@ -14,13 +14,12 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bluele/gcache v0.0.2
 	github.com/btcsuite/btcd v0.21.0-beta // indirect
-	github.com/deckarep/gosx-notifier v0.0.0-20180201035817-e127226297fb // indirect
+	github.com/deckarep/gosx-notifier v0.0.0-20180201035817-e127226297fb
 	github.com/eddieivan01/nic v0.3.1
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.2
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/go-resty/resty/v2 v2.6.0
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.8.0
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210421061343-aedc03b9c306
 	github.com/gofiber/websocket/v2 v2.0.3
