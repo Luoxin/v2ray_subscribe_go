@@ -216,6 +216,9 @@ proxies:
     type: select
     proxies:
       - DIRECT
+      - 🔯 故障转移
+      - 🔮 负载均衡
+      - ♻️ 自动选择
       - 🚀 节点选择
 {{ range .CountryGroupList}}      - {{ .}}
 {{ end}}      - 🚀 手动切换
@@ -21850,43 +21853,44 @@ rules:
   - IP-CIDR,209.85.233.188/32,📢 谷歌FCM,no-resolve
   - DOMAIN-SUFFIX,265.com,🎯 全球直连
   - DOMAIN-SUFFIX,2mdn.net,🎯 全球直连
-  - DOMAIN-SUFFIX,alt1-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt2-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt3-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt4-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt5-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt6-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt7-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,alt8-mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,app-measurement.com,🎯 全球直连
-  - DOMAIN-SUFFIX,c.android.clients.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cache.pack.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,clickserve.dartsearch.net,🎯 全球直连
-  - DOMAIN-SUFFIX,clientservices.googleapis.com,🎯 全球直连
-  - DOMAIN-SUFFIX,crl.pki.goog,🎯 全球直连
-  - DOMAIN-SUFFIX,dl.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,dl.l.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,fonts.googleapis.com,🎯 全球直连
-  - DOMAIN-SUFFIX,fonts.gstatic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,googletagmanager.com,🎯 全球直连
-  - DOMAIN-SUFFIX,googletagservices.com,🎯 全球直连
-  - DOMAIN-SUFFIX,gtm.oasisfeng.com,🎯 全球直连
-  - DOMAIN-SUFFIX,imasdk.googleapis.com,🎯 全球直连
-  - DOMAIN-SUFFIX,mtalk.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ocsp.pki.goog,🎯 全球直连
-  - DOMAIN-SUFFIX,recaptcha.net,🎯 全球直连
-  - DOMAIN-SUFFIX,redirector.gvt1.com,🎯 全球直连
-  - DOMAIN-SUFFIX,safebrowsing-cache.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,safebrowsing.googleapis.com,🎯 全球直连
-  - DOMAIN-SUFFIX,settings.crashlytics.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ssl-google-analytics.l.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,ssl.gstatic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,toolbarqueries.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tools.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,tools.l.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,update.googleapis.com,🎯 全球直连
-  - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🎯 全球直连
-  - DOMAIN-SUFFIX,www.gstatic.com,🎯 全球直连
+  - DOMAIN-SUFFIX,alt1-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt2-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt3-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt4-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt5-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt6-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt7-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt8-mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,app-measurement.com,🔯 故障转移
+  - DOMAIN-SUFFIX,c.android.clients.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,cache.pack.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,clickserve.dartsearch.net,🔯 故障转移
+  - DOMAIN-SUFFIX,clientservices.googleapis.com,🔯 故障转移
+  - DOMAIN-SUFFIX,crl.pki.goog,🔯 故障转移
+  - DOMAIN-SUFFIX,dl.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,dl.l.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,fonts.googleapis.com,🔯 故障转移
+  - DOMAIN-SUFFIX,fonts.gstatic.com,🔯 故障转移
+  - DOMAIN-SUFFIX,googletagmanager.com,🔯 故障转移
+  - DOMAIN-SUFFIX,googletagservices.com,🔯 故障转移
+  - DOMAIN-SUFFIX,gtm.oasisfeng.com,🔯 故障转移
+  - DOMAIN-SUFFIX,imasdk.googleapis.com,🔯 故障转移
+  - DOMAIN-SUFFIX,mtalk.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,ocsp.pki.goog,🔯 故障转移
+  - DOMAIN-SUFFIX,recaptcha.net,🔯 故障转移
+  - DOMAIN-SUFFIX,redirector.gvt1.com,🔯 故障转移
+  - DOMAIN-SUFFIX,safebrowsing-cache.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,safebrowsing.googleapis.com,🔯 故障转移
+  - DOMAIN-SUFFIX,settings.crashlytics.com,🔯 故障转移
+  - DOMAIN-SUFFIX,ssl-google-analytics.l.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,ssl.gstatic.com,🔯 故障转移
+  - DOMAIN-SUFFIX,toolbarqueries.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,tools.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,tools.l.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,update.googleapis.com,🔯 故障转移
+  - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,www.gstatic.com,🔯 故障转移
+  - DOMAIN-SUFFIX,studygolang.com,DIRECT
   - PROCESS-NAME,OneDrive,Ⓜ️ 微软云盘
   - PROCESS-NAME,OneDriveUpdater,Ⓜ️ 微软云盘
   - DOMAIN-KEYWORD,1drv,Ⓜ️ 微软云盘
