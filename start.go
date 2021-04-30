@@ -137,6 +137,8 @@ func InitLog() {
 	))
 	log.AddHook(lfshook.NewHook(
 		lfshook.WriterMap{
+			log.TraceLevel: os.Stdout,
+			log.DebugLevel: os.Stdout,
 			log.InfoLevel:  os.Stdout,
 			log.WarnLevel:  os.Stdout,
 			log.ErrorLevel: os.Stdout,

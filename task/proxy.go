@@ -173,7 +173,7 @@ func InitProxy(finishC chan bool) error {
 				}
 
 				proxyCount++
-				log.Infof("%v(%v):%v", proxyName, proxy.Alive(), proxy.LastDelay())
+				log.Debugf("%v(%v):%v", proxyName, proxy.Alive(), proxy.LastDelay())
 				if !proxy.Alive() {
 					continue
 				}
