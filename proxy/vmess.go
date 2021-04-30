@@ -211,7 +211,7 @@ func ParseVmessLink(link string) (*Vmess, error) {
 		}
 		if obfs == "websocket" {
 			network = "ws"
-		} else { // when http h2
+		} else if obfs != "" { // when http h2
 			network = obfs
 		}
 		// HTTP Object: Host <- obfsParam=www.036452916.xyz

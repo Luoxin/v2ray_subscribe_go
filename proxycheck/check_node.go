@@ -191,7 +191,7 @@ func (p *ProxyCheck) WaitFinish() {
 }
 
 func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
-	ctx, _ := context.WithTimeout(context.Background(), time.Minute)
+	ctx := context.Background()
 
 	addr, err := urlToMetadata(url)
 	if err != nil {
@@ -222,10 +222,7 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 
 	client := http.Client{
 		Transport: transport,
-		//CheckRedirect: func(req *http.Request, via []*http.Request) error {
-		//	return http.ErrUseLastResponse
-		//},
-		Timeout: time.Minute,
+		Timeout:   time.Minute,
 	}
 
 	start := time.Now()

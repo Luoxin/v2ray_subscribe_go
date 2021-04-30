@@ -32,7 +32,8 @@ func (p *tohru) Init() error {
 	p.client = resty.New().
 		SetTimeout(time.Second * 5).
 		SetRetryMaxWaitTime(time.Second * 5).
-		SetRetryWaitTime(time.Second)
+		SetRetryWaitTime(time.Second).
+		SetLogger(log.New())
 
 	if conf.Config.Debug {
 		p.client.SetDebug(true).EnableTrace()
