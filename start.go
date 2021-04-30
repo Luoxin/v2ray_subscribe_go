@@ -81,22 +81,6 @@ func Start() {
 	<-c
 }
 
-var LogFormatter = &nested.Formatter{
-	FieldsOrder: []string{
-		log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-		log.FieldKeyFunc, log.FieldKeyMsg,
-	},
-	CustomCallerFormatter: func(f *runtime.Frame) string {
-		return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-	},
-	TimestampFormat:  time.RFC3339,
-	HideKeys:         true,
-	NoFieldsSpace:    true,
-	NoUppercaseLevel: true,
-	TrimMessages:     true,
-	CallerFirst:      true,
-}
-
 func InitLog() {
 	execPath := utils.GetExecPath()
 	logPath := filepath.Join(execPath, "eutamias.log")
@@ -162,6 +146,20 @@ func InitLog() {
 		},
 	))
 
-	log.SetFormatter(LogFormatter)
+	log.SetFormatter(&nested.Formatter{
+		FieldsOrder: []string{
+			log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+			log.FieldKeyFunc, log.FieldKeyMsg,
+		},
+		CustomCallerFormatter: func(f *runtime.Frame) string {
+			return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+		},
+		TimestampFormat:  time.RFC3339,
+		HideKeys:         true,
+		NoFieldsSpace:    true,
+		NoUppercaseLevel: true,
+		TrimMessages:     true,
+		CallerFirst:      true,
+	})
 	log.SetReportCaller(true)
 }
