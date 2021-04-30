@@ -57,22 +57,22 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
-	github.com/valyala/fasthttp v1.23.0
+	github.com/valyala/fasthttp v1.24.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
-	golang.org/x/net v0.0.0-20210427231257-85d9c07bbe3a // indirect
+	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
 	golang.org/x/sys v0.0.0-20210426230700-d19ff857e887
-	golang.org/x/term v0.0.0-20210422114643-f5beecf764ed // indirect
+	golang.org/x/term v0.0.0-20210429154555-c04ba851c2a4 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.5.0
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/toast.v1 v1.0.0-20180812000517-0a84660828b2
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	gorm.io/driver/mysql v1.0.5
+	gorm.io/driver/mysql v1.0.6
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.21.8
+	gorm.io/gorm v1.21.9
 )
 
 replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1
