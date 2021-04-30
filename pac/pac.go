@@ -34,7 +34,7 @@ func NewPac() *pac {
 }
 
 func (p *pac) Get() string {
-	if p.needUpdate() {
+	if !p.needUpdate() {
 		lock.RLock()
 		defer lock.RUnlock()
 		return p.js

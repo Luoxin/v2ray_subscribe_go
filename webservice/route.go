@@ -71,7 +71,7 @@ func registerRouting(app *fiber.App) error {
 
 	app.Get("/version/", timeout.New(Version, time.Second))
 	app.Post("/version/", timeout.New(Version, time.Second))
-	app.Get("/pac/", timeout.New(Pac, time.Second))
+	app.Get("/pac/", timeout.New(Pac, time.Minute))
 
 	app.Static("/file/", utils.GetConfigDir(), fiber.Static{
 		Compress:      true,
