@@ -1,16 +1,15 @@
 package pac
 
 import (
-	"bufio"
 	"bytes"
 	"encoding/base64"
-	"io"
 	"strings"
 	"sync"
 	"text/template"
+	"time"
 
-	"github.com/eddieivan01/nic"
 	"github.com/elliotchance/pie/pie"
+	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/utils"
@@ -19,10 +18,13 @@ import (
 type pac struct {
 	js       string
 	updateAt uint32
+	client   *resty.Client
+
+	writeLock  sync.RWMutex
+	updateLock sync.Mutex
 }
 
 var Pac = NewPac()
-var lock sync.RWMutex
 
 func InitPac() {
 	Pac = NewPac()
@@ -30,13 +32,20 @@ func InitPac() {
 }
 
 func NewPac() *pac {
-	return &pac{}
+	return &pac{
+		client: resty.New().
+			SetRetryCount(2).
+			SetTimeout(time.Second * 5).
+			SetRetryMaxWaitTime(time.Second * 5).
+			SetRetryWaitTime(time.Second).
+			SetLogger(log.New()),
+	}
 }
 
 func (p *pac) Get() string {
 	if !p.needUpdate() {
-		lock.RLock()
-		defer lock.RUnlock()
+		p.writeLock.RLock()
+		defer p.writeLock.RUnlock()
 		return p.js
 	}
 
@@ -45,8 +54,8 @@ func (p *pac) Get() string {
 }
 
 func (p *pac) write(js string) {
-	lock.Lock()
-	defer lock.Unlock()
+	p.writeLock.Lock()
+	defer p.writeLock.Unlock()
 	if js == "" {
 		return
 	}
@@ -60,8 +69,8 @@ func (p *pac) needUpdate() bool {
 }
 
 func (p *pac) UpdatePac() {
-	lock.Lock()
-	defer lock.Unlock()
+	p.updateLock.Lock()
+	defer p.updateLock.Unlock()
 
 	if !p.needUpdate() {
 		return
@@ -69,7 +78,6 @@ func (p *pac) UpdatePac() {
 
 	js := p.buildPac("PROXY 127.0.0.1:7890;", "DIRECT_PROXY", p.getRuleList())
 	p.write(js)
-
 	go func() {
 		p.update2Sys()
 	}()
@@ -114,42 +122,42 @@ func (p *pac) buildPac(proxy, defaultWay string, ruleList pie.Strings) string {
 func (p *pac) getRuleList() pie.Strings {
 	var gfwUrlList = pie.Strings{
 		"https://cdn.jsdelivr.net/gh/gfwlist/gfwlist@master/gfwlist.txt",
-		"https://cdn.jsdelivr.net/gh/gfwlist/gfwlist@master/gfwlist.txt",
 		"https://pagure.io/gfwlist/raw/master/f/gfwlist.txt",
-		"http://repo.or.cz/gfwlist.git/blob_plain/HEAD:/gfwlist.txt",
+		"https://repo.or.cz/gfwlist.git/blob_plain/HEAD:/gfwlist.txt",
 		"https://bitbucket.org/gfwlist/gfwlist/raw/HEAD/gfwlist.txt",
-		"https://gitlab.com/gfwlist/gfwlist/raw/master/gfwlist.txt",
 		"https://git.tuxfamily.org/gfwlist/gfwlist.git/plain/gfwlist.txt",
 	}
 
-	var ruleList pie.Strings
-
+	ruleMap := map[string]bool{}
 	gfwUrlList.Each(func(s string) {
-		resp, err := nic.Get(s, nil)
+		log.Debugf("handle pac for:%v", s)
+		resp, err := p.client.R().Get(s)
 		if err != nil {
 			return
 		}
 
-		decoder := base64.NewDecoder(base64.StdEncoding, resp.Body)
-		reader := bufio.NewReader(decoder)
-		for {
+		ruleList := strings.Split(resp.String(), "\n")
 
-			line, _, err := reader.ReadLine()
-			if err == io.EOF {
-				break
+		pie.Strings(ruleList).Each(func(str string) {
+			lineByte, err := base64.StdEncoding.DecodeString(str)
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return
 			}
 
-			l := string(line)
-
-			if !strings.HasPrefix(l, "!") {
-				ruleList = append(ruleList, l)
+			line := string(lineByte)
+			if !strings.HasPrefix(line, "!") {
+				ruleMap[line] = true
 			}
-		}
-		resp.Body.Close()
-
+		})
 	})
 
-	return ruleList.Unique()
+	var ruleList []string
+	for rule := range ruleMap {
+		ruleList = append(ruleList, rule)
+	}
+
+	return ruleList
 }
 
 func Get() string {
