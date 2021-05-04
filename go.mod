@@ -60,10 +60,10 @@ require (
 	github.com/valyala/fasthttp v1.24.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
-	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
-	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
-	golang.org/x/sys v0.0.0-20210426230700-d19ff857e887
-	golang.org/x/term v0.0.0-20210429154555-c04ba851c2a4 // indirect
+	golang.org/x/crypto v0.0.0-20210503195802-e9a32991a82e
+	golang.org/x/net v0.0.0-20210503060351-7fd8e65b6420 // indirect
+	golang.org/x/sys v0.0.0-20210503173754-0981d6026fa6
+	golang.org/x/term v0.0.0-20210503060354-a79de5458b56 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.5.0
