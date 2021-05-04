@@ -3,6 +3,7 @@ module github.com/Luoxin/Eutamias
 go 1.16
 
 require (
+	fyne.io/fyne/v2 v2.0.3
 	github.com/Dreamacro/clash v1.5.0
 	github.com/Luoxin/faker v0.0.0-20210410033611-489499c2bfab
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
