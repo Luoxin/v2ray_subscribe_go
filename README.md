@@ -2,13 +2,20 @@
 v2ray_subscribe的golang版本
 
 ## 使用方法
-### 使用编译包
+### 获取二进制包
+#### 使用编译包
 - 下载最新的包
 - `Eutamias [-c <config file path>]`
-### 自编译
+#### 自编译
 - `git clone https://github.com/Luoxin/Eutamias.git`
 - `cd Eutamias`
-- `CGO_ENABLED=1 GO111MODULE=on go build -o Eutamias ./cmd/Eutamias.go`
+- `CGO_ENABLED=1 GO111MODULE=on go build -o eutamias ./cmd/Eutamias.go`
+### 直接运行服务
+`./eutamias [-c <config file path>]`
+### 安装服务(需要管理员权限)
+`./eutamias -s install`
+### 卸载服务(需要管理员权限)
+`./eutamias -s uninstall`
 
 ### TODO
 - [ ] 支持更多协议的抓取和检测
