@@ -28566,7 +28566,7 @@ rules:
   - DOMAIN-SUFFIX,cn163.net,DIRECT
   - DOMAIN-SUFFIX,cnbeta.com,🎯 全球直连
   - DOMAIN-SUFFIX,cnbetacdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,cnblogs.com,🎯 全球直连
+  - DOMAIN-SUFFIX,cnblogs.com,DIRECT
   - DOMAIN-SUFFIX,cnki.net,🎯 全球直连
   - DOMAIN-SUFFIX,cnmstl.net,🎯 全球直连
   - DOMAIN-SUFFIX,coolapk.com,🎯 全球直连
