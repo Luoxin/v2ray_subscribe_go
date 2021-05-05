@@ -21891,6 +21891,7 @@ rules:
   - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🔯 故障转移
   - DOMAIN-SUFFIX,www.gstatic.com,🔯 故障转移
   - DOMAIN-SUFFIX,studygolang.com,DIRECT
+  - DOMAIN-SUFFIX,segmentfault.com/,DIRECT
   - PROCESS-NAME,OneDrive,Ⓜ️ 微软云盘
   - PROCESS-NAME,OneDriveUpdater,Ⓜ️ 微软云盘
   - DOMAIN-KEYWORD,1drv,Ⓜ️ 微软云盘
@@ -28695,7 +28696,6 @@ rules:
   - DOMAIN-SUFFIX,ruguoapp.com,🎯 全球直连
   - DOMAIN-SUFFIX,runoob.com,🎯 全球直连
   - DOMAIN-SUFFIX,sankuai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,segmentfault.com,🎯 全球直连
   - DOMAIN-SUFFIX,sf-express.com,🎯 全球直连
   - DOMAIN-SUFFIX,shumilou.net,🎯 全球直连
   - DOMAIN-SUFFIX,simplecd.me,🎯 全球直连
