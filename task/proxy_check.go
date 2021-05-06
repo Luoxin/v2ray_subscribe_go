@@ -18,6 +18,7 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 	err := db.Db.Where("is_close = ?", false).
 		Where("next_check_at < ?", utils.Now()).
 		Where("death_count < ?", 50).
+		Where("use_type = 1").
 		Order("next_check_at").
 		Find(&nodeList).Error
 	if err != nil {
@@ -33,9 +34,6 @@ func checkProxyNode(check *proxycheck.ProxyCheck) error {
 			um := map[string]interface{}{}
 
 			if result.Err != nil {
-				//log.Info(reflect.TypeOf(result.Err))
-				//log.Errorf("err:%v", result.Err)
-
 				node.DeathCount++
 				if node.DeathCount > 10 {
 					node.ProxySpeed = -1

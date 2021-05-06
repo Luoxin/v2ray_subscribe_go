@@ -15,10 +15,10 @@ import (
 )
 
 func AddNodeWithUrl(nodeUrl string) (bool, error) {
-	return AddNodeWithUrlDetail(nodeUrl, 0, 0)
+	return AddNodeWithUrlDetail(nodeUrl, 0, 0, domain.UseTypeGFW)
 }
 
-func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32) (bool, error) {
+func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32, useType domain.UseType) (bool, error) {
 	if checkInterval == 0 {
 		checkInterval = conf.Config.ProxyCheck.CheckInterval
 	}
@@ -31,6 +31,7 @@ func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32) (bo
 		LastCrawlerAt: utils.Now(),
 		CheckInterval: checkInterval,
 		ProxyNodeType: proxyNodeType,
+		UseType:       useType,
 	}
 
 	proxyNode, err := proxy.ParseProxy(ru)
@@ -51,7 +52,8 @@ func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32) (bo
 func UpdateNode(node *domain.ProxyNode) (bool, error) {
 	var isNew bool
 	var oldNode domain.ProxyNode
-	err := db.Db.Where("url_feature = ?", node.UrlFeature).First(&oldNode).Error
+	err := db.Db.Where("url_feature = ?", node.UrlFeature).
+		First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建
@@ -101,7 +103,8 @@ func GetUsableNodeList(quantity int, mustUsable bool) (domain.ProxyNodeList, err
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
 		Order("death_count").
-		Order("last_crawler_at DESC")
+		Order("last_crawler_at DESC").
+		Where("use_type = 1")
 
 	if quantity >= 0 {
 		query = query.Limit(quantity)
@@ -129,7 +132,11 @@ func GetUsableNodeList(quantity int, mustUsable bool) (domain.ProxyNodeList, err
 
 func GetNode4Tohru(limit int) (string, error) {
 	var nodeList domain.ProxyNodeList
-	err := db.Db.Select("url").Order("available_count DESC").Limit(limit).Find(&nodeList).Error
+	err := db.Db.Select("url").
+		Where("use_type = 1").
+		Order("available_count DESC").
+		Limit(limit).
+		Find(&nodeList).Error
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return "", err

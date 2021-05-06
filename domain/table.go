@@ -14,7 +14,7 @@ type UseType uint32
 
 const (
 	UseTypeUseNil  UseType = 0
-	UseTypeUseGFW  UseType = 1
+	UseTypeGFW     UseType = 1
 	UseTypeNetEase UseType = 2 // 网易云
 )
 
