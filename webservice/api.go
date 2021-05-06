@@ -60,7 +60,7 @@ type AddCrawlerNodeReq struct {
 	NodeUrl     string                   `json:"node_url" validate:"required"`
 	CrawlerType domain.CrawlType         `json:"crawler_type"`
 	Rule        *domain.CrawlerConf_Rule `json:"rule"`
-	CrawlerUse  domain.CrawlerUse        `json:"crawler_use"`
+	CrawlerUse  domain.UseType           `json:"crawler_use"`
 }
 
 func AddNode(c *fiber.Ctx) error {
