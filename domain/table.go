@@ -10,13 +10,22 @@ const (
 	CrawlTypeClashProxies  CrawlType = 4
 )
 
+type CrawlerUse uint32
+
+const (
+	CrawlerUseNil     CrawlerUse = 0
+	CrawlerUseGFW     CrawlerUse = 1
+	CrawlerUseNetEase CrawlerUse = 2 // 网易云
+)
+
 type CrawlerConf struct {
-	Id             uint64    `json:"id,omitempty" gorm:"primaryKey"`
-	CreatedAt      uint32    `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
-	UpdatedAt      uint32    `json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
-	CrawlerFeature string    `json:"crawler_features,omitempty" gorm:"type:varchar(700);unique_index:idx_crawl_url;comment:地址的特征，因为mysql索引不支持太长的，所以用sha_512_做唯一索引"`
-	CrawlUrl       string    `json:"crawl_url,omitempty" gorm:"type:text;comment:抓取的地址"`
-	CrawlType      CrawlType `json:"crawl_type,omitempty"`
+	Id             uint64     `json:"id,omitempty" gorm:"primaryKey"`
+	CreatedAt      uint32     `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
+	UpdatedAt      uint32     `json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
+	CrawlerFeature string     `json:"crawler_features,omitempty" gorm:"type:varchar(700);unique_index:idx_crawl_url;comment:地址的特征，因为mysql索引不支持太长的，所以用sha_512_做唯一索引"`
+	CrawlUrl       string     `json:"crawl_url,omitempty" gorm:"type:text;comment:抓取的地址"`
+	CrawlType      CrawlType  `json:"crawl_type,omitempty"`
+	CrawlerUse     CrawlerUse `json:"crawler_use,omitempty"`
 	// @gorm: type:json
 	Rule *CrawlerConf_Rule `json:"rule,omitempty" gorm:"type:json"`
 	// @grom: index: idx_next_crawl_at
@@ -47,6 +56,14 @@ const (
 	ProxyNodeType_ProxyNodeTypeSnell  ProxyNodeType = 8
 )
 
+type ProxyUse uint32
+
+const (
+	ProxyUseNil     ProxyUse = 0
+	ProxyUseGFW     ProxyUse = 1
+	ProxyUseNetEase ProxyUse = 2 // 网易云
+)
+
 type ProxyNode struct {
 	Id        uint64 `json:"id,omitempty"`
 	CreatedAt uint32 `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
@@ -64,6 +81,7 @@ type ProxyNode struct {
 	IsClose           bool          `json:"is_close,omitempty" gorm:"index:idx_next_check_at;index:idx_alive"`
 	LastCrawlerAt     uint32        `json:"last_crawler_at,omitempty"`
 	AvailableCount    uint64        `json:"available_count,omitempty" gorm:"index:idx_alive"`
+	ProxyUse          ProxyUse      `json:"proxy_use,omitempty"`
 }
 
 type TohruFeed struct {

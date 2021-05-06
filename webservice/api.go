@@ -60,6 +60,7 @@ type AddCrawlerNodeReq struct {
 	NodeUrl     string                   `json:"node_url" validate:"required"`
 	CrawlerType domain.CrawlType         `json:"crawler_type"`
 	Rule        *domain.CrawlerConf_Rule `json:"rule"`
+	CrawlerUse  domain.CrawlerUse        `json:"crawler_use"`
 }
 
 func AddNode(c *fiber.Ctx) error {
@@ -75,7 +76,7 @@ func AddNode(c *fiber.Ctx) error {
 		p := parser.NewFuzzyMatchingParser()
 
 		p.ParserText(req.NodeUrl).Each(func(nodeUrl string) {
-			_, err = node.AddNode(nodeUrl)
+			_, err = node.AddNodeWithUrl(nodeUrl)
 			if err != nil {
 				log.Errorf("link:%s, err:%v", nodeUrl, err)
 				return

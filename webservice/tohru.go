@@ -246,7 +246,7 @@ func SyncNode(c *fiber.Ctx) error {
 
 	var contribution int
 	nodeUrlList.Each(func(s string) {
-		isNew, err := node.AddNode(s)
+		isNew, err := node.AddNodeWithUrl(s)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

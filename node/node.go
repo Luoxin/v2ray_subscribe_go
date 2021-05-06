@@ -14,11 +14,11 @@ import (
 	"github.com/Luoxin/Eutamias/utils"
 )
 
-func AddNode(nodeUrl string) (bool, error) {
-	return AddNodeWithDetail(nodeUrl, 0, 0)
+func AddNodeWithUrl(nodeUrl string) (bool, error) {
+	return AddNodeWithUrlDetail(nodeUrl, 0, 0)
 }
 
-func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) (bool, error) {
+func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32) (bool, error) {
 	if checkInterval == 0 {
 		checkInterval = conf.Config.ProxyCheck.CheckInterval
 	}
@@ -45,9 +45,13 @@ func AddNodeWithDetail(ru string, crawlerId uint64, checkInterval uint32) (bool,
 
 	node.UrlFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.Url)))
 
+	return UpdateNode(node)
+}
+
+func UpdateNode(node *domain.ProxyNode) (bool, error) {
 	var isNew bool
 	var oldNode domain.ProxyNode
-	err = db.Db.Where("url_feature = ?", node.UrlFeature).First(&oldNode).Error
+	err := db.Db.Where("url_feature = ?", node.UrlFeature).First(&oldNode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			// 创建

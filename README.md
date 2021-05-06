@@ -23,6 +23,8 @@ v2ray_subscribe的golang版本
   - [x] ssr
   - [x] vmess
   - [x] trojan
+  - [ ] http
+  - [ ] socket
 - [ ] 支持更多的订阅方式
 	- [x] clash
 	- [x] v2ray

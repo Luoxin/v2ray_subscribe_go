@@ -150,7 +150,7 @@ func (p *tohru) SyncNode() error {
 	}
 
 	nodeUrlList.Each(func(s string) {
-		_, err = node.AddNode(s)
+		_, err = node.AddNodeWithUrl(s)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

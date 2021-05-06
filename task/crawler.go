@@ -79,9 +79,10 @@ func crawler() error {
 					switch conf.CrawlType {
 					case domain.CrawlTypeSubscription,
 						domain.CrawlTypeFuzzyMatching,
-						domain.CrawlTypeXpath,
-						domain.CrawlTypeClashProxies:
+						domain.CrawlTypeXpath:
 						p = parser.NewFuzzyMatchingParser()
+					case domain.CrawlTypeClashProxies:
+
 					default:
 						return errors.New("nonsupport parser type")
 					}
@@ -89,12 +90,11 @@ func crawler() error {
 					p.ParserText(resp.Text).Filter(func(s string) bool {
 						return strings.Contains(s, "://")
 					}).Each(func(nodeUrl string) {
-						_, err = node.AddNodeWithDetail(nodeUrl, conf.Id, conf.Interval)
+						_, err = node.AddNodeWithUrlDetail(nodeUrl, conf.Id, conf.Interval)
 						if err != nil {
 							log.Errorf("link:%s, err:%v", nodeUrl, err)
 							return
 						}
-
 					})
 
 				case http.StatusMovedPermanently, http.StatusFound:
