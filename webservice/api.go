@@ -57,10 +57,10 @@ type AddNodeReq struct {
 }
 
 type AddCrawlerNodeReq struct {
-	NodeUrl     string                   `json:"node_url" validate:"required"`
-	CrawlerType domain.CrawlType         `json:"crawler_type"`
-	Rule        *domain.CrawlerConf_Rule `json:"rule"`
-	CrawlerUse  domain.UseType           `json:"crawler_use"`
+	NodeUrl     string                  `json:"node_url" validate:"required"`
+	CrawlerType domain.CrawlType        `json:"crawler_type"`
+	Rule        domain.CrawlerConf_Rule `json:"rule"`
+	UseTpe      domain.UseType          `json:"use_tpe"`
 }
 
 func AddNode(c *fiber.Ctx) error {
@@ -104,7 +104,7 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 	}
 
 	if req.NodeUrl != "" {
-		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, req.Rule)
+		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, req.Rule, req.UseTpe)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

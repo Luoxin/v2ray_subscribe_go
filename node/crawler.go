@@ -13,17 +13,19 @@ import (
 	"github.com/Luoxin/Eutamias/utils"
 )
 
-func AddCrawlerNode(crawlerUrl string, crawlerType domain.CrawlType, rule *domain.CrawlerConf_Rule) error {
+func AddCrawlerNode(crawlerUrl string, crawlerType domain.CrawlType, rule *domain.CrawlerConf_Rule, useType domain.UseType) error {
 	if crawlerUrl == "" {
 		return nil
 	}
 
 	node := &domain.CrawlerConf{
 		CrawlerFeature: "",
-		CrawlUrl:       crawlerUrl,
-		CrawlType:      crawlerType,
-		Rule:           rule,
-		Interval:       conf.Config.Crawler.CrawlerInterval,
+
+		Rule:      rule,
+		CrawlUrl:  crawlerUrl,
+		CrawlType: crawlerType,
+		Interval:  conf.Config.Crawler.CrawlerInterval,
+		UseType:   useType,
 	}
 
 	node.CrawlerFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.CrawlUrl)))
