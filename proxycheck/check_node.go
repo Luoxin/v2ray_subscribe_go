@@ -34,6 +34,8 @@ type ProxyCheck struct {
 
 	maxSize int
 	faker   *faker.Faker
+
+	checkUrl string
 }
 
 //go:generate pie ResultList.*
@@ -47,8 +49,9 @@ type Result struct {
 
 func NewProxyCheck() *ProxyCheck {
 	return &ProxyCheck{
-		maxSize: 10,
-		faker:   faker.New(),
+		maxSize:  10,
+		faker:    faker.New(),
+		checkUrl: "https://www.google.com",
 	}
 }
 
@@ -65,6 +68,10 @@ func (p *ProxyCheck) Init() error {
 	}
 
 	return nil
+}
+
+func (p *ProxyCheck) SetCheckUrl(checkUrl string) {
+	p.checkUrl = checkUrl
 }
 
 func (p *ProxyCheck) SetMaxSize(size int) error {
@@ -168,7 +175,7 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 
 	time.Sleep(time.Second * 1)
 
-	delay, speed, err := p.URLTest(proxy, "https://www.google.com")
+	delay, speed, err := p.URLTest(proxy, p.checkUrl)
 	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		return 0, 0, err

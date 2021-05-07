@@ -14,8 +14,6 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
-	"github.com/Luoxin/Eutamias/domain"
-	"github.com/Luoxin/Eutamias/node"
 	"github.com/Luoxin/Eutamias/pac"
 	"github.com/Luoxin/Eutamias/proxies"
 	"github.com/Luoxin/Eutamias/utils"
@@ -73,40 +71,15 @@ func InitProxy(finishC chan bool) error {
 				quantity = 10
 			}
 
-			nodes, err := node.GetUsableNodeList(quantity, !isFirst)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-
-			p := proxies.NewProxies()
-
-			// var w sync.WaitGroup
-			nodes.Each(func(node *domain.ProxyNode) {
-				// w.Add(1)
-				// err = antPool.Submit(func() {
-				// 	defer w.Done()
-				p.AppendWithUrl(node.Url)
-				// })
-				// if err != nil {
-				// 	log.Errorf("err:%v", err)
-				// 	return
-				// }
-			})
-			// w.Wait()
-
-			if !isFirst {
-				p = p.GetUsableList()
-			}
-
-			if p.Len() == 0 {
+			config, count := proxies.GenClashConfig(quantity, !isFirst, isFirst)
+			if count == 0 {
 				log.Warnf("not found usabel proxies, skip update")
 				return
 			}
 
-			log.Infof("get proxies %v", p.Len())
+			log.Infof("get proxies %v", count)
 
-			clashConf, err := executor.ParseWithBytes([]byte(p.ToClashConfig()))
+			clashConf, err := executor.ParseWithBytes([]byte(config))
 			if err != nil {
 				log.Errorf("err:%v", err)
 				return

@@ -47,12 +47,10 @@ func crawler() error {
 
 			err := func() error {
 				opt := &nic.H{
-					Timeout: 60,
-
-					SkipVerifyTLS: true,
-					AllowRedirect: true,
-
+					AllowRedirect:     true,
+					Timeout:           60,
 					DisableKeepAlives: true,
+					SkipVerifyTLS:     true,
 				}
 
 				opt.Headers = nic.KV{
@@ -113,6 +111,10 @@ func crawler() error {
 					// 不可信的信息
 					return nil
 
+				case http.StatusNotFound:
+					log.Warnf("%v is not found,will closed", conf.CrawlUrl)
+					conf.IsClosed = true
+					return nil
 				default:
 					log.Warnf("not support status code %v", resp.StatusCode)
 					return nil

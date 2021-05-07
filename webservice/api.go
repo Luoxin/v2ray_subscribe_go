@@ -1,6 +1,8 @@
 package webservice
 
 import (
+	"errors"
+
 	"github.com/Luoxin/Eutamias/parser"
 	"github.com/gofiber/fiber/v2"
 
@@ -34,18 +36,12 @@ func SubV2ray(c *fiber.Ctx) error {
 }
 
 func SubClash(c *fiber.Ctx) error {
-	nodes, err := node.GetUsableNodeList(50, true)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
+	config, count := proxies.GenClashConfig(50, true, false)
+	if count == 0 {
+		return errors.New("not found usable proxies")
 	}
 
-	p := proxies.NewProxies()
-	nodes.Each(func(node *domain.ProxyNode) {
-		p.AppendWithUrl(node.Url)
-	})
-
-	return c.SendString(p.ToClashConfig())
+	return c.SendString(config)
 }
 
 func Pac(c *fiber.Ctx) error {

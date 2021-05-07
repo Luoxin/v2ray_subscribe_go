@@ -7,7 +7,6 @@ import (
 	"github.com/whiteshtef/clockwork"
 
 	"github.com/Luoxin/Eutamias/conf"
-	"github.com/Luoxin/Eutamias/proxycheck"
 )
 
 func InitWorker() error {
@@ -64,22 +63,16 @@ func InitWorker() error {
 
 	if conf.Config.ProxyCheck.Enable {
 		log.Info("register proxy check")
-		proxyCheck := proxycheck.NewProxyCheck()
-		err = proxyCheck.Init()
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		}
 
 		beforeFunChan <- func() {
-			err := checkProxyNode(proxyCheck)
+			err = checkProxyNode()
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}
 		}
 
 		sched.Schedule().EverySingle().Minute().Do(func() {
-			err := checkProxyNode(proxyCheck)
+			err = checkProxyNode()
 			if err != nil {
 				log.Errorf("err:%v", err)
 			}

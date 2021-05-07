@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"github.com/elliotchance/pie/pie"
+	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -27,6 +28,8 @@ type Proxies struct {
 
 	proxyMap  map[string]bool
 	proxyLock sync.Mutex
+
+	netEaseProxyList ProxyList
 }
 
 func NewProxies() *Proxies {
@@ -105,6 +108,18 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	ps.proxyLock.Unlock()
 
 	ps.proxyList = append(ps.proxyList, p)
+	return ps
+}
+
+func (ps *Proxies) AppendNetEaseWithUrl(contact string) *Proxies {
+	p, err := proxy.ParseProxy(contact)
+	if err != nil {
+		return ps
+	}
+
+	p.SetName("网易云" + utils.UUID())
+
+	ps.netEaseProxyList = append(ps.netEaseProxyList, p)
 	return ps
 }
 
@@ -207,6 +222,14 @@ func (ps *Proxies) ToClashConfig() string {
 		return ""
 	}
 
+	var netEaseProxyList, netEaseProxyNameList []string
+	{
+		for _, p := range ps.netEaseProxyList {
+			netEaseProxyList = append(netEaseProxyList, p.ToClash())
+			netEaseProxyNameList = append(netEaseProxyNameList, p.BaseInfo().Name)
+		}
+	}
+
 	var b bytes.Buffer
 	err = t.Execute(&b, map[string]interface{}{
 		"ProxyList":        proxyList,
@@ -217,6 +240,9 @@ func (ps *Proxies) ToClashConfig() string {
 		"TestUrl": "http://www.gstatic.com/generate_204",
 
 		"MixedPort": conf.Config.Proxy.MixedPort,
+
+		"NetEaseProxyList":     netEaseProxyList,
+		"NetEaseProxyNameList": netEaseProxyNameList,
 	})
 	if err != nil {
 		log.Errorf("err:%v", err)
