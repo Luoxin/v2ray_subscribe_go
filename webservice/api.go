@@ -104,7 +104,7 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 	}
 
 	if req.NodeUrl != "" {
-		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, req.Rule, req.UseTpe)
+		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, &req.Rule, req.UseTpe)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

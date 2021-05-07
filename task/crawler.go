@@ -82,7 +82,7 @@ func crawler() error {
 						domain.CrawlTypeXpath:
 						p = parser.NewFuzzyMatchingParser()
 					case domain.CrawlTypeClashProxies:
-
+						p = parser.NewClashParser()
 					default:
 						return errors.New("nonsupport parser type")
 					}
