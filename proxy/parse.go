@@ -51,6 +51,14 @@ func ParseProxy(content string) (p Proxy, err error) {
 		}
 		return
 
+	case strings.HasPrefix(content, "http://"):
+		p, err = ParseTrojanLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
 	default:
 		err = errors.New("nonsupport content")
 	}

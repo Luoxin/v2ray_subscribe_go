@@ -63,3 +63,25 @@ func (h Http) Identifier() string {
 func (h Http) Clone() Proxy {
 	return &h
 }
+
+func ParseHttpLink(link string) (*Http, error) {
+	u, err := url.Parse(link)
+	if err != nil {
+	    return nil, err
+	}
+
+	h := Http{
+		Base:     Base{
+			Name:    "",
+			Server:  u.Host,
+			Path:    u.Path,
+			Type:    "http",
+			Port:    u.Port(),
+			UDP:     false,
+			Useable: false,
+		},
+		Username: "",
+		Password: "",
+		Tls:      false,
+	}
+}
