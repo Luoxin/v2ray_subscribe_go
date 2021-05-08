@@ -2,6 +2,7 @@ package proxies
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/base64"
 	"fmt"
 	"strings"
@@ -9,7 +10,6 @@ import (
 	"text/template"
 
 	"github.com/elliotchance/pie/pie"
-	"github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -117,7 +117,7 @@ func (ps *Proxies) AppendNetEaseWithUrl(contact string) *Proxies {
 		return ps
 	}
 
-	p.SetName("网易云" + utils.UUID())
+	p.SetName(fmt.Sprintf("网易云%x", md5.Sum([]byte(contact))))
 
 	ps.netEaseProxyList = append(ps.netEaseProxyList, p)
 	return ps
