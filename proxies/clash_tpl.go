@@ -28258,6 +28258,7 @@ rules:
   - DOMAIN-SUFFIX,ykimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,youku.com,DIRECT
   - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-SUFFIX,wsy.cbi88.com,DIRECT
   - DOMAIN-SUFFIX,baidubcr.com,DIRECT
   - DOMAIN-SUFFIX,baidupcs.com,DIRECT
   - DOMAIN-SUFFIX,baidustatic.com,DIRECT
