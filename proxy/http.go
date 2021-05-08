@@ -64,23 +64,24 @@ func (h Http) Clone() Proxy {
 	return &h
 }
 
-// func ParseHttpLink(link string) (*Http, error) {
-// 	u, err := url.Parse(link)
-// 	if err != nil {
-// 	    return nil, err
-// 	}
-//
-// 	h := Http{
-// 		Base:     Base{
-// 			Name:    "",
-// 			Server:  u.Host,
-// 			Path:    u.Path,
-// 			Type:    "http",
-// 			UDP:     false,
-// 			Useable: false,
-// 		},
-// 		Username: "",
-// 		Password: "",
-// 		Tls:      false,
-// 	}
-// }
+func ParseSocketLink(link string) (*Http, error) {
+	u, err := url.Parse(link)
+	if err != nil {
+		return nil, err
+	}
+
+	h := Http{
+		Base: Base{
+			Server:  u.Host,
+			Path:    u.Path,
+			Type:    u.Scheme,
+			Useable: true,
+		},
+		Tls: false,
+	}
+
+	h.Username = u.User.Username()
+	h.Password, _ = u.User.Password()
+
+	return &h, nil
+}

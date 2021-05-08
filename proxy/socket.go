@@ -65,3 +65,29 @@ func (s Socket) Identifier() string {
 func (s Socket) Clone() Proxy {
 	return &s
 }
+
+func ParseHttpLink(link string) (*Http, error) {
+	u, err := url.Parse(link)
+	if err != nil {
+		return nil, err
+	}
+
+	h := Http{
+		Base: Base{
+			Server:  u.Host,
+			Path:    u.Path,
+			Type:    "http",
+			Useable: true,
+		},
+		Tls: false,
+	}
+
+	h.Username = u.User.Username()
+	h.Password, _ = u.User.Password()
+
+	if u.Scheme == "https" {
+		h.Tls = true
+	}
+
+	return &h, nil
+}

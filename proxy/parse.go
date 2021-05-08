@@ -52,7 +52,31 @@ func ParseProxy(content string) (p Proxy, err error) {
 		return
 
 	case strings.HasPrefix(content, "http://"):
-		p, err = ParseTrojanLink(content)
+		p, err = ParseHttpLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	case strings.HasPrefix(content, "socket://"):
+		p, err = ParseSocketLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	case strings.HasPrefix(content, "socket4://"):
+		p, err = ParseSocketLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+		return
+
+	case strings.HasPrefix(content, "socket5://"):
+		p, err = ParseSocketLink(content)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return
