@@ -107,6 +107,7 @@ dns:
 #     ipcidr:
 #       - 240.0.0.0/4
 proxies:
+  - {"name":"网易音乐解锁","type":"http","server":"music.lolico.me","port":39000}
 {{ range .NetEaseProxyList}}  - {{ .}}
 {{ end}}{{ range .ProxyList}}  - {{ .}}
 {{ end}}proxy-groups:
@@ -243,6 +244,7 @@ proxies:
     interval: 300
     tolerance: 50
     proxies:
+      - 网易音乐解锁
 {{ range .NetEaseProxyNameList}}      - {{ .}}
 {{ end}}      - DIRECT
   - name: 🎯 全球直连
