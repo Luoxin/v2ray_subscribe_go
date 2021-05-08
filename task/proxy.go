@@ -9,6 +9,7 @@ import (
 
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
+	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/tunnel"
 	log "github.com/sirupsen/logrus"
@@ -88,9 +89,9 @@ func InitProxy(finishC chan bool) error {
 				return
 			}
 
-			// var options []hub.Option
-			// options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
-			//
+			var options []hub.Option
+			options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
+
 			// {
 			//
 			// 	if utils.IsDir(filepath.Join(pwd, "./ui")) {
@@ -102,11 +103,11 @@ func InitProxy(finishC chan bool) error {
 			// 	}
 			// }
 			//
-			// err = hub.Parse(options...)
-			// if err != nil {
-			// 	log.Errorf("err:%v", err) // TODO: fix:The system cannot find the file specified.
-			// 	return
-			// }
+			err = hub.Parse(options...)
+			if err != nil {
+				log.Errorf("err:%v", err) // TODO: fix:The system cannot find the file specified.
+				return
+			}
 
 			executor.ApplyConfig(clashConf, force)
 
