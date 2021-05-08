@@ -12,8 +12,8 @@ import (
 )
 
 func checkProxyNode() error {
-	t := time.Now()
-	defer log.Infof("check proxy used %v", time.Since(t))
+	startAt := time.Now()
+	defer log.Infof("check proxy used %v", time.Since(startAt))
 
 	check := func(useType domain.UseType) error {
 		var nodeList domain.ProxyNodeList
