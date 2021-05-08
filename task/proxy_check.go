@@ -39,7 +39,7 @@ func checkProxyNode() error {
 
 		switch useType {
 		case domain.UseTypeNetEase:
-			check.SetCheckUrl("http://music.163.com")
+			check.SetCheckUrl("http://music.163.com/")
 
 		}
 

@@ -9,6 +9,7 @@ import (
 
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
+	"github.com/Dreamacro/clash/hub"
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/tunnel"
 	log "github.com/sirupsen/logrus"
@@ -34,6 +35,9 @@ func InitProxy(finishC chan bool) error {
 		finish()
 		return nil
 	}
+
+	pwd, _ := os.Getwd()
+	execPath := utils.GetExecPath()
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
@@ -85,21 +89,23 @@ func InitProxy(finishC chan bool) error {
 				return
 			}
 
-			// var options []hub.Option
-			// options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
-			//
-			// {
-			// 	uiPath := filepath.Join(utils.GetExecPath(), "./ui")
-			// 	if utils.IsDir(uiPath) {
-			// 		options = append(options, hub.WithExternalUI(uiPath))
-			// 	}
-			// }
-			//
-			// err = hub.Parse(options...)
-			// if err != nil {
-			// 	log.Errorf("err:%v", err)  			// TODO: fix:The system cannot find the file specified.
-			// 	return
-			// }
+			var options []hub.Option
+			options = append(options, hub.WithExternalController(clashConf.General.ExternalController))
+
+			{
+
+				if utils.IsDir(filepath.Join(pwd, "./ui")) {
+					options = append(options, hub.WithExternalUI(filepath.Join(pwd, "./ui")))
+				} else if utils.IsDir(filepath.Join(execPath, "./ui")) {
+					options = append(options, hub.WithExternalUI(filepath.Join(execPath, "./ui")))
+				}
+			}
+
+			err = hub.Parse(options...)
+			if err != nil {
+				log.Errorf("err:%v", err) // TODO: fix:The system cannot find the file specified.
+				return
+			}
 
 			executor.ApplyConfig(clashConf, force)
 			isFirst = false
