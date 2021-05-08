@@ -76,11 +76,11 @@ func ParseProxy(content string) (p Proxy, err error) {
 		}
 
 	default:
-		err = errors.New("nonsupport content")
+		return nil, errors.New("nonsupport content")
 	}
 
 	if strings.HasPrefix(p.BaseInfo().Server, "127.0.0.1") {
-		err = errors.New("host is local")
+		return nil, errors.New("host is local")
 	}
 
 	return
