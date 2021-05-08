@@ -61,13 +61,13 @@ func checkProxyNode() error {
 
 					um["death_count"] = node.DeathCount
 				} else {
-					um["death_count"] = 0
 					node.DeathCount = 0
 					node.AvailableCount++
 					node.ProxyNetworkDelay = result.Delay
 					node.ProxySpeed = result.Speed
 
 					um["available_count"] = node.AvailableCount
+					um["death_count"] = 0
 
 					um["proxy_speed"] = result.Speed
 					um["proxy_network_delay"] = result.Delay

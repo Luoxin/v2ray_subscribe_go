@@ -21,5 +21,8 @@ func Msg(format string, args ...interface{}) {
 
 	log.Infof("notify:%v", text)
 
-	_ = n.Push()
+	err := n.Push()
+	if err != nil {
+		log.Errorf("err:%v", err)
+	}
 }
