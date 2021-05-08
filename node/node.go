@@ -97,14 +97,17 @@ func UpdateNode(node *domain.ProxyNode) (bool, error) {
 	return isNew, nil
 }
 
-func GetUsableNodeList(quantity int, mustUsable bool) (domain.ProxyNodeList, error) {
+func GetUsableNodeList(quantity int, mustUsable bool, useType domain.UseType) (domain.ProxyNodeList, error) {
 	query := db.Db.Where("is_close = ?", false).
 		Order("available_count DESC").
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
 		Order("death_count").
-		Order("last_crawler_at DESC").
-		Where("use_type = 1")
+		Order("last_crawler_at DESC")
+
+	if useType != domain.UseTypeUseNil {
+		query = query.Where("use_type = ?", uint32(useType))
+	}
 
 	if quantity >= 0 {
 		query = query.Limit(quantity)
@@ -112,9 +115,6 @@ func GetUsableNodeList(quantity int, mustUsable bool) (domain.ProxyNodeList, err
 
 	if mustUsable {
 		query = query.Where("proxy_speed > 0 ").
-			// Where("proxy_node_type = 1").
-			// Where("death_count < ?", 10).
-			// Order("proxy_node_type").
 			Where("available_count > 0 ").
 			Where("proxy_network_delay >= 0").
 			Where("death_count < 10")

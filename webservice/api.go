@@ -21,7 +21,7 @@ func Version(c *fiber.Ctx) error {
 }
 
 func SubV2ray(c *fiber.Ctx) error {
-	nodes, err := node.GetUsableNodeList(50, true)
+	nodes, err := node.GetUsableNodeList(50, true, domain.UseTypeGFW)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -111,7 +111,7 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 }
 
 func NodeList(ctx *fiber.Ctx) error {
-	nodeList, err := node.GetUsableNodeList(100, true)
+	nodeList, err := node.GetUsableNodeList(100, true, domain.UseTypeUseNil)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
