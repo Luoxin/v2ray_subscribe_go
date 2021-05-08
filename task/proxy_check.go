@@ -28,7 +28,7 @@ func checkProxyNode() error {
 			return err
 		}
 
-		log.Infof("check proxy for %v node", len(nodeList))
+		log.Infof("check proxy for %v node for use type:%v", len(nodeList), useType)
 
 		check := proxycheck.NewProxyCheck()
 		err = check.Init()
@@ -40,7 +40,6 @@ func checkProxyNode() error {
 		switch useType {
 		case domain.UseTypeNetEase:
 			check.SetCheckUrl("http://music.163.com/")
-
 		}
 
 		nodeList.Each(func(node *domain.ProxyNode) {
