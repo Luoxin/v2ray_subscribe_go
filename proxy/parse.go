@@ -25,7 +25,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 		if err != nil {
 			log.Errorf("err:%v", err)
 		}
-		return
 
 	case strings.HasPrefix(content, "vmess://"):
 		p, err = ParseVmessLink(content)
@@ -33,7 +32,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "ss://"):
 		p, err = ParseSSLink(content)
@@ -41,7 +39,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "trojan://"):
 		p, err = ParseTrojanLink(content)
@@ -49,7 +46,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "http://"):
 		p, err = ParseHttpLink(content)
@@ -57,7 +53,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "socket://"):
 		p, err = ParseSocketLink(content)
@@ -65,7 +60,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "socket4://"):
 		p, err = ParseSocketLink(content)
@@ -73,7 +67,6 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	case strings.HasPrefix(content, "socket5://"):
 		p, err = ParseSocketLink(content)
@@ -81,10 +74,13 @@ func ParseProxy(content string) (p Proxy, err error) {
 			log.Errorf("err:%v", err)
 			return
 		}
-		return
 
 	default:
 		err = errors.New("nonsupport content")
+	}
+
+	if strings.HasPrefix(p.BaseInfo().Server, "127.0.0.1") {
+		err = errors.New("host is local")
 	}
 
 	return
