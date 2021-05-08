@@ -46,6 +46,10 @@ func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 	reg(`ssr://[^\s]*`)
 	reg(`ss://[^\s]*`)
 	reg(`vless://[^\s]*`)
+	reg(`http://[^\s]*`)
+	reg(`socket://[^\s]*`)
+	reg(`socket4://[^\s]*`)
+	reg(`socket5://[^\s]*`)
 
 	base64List := regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
 		FindAllStringSubmatch(body, -1)
