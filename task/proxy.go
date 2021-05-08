@@ -95,8 +95,10 @@ func InitProxy(finishC chan bool) error {
 			{
 
 				if utils.IsDir(filepath.Join(pwd, "./ui")) {
+					log.Infof(filepath.Join(pwd, "./ui"))
 					options = append(options, hub.WithExternalUI(filepath.Join(pwd, "./ui")))
 				} else if utils.IsDir(filepath.Join(execPath, "./ui")) {
+					log.Infof(filepath.Join(execPath, "./ui"))
 					options = append(options, hub.WithExternalUI(filepath.Join(execPath, "./ui")))
 				}
 			}
