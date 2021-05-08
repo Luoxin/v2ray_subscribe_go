@@ -54,6 +54,13 @@ func ParseProxy(content string) (p Proxy, err error) {
 			return
 		}
 
+	case strings.HasPrefix(content, "https://"):
+		p, err = ParseHttpLink(content)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+
 	case strings.HasPrefix(content, "socket://"):
 		p, err = ParseSocketLink(content)
 		if err != nil {
@@ -79,8 +86,8 @@ func ParseProxy(content string) (p Proxy, err error) {
 		return nil, errors.New("nonsupport content")
 	}
 
-	if strings.HasPrefix(p.BaseInfo().Server, "127.0.0.1") {
-		return nil, errors.New("host is local")
+	if p == nil {
+		return nil, errors.New("nonsupport content")
 	}
 
 	return

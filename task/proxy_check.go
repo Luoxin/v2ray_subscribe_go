@@ -108,11 +108,11 @@ func checkProxyNode() error {
 	if err != nil {
 		log.Errorf("err:%v", err)
 	}
-
-	err = check(domain.UseTypeNetEase)
-	if err != nil {
-		log.Errorf("err:%v", err)
-	}
+	//
+	// err = check(domain.UseTypeNetEase)
+	// if err != nil {
+	// 	log.Errorf("err:%v", err)
+	// }
 
 	return nil
 }

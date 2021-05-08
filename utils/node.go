@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"github.com/Luoxin/Eutamias/domain"
 	"strings"
+
+	"github.com/Luoxin/Eutamias/domain"
 )
 
 func GetProxyNodeType(u string) domain.ProxyNodeType {
@@ -16,6 +17,14 @@ func GetProxyNodeType(u string) domain.ProxyNodeType {
 		return domain.ProxyNodeType_ProxyNodeTypeSSR
 	} else if strings.HasPrefix(u, "ss://") {
 		return domain.ProxyNodeType_ProxyNodeTypeSS
+	} else if strings.HasPrefix(u, "http://") {
+		return domain.ProxyNodeType_ProxyNodeTypeHttp
+	} else if strings.HasPrefix(u, "socket://") {
+		return domain.ProxyNodeType_ProxyNodeTypeSocket
+	} else if strings.HasPrefix(u, "socket4://") {
+		return domain.ProxyNodeType_ProxyNodeTypeSocket
+	} else if strings.HasPrefix(u, "socket5://") {
+		return domain.ProxyNodeType_ProxyNodeTypeSocket
 	}
 
 	return domain.ProxyNodeType_ProxyNodeTypeNil

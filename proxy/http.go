@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 type Http struct {
@@ -72,13 +73,15 @@ func ParseSocketLink(link string) (*Http, error) {
 
 	h := Http{
 		Base: Base{
-			Server:  u.Host,
 			Path:    u.Path,
 			Type:    u.Scheme,
 			Useable: true,
 		},
 		Tls: false,
 	}
+
+	h.Port, _ = strconv.Atoi(u.Port())
+	h.Server = strings.TrimSuffix(u.Host, fmt.Sprintf(":%v", h.Port))
 
 	h.Username = u.User.Username()
 	h.Password, _ = u.User.Password()
