@@ -40,7 +40,7 @@ func checkProxyNode() error {
 
 		switch useType {
 		case domain.UseTypeNetEase:
-			check.SetCheckUrl("http://music.163.com/")
+			check.SetCheckUrl("http://interface.music.163.com")
 		}
 
 		nodeList.Each(func(node *domain.ProxyNode) {
@@ -108,11 +108,11 @@ func checkProxyNode() error {
 	if err != nil {
 		log.Errorf("err:%v", err)
 	}
-	//
-	// err = check(domain.UseTypeNetEase)
-	// if err != nil {
-	// 	log.Errorf("err:%v", err)
-	// }
+
+	err = check(domain.UseTypeNetEase)
+	if err != nil {
+		log.Errorf("err:%v", err)
+	}
 
 	return nil
 }

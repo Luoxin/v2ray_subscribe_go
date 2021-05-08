@@ -240,7 +240,7 @@ proxies:
 {{ end}}      - 🚀 手动切换
   - name: 🎶 网易音乐
     type: fallback
-    url: http://music.163.com/
+    url: http://interface.music.163.com
     interval: 300
     tolerance: 50
     proxies:
