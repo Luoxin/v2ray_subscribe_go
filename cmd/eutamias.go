@@ -8,6 +8,7 @@ import (
 
 	eutamias "github.com/Luoxin/Eutamias"
 	"github.com/Luoxin/Eutamias/notify"
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
 	"github.com/kardianos/service"
 	log "github.com/sirupsen/logrus"
@@ -27,10 +28,11 @@ func main() {
 	arg.MustParse(&cmdArgs)
 
 	serConfig := &service.Config{
-		Name:        eutamias.ServiceName,
-		DisplayName: eutamias.ServiceName,
-		Description: "一个可以自我维护的网络代理工具",
-		Executable:  os.Args[0],
+		Name:             eutamias.ServiceName,
+		DisplayName:      eutamias.ServiceName,
+		Description:      "一个可以自我维护的网络代理工具",
+		Executable:       os.Args[0],
+		WorkingDirectory: utils.GetExecPath(),
 	}
 
 	p := &Program{}
