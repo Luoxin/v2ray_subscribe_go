@@ -12,10 +12,11 @@ import (
 )
 
 func checkProxyNode() error {
-	startAt := time.Now()
-	defer log.Infof("check proxy used %v", time.Since(startAt))
 
 	check := func(useType domain.UseType) error {
+		startAt := time.Now()
+		defer log.Infof("check proxy used %v for %v", time.Since(startAt), domain.UseTypeMap[useType])
+
 		var nodeList domain.ProxyNodeList
 		err := db.Db.Where("is_close = ?", false).
 			Where("next_check_at < ?", utils.Now()).
@@ -28,7 +29,7 @@ func checkProxyNode() error {
 			return err
 		}
 
-		log.Infof("check proxy for %v node for use type:%v", len(nodeList), useType)
+		log.Infof("check proxy for %v node for %v", len(nodeList), domain.UseTypeMap[useType])
 
 		check := proxycheck.NewProxyCheck()
 		err = check.Init()

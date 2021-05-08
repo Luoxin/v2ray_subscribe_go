@@ -18,6 +18,12 @@ const (
 	UseTypeNetEase UseType = 2 // 网易云
 )
 
+var UseTypeMap = map[UseType]string{
+	UseTypeUseNil:  "翻墙节点",
+	UseTypeGFW:     "翻墙节点",
+	UseTypeNetEase: "网易云节点",
+}
+
 type CrawlerConf struct {
 	Id             uint64    `json:"id,omitempty" gorm:"primaryKey"`
 	CreatedAt      uint32    `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
