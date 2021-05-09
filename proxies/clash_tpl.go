@@ -28273,6 +28273,7 @@ rules:
   - DOMAIN-SUFFIX,acg.tv,DIRECT
   - DOMAIN-SUFFIX,acgvideo.com,🎯 全球直连
   - DOMAIN-SUFFIX,b23.tv,DIRECT
+  - DOMAIN-SUFFIX,mmiyue.com,DIRECT
   - DOMAIN-SUFFIX,biliapi.com,DIRECT
   - DOMAIN-SUFFIX,biliapi.net,DIRECT
   - DOMAIN-SUFFIX,biligame.com,DIRECT
