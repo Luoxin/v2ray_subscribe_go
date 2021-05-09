@@ -28553,7 +28553,10 @@ rules:
   - DOMAIN-SUFFIX,babytree.com,🎯 全球直连
   - DOMAIN-SUFFIX,babytreeimg.com,🎯 全球直连
   - DOMAIN-SUFFIX,baicizhan.com,🎯 全球直连
-  - DOMAIN-SUFFIX,baidupan.com,🎯 全球直连
+  - DOMAIN-SUFFIX,baidupan.com,DIRECT
+  - DOMAIN-SUFFIX,dandanzan.cc,DIRECT
+  - DOMAIN-SUFFIX,zhenbuka.com,DIRECT
+  - DOMAIN-SUFFIX,zhenbuka2.com,DIRECT
   - DOMAIN-SUFFIX,baike.com,🎯 全球直连
   - DOMAIN-SUFFIX,biqudu.com,🎯 全球直连
   - DOMAIN-SUFFIX,biquge.com,🎯 全球直连
