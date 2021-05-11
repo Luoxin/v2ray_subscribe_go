@@ -26537,7 +26537,7 @@ rules:
   - DOMAIN-SUFFIX,simbolostwitter.com,🚀 节点选择
   - DOMAIN-SUFFIX,simplecd.org,🚀 节点选择
   - DOMAIN-SUFFIX,simpleproductivityblog.com,🚀 节点选择
-  - DOMAIN-SUFFIX,sina.com,🚀 节点选择
+  - DOMAIN-SUFFIX,sina.com,,DIRECT
   - DOMAIN-SUFFIX,sina.com.hk,🚀 节点选择
   - DOMAIN-SUFFIX,sina.com.tw,🚀 节点选择
   - DOMAIN-SUFFIX,sinchew.com.my,🚀 节点选择
@@ -28765,16 +28765,16 @@ rules:
   - DOMAIN-SUFFIX,yixia.com,🎯 全球直连
   - DOMAIN-SUFFIX,ys168.com,🎯 全球直连
   - DOMAIN-SUFFIX,yuewen.com,🎯 全球直连
-  - DOMAIN-SUFFIX,yy.com,🎯 全球直连
+  - DOMAIN-SUFFIX,yy.com,DIRECT
   - DOMAIN-SUFFIX,yystatic.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zealer.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zhangzishi.cc,🎯 全球直连
-  - DOMAIN-SUFFIX,zhanqi.tv,🎯 全球直连
-  - DOMAIN-SUFFIX,zhaopin.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zhihu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zhimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zhongsou.com,🎯 全球直连
-  - DOMAIN-SUFFIX,zhuihd.com,🎯 全球直连
+  - DOMAIN-SUFFIX,zealer.com,DIRECT
+  - DOMAIN-SUFFIX,zhangzishi.cc,DIRECT
+  - DOMAIN-SUFFIX,zhanqi.tv,DIRECT
+  - DOMAIN-SUFFIX,zhaopin.com,DIRECT
+  - DOMAIN-SUFFIX,zhihu.com,DIRECT
+  - DOMAIN-SUFFIX,zhimg.com,DIRECT
+  - DOMAIN-SUFFIX,zhongsou.com,DIRECT
+  - DOMAIN-SUFFIX,zhuihd.com,DIRECT
   - IP-CIDR,8.128.0.0/10,DIRECT,no-resolve
   - IP-CIDR,8.208.0.0/12,DIRECT,no-resolve
   - IP-CIDR,14.1.112.0/22,DIRECT,no-resolve
