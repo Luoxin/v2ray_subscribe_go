@@ -26537,7 +26537,7 @@ rules:
   - DOMAIN-SUFFIX,simbolostwitter.com,🚀 节点选择
   - DOMAIN-SUFFIX,simplecd.org,🚀 节点选择
   - DOMAIN-SUFFIX,simpleproductivityblog.com,🚀 节点选择
-  - DOMAIN-SUFFIX,sina.com,,DIRECT
+  - DOMAIN-SUFFIX,sina.com,DIRECT
   - DOMAIN-SUFFIX,sina.com.hk,🚀 节点选择
   - DOMAIN-SUFFIX,sina.com.tw,🚀 节点选择
   - DOMAIN-SUFFIX,sinchew.com.my,🚀 节点选择
