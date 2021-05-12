@@ -25,13 +25,21 @@ dns:
   nameserver:
      - 1.2.4.8
      - 223.5.5.5
+     - 176.103.130.130
      - 114.114.114.114
+     - 180.76.76.76
+     - 119.29.29.29
      - tls://dns.rubyfish.cn:853
      - tls://dns.alidns.com:853
+     - tls://dns.pub:853
+     - tls://doh.pub:853
      #- https://dns.rubyfish.cn/dns-query
 
   fallback: # 与 nameserver 内的服务器列表同时发起请求，当规则符合 GEOIP 在 CN 以外时，fallback 列表内的域名服务器生效。
      - 8.8.8.8
+     - 1.1.1.1
+     - 176.103.130.130
+     - 9.9.9.9
      - tls://dns.rubyfish.cn:853
      - tls://1.0.0.1:853
      - tls://dns.google:853
@@ -28672,48 +28680,48 @@ rules:
   - DOMAIN-SUFFIX,mogu.com,🎯 全球直连
   - DOMAIN-SUFFIX,mogucdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,mogujie.com,🎯 全球直连
-  - DOMAIN-SUFFIX,moji.com,🎯 全球直连
+  - DOMAIN-SUFFIX,moji.comDIRECT
   - DOMAIN-SUFFIX,moke.com,🎯 全球直连
   - DOMAIN-SUFFIX,msstatic.com,🎯 全球直连
   - DOMAIN-SUFFIX,mubu.com,🎯 全球直连
   - DOMAIN-SUFFIX,myunlu.com,🎯 全球直连
   - DOMAIN-SUFFIX,nruan.com,🎯 全球直连
-  - DOMAIN-SUFFIX,nuomi.com,🎯 全球直连
-  - DOMAIN-SUFFIX,onedns.net,🎯 全球直连
+  - DOMAIN-SUFFIX,nuomi.com,DIRECT
+  - DOMAIN-SUFFIX,onedns.net,DIRECT
   - DOMAIN-SUFFIX,onlinedown.net,🎯 全球直连
-  - DOMAIN-SUFFIX,oracle.com,🎯 全球直连
-  - DOMAIN-SUFFIX,oschina.net,🎯 全球直连
+  - DOMAIN-SUFFIX,oracle.com,DIRECT
+  - DOMAIN-SUFFIX,oschina.net,DIRECT
   - DOMAIN-SUFFIX,ourdvs.com,🎯 全球直连
   - DOMAIN-SUFFIX,overcast.fm,🎯 全球直连
   - DOMAIN-SUFFIX,paypal.com,🎯 全球直连
   - DOMAIN-SUFFIX,polyv.net,🎯 全球直连
   - DOMAIN-SUFFIX,qbox.me,🎯 全球直连
-  - DOMAIN-SUFFIX,qcloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qcloudcdn.com,🎯 全球直连
+  - DOMAIN-SUFFIX,qcloud.com,DIRECT
+  - DOMAIN-SUFFIX,qcloudcdn.com,DIRECT
   - DOMAIN-SUFFIX,qdaily.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qdmm.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qhimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qianqian.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qidian.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qihucdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qin.io,🎯 全球直连
-  - DOMAIN-SUFFIX,qiniu.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qiniucdn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qiniudn.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qiushibaike.com,🎯 全球直连
-  - DOMAIN-SUFFIX,quanmin.tv,🎯 全球直连
-  - DOMAIN-SUFFIX,qunar.com,🎯 全球直连
-  - DOMAIN-SUFFIX,qunarzz.com,🎯 全球直连
-  - DOMAIN-SUFFIX,rarbg.to,🎯 全球直连
-  - DOMAIN-SUFFIX,repaik.com,🎯 全球直连
-  - DOMAIN-SUFFIX,rrmj.tv,🎯 全球直连
-  - DOMAIN-SUFFIX,ruguoapp.com,🎯 全球直连
-  - DOMAIN-SUFFIX,runoob.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sankuai.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sf-express.com,🎯 全球直连
-  - DOMAIN-SUFFIX,shumilou.net,🎯 全球直连
-  - DOMAIN-SUFFIX,simplecd.me,🎯 全球直连
-  - DOMAIN-SUFFIX,sm.ms,🎯 全球直连
+  - DOMAIN-SUFFIX,qdmm.com,DIRECT
+  - DOMAIN-SUFFIX,qhimg.com,DIRECT
+  - DOMAIN-SUFFIX,qianqian.com,DIRECT
+  - DOMAIN-SUFFIX,qidian.com,DIRECT
+  - DOMAIN-SUFFIX,qihucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qin.io,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,qiniucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiniudn.com,DIRECT
+  - DOMAIN-SUFFIX,qiushibaike.com,DIRECT
+  - DOMAIN-SUFFIX,quanmin.tv,DIRECT
+  - DOMAIN-SUFFIX,qunar.com,DIRECT
+  - DOMAIN-SUFFIX,qunarzz.com,DIRECT
+  - DOMAIN-SUFFIX,rarbg.to,DIRECT
+  - DOMAIN-SUFFIX,repaik.com,DIRECT
+  - DOMAIN-SUFFIX,rrmj.tv,DIRECT
+  - DOMAIN-SUFFIX,ruguoapp.com,DIRECT
+  - DOMAIN-SUFFIX,runoob.com,DIRECT
+  - DOMAIN-SUFFIX,sankuai.com,DIRECT
+  - DOMAIN-SUFFIX,sf-express.com,DIRECT
+  - DOMAIN-SUFFIX,shumilou.net,DIRECT
+  - DOMAIN-SUFFIX,simplecd.me,DIRECT
+  - DOMAIN-SUFFIX,sm.ms,DIRECT
   - DOMAIN-SUFFIX,smzdm.com,🎯 全球直连
   - DOMAIN-SUFFIX,snwx.com,🎯 全球直连
   - DOMAIN-SUFFIX,soufunimg.com,🎯 全球直连
