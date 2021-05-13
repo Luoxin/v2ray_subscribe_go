@@ -75,6 +75,7 @@ func UpdateNode(node *domain.ProxyNode) (bool, error) {
 
 		node.Id = oldNode.Id
 		node.CheckInterval = oldNode.CheckInterval
+		node.IsClose = oldNode.IsClose
 
 		node.ProxyNetworkDelay = oldNode.ProxyNetworkDelay
 		node.ProxySpeed = oldNode.ProxySpeed
