@@ -28680,7 +28680,7 @@ rules:
   - DOMAIN-SUFFIX,mogu.com,🎯 全球直连
   - DOMAIN-SUFFIX,mogucdn.com,🎯 全球直连
   - DOMAIN-SUFFIX,mogujie.com,🎯 全球直连
-  - DOMAIN-SUFFIX,moji.comDIRECT
+  - DOMAIN-SUFFIX,moji.com,DIRECT
   - DOMAIN-SUFFIX,moke.com,🎯 全球直连
   - DOMAIN-SUFFIX,msstatic.com,🎯 全球直连
   - DOMAIN-SUFFIX,mubu.com,🎯 全球直连
