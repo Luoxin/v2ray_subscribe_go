@@ -28724,7 +28724,7 @@ rules:
   - DOMAIN-SUFFIX,smzdm.com,🎯 全球直连
   - DOMAIN-SUFFIX,snwx.com,🎯 全球直连
   - DOMAIN-SUFFIX,soufunimg.com,🎯 全球直连
-  - DOMAIN-SUFFIX,sspai.com,🎯 全球直连
+  - DOMAIN-SUFFIX,sspai.com,DIRECT
   - DOMAIN-SUFFIX,startssl.com,🎯 全球直连
   - DOMAIN-SUFFIX,suning.com,🎯 全球直连
   - DOMAIN-SUFFIX,taihe.com,🎯 全球直连
