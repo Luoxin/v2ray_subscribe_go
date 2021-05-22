@@ -23528,6 +23528,7 @@ rules:
   - DOMAIN-SUFFIX,depositphotos.com,🚀 节点选择
   - DOMAIN-SUFFIX,desc.se,🚀 节点选择
   - DOMAIN-SUFFIX,design.google,🚀 节点选择
+  - DOMAIN-SUFFIX,ctolib.com,DIRECT
   - DOMAIN-SUFFIX,desipro.de,🚀 节点选择
   - DOMAIN-SUFFIX,dessci.com,🚀 节点选择
   - DOMAIN-SUFFIX,destroy-china.jp,🚀 节点选择
