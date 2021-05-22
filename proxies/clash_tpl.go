@@ -398,26 +398,6 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
-  - DOMAIN-KEYWORD,amazon,🔯 故障转移
-  - DOMAIN-KEYWORD,google,🔯 故障转移
-  - DOMAIN-KEYWORD,github,🔯 故障转移
-  - DOMAIN-KEYWORD,gmail,🔯 故障转移
-  - DOMAIN-KEYWORD,youtube,🔯 故障转移
-  - DOMAIN-KEYWORD,facebook,🔯 故障转移
-  - DOMAIN-SUFFIX,fb.me,🔯 故障转移
-  - DOMAIN-SUFFIX,fbcdn.net,🔯 故障转移
-  - DOMAIN-KEYWORD,twitter,🔯 故障转移
-  - DOMAIN-KEYWORD,instagram,🔯 故障转移
-  - DOMAIN-KEYWORD,dropbox,🔯 故障转移
-  - DOMAIN-SUFFIX,twimg.com,🔯 故障转移
-  - DOMAIN-KEYWORD,blogspot,🔯 故障转移
-  - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
-  - DOMAIN-KEYWORD,whatsapp,🔯 故障转移
-  - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
-  - DOMAIN-SUFFIX,ip6-localhost,DIRECT
-  - DOMAIN-SUFFIX,ip6-loopback,DIRECT
-  - DOMAIN-SUFFIX,local,DIRECT
-  - DOMAIN-SUFFIX,localhost,DIRECT
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
   - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
@@ -29077,6 +29057,26 @@ rules:
   - PROCESS-NAME,WebTorrent.exe,DIRECT
   - DOMAIN,clash.razord.top,🔯 故障转移
   - DOMAIN,yacd.haishan.me,🔯 故障转移
+  - DOMAIN-KEYWORD,amazon,🔯 故障转移
+  - DOMAIN-KEYWORD,google,🔯 故障转移
+  - DOMAIN-KEYWORD,github,🔯 故障转移
+  - DOMAIN-KEYWORD,gmail,🔯 故障转移
+  - DOMAIN-KEYWORD,youtube,🔯 故障转移
+  - DOMAIN-KEYWORD,facebook,🔯 故障转移
+  - DOMAIN-SUFFIX,fb.me,🔯 故障转移
+  - DOMAIN-SUFFIX,fbcdn.net,🔯 故障转移
+  - DOMAIN-KEYWORD,twitter,🔯 故障转移
+  - DOMAIN-KEYWORD,instagram,🔯 故障转移
+  - DOMAIN-KEYWORD,dropbox,🔯 故障转移
+  - DOMAIN-SUFFIX,twimg.com,🔯 故障转移
+  - DOMAIN-KEYWORD,blogspot,🔯 故障转移
+  - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
+  - DOMAIN-KEYWORD,whatsapp,🔯 故障转移
+  - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
+  - DOMAIN-SUFFIX,ip6-localhost,DIRECT
+  - DOMAIN-SUFFIX,ip6-loopback,DIRECT
+  - DOMAIN-SUFFIX,local,DIRECT
+  - DOMAIN-SUFFIX,localhost,DIRECT
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
   # - RULE-SET,icloud,🔯 故障转移
