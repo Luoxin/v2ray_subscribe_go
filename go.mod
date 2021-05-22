@@ -20,11 +20,10 @@ require (
 	github.com/ethereum/go-ethereum v1.10.3
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/go-resty/resty/v2 v2.6.0
-	github.com/gofiber/fiber/v2 v2.9.0
-	github.com/gofiber/storage/sqlite3 v0.0.0-20210507171730-b9b7ed25ca21
+	github.com/gofiber/fiber/v2 v2.10.0
+	github.com/gofiber/storage/sqlite3 v0.0.0-20210521064038-ccd2f0bbd63e
 	github.com/gofiber/websocket/v2 v2.0.3
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.12.2 // indirect
@@ -39,12 +38,12 @@ require (
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
-	github.com/panjf2000/ants/v2 v2.4.4
+	github.com/panjf2000/ants/v2 v2.4.5
 	github.com/pelletier/go-toml v1.9.1 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/pyroscope-io/pyroscope v0.0.31
+	github.com/pyroscope-io/pyroscope v0.0.32
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
-	github.com/savsgio/gotils v0.0.0-20210316171653-c54912823645 // indirect
+	github.com/savsgio/gotils v0.0.0-20210520110740-c57c45b83e0a // indirect
 	github.com/schollz/progressbar/v3 v3.8.1
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.6.0 // indirect
@@ -54,12 +53,12 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
-	github.com/valyala/fasthttp v1.24.0
+	github.com/valyala/fasthttp v1.25.0
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
-	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
-	golang.org/x/sys v0.0.0-20210514084401-e8d321eab015
+	golang.org/x/net v0.0.0-20210521195947-fe42d452be8f // indirect
+	golang.org/x/sys v0.0.0-20210521203332-0cec03c779c1
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.6.1
