@@ -22399,26 +22399,6 @@ rules:
   - DOMAIN-SUFFIX,tw,🚀 节点选择
   - DOMAIN-SUFFIX,uk,🚀 节点选择
   - DOMAIN-SUFFIX,us,🚀 节点选择
-  - DOMAIN-KEYWORD,1e100,🚀 节点选择
-  - DOMAIN-KEYWORD,abema,🚀 节点选择
-  - DOMAIN-KEYWORD,appledaily,🚀 节点选择
-  - DOMAIN-KEYWORD,avtb,🚀 节点选择
-  - DOMAIN-KEYWORD,beetalk,🚀 节点选择
-  - DOMAIN-KEYWORD,blogspot,🚀 节点选择
-  - DOMAIN-KEYWORD,dropbox,🚀 节点选择
-  - DOMAIN-KEYWORD,facebook,🚀 节点选择
-  - DOMAIN-KEYWORD,fbcdn,🚀 节点选择
-  - DOMAIN-KEYWORD,github,🚀 节点选择
-  - DOMAIN-KEYWORD,gmail,🚀 节点选择
-  - DOMAIN-KEYWORD,google,🚀 节点选择
-  - DOMAIN-KEYWORD,instagram,🚀 节点选择
-  - DOMAIN-KEYWORD,porn,🚀 节点选择
-  - DOMAIN-KEYWORD,sci-hub,🚀 节点选择
-  - DOMAIN-KEYWORD,spotify,🚀 节点选择
-  - DOMAIN-KEYWORD,telegram,🚀 节点选择
-  - DOMAIN-KEYWORD,twitter,🚀 节点选择
-  - DOMAIN-KEYWORD,whatsapp,🚀 节点选择
-  - DOMAIN-KEYWORD,youtube,🚀 节点选择
   - DOMAIN-SUFFIX,030buy.com,🚀 节点选择
   - DOMAIN-SUFFIX,0rz.tw,🚀 节点选择
   - DOMAIN-SUFFIX,1-apple.com.tw,🚀 节点选择
@@ -29073,6 +29053,26 @@ rules:
   - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
   - DOMAIN-KEYWORD,whatsapp,🔯 故障转移
   - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
+  - DOMAIN-KEYWORD,1e100,🚀 节点选择
+  - DOMAIN-KEYWORD,abema,🚀 节点选择
+  - DOMAIN-KEYWORD,appledaily,🚀 节点选择
+  - DOMAIN-KEYWORD,avtb,🚀 节点选择
+  - DOMAIN-KEYWORD,beetalk,🚀 节点选择
+  - DOMAIN-KEYWORD,blogspot,🚀 节点选择
+  - DOMAIN-KEYWORD,dropbox,🚀 节点选择
+  - DOMAIN-KEYWORD,facebook,🚀 节点选择
+  - DOMAIN-KEYWORD,fbcdn,🚀 节点选择
+  - DOMAIN-KEYWORD,github,🚀 节点选择
+  - DOMAIN-KEYWORD,gmail,🚀 节点选择
+  - DOMAIN-KEYWORD,google,🚀 节点选择
+  - DOMAIN-KEYWORD,instagram,🚀 节点选择
+  - DOMAIN-KEYWORD,porn,🚀 节点选择
+  - DOMAIN-KEYWORD,sci-hub,🚀 节点选择
+  - DOMAIN-KEYWORD,spotify,🚀 节点选择
+  - DOMAIN-KEYWORD,telegram,🚀 节点选择
+  - DOMAIN-KEYWORD,twitter,🚀 节点选择
+  - DOMAIN-KEYWORD,whatsapp,🚀 节点选择
+  - DOMAIN-KEYWORD,youtube,🚀 节点选择
   - DOMAIN-SUFFIX,ip6-localhost,DIRECT
   - DOMAIN-SUFFIX,ip6-loopback,DIRECT
   - DOMAIN-SUFFIX,local,DIRECT
