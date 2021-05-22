@@ -21907,7 +21907,8 @@ rules:
   - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🔯 故障转移
   - DOMAIN-SUFFIX,www.gstatic.com,🔯 故障转移
   - DOMAIN-SUFFIX,studygolang.com,DIRECT
-  - DOMAIN-SUFFIX,segmentfault.com/,DIRECT
+  - DOMAIN-SUFFIX,hellogithub.com/,DIRECT
+  - DOMAIN-SUFFIX,segmentfault.com,DIRECT
   - PROCESS-NAME,OneDrive,Ⓜ️ 微软云盘
   - PROCESS-NAME,OneDriveUpdater,Ⓜ️ 微软云盘
   - DOMAIN-KEYWORD,1drv,Ⓜ️ 微软云盘

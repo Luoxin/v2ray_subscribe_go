@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	eutamias "github.com/Luoxin/Eutamias"
+	log2 "github.com/Luoxin/Eutamias/log"
 	"github.com/Luoxin/Eutamias/notify"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
@@ -25,6 +26,8 @@ var cmdArgs struct {
 }
 
 func main() {
+	log2.InitLog()
+
 	arg.MustParse(&cmdArgs)
 
 	serConfig := &service.Config{
@@ -50,7 +53,15 @@ func main() {
 		} else {
 			fmt.Println("install success")
 		}
+		err = s.Start()
+		if err != nil {
+			fmt.Println("install err", err)
+		}
 	case "uninstall", "remove":
+		err = s.Stop()
+		if err != nil {
+			fmt.Println("install err", err)
+		}
 		err = s.Uninstall()
 		if err != nil {
 			fmt.Println("Uninstall err", err)
