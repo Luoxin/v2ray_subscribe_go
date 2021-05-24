@@ -94,5 +94,6 @@ func InitLog() {
 		TrimMessages:     true,
 		CallerFirst:      true,
 	})
+	log.SetLevel(log.DebugLevel)
 	log.SetReportCaller(true)
 }

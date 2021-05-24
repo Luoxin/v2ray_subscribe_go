@@ -31,7 +31,9 @@ require (
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
+	github.com/miekg/dns v1.1.42
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/ncruces/go-dns v1.1.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
