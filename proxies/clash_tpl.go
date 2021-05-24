@@ -28414,6 +28414,7 @@ rules:
   - DOMAIN-SUFFIX,abchina.com,DIRECT
   - DOMAIN-SUFFIX,abercrombie.com,DIRECT
   - DOMAIN-SUFFIX,acfun.tv,DIRECT
+  - DOMAIN-SUFFIX,lanzous.com,DIRECT
   - DOMAIN-SUFFIX,air-matters.com,🎯 全球直连
   - DOMAIN-SUFFIX,air-matters.io,🎯 全球直连
   - DOMAIN-SUFFIX,aixifan.com,🎯 全球直连
