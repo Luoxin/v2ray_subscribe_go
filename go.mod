@@ -8,7 +8,6 @@ require (
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/Sansui233/proxypool v0.7.1
 	github.com/alexflint/go-arg v1.3.0
-	github.com/andybalholm/brotli v1.0.2 // indirect
 	github.com/antchfx/xmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
@@ -24,9 +23,7 @@ require (
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210521064038-ccd2f0bbd63e
 	github.com/gofiber/websocket/v2 v2.0.3
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/google/uuid v1.2.0 // indirect
 	github.com/kardianos/service v1.2.0
-	github.com/klauspost/compress v1.12.2 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
@@ -54,7 +51,6 @@ require (
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/thedevsaddam/retry v0.0.0-20200324223450-9769a859cc6d
 	github.com/valyala/fasthttp v1.25.0
-	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
 	golang.org/x/net v0.0.0-20210521195947-fe42d452be8f // indirect
