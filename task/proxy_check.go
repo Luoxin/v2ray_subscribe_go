@@ -32,7 +32,7 @@ func checkProxyNode() error {
 		log.Infof("check proxy for %v node for %v", len(nodeList), domain.UseTypeMap[useType])
 
 		check := proxycheck.NewProxyCheck()
-		err = check.Init()
+		err = check.Init(0)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err

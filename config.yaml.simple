@@ -31,3 +31,11 @@ proxy:
 profiler:
     enable: false
     server_address: "http://localhost:4040"
+
+dns:
+  enable: true
+  nameserver:
+    - 1.2.4.8
+    - 223.5.5.5
+    - 114.114.114.114
+    - 8.8.8.8

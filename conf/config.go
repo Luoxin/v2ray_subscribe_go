@@ -58,6 +58,11 @@ type _profiler struct {
 	ServerAddress string `yaml:"server_address" json:"server_address"`
 }
 
+type dns struct {
+	Enable     bool        `yaml:"enable" json:"enable"`
+	Nameserver pie.Strings `yaml:"nameserver" json:"nameserver"`
+}
+
 type config struct {
 	Base base `yaml:"base" json:"base"`
 
@@ -72,6 +77,8 @@ type config struct {
 	Proxy proxy `yaml:"proxy" json:"proxy"`
 
 	Profiler _profiler `yaml:"profiler" json:"profiler"`
+
+	Dns dns `yaml:"dns" json:"dns"`
 }
 
 func (p config) IsTohru() bool {
@@ -137,6 +144,9 @@ func InitConfig(configFilePatch string) error {
 
 	viper.SetDefault("profiler.enable", false)
 	viper.SetDefault("profiler.server_address", "http://localhost:4040")
+
+	viper.SetDefault("dns.enable", "false")
+	viper.SetDefault("dns.nameserver", []string{"1.2.4.8", "223.5.5.5", "8.8.8.8", "tls://dns.alidns.com"})
 
 	err := viper.ReadInConfig()
 	if err != nil {

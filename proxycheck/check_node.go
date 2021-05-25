@@ -11,14 +11,13 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/Dreamacro/clash/adapters/outbound"
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
 	"github.com/Luoxin/faker"
-	"github.com/panjf2000/ants/v2"
+	"github.com/alitto/pond"
 	log "github.com/sirupsen/logrus"
 	"github.com/thedevsaddam/retry"
 
@@ -29,13 +28,11 @@ import (
 // https://github.com/alitto/pond
 
 type ProxyCheck struct {
-	pool *ants.Pool
-	w    sync.WaitGroup
-
 	maxSize int
 	faker   *faker.Faker
 
 	checkUrl string
+	pool     *pond.WorkerPool
 }
 
 //go:generate pie ResultList.*
@@ -55,18 +52,12 @@ func NewProxyCheck() *ProxyCheck {
 	}
 }
 
-func (p *ProxyCheck) Init() error {
-	if p.pool == nil {
-		pool, err := ants.NewPool(10)
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		}
-		p.pool = pool
-	} else {
-		p.pool.Tune(p.maxSize)
+func (p *ProxyCheck) Init(maxWorker int) error {
+	if maxWorker == 0 {
+		maxWorker = 10
 	}
 
+	p.pool = pond.New(maxWorker, maxWorker)
 	return nil
 }
 
@@ -74,20 +65,8 @@ func (p *ProxyCheck) SetCheckUrl(checkUrl string) {
 	p.checkUrl = checkUrl
 }
 
-func (p *ProxyCheck) SetMaxSize(size int) error {
-	p.maxSize = size
-
-	if p.pool != nil {
-		p.pool.Tune(size)
-	}
-
-	return nil
-}
-
 func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) error) error {
-	p.w.Add(1)
-	err := p.pool.Submit(func() {
-		defer p.w.Done()
+	p.pool.Submit(func() {
 		delay, speed, err := p.CheckWithClash(nodeUrl)
 		err = retry.DoFunc(5, 500*time.Millisecond, func() error {
 			err = logic(Result{
@@ -103,24 +82,16 @@ func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) erro
 			return nil
 		})
 		if err != nil {
-			p.w.Done()
 			log.Errorf("err:%v", err)
 			return
 		}
 	})
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
 
 	return nil
 }
 
 func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error) error {
-	p.w.Add(1)
-	err := p.pool.Submit(func() {
-		defer p.w.Done()
-
+	p.pool.Submit(func() {
 		delay, speed, err := p.CheckWithLink(nodeUrl)
 		err = retry.DoFunc(5, 500*time.Millisecond, func() error {
 			err = logic(Result{
@@ -140,11 +111,6 @@ func (p *ProxyCheck) AddWithLink(nodeUrl string, logic func(result Result) error
 			return
 		}
 	})
-	if err != nil {
-		p.w.Done()
-		log.Errorf("err:%v", err)
-		return err
-	}
 
 	return nil
 }
@@ -194,7 +160,7 @@ func (p *ProxyCheck) CheckWithLink(nodeUrl string) (float64, float64, error) {
 }
 
 func (p *ProxyCheck) WaitFinish() {
-	p.w.Wait()
+	p.pool.WaitingTasks()
 }
 
 func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Duration, speed float64, err error) {

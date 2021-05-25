@@ -125,7 +125,7 @@ func (ps *Proxies) AppendNetEaseWithUrl(contact string) *Proxies {
 
 func (ps *Proxies) GetUsableList() (psn *Proxies) {
 	check := proxycheck.NewProxyCheck()
-	err := check.Init()
+	err := check.Init(0)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return

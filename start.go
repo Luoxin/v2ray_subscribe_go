@@ -1,6 +1,7 @@
 package eutamias
 
 import (
+	"github.com/Luoxin/Eutamias/dns"
 	"github.com/Luoxin/Eutamias/geolite"
 	log "github.com/sirupsen/logrus"
 
@@ -18,6 +19,14 @@ func Init(configFilePatch string) error {
 	}
 
 	log.Info("init conf success")
+
+	err = dns.InitDnsClient()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Info("init dns client success")
 
 	err = geolite.InitGeoLite()
 	if err != nil {

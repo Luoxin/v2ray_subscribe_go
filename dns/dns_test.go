@@ -9,12 +9,22 @@ import (
 func TestDns_QueryIpv4One4AllDnsService(t *testing.T) {
 	log.InitLog()
 	dns := NewDns()
-	dns.AddServiceList("114.114.114.114:53",
-		"223.5.5.5",
-		"8.8.8.8",
+	err := dns.Init(10)
+	if err != nil {
+		t.Errorf("err:%v", err)
+		return
+	}
+	dns.AddServiceList(
 		"1.2.4.8",
-		"119.28.28.28",
-		"180.76.76.76",
-		"tls://dns.alidns.com:853")
-	dns.QueryIpv4One4AllDnsService("baidu.com")
+		"2400:3200::1",
+		"2400:3200::1",
+		"tls://dns.alidns.com",
+		"https://223.5.5.5/dns-query",
+	)
+
+	t.Log(dns.QueryIpv4FastestBack("baidu.com"))
+	t.Log(dns.QueryIpv4FastestBack("114.114.114.114"))
+	t.Log(dns.QueryIpv4FastestBack("114.114.114.114"))
+	t.Log(LockupDefault("baidu.com"))
+	t.Log(LockupDefault("114.114.114.114"))
 }

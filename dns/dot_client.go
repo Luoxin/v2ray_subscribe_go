@@ -24,7 +24,7 @@ func (p *DotClient) Init() error {
 	var err error
 	p.client, err = dns.NewDoTResolver(p.dnsServiceAddr, dns.DoTCache())
 	if err != nil {
-		log.Errorf("err:%v", err)
+		log.Debugf("err:%v", err)
 		return err
 	}
 
@@ -36,9 +36,11 @@ func (p *DotClient) LookupHost(domain string) (hostList pie.Strings) {
 	ctx := context.TODO()
 	hostList, err = p.client.LookupHost(ctx, domain)
 	if err != nil {
-		log.Errorf("err:%v", err)
+		log.Debugf("err:%v", err)
 		return
 	}
+
+	log.Debugf("query from %v awser %+v", p.dnsServiceAddr, hostList.Join(","))
 
 	return
 }
