@@ -16,8 +16,6 @@ func TestDns_QueryIpv4One4AllDnsService(t *testing.T) {
 	}
 	dns.AddServiceList(
 		"1.2.4.8",
-		"2400:3200::1",
-		"2400:3200::1",
 		"tls://dns.alidns.com",
 		"https://223.5.5.5/dns-query",
 	)
@@ -27,4 +25,8 @@ func TestDns_QueryIpv4One4AllDnsService(t *testing.T) {
 	t.Log(dns.QueryIpv4FastestBack("114.114.114.114"))
 	t.Log(LockupDefault("baidu.com"))
 	t.Log(LockupDefault("114.114.114.114"))
+	t.Log(LookupAllHosts("github.com"))
+	t.Log(dns.QueryIpv4FastestIp("baidu.com"))
+	t.Log(LookupHostsFastestIp("baidu.com"))
+	t.Log(LookupHostsFastestIp("google.com"))
 }
