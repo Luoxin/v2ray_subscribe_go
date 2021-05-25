@@ -8,6 +8,8 @@ import (
 )
 
 type HostSubRule struct {
+	SubUrl string
+	LastUpdateAt time.Time
 
 }
 

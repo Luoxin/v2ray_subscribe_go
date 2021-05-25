@@ -155,8 +155,10 @@ func Ping(ip string) time.Duration {
 	i.Count = 5
 	i.Interval = time.Millisecond * 10
 	i.Timeout = time.Millisecond * 4500
-	i.Debug = true
+	i.Debug = conf.Config.Debug
 	i.Size = 128
+
+	i.SetLogger(log.New())
 
 	i.SetPrivileged(true)
 
