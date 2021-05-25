@@ -41,3 +41,8 @@ v2ray_subscribe的golang版本
 - [ ] 桌面客户端
   - [ ] 包括跨平台的支持
 - [ ] pac的优化
+	- [ ] 指定proxy地址
+	- [ ] 对齐proxy rule
+- [ ] clash订阅规则优化
+	- [ ] 完善rule list
+	- [ ] 支持订阅host
