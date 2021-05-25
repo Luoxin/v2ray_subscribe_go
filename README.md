@@ -29,6 +29,13 @@ v2ray_subscribe的golang版本
 	- [x] clash
 	- [x] v2ray
 	- [ ] surge
+- [ ] 内置DNS支持
+	- [x] dns查询
+	- [ ] dns服务
+	- [ ] ipv6支持
+	- [x] dot支持
+	- [x] doh支持
+	- [ ] 翻墙dns查询内置
 - [ ] 优化订阅返回的节点策略以及排序
 - [x] 本地代理支持
 - [ ] 桌面客户端
