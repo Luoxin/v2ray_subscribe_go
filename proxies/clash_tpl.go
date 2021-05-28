@@ -28960,7 +28960,7 @@ rules:
   - DOMAIN-KEYWORD,facebook,🚀 节点选择
   - DOMAIN-KEYWORD,fbcdn,🚀 节点选择
   - DOMAIN-KEYWORD,gmail,🚀 节点选择
-  - DOMAIN-KEYWORD,google,🚀 节点选择
+  - DOMAIN-KEYWORD,google,🔯 故障转移
   - DOMAIN-KEYWORD,instagram,🚀 节点选择
   - DOMAIN-KEYWORD,sci-hub,🚀 节点选择
   - DOMAIN-KEYWORD,spotify,🚀 节点选择
