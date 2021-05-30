@@ -243,8 +243,10 @@ proxies:
   - name: 🎮 游戏平台
     type: select
     proxies:
-      - DIRECT
+      - 🔯 故障转移
+      - ♻️ 自动选择
       - 🚀 节点选择
+      - DIRECT
 {{ range .CountryGroupList}}      - {{ .}}
 {{ end}}      - 🚀 手动切换
   - name: 🎶 网易音乐
@@ -26651,7 +26653,7 @@ rules:
   - DOMAIN-SUFFIX,staticflickr.com,🚀 节点选择
   - DOMAIN-SUFFIX,statueofdemocracy.org,🚀 节点选择
   - DOMAIN-SUFFIX,stc.com.sa,🚀 节点选择
-  - DOMAIN-SUFFIX,steamcommunity.com,🚀 节点选择
+  - DOMAIN-SUFFIX,steamcommunity.com,🎮 游戏平台
   - DOMAIN-SUFFIX,steampowered.com,🚀 节点选择
   - DOMAIN-SUFFIX,steel-storm.com,🚀 节点选择
   - DOMAIN-SUFFIX,steemit.com,🚀 节点选择
@@ -28287,7 +28289,7 @@ rules:
   - DOMAIN-SUFFIX,st.dl.bscstorage.net,🎯 全球直连
   - DOMAIN-SUFFIX,st.dl.eccdnx.com,🎯 全球直连
   - DOMAIN-SUFFIX,st.dl.pinyuncloud.com,🎯 全球直连
-  - DOMAIN-SUFFIX,steamcommunity-a.akamaihd.net,🎯 全球直连
+  - DOMAIN-SUFFIX,steamcommunity-a.akamaihd.net,🎮 游戏平台
   - DOMAIN-SUFFIX,steamcontent.com,🎯 全球直连
   - DOMAIN-SUFFIX,steamgames.com,🎯 全球直连
   - DOMAIN-SUFFIX,steampowered.com.8686c.com,🎯 全球直连
