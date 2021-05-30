@@ -9,6 +9,7 @@ require (
 	github.com/Sansui233/proxypool v0.7.1
 	github.com/alexflint/go-arg v1.3.0
 	github.com/alitto/pond v1.5.0
+	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/antchfx/xmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.1.11 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
@@ -19,18 +20,20 @@ require (
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.3
 	github.com/fasthttp/websocket v1.4.3 // indirect
-	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020 // indirect
+	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.10.0
-	github.com/gofiber/storage/sqlite3 v0.0.0-20210521064038-ccd2f0bbd63e
-	github.com/gofiber/websocket/v2 v2.0.3
+	github.com/gofiber/storage/sqlite3 v0.0.0-20210528150036-60042533671e
+	github.com/gofiber/websocket/v2 v2.0.4
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/kardianos/service v1.2.0
+	github.com/klauspost/compress v1.12.3 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.4 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
+	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/miekg/dns v1.1.42
@@ -42,6 +45,7 @@ require (
 	github.com/panjf2000/ants/v2 v2.4.5
 	github.com/pelletier/go-toml v1.9.1 // indirect
 	github.com/pkg/errors v0.9.1
+	github.com/pyroscope-io/dotnetdiag v1.2.0 // indirect
 	github.com/pyroscope-io/pyroscope v0.0.32
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/savsgio/gotils v0.0.0-20210520110740-c57c45b83e0a // indirect
@@ -57,8 +61,8 @@ require (
 	github.com/valyala/fasthttp v1.25.0
 	github.com/whiteshtef/clockwork v0.0.0-20200221012748-027e62affd84
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
-	golang.org/x/net v0.0.0-20210521195947-fe42d452be8f // indirect
-	golang.org/x/sys v0.0.0-20210521203332-0cec03c779c1
+	golang.org/x/net v0.0.0-20210525063256-abc453219eb5 // indirect
+	golang.org/x/sys v0.0.0-20210525143221-35b2ab0089ea
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/go-playground/validator.v10 v10.6.1
