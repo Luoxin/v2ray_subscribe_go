@@ -56,14 +56,5 @@ var dnsTpl = `dns:
 {{ range .DnsServiceList}}  - {{ .}}
 {{ end}}
   fallback: # 与 nameserver 内的服务器列表同时发起请求，当规则符合 GEOIP 在 CN 以外时，fallback 列表内的域名服务器生效。
-     - 8.8.8.8
-     - 1.1.1.1
-     - 176.103.130.130
-     - 9.9.9.9
-     - tls://dns.rubyfish.cn:853
-     - tls://1.0.0.1:853
-     - tls://dns.google:853
-
-     #- https://dns.rubyfish.cn/dns-query
-     #- https://cloudflare-dns.com/dns-query
-     #- https://dns.google/dns-query`
+{{ range .DnsServiceList}}  - {{ .}}
+{{ end}}
