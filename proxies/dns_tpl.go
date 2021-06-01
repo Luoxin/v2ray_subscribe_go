@@ -57,4 +57,4 @@ var dnsTpl = `dns:
 {{ end}}
   fallback: # 与 nameserver 内的服务器列表同时发起请求，当规则符合 GEOIP 在 CN 以外时，fallback 列表内的域名服务器生效。
 {{ range .DnsServiceList}}  - {{ .}}
-{{ end}}
+{{ end}}`
