@@ -137,10 +137,10 @@ func (p *Dns) QueryIpv4FastestIp(domain string) string {
 		hostList = append(hostList, client.LookupHost(domain)...)
 	})
 
-	return FastestIp(hostList)
+	return FastestIp(domain, hostList)
 }
 
-func FastestIp(ipList pie.Strings) string {
+func FastestIp(domain string, ipList pie.Strings) string {
 	var delay = time.Duration(-1)
 	fastestIp := ""
 	ipList.Unique().Each(func(ip string) {
@@ -152,6 +152,7 @@ func FastestIp(ipList pie.Strings) string {
 		if d < delay || delay < 0 {
 			delay = d
 			fastestIp = ip
+			_ = fastCache.SetWithExpire(domain, fastestIp, time.Minute*30)
 		}
 	})
 
@@ -284,19 +285,11 @@ func LookupHostsFastestIp(domain string) string {
 		return domain
 	}
 
-	var fastestIp string
-
 	if dnsClient == nil {
-		fastestIp = FastestIp(LockupDefault(domain))
+		return FastestIp(domain, LockupDefault(domain))
 	} else {
-		fastestIp = dnsClient.QueryIpv4FastestIp(domain)
+		return dnsClient.QueryIpv4FastestIp(domain)
 	}
-
-	if fastestIp != "" {
-		_ = fastCache.SetWithExpire(domain, fastestIp, time.Minute*30)
-	}
-
-	return fastestIp
 }
 
 func InitDnsService() error {
