@@ -228,12 +228,6 @@ func (ps *Proxies) ToClashConfig(c ClashConfig) string {
 		countryNodeList = append(countryNodeList, v)
 	}
 
-	t, err := template.New("").Parse(clashTpl)
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return ""
-	}
-
 	var netEaseProxyList, netEaseProxyNameList []string
 	{
 		for _, p := range ps.netEaseProxyList {
@@ -254,10 +248,37 @@ func (ps *Proxies) ToClashConfig(c ClashConfig) string {
 		MixedPort:            conf.Config.Proxy.MixedPort,
 	}
 
-	// switch c.DnsType {
-	// case :
-	//
-	// }
+	switch c.DnsType {
+	case DnsTypeLocal:
+		if conf.Config.Dns.EnableService {
+			t, err := template.New("").Parse(dnsTpl)
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return ""
+			}
+
+			var b bytes.Buffer
+			err = t.Execute(&b, map[string]interface{}{
+				"DnsServiceList": []string{
+					fmt.Sprintf("127.0.0.1:%d", conf.Config.Dns.ServicePort),
+				},
+			})
+			if err != nil {
+				log.Errorf("err:%v", err)
+				return ""
+			} else {
+				val.Dns = b.String()
+			}
+		} else {
+			log.Warnf("local dns service not enable")
+		}
+	}
+
+	t, err := template.New("").Parse(clashTpl)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return ""
+	}
 
 	var b bytes.Buffer
 	err = t.Execute(&b, val)
