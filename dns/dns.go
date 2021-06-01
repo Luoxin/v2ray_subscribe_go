@@ -11,12 +11,17 @@ import (
 
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/utils"
+	"github.com/alitto/pond"
+	"github.com/bluele/gcache"
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-ping/ping"
 	"github.com/miekg/dns"
 	"github.com/panjf2000/ants/v2"
 	log "github.com/sirupsen/logrus"
 )
+
+var fastCache = gcache.New(1024).LRU().Build()
+var pool = pond.New(100, 100)
 
 // TODO ipv6的支持
 type Dns struct {
@@ -242,11 +247,23 @@ func LookupHostsFastestBack(domain string) string {
 		return domain
 	}
 
-	if dnsClient == nil {
-		return LockupDefault(domain).First()
+	var host string
+	val, err := fastCache.Get(domain)
+	if err == nil {
+		host = val.(string)
+	} else {
+		if dnsClient == nil {
+			host = LockupDefault(domain).First()
+		} else {
+			host = dnsClient.QueryIpv4FastestBack(domain)
+		}
+
+		pool.Submit(func() {
+			LookupHostsFastestIp(domain)
+		})
 	}
 
-	return dnsClient.QueryIpv4FastestBack(domain)
+	return host
 }
 
 func LookupAllHosts(domain string) (hostList pie.Strings) {
@@ -267,11 +284,19 @@ func LookupHostsFastestIp(domain string) string {
 		return domain
 	}
 
+	var fastestIp string
+
 	if dnsClient == nil {
-		return FastestIp(LockupDefault(domain))
+		fastestIp = FastestIp(LockupDefault(domain))
+	} else {
+		fastestIp = dnsClient.QueryIpv4FastestIp(domain)
 	}
 
-	return dnsClient.QueryIpv4FastestIp(domain)
+	if fastestIp != "" {
+		_ = fastCache.SetWithExpire(domain, fastestIp, time.Minute*30)
+	}
+
+	return fastestIp
 }
 
 func InitDnsService() error {
@@ -292,7 +317,16 @@ func InitDnsService() error {
 				switch q.Qtype {
 				case dns.TypeA:
 					log.Debugf("lookup %v", q.Name)
-					ip := LookupHostsFastestIp(q.Name)
+					// ipList := LookupAllHosts(q.Name)
+					// ipList.Each(func(ip string) {
+					// 	rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
+					// 	if err == nil {
+					// 		m.Answer = append(m.Answer, rr)
+					// 	}
+					// 	log.Infof("[dns query]%v %v", q.Name, ip)
+					// })
+
+					ip := LookupHostsFastestBack(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
 						if err == nil {

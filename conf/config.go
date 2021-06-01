@@ -178,10 +178,10 @@ func InitConfig(configFilePatch string) error {
 		return err
 	}
 
-	// err = viper.WriteConfigAs(filepath.Join(execPath, "config.yaml"))
-	// if err != nil {
-	// 	log.Errorf("err:%v", err)
-	// }
+	err = viper.WriteConfigAs(filepath.Join(execPath, "config.yaml"))
+	if err != nil {
+		log.Errorf("err:%v", err)
+	}
 
 	if !roleList.Contains(Config.Base.Role) {
 		Config.Base.Role = "Kobayashi-san"
