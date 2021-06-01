@@ -170,17 +170,20 @@ func InitHttpService() error {
 		}),
 	)
 
-	err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
-	if err != nil {
-		log.Errorf("err:%v", err)
-		os.Exit(1)
-	}
+	go func() {
+		err = app.Listen(fmt.Sprintf("%s:%d", conf.Config.HttpService.Host, conf.Config.HttpService.Port))
+		if err != nil {
+			log.Errorf("err:%v", err)
+			os.Exit(1)
+		}
+	}()
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
 	go func() {
 		<-sigCh
-		err = app.Shutdown()
+		log.Info("http service stop")
+		err := app.Shutdown()
 		if err != nil {
 			log.Errorf("err:%v", err)
 		}
