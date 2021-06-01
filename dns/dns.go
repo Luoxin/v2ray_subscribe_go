@@ -248,3 +248,12 @@ func LookupHostsFastestIp(domain string) string {
 
 	return dnsClient.QueryIpv4FastestIp(domain)
 }
+
+func InitDnsService() error {
+	if !conf.Config.Dns.EnableService {
+		log.Warnf("dns service not start")
+		return nil
+	}
+
+	return nil
+}

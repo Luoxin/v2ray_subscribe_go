@@ -28,6 +28,14 @@ func Init(configFilePatch string) error {
 
 	log.Info("init dns client success")
 
+	err = dns.InitDnsService()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Info("init dns service success")
+
 	err = geolite.InitGeoLite()
 	if err != nil {
 		log.Errorf("err:%v", err)
