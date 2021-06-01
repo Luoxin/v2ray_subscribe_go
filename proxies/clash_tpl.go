@@ -24157,7 +24157,7 @@ rules:
   - DOMAIN-SUFFIX,girlbanker.com,🚀 节点选择
   - DOMAIN-SUFFIX,git.io,🚀 节点选择
   - DOMAIN-SUFFIX,gitbooks.io,🚀 节点选择
-  - DOMAIN-SUFFIX,github.com,🚀 节点选择
+  - DOMAIN-SUFFIX,github.com,🔯 故障转移
   - DOMAIN-SUFFIX,github.io,🚀 节点选择
   - DOMAIN-SUFFIX,githubassets.com,🚀 节点选择
   - DOMAIN-SUFFIX,githubusercontent.com,🚀 节点选择
@@ -26221,7 +26221,7 @@ rules:
   - DOMAIN-SUFFIX,raremovie.cc,🚀 节点选择
   - DOMAIN-SUFFIX,raremovie.net,🚀 节点选择
   - DOMAIN-SUFFIX,rawgit.com,🚀 节点选择
-  - DOMAIN-SUFFIX,rawgithub.com,🚀 节点选择
+  - DOMAIN-SUFFIX,rawgithub.com,🔯 故障转移
   - DOMAIN-SUFFIX,raxcdn.com,🚀 节点选择
   - DOMAIN-SUFFIX,razyboard.com,🚀 节点选择
   - DOMAIN-SUFFIX,rcinet.ca,🚀 节点选择
