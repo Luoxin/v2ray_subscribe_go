@@ -145,7 +145,7 @@ func InitConfig(configFilePatch string) error {
 	viper.SetDefault("profiler.enable", false)
 	viper.SetDefault("profiler.server_address", "http://localhost:4040")
 
-	viper.SetDefault("dns.enable", "false")
+	viper.SetDefault("dns.enable", false)
 	viper.SetDefault("dns.nameserver", []string{"1.2.4.8", "223.5.5.5", "8.8.8.8", "tls://dns.alidns.com"})
 
 	err := viper.ReadInConfig()
