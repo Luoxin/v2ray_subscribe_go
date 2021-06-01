@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func GenClashConfig(count int, mustUsable, needCheck bool) (string, int) {
+func GenClashConfig(count int, mustUsable, needCheck bool, c ClashConfig) (string, int) {
 	nodes, err := node.GetUsableNodeList(count, mustUsable, domain.UseTypeGFW)
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -32,5 +32,5 @@ func GenClashConfig(count int, mustUsable, needCheck bool) (string, int) {
 		p.AppendNetEaseWithUrl(proxyNode.Url)
 	})
 
-	return p.ToClashConfig(), p.Len()
+	return p.ToClashConfig(c), p.Len()
 }

@@ -75,7 +75,9 @@ func InitProxy(finishC chan bool) error {
 				quantity = 10
 			}
 
-			config, count := proxies.GenClashConfig(quantity, !isFirst, isFirst)
+			config, count := proxies.GenClashConfig(quantity, !isFirst, isFirst, proxies.ClashConfig{
+				DnsType: proxies.DnsTypeLocal,
+			})
 			if count == 0 {
 				log.Warnf("not found usabel proxies, skip update")
 				return

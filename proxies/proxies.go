@@ -163,14 +163,26 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 	return psn
 }
 
-func (ps *Proxies) ToClashConfig() string {
-	var proxyList, proxyNameList, countryGroupList []string
+type countryNode struct {
+	Name, Emoji string
+	NameList    pie.Strings
+	TestUrl     string
+}
 
-	type countryNode struct {
-		Name, Emoji string
-		NameList    pie.Strings
-		TestUrl     string
-	}
+type DnsType uint32
+
+const (
+	DnsTypeNil DnsType = iota
+	DnsTypeBase
+	DnsTypeLocal
+)
+
+type ClashConfig struct {
+	DnsType DnsType
+}
+
+func (ps *Proxies) ToClashConfig(c ClashConfig) string {
+	var proxyList, proxyNameList, countryGroupList []string
 
 	countryMap := map[string]*countryNode{
 		// "香港": {
@@ -230,20 +242,25 @@ func (ps *Proxies) ToClashConfig() string {
 		}
 	}
 
+	val := &clashTplVal{
+		Dns:                  baseDns,
+		ProxyList:            proxyList,
+		ProxyNameList:        proxyNameList,
+		CountryNodeList:      countryNodeList,
+		CountryGroupList:     countryGroupList,
+		NetEaseProxyList:     netEaseProxyList,
+		NetEaseProxyNameList: netEaseProxyNameList,
+		TestUrl:              "http://www.gstatic.com/generate_204",
+		MixedPort:            conf.Config.Proxy.MixedPort,
+	}
+
+	// switch c.DnsType {
+	// case :
+	//
+	// }
+
 	var b bytes.Buffer
-	err = t.Execute(&b, map[string]interface{}{
-		"ProxyList":        proxyList,
-		"ProxyNameList":    proxyNameList,
-		"CountryNodeList":  countryNodeList,
-		"CountryGroupList": countryGroupList,
-
-		"TestUrl": "http://www.gstatic.com/generate_204",
-
-		"MixedPort": conf.Config.Proxy.MixedPort,
-
-		"NetEaseProxyList":     netEaseProxyList,
-		"NetEaseProxyNameList": netEaseProxyNameList,
-	})
+	err = t.Execute(&b, val)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return ""

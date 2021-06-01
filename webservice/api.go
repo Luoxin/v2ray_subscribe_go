@@ -36,7 +36,9 @@ func SubV2ray(c *fiber.Ctx) error {
 }
 
 func SubClash(c *fiber.Ctx) error {
-	config, count := proxies.GenClashConfig(50, true, false)
+	config, count := proxies.GenClashConfig(50, true, false, proxies.ClashConfig{
+		DnsType: proxies.DnsTypeBase,
+	})
 	if count == 0 {
 		return errors.New("not found usable proxies")
 	}

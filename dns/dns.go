@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-ping/ping"
 	"github.com/miekg/dns"
@@ -222,6 +223,11 @@ func InitDnsClient() error {
 }
 
 func LockupDefault(domain string) (hostList pie.Strings) {
+	if utils.IsIp(domain) {
+		hostList = append(hostList, domain)
+		return
+	}
+
 	hostList, err := net.LookupHost(domain)
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -232,6 +238,10 @@ func LockupDefault(domain string) (hostList pie.Strings) {
 }
 
 func LookupHostsFastestBack(domain string) string {
+	if utils.IsIp(domain) {
+		return domain
+	}
+
 	if dnsClient == nil {
 		return LockupDefault(domain).First()
 	}
@@ -240,6 +250,11 @@ func LookupHostsFastestBack(domain string) string {
 }
 
 func LookupAllHosts(domain string) (hostList pie.Strings) {
+	if utils.IsIp(domain) {
+		hostList = append(hostList, domain)
+		return
+	}
+
 	if dnsClient == nil {
 		return LockupDefault(domain)
 	}
@@ -248,6 +263,10 @@ func LookupAllHosts(domain string) (hostList pie.Strings) {
 }
 
 func LookupHostsFastestIp(domain string) string {
+	if utils.IsIp(domain) {
+		return domain
+	}
+
 	if dnsClient == nil {
 		return FastestIp(LockupDefault(domain))
 	}
@@ -272,7 +291,7 @@ func InitDnsService() error {
 			for _, q := range m.Question {
 				switch q.Qtype {
 				case dns.TypeA:
-					log.Debugf("lookup %d", q.Name)
+					log.Debugf("lookup %v", q.Name)
 					ip := LookupHostsFastestIp(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
