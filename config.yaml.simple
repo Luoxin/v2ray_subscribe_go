@@ -33,7 +33,9 @@ profiler:
     server_address: "http://localhost:4040"
 
 dns:
-  enable: true
+  enable: false
+  enable_service: false
+  service_port: 53
   nameserver:
     - 1.2.4.8
     - 223.5.5.5
