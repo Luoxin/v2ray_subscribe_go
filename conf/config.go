@@ -59,8 +59,10 @@ type _profiler struct {
 }
 
 type dns struct {
-	Enable     bool        `yaml:"enable" json:"enable"`
-	Nameserver pie.Strings `yaml:"nameserver" json:"nameserver"`
+	Enable        bool        `yaml:"enable" json:"enable"`
+	EnableService bool        `yaml:"enable_service" json:"enable_service"`
+	ServicePort   uint32      `yaml:"service_port" json:"service_port"`
+	Nameserver    pie.Strings `yaml:"nameserver" json:"nameserver"`
 }
 
 type config struct {
@@ -146,6 +148,8 @@ func InitConfig(configFilePatch string) error {
 	viper.SetDefault("profiler.server_address", "http://localhost:4040")
 
 	viper.SetDefault("dns.enable", false)
+	viper.SetDefault("dns.enable_service", false)
+	viper.SetDefault("dns.service_port", 53)
 	viper.SetDefault("dns.nameserver", []string{"1.2.4.8", "223.5.5.5", "8.8.8.8", "tls://dns.alidns.com"})
 
 	err := viper.ReadInConfig()
