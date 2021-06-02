@@ -19,7 +19,7 @@ import (
 var db *geoip2.Reader
 
 const (
-	geoLiteUrl    = "http://api.luoxin.live/api/eutamias/file/GeoLite2.mmdb"
+	geoLiteUrl    = "https://cloudreve.luoxin.live/api/v3/file/source/315/GeoLite2.mmdb?sign=Eeuss1W3p8jTlb0AMgFBmTauPo1A8zRBzKf0zxqewuY%3D%3A0"
 	geoLiteDbName = "GeoLite2.mmdb"
 )
 
