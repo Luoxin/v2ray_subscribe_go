@@ -23,7 +23,7 @@ import (
 var fastCache = gcache.New(1024).LRU().Build()
 var pool = pond.New(100, 100)
 
-// TODO ipv6的支持
+// Dns TODO ipv6的支持
 type Dns struct {
 	dnsClientList DnsClientList
 	pool          *ants.Pool
@@ -323,6 +323,8 @@ func InitDnsService() error {
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
 						if err == nil {
+							head := rr.Header()
+							head.Ttl = 60
 							m.Answer = append(m.Answer, rr)
 						}
 						log.Infof("[dns query]%v %v", q.Name, ip)
