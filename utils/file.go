@@ -37,7 +37,7 @@ func CopyFile(from, to string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(to, input, 0644)
+	err = ioutil.WriteFile(to, input, 0777)
 	if err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func DownloadWithProgressbar(fileUrl, fileName string) error {
 	}
 	defer resp.Body.Close()
 
-	f, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0777)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
