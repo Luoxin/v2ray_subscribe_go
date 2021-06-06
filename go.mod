@@ -26,6 +26,7 @@ require (
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210528150036-60042533671e
 	github.com/gofiber/websocket/v2 v2.0.4
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
 	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.12.3 // indirect
 	github.com/kr/text v0.2.0 // indirect

@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
 
 	eutamias "github.com/Luoxin/Eutamias"
@@ -11,6 +13,7 @@ import (
 	"github.com/Luoxin/Eutamias/notify"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
+	"github.com/inconshreveable/go-update"
 	"github.com/kardianos/service"
 	log "github.com/sirupsen/logrus"
 )
@@ -25,8 +28,37 @@ var cmdArgs struct {
 	Action     string `arg:"-s" help:"install,uninstall,start,run"`
 }
 
+func doUpdate() {
+	var url string
+	switch runtime.GOOS + "_" + runtime.GOARCH {
+	case "windows_amd64":
+		url = "https://kutt.luoxin.live/0NnXIQ"
+	// case "darwin_amd64":
+	// 	url = "https://kutt.luoxin.live/pbxmKi"
+	// case "linux_amd64":
+	// url = "https://kutt.luoxin.live/pbxmKi"
+	default:
+		log.Warnf("不支持自动更新")
+		return
+	}
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
+	defer resp.Body.Close()
+	err = update.Apply(resp.Body, update.Options{})
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
+	}
+	return
+}
+
 func main() {
 	log2.InitLog()
+	doUpdate()
 
 	arg.MustParse(&cmdArgs)
 
