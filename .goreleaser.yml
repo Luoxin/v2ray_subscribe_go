@@ -20,6 +20,7 @@ builds:
         ldflags: -s -w --extldflags "-static -fpic"
         binary: eutamias
         env:
+            - GOSUMDB=off
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
             - CXX=x86_64-w64-mingw32-g++
@@ -32,6 +33,7 @@ builds:
         ldflags: -s -w --extldflags "-static -fpic"
         binary: eutamias
         env:
+            - GOSUMDB=off
             - CC=gcc
             - CGO_ENABLED=1
         main: ./cmd/Eutamias.go
@@ -43,6 +45,7 @@ builds:
       ldflags: -s -w
       binary: eutamias
       env:
+          - GOSUMDB=off
           - CGO_ENABLED=1
           - CC=o64-clang
           - CXX=o64-clang++
