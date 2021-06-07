@@ -53,8 +53,6 @@ func main() {
 	log2.InitLog()
 	doUpdate()
 
-	return
-
 	arg.MustParse(&cmdArgs)
 
 	serConfig := &service.Config{
