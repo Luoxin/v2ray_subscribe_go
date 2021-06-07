@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"runtime"
 	"syscall"
 
 	eutamias "github.com/Luoxin/Eutamias"
@@ -28,21 +27,15 @@ var cmdArgs struct {
 	Action     string `arg:"-s" help:"install,uninstall,start,run"`
 }
 
+var UpdateUrl string
+
 func doUpdate() {
-	var url string
-	switch runtime.GOOS + "_" + runtime.GOARCH {
-	case "windows_amd64":
-		url = "https://kutt.luoxin.live/0NnXIQ"
-	// case "darwin_amd64":
-	// 	url = "https://kutt.luoxin.live/pbxmKi"
-	// case "linux_amd64":
-	// url = "https://kutt.luoxin.live/pbxmKi"
-	default:
-		log.Warnf("不支持自动更新")
+	if UpdateUrl == "" {
 		return
 	}
 
-	resp, err := http.Get(url)
+	log.Infof("check update...")
+	resp, err := http.Get(UpdateUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -59,6 +52,8 @@ func doUpdate() {
 func main() {
 	log2.InitLog()
 	doUpdate()
+
+	return
 
 	arg.MustParse(&cmdArgs)
 
