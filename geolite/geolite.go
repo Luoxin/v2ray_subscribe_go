@@ -18,8 +18,9 @@ import (
 
 var db *geoip2.Reader
 
+var GeoLiteUrl string
+
 const (
-	geoLiteUrl    = "https://cloudreve.luoxin.live/api/v3/file/source/315/GeoLite2.mmdb?sign=Eeuss1W3p8jTlb0AMgFBmTauPo1A8zRBzKf0zxqewuY%3D%3A0"
 	geoLiteDbName = "GeoLite2.mmdb"
 )
 
@@ -46,7 +47,7 @@ RETRY:
 		}
 	} else if !utils.FileExists(geoLite2Path) {
 		log.Info("downloading geo Lite...")
-		err := utils.DownloadWithProgressbar(geoLiteUrl, geoLite2Path)
+		err := utils.DownloadWithProgressbar(GeoLiteUrl, geoLite2Path)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			e := os.Remove(geoLite2Path)

@@ -1,4 +1,4 @@
-FROM troian/golang-cross:v1.16.3
+FROM troian/golang-cross:v1.16.4
 #https://hub.docker.com/r/troian/golang-cross
 
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
@@ -12,7 +12,7 @@ ENV GOPROXY=https://goproxy.io,direct
 COPY . /build/
 
 # goreleaser version
-ARG GORELEASER_VERSION=0.164.0
+ARG GORELEASER_VERSION=0.169.0
 ARG GORELEASER_FILENAME=goreleaser_amd64.deb
 # 安装 goreleaser
 RUN  #!/bin/bash \

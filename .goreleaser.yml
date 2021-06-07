@@ -9,18 +9,16 @@ before:
 #        - rm -rf /build/go.sum
 #        - go clean -modcache
         - go mod tidy
-#gomod:
-#    proxy: true
-#    env:
-#        - GOPROXY=https://goproxy.cn,direct
-#        - GOSUMDB=sum.golang.org
-#        - GONOSUMDB=github.com
+gomod:
+    proxy: true
+    env:
+        - GOPROXY=https://goproxy.cn,direct
+        - GOSUMDB=off
 builds:
     -   id: windows_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ'
+        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
         binary: eutamias
         env:
-            - GOSUMDB=off
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
             - CXX=x86_64-w64-mingw32-g++
@@ -30,10 +28,9 @@ builds:
         goarch:
             - amd64
     -   id: linux_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5'
+        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
         binary: eutamias
         env:
-            - GOSUMDB=off
             - CC=gcc
             - CGO_ENABLED=1
         main: ./cmd/Eutamias.go
@@ -42,10 +39,9 @@ builds:
         goarch:
             - amd64
     - id: darwin_amd64
-      ldflags: -s -w -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B'
+      ldflags: -s -w -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
       binary: eutamias
       env:
-          - GOSUMDB=off
           - CGO_ENABLED=1
           - CC=o64-clang
           - CXX=o64-clang++
@@ -80,7 +76,7 @@ archives:
           - ui/**/*
 #      allow_different_binary_count: true
 checksum:
-    name_template: "{{ .ProjectName }}_v{{ .Version }}_checksums.txt"
+    name_template: "eutamias_v{{ .Version }}_checksums.txt"
     algorithm: sha512
 snapshot:
     name_template: "{{ .Tag }}"
