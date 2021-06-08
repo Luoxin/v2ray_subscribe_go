@@ -40,7 +40,7 @@ builds:
         goarch:
             - amd64
     - id: darwin_amd64
-      ldflags: -s -w -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+      ldflags: -s -w --extldflags -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
       binary: eutamias
       env:
           - CGO_ENABLED=1
