@@ -1,5 +1,3 @@
 package eutamias
 
-const (
-	ServiceName = "eutamias"
-)
+var ServiceName = "eutamias"
