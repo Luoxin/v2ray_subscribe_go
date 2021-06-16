@@ -39,28 +39,28 @@ builds:
             - linux
         goarch:
             - amd64
-    - id: darwin_amd64
-      ldflags: -s -w --extldflags -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
-      binary: eutamias
-      env:
-          - CGO_ENABLED=1
-          - CC=o64-clang
-          - CXX=o64-clang++
-      main: ./cmd/Eutamias.go
-      goos:
-          - darwin
-      goarch:
-          - amd64
+#    - id: darwin_amd64
+#      ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+#      binary: eutamias
+#      env:
+#          - CGO_ENABLED=1
+#          - CC=o64-clang
+#          - CXX=o64-clang++
+#      main: ./cmd/Eutamias.go
+#      goos:
+#          - darwin
+#      goarch:
+#          - amd64
 archives:
-    - format: tar.gz
-      format_overrides:
-          - goos: windows
-            format: zip
-      name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}"
-      replacements:
-          amd64: 64bit
-          386: 32bit
-          arm: arm
+    -   format: tar.gz
+        format_overrides:
+            -   goos: windows
+                format: zip
+        name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}"
+        replacements:
+            amd64: 64bit
+            386: 32bit
+            arm: arm
           arm64: arm64
           darwin: macos
           linux: linux
@@ -75,6 +75,7 @@ archives:
           - GeoLite2.mmdb
           - config.yaml
           - ui/**/*
+          - resource/clashTpl
       allow_different_binary_count: true
 checksum:
     name_template: "eutamias_v{{ .Version }}_checksums.txt"

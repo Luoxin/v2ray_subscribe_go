@@ -1,35 +1,3 @@
-package proxies
-
-import (
-	"path/filepath"
-
-	"github.com/Luoxin/Eutamias/utils"
-)
-
-type clashTplVal struct {
-	Dns string
-	ProxyList, ProxyNameList,
-	CountryGroupList,
-	NetEaseProxyList, NetEaseProxyNameList []string
-
-	CountryNodeList []*countryNode
-
-	TestUrl   string
-	MixedPort uint32
-}
-
-// TODO file watch
-func init() {
-	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
-	if utils.FileExists(clashTplFile) {
-		buf, err := utils.FileRead(clashTplFile)
-		if err == nil {
-			clashTpl = buf
-		}
-	}
-}
-
-var clashTpl = `
 mixed-port: {{ .MixedPort }}
 allow-lan: true
 mode: Rule
@@ -28906,4 +28874,3 @@ rules:
   # - RULE-SET,telegramcidr,🔯 故障转移
   - GEOIP,CN,DIRECT
   - MATCH,🐟 漏网之鱼
-`

@@ -64,6 +64,15 @@ func FileWrite(filename string, content string) error {
 	return nil
 }
 
+func FileRead(filename string) (content string, err error) {
+	buf, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Errorf("read file %s err %s", filename, err)
+		return "", err
+	}
+	return string(buf), err
+}
+
 func DownloadWithProgressbar(fileUrl, fileName string) error {
 	resp, err := nic.Get(fileUrl, nic.H{
 		AllowRedirect: true,
