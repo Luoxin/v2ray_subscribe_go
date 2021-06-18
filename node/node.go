@@ -100,9 +100,9 @@ func UpdateNode(node *domain.ProxyNode) (bool, error) {
 
 func GetUsableNodeList(quantity int, mustUsable bool, useType domain.UseType) (domain.ProxyNodeList, error) {
 	query := db.Db.Where("is_close = ?", false).
-		Order("available_count DESC").
 		Order("proxy_speed DESC").
 		Order("proxy_network_delay").
+		Order("available_count DESC").
 		Order("death_count").
 		Order("last_crawler_at DESC")
 
