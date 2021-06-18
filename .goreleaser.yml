@@ -5,10 +5,10 @@ env:
     - GOPROXY=https://goproxy.cn,direct
 before:
     hooks:
-#        - go version
-#        - go env
-#        - rm -rf /build/go.sum
-#        - go clean -modcache
+        #        - go version
+        #        - go env
+        #        - rm -rf /build/go.sum
+        #        - go clean -modcache
         - go mod tidy
 gomod:
     proxy: true
@@ -39,18 +39,18 @@ builds:
             - linux
         goarch:
             - amd64
-#    - id: darwin_amd64
-#      ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
-#      binary: eutamias
-#      env:
-#          - CGO_ENABLED=1
-#          - CC=o64-clang
-#          - CXX=o64-clang++
-#      main: ./cmd/Eutamias.go
-#      goos:
-#          - darwin
-#      goarch:
-#          - amd64
+#    -   id: darwin_amd64
+#        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+#        binary: eutamias
+#        env:
+#            - CGO_ENABLED=1
+#            - CC=o64-clang
+#            - CXX=o64-clang++
+#        main: ./cmd/Eutamias.go
+#        goos:
+#            - darwin
+#        goarch:
+#            - amd64
 archives:
     -   format: tar.gz
         format_overrides:
@@ -61,22 +61,22 @@ archives:
             amd64: 64bit
             386: 32bit
             arm: arm
-          arm64: arm64
-          darwin: macos
-          linux: linux
-          windows: windows
-          openbsd: openbsd
-          netbsd: netbsd
-          freebsd: freebsd
-          dragonfly: dragonflybsd
-      files:
-          - README.md
-          - LICENSE
-          - GeoLite2.mmdb
-          - config.yaml
-          - ui/**/*
-          - resource/clashTpl
-      allow_different_binary_count: true
+            arm64: arm64
+            darwin: macos
+            linux: linux
+            windows: windows
+            openbsd: openbsd
+            netbsd: netbsd
+            freebsd: freebsd
+            dragonfly: dragonflybsd
+        files:
+            - README.md
+            - LICENSE
+            - GeoLite2.mmdb
+            - config.yaml
+            - ui/**/*
+            - resource/clashTpl
+        allow_different_binary_count: true
 checksum:
     name_template: "eutamias_v{{ .Version }}_checksums.txt"
     algorithm: sha512
