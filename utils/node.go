@@ -8,24 +8,24 @@ import (
 
 func GetProxyNodeType(u string) domain.ProxyNodeType {
 	if strings.HasPrefix(u, "vmess://") {
-		return domain.ProxyNodeType_ProxyNodeTypeVmess
+		return domain.ProxyNodeTypeVmess
 	} else if strings.HasPrefix(u, "trojan://") {
-		return domain.ProxyNodeType_ProxyNodeTypeTrojan
+		return domain.ProxyNodeTypeTrojan
 	} else if strings.HasPrefix(u, "vless://") {
-		return domain.ProxyNodeType_ProxyNodeTypeVless
+		return domain.ProxyNodeTypeVless
 	} else if strings.HasPrefix(u, "ssr://") {
-		return domain.ProxyNodeType_ProxyNodeTypeSSR
+		return domain.ProxyNodeTypeSSR
 	} else if strings.HasPrefix(u, "ss://") {
-		return domain.ProxyNodeType_ProxyNodeTypeSS
+		return domain.ProxyNodeTypeSS
 	} else if strings.HasPrefix(u, "http://") {
-		return domain.ProxyNodeType_ProxyNodeTypeHttp
+		return domain.ProxyNodeTypeHttp
 	} else if strings.HasPrefix(u, "socket://") {
-		return domain.ProxyNodeType_ProxyNodeTypeSocket
+		return domain.ProxyNodeTypeSocket
 	} else if strings.HasPrefix(u, "socket4://") {
-		return domain.ProxyNodeType_ProxyNodeTypeSocket
+		return domain.ProxyNodeTypeSocket
 	} else if strings.HasPrefix(u, "socket5://") {
-		return domain.ProxyNodeType_ProxyNodeTypeSocket
+		return domain.ProxyNodeTypeSocket
 	}
 
-	return domain.ProxyNodeType_ProxyNodeTypeNil
+	return domain.ProxyNodeTypeNil
 }

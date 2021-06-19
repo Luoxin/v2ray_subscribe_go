@@ -26,7 +26,7 @@ var UseTypeMap = map[UseType]string{
 
 type CrawlerConf struct {
 	Id             uint64    `json:"id,omitempty" gorm:"primaryKey"`
-	CreatedAt      uint32    `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
+	CreatedAt      uint32    `json:"created_at,omitempty" gorm:"autoCreateTime:autoCreateTime"`
 	UpdatedAt      uint32    `json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
 	CrawlerFeature string    `json:"crawler_features,omitempty" gorm:"type:varchar(700);unique_index:idx_crawl_url;comment:地址的特征，因为mysql索引不支持太长的，所以用sha_512_做唯一索引"`
 	CrawlUrl       string    `json:"crawl_url,omitempty" gorm:"type:text;comment:抓取的地址"`
@@ -51,20 +51,20 @@ type CrawlerConf_Rule struct {
 type ProxyNodeType uint32
 
 const (
-	ProxyNodeType_ProxyNodeTypeNil    ProxyNodeType = 0
-	ProxyNodeType_ProxyNodeTypeVmess  ProxyNodeType = 1
-	ProxyNodeType_ProxyNodeTypeTrojan ProxyNodeType = 2
-	ProxyNodeType_ProxyNodeTypeVless  ProxyNodeType = 3
-	ProxyNodeType_ProxyNodeTypeSS     ProxyNodeType = 4
-	ProxyNodeType_ProxyNodeTypeSSR    ProxyNodeType = 5
-	ProxyNodeType_ProxyNodeTypeSocket ProxyNodeType = 6
-	ProxyNodeType_ProxyNodeTypeHttp   ProxyNodeType = 7
-	ProxyNodeType_ProxyNodeTypeSnell  ProxyNodeType = 8
+	ProxyNodeTypeNil    ProxyNodeType = 0
+	ProxyNodeTypeVmess  ProxyNodeType = 1
+	ProxyNodeTypeTrojan ProxyNodeType = 2
+	ProxyNodeTypeVless  ProxyNodeType = 3
+	ProxyNodeTypeSS     ProxyNodeType = 4
+	ProxyNodeTypeSSR    ProxyNodeType = 5
+	ProxyNodeTypeSocket ProxyNodeType = 6
+	ProxyNodeTypeHttp   ProxyNodeType = 7
+	ProxyNodeTypeSnell  ProxyNodeType = 8
 )
 
 type ProxyNode struct {
 	Id        uint64 `json:"id,omitempty"`
-	CreatedAt uint32 `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
+	CreatedAt uint32 `json:"created_at,omitempty" gorm:"autoCreateTime:autoCreateTime"`
 	UpdatedAt uint32 `json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
 
 	UrlFeature        string        `json:"url_feature,omitempty" gorm:"type:varchar(700);not_null;unique_index:idx_node_url;comment:节点的地址，因为mysql索引不支持太长的，所以用sha_512_做唯一索引"`
@@ -84,7 +84,7 @@ type ProxyNode struct {
 
 type TohruFeed struct {
 	Id        uint64 `json:"id,omitempty"`
-	CreatedAt uint32 `json:"created_at,omitempty" gorm:"autoUpdateTime:autoCreateTime"`
+	CreatedAt uint32 `json:"created_at,omitempty" gorm:"autoCreateTime:autoCreateTime"`
 	UpdatedAt uint32 `json:"updated_at,omitempty" gorm:"autoUpdateTime:autoUpdateTime"`
 
 	UserId       string `json:"user_id,omitempty" gorm:"unique_index:idx_user_id;not null;comment:用户的唯一标识"`
