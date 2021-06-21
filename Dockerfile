@@ -1,5 +1,8 @@
 FROM troian/golang-cross:v1.16.5
 #https://hub.docker.com/r/troian/golang-cross
+#"https://docker.mirrors.ustc.edu.cn/",
+#"https://hub-mirror.c.163.com/",
+#"https://reg-mirror.qiniu.com"
 
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build

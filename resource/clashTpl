@@ -28456,7 +28456,6 @@ rules:
   - DOMAIN-SUFFIX,qidian.com,DIRECT
   - DOMAIN-SUFFIX,qihucdn.com,DIRECT
   - DOMAIN-SUFFIX,qin.io,DIRECT
-  - DOMAIN-SUFFIX,qiniu.com,DIRECT
   - DOMAIN-SUFFIX,qiniucdn.com,DIRECT
   - DOMAIN-SUFFIX,qiniudn.com,DIRECT
   - DOMAIN-SUFFIX,qiushibaike.com,DIRECT
@@ -28864,6 +28863,9 @@ rules:
   - DOMAIN-SUFFIX,ip6-localhost,DIRECT
   - DOMAIN-SUFFIX,ip6-loopback,DIRECT
   - DOMAIN-SUFFIX,localhost,DIRECT
+  - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
+  - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
   # - RULE-SET,icloud,🔯 故障转移
