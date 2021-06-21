@@ -33,14 +33,14 @@ func InitGeoLite() error {
 	var retryCount = 0
 RETRY:
 	retryCount++
-	if utils.FileExists(filepath.Join(execPath, geoLiteDbName)) {
-		err := utils.CopyFile(filepath.Join(execPath, geoLiteDbName), geoLite2Path)
+	if utils.FileExists(filepath.Join(execPath, "resource", geoLiteDbName)) {
+		err := utils.CopyFile(filepath.Join(execPath, "resource", geoLiteDbName), geoLite2Path)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
 		}
-	} else if utils.FileExists(filepath.Join(pwdPath, geoLiteDbName)) {
-		err := utils.CopyFile(filepath.Join(pwdPath, geoLiteDbName), geoLite2Path)
+	} else if utils.FileExists(filepath.Join(pwdPath, "resource", geoLiteDbName)) {
+		err := utils.CopyFile(filepath.Join(pwdPath, "resource", geoLiteDbName), geoLite2Path)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
