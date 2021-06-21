@@ -72,7 +72,7 @@ archives:
         files:
             - README.md
             - LICENSE
-            - GeoLite2.mmdb
+            - resource/GeoLite2.mmdb
             - config.yaml
             - ui/**/*
             - resource/clashTpl
