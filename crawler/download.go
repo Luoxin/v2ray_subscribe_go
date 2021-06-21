@@ -1,4 +1,4 @@
-package download
+package crawler
 
 import "github.com/Luoxin/Eutamias/domain"
 
