@@ -2,12 +2,12 @@ package proxies
 
 import (
 	"github.com/Luoxin/Eutamias/domain"
-	"github.com/Luoxin/Eutamias/node"
+	"github.com/Luoxin/Eutamias/proxynode"
 	log "github.com/sirupsen/logrus"
 )
 
 func GenClashConfig(count int, mustUsable, needCheck bool, c ClashConfig) (string, int) {
-	nodes, err := node.GetUsableNodeList(count, mustUsable, domain.UseTypeGFW)
+	nodes, err := proxynode.GetUsableNodeList(count, mustUsable, domain.UseTypeGFW)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return "", 0
@@ -23,7 +23,7 @@ func GenClashConfig(count int, mustUsable, needCheck bool, c ClashConfig) (strin
 		p = p.GetUsableList()
 	}
 
-	nodes, err = node.GetUsableNodeList(count, mustUsable, domain.UseTypeNetEase)
+	nodes, err = proxynode.GetUsableNodeList(count, mustUsable, domain.UseTypeNetEase)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return "", 0

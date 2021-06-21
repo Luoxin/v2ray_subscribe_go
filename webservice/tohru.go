@@ -17,7 +17,7 @@ import (
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/db"
 	"github.com/Luoxin/Eutamias/domain"
-	"github.com/Luoxin/Eutamias/node"
+	"github.com/Luoxin/Eutamias/proxynode"
 	"github.com/Luoxin/Eutamias/tohru"
 	"github.com/Luoxin/Eutamias/version"
 )
@@ -246,7 +246,7 @@ func SyncNode(c *fiber.Ctx) error {
 
 	var contribution int
 	nodeUrlList.Each(func(s string) {
-		isNew, err := node.AddNodeWithUrl(s)
+		isNew, err := proxynode.AddNodeWithUrl(s)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return
@@ -276,7 +276,7 @@ func SyncNode(c *fiber.Ctx) error {
 		}
 	}
 
-	rsp.NodeList, err = node.GetNode4Tohru(10 + contribution)
+	rsp.NodeList, err = proxynode.GetNode4Tohru(10 + contribution)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

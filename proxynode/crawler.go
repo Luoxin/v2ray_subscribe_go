@@ -1,4 +1,4 @@
-package node
+package proxynode
 
 import (
 	"crypto/sha512"

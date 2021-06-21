@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/sha3"
 
 	"github.com/Luoxin/Eutamias/conf"
-	"github.com/Luoxin/Eutamias/node"
+	"github.com/Luoxin/Eutamias/proxynode"
 	"github.com/Luoxin/Eutamias/version"
 )
 
@@ -121,7 +121,7 @@ func (p *tohru) CheckUsable() error {
 }
 
 func (p *tohru) SyncNode() error {
-	nodeList, err := node.GetNode4Tohru(100)
+	nodeList, err := proxynode.GetNode4Tohru(100)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -150,7 +150,7 @@ func (p *tohru) SyncNode() error {
 	}
 
 	nodeUrlList.Each(func(s string) {
-		_, err = node.AddNodeWithUrl(s)
+		_, err = proxynode.AddNodeWithUrl(s)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return

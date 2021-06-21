@@ -6,8 +6,8 @@ import (
 	"github.com/Luoxin/Eutamias/parser"
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Luoxin/Eutamias/node"
 	"github.com/Luoxin/Eutamias/pac"
+	"github.com/Luoxin/Eutamias/proxynode"
 	"github.com/Luoxin/Eutamias/version"
 
 	log "github.com/sirupsen/logrus"
@@ -21,7 +21,7 @@ func Version(c *fiber.Ctx) error {
 }
 
 func SubV2ray(c *fiber.Ctx) error {
-	nodes, err := node.GetUsableNodeList(50, true, domain.UseTypeGFW)
+	nodes, err := proxynode.GetUsableNodeList(50, true, domain.UseTypeGFW)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -74,7 +74,7 @@ func AddNode(c *fiber.Ctx) error {
 		p := parser.NewFuzzyMatchingParser()
 
 		p.ParserText(req.NodeUrl).Each(func(nodeUrl string) {
-			_, err = node.AddNodeWithUrl(nodeUrl)
+			_, err = proxynode.AddNodeWithUrl(nodeUrl)
 			if err != nil {
 				log.Errorf("link:%s, err:%v", nodeUrl, err)
 				return
@@ -102,7 +102,7 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 	}
 
 	if req.NodeUrl != "" {
-		err := node.AddCrawlerNode(req.NodeUrl, req.CrawlerType, &req.Rule, req.UseTpe)
+		err := proxynode.AddCrawlerNode(req.NodeUrl, req.CrawlerType, &req.Rule, req.UseTpe)
 		if err != nil {
 			log.Errorf("err:%v", err)
 			return err
@@ -113,7 +113,7 @@ func AddCrawlerNode(c *fiber.Ctx) error {
 }
 
 func NodeList(ctx *fiber.Ctx) error {
-	nodeList, err := node.GetUsableNodeList(100, true, domain.UseTypeUseNil)
+	nodeList, err := proxynode.GetUsableNodeList(100, true, domain.UseTypeUseNil)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

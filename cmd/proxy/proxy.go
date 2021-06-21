@@ -5,8 +5,8 @@ import (
 	"github.com/Luoxin/Eutamias/db"
 	"github.com/Luoxin/Eutamias/domain"
 	"github.com/Luoxin/Eutamias/geolite"
-	"github.com/Luoxin/Eutamias/node"
 	"github.com/Luoxin/Eutamias/proxy"
+	"github.com/Luoxin/Eutamias/proxynode"
 	"github.com/Luoxin/Eutamias/utils"
 	log "github.com/sirupsen/logrus"
 )
@@ -34,7 +34,7 @@ func main() {
 		return
 	}
 
-	nodes, err := node.GetUsableNodeList(100, false, 1)
+	nodes, err := proxynode.GetUsableNodeList(100, false, 1)
 	if err != nil {
 		log.Fatalf("init db err:%v", err)
 		return

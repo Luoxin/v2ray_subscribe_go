@@ -13,8 +13,8 @@ import (
 	conf2 "github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/db"
 	"github.com/Luoxin/Eutamias/domain"
-	"github.com/Luoxin/Eutamias/node"
 	"github.com/Luoxin/Eutamias/parser"
+	"github.com/Luoxin/Eutamias/proxynode"
 	"github.com/Luoxin/Eutamias/utils"
 )
 
@@ -88,7 +88,7 @@ func crawler() error {
 					_ = p.ParserText(resp.Text).Filter(func(s string) bool {
 						return strings.Contains(s, "://")
 					}).Each(func(nodeUrl string) {
-						_, err = node.AddNodeWithUrlDetail(nodeUrl, conf.Id, conf.Interval, conf.UseType)
+						_, err = proxynode.AddNodeWithUrlDetail(nodeUrl, conf.Id, conf.Interval, conf.UseType)
 						if err != nil {
 							log.Errorf("link:%s, err:%v", nodeUrl, err)
 							return
