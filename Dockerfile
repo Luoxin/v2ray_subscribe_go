@@ -16,7 +16,7 @@ ENV HOSTNAME=eutamias
 COPY . /build/
 
 # goreleaser version
-ARG GORELEASER_VERSION=0.169.0
+ARG GORELEASER_VERSION=0.171.0
 ARG GORELEASER_FILENAME=goreleaser_amd64.deb
 # 安装 goreleaser
 RUN  #!/bin/bash \

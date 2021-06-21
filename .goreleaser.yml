@@ -56,7 +56,7 @@ archives:
         format_overrides:
             -   goos: windows
                 format: zip
-        name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}_{{.ShortCommit}}_{{.Date}}"
+        name_template: "{{.ProjectName}}_v{{.Version}}_{{.Os}}_{{.Arch}}_{{.ShortCommit}}_{{.CommitTimestamp}}"
         replacements:
             amd64: 64bit
             386: 32bit
@@ -78,13 +78,13 @@ archives:
             - resource/clashTpl
         allow_different_binary_count: true
 checksum:
-    name_template: "eutamias_v{{ .Version }}_{{.ShortCommit}}_{{.Date}}_checksums.txt"
+    name_template: "eutamias_v{{ .Version }}_{{.ShortCommit}}_{{.CommitTimestamp}}_checksums.txt"
     algorithm: sha512
 snapshot:
     name_template: "{{ .Tag }}"
 source:
     enabled: true
-    name_template: '{{ .ProjectName }}_v{{.Version}}_{{.ShortCommit}}_{{.Date}}'
+    name_template: '{{ .ProjectName }}_v{{.Version}}_{{.ShortCommit}}_{{.CommitTimestamp}}'
 changelog:
     skip: false
     sort: asc
