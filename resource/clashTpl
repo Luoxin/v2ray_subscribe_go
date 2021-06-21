@@ -28866,6 +28866,7 @@ rules:
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
   - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
   # - RULE-SET,icloud,🔯 故障转移
