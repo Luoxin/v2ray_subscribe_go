@@ -7,8 +7,8 @@ import (
 
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/db"
-	"github.com/Luoxin/Eutamias/task"
 	"github.com/Luoxin/Eutamias/webservice"
+	"github.com/Luoxin/Eutamias/worker"
 )
 
 func Init(configFilePatch string) error {
@@ -52,7 +52,7 @@ func Init(configFilePatch string) error {
 
 	log.Info("init db success")
 
-	err = task.InitWorker()
+	err = worker.InitWorker()
 	if err != nil {
 		log.Fatalf("init work err:%v", err)
 		return err
