@@ -2,8 +2,11 @@ package proxies
 
 import (
 	"path/filepath"
+	"sync"
 
 	"github.com/Luoxin/Eutamias/utils"
+	"github.com/fsnotify/fsnotify"
+	log "github.com/sirupsen/logrus"
 )
 
 type clashTplVal struct {
@@ -18,15 +21,44 @@ type clashTplVal struct {
 	MixedPort uint32
 }
 
+var _lock sync.RWMutex
+
 // TODO file watch
 func init() {
-	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
-	if utils.FileExists(clashTplFile) {
-		buf, err := utils.FileRead(clashTplFile)
-		if err == nil {
-			clashTpl = buf
-		}
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	go func() {
+		defer watcher.Close()
+
+		for {
+			select {
+			case event := <-watcher.Events:
+				if event.Op&fsnotify.Write == fsnotify.Write ||
+					event.Op&fsnotify.Create == fsnotify.Create {
+					clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
+					if utils.FileExists(clashTplFile) {
+						buf, err := utils.FileRead(clashTplFile)
+						if err == nil {
+							log.Info("clash tpl changed")
+							_lock.Lock()
+							clashTpl = buf
+							_lock.Unlock()
+						}
+					}
+				}
+			}
+		}
+	}()
+
+	err = watcher.Add("./resource/clashTpl")
+	if err != nil {
+	    log.Errorf("err:%v", err)
+	    return
+	}
+
 }
 
 var clashTpl = `

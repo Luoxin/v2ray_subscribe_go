@@ -274,11 +274,13 @@ func (ps *Proxies) ToClashConfig(c ClashConfig) string {
 		}
 	}
 
+	_lock.RLock()
 	t, err := template.New("").Parse(clashTpl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return ""
 	}
+	_lock.RUnlock()
 
 	var b bytes.Buffer
 	err = t.Execute(&b, val)
