@@ -20,6 +20,7 @@ require (
 	github.com/elliotchance/pie v1.38.2
 	github.com/ethereum/go-ethereum v1.10.3
 	github.com/fasthttp/websocket v1.4.3 // indirect
+	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.10.0

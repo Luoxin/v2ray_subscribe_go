@@ -30,6 +30,8 @@ func init() {
 		log.Fatal(err)
 	}
 
+	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
+
 	go func() {
 		defer watcher.Close()
 
@@ -38,7 +40,6 @@ func init() {
 			case event := <-watcher.Events:
 				if event.Op&fsnotify.Write == fsnotify.Write ||
 					event.Op&fsnotify.Create == fsnotify.Create {
-					clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
 					if utils.FileExists(clashTplFile) {
 						buf, err := utils.FileRead(clashTplFile)
 						if err == nil {
@@ -53,7 +54,7 @@ func init() {
 		}
 	}()
 
-	err = watcher.Add("./resource/clashTpl")
+	err = watcher.Add(clashTplFile)
 	if err != nil {
 	    log.Errorf("err:%v", err)
 	    return
