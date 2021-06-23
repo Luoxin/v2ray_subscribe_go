@@ -17,7 +17,7 @@ gomod:
         - GOSUMDB=off
 builds:
     -   id: windows_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
         binary: eutamias
         env:
             - CGO_ENABLED=1
@@ -29,7 +29,7 @@ builds:
         goarch:
             - amd64
     -   id: linux_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
         binary: eutamias
         env:
             - CC=gcc
@@ -40,7 +40,7 @@ builds:
         goarch:
             - amd64
 #    -   id: darwin_amd64
-#        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}'
+#        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
 #        binary: eutamias
 #        env:
 #            - CGO_ENABLED=1
