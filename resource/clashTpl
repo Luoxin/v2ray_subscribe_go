@@ -28863,11 +28863,14 @@ rules:
   - DOMAIN-SUFFIX,ip6-localhost,DIRECT
   - DOMAIN-SUFFIX,ip6-loopback,DIRECT
   - DOMAIN-SUFFIX,localhost,DIRECT
+# 分割线
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
   - DOMAIN-SUFFIX,qiniu.com,DIRECT
   - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
   - DOMAIN-SUFFIX,tencentelasticsearch.com,DIRECT
+  - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT
+  - DOMAIN-SUFFIX,jable.tv,🔯 故障转移
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
   # - RULE-SET,icloud,🔯 故障转移
