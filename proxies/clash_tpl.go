@@ -3,8 +3,10 @@ package proxies
 import (
 	"path/filepath"
 	"sync"
+	"time"
 
 	"github.com/Luoxin/Eutamias/utils"
+	"github.com/eddieivan01/nic"
 	"github.com/fsnotify/fsnotify"
 	log "github.com/sirupsen/logrus"
 )
@@ -22,15 +24,19 @@ type clashTplVal struct {
 }
 
 var _lock sync.RWMutex
+var ClashTplUrl string
 
 // TODO file watch
 func init() {
+	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
+	if !utils.FileExists(clashTplFile) {
+		return
+	}
+
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
 
 	go func() {
 		defer watcher.Close()
@@ -38,18 +44,48 @@ func init() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				if event.Op&fsnotify.Write == fsnotify.Write ||
-					event.Op&fsnotify.Create == fsnotify.Create {
-					if utils.FileExists(clashTplFile) {
-						buf, err := utils.FileRead(clashTplFile)
-						if err == nil {
-							log.Info("clash tpl changed")
-							_lock.Lock()
-							clashTpl = buf
-							_lock.Unlock()
-						}
-					}
+				if !(event.Op&fsnotify.Write == fsnotify.Write ||
+					event.Op&fsnotify.Create == fsnotify.Create){
+					break
 				}
+
+				if !utils.FileExists(clashTplFile) {
+					break
+				}
+
+
+				buf, err := utils.FileRead(clashTplFile)
+				if err != nil {
+					break
+				}
+				
+				log.Info("clash tpl changed")
+				_lock.Lock()
+				clashTpl = buf
+				_lock.Unlock()
+
+			case <-time.After(time.Hour * 6):
+				if ClashTplUrl == "" {
+					continue
+				}
+
+				resp, err := nic.Get(ClashTplUrl, nil)
+				if err != nil {
+					log.Errorf("err:%v", err)
+					break
+				}
+
+				if resp.StatusCode != 200 {
+					break
+				}
+
+				err = utils.FileWrite(clashTpl, resp.Text)
+				if err != nil {
+				    log.Errorf("err:%v", err)
+				    break
+				}
+			case <- watcher.Errors:
+				return
 			}
 		}
 	}()
@@ -59,7 +95,6 @@ func init() {
 	    log.Errorf("err:%v", err)
 	    return
 	}
-
 }
 
 var clashTpl = `
