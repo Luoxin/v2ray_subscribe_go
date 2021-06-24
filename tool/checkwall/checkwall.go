@@ -1,7 +1,7 @@
 package main
 
 import (
-	"strings"
+	"net/url"
 
 	"github.com/alexflint/go-arg"
 	"github.com/eddieivan01/nic"
@@ -24,12 +24,21 @@ func main() {
 		return
 	}
 
-	checkUrl := cmdArgs.Url
-	if strings.HasPrefix(checkUrl, "https://") {
-		checkUrl = strings.Replace(checkUrl, "https://", "http://", 1)
+	u, err := url.Parse(cmdArgs.Url)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return
 	}
 
-	resp, err := nic.Get(checkUrl, &nic.H{
+	switch u.Scheme {
+	case "https":
+		u.Scheme = "http"
+	case "":
+		u.Scheme = "http"
+	default:
+	}
+
+	resp, err := nic.Get(u.String(), &nic.H{
 		Timeout:           60,
 		SkipVerifyTLS:     true,
 		AllowRedirect:     true,
@@ -41,9 +50,9 @@ func main() {
 	}
 
 	if resp.StatusCode != 200 {
-		log.Println(color.Yellow.Text("cannot connect"))
+		color.Yellow.Println("cannot connect")
 		return
 	}
 
-	log.Println(color.Green.Text("check success"))
+	color.Green.Println("check success")
 }
