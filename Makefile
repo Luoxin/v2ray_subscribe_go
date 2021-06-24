@@ -4,22 +4,22 @@ PWD = $(shell pwd)
 
 run:
 	go mod download
-	CGO_ENABLED=1 go run ./cmd/eutamias.go
+	CGO_ENABLED=1 go run -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" ./cmd/eutamias.go
 
 build:
 	cp config.yaml.simple config.yaml
 	go mod download
 	go mod vendor
-	docker build -t sub:latest .
-	docker run -it -v ${PWD}:/build/ sub:latest
+	docker build -t eutamias:latest .
+	docker run -it -v ${PWD}:/build/ eutamias:latest
 
 build1:
 	rm -rf ./go.sum
 	rm -rf ./vendor
 	#go mod download
 #	go mod vendor
-	docker build -t sub:latest .
-	docker run -it -v E:/Eutamias:/build/ sub:latest
+	docker build -t eutamias:latest .
+	docker run -it -v E:/Eutamias:/build/ eutamias:latest
 	rm -rf ./go.sum
 	#rm -rf ./vendor
 
@@ -28,8 +28,8 @@ build2:
 	#rm -rf ./vendor
 	#go mod download
 	#go mod vendor
-	docker build -t sub:latest .
-	docker run -it -v D:/develop/Eutamias:/build/ sub:latest
+	docker build -t eutamias:latest .
+	docker run -it -v D:/develop/Eutamias:/build/ eutamias:latest
 	rm -rf ./go.sum
 	rm -rf ./vendor
 

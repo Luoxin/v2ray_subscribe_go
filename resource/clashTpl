@@ -28867,6 +28867,7 @@ rules:
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
   - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,goproxy.cn,DIRECT
   - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
   - DOMAIN-SUFFIX,tencentelasticsearch.com,DIRECT
   - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT

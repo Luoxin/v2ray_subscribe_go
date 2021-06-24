@@ -6,13 +6,26 @@ env:
 before:
     hooks:
         - go mod tidy
-#gomod:
-#    proxy: true
-#    env:
-#
+gomod:
+    proxy: true
+    env:
+        - GO111MODULE=on
+        - GOSUMDB=off
+        - GOPROXY=https://goproxy.cn,direct
 builds:
     -   id: windows_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        ldflags:
+            - -s -w
+            - --extldflags "-static -fpic"
+            - -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ'
+            - -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
+            - -X 'eutamias.ServiceName={{.ProjectName}}'
+            - -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+            - -a
         binary: eutamias
         env:
             - CGO_ENABLED=1
@@ -24,7 +37,18 @@ builds:
         goarch:
             - amd64
     -   id: linux_amd64
-        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        ldflags:
+            - -s -w
+            - --extldflags "-static -fpic"
+            - -X 'main.UpdateUrl=https://kutt.luoxin.live/dDh0c5'
+            - -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
+            - -X 'eutamias.ServiceName={{.ProjectName}}'
+            - -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+            - -a
         binary: eutamias
         env:
             - CC=gcc
@@ -34,18 +58,46 @@ builds:
             - linux
         goarch:
             - amd64
-#    -   id: darwin_amd64
-#        ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
-#        binary: eutamias
-#        env:
-#            - CGO_ENABLED=1
-#            - CC=o64-clang
-#            - CXX=o64-clang++
-#        main: ./cmd/Eutamias.go
-#        goos:
-#            - darwin
-#        goarch:
-#            - amd64
+    #    -   id: darwin_amd64
+    #        ldflags:
+    #            - -s -w
+    #            - --extldflags "-static -fpic"
+    #            - -X 'main.UpdateUrl=https://kutt.luoxin.live/gloV0B'
+    #            - -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
+    #            - -X 'eutamias.ServiceName={{.ProjectName}}'
+    #            - -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+    #        gcflags:
+    #            - -N -l
+    #        flags:
+    #            - -v
+    #            - -a
+    #        binary: eutamias
+    #        env:
+    #            - CGO_ENABLED=1
+    #            - CC=o64-clang
+    #            - CXX=o64-clang++
+    #        main: ./cmd/Eutamias.go
+    #        goos:
+    #            - darwin
+    #        goarch:
+    #            - amd64
+    -   id: checkwall
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+            - -a
+        binary: checkwall
+        env:
+            - CGO_ENABLED=0
+        main: ./tool/checkwall/checkwall.go
+        goos:
+            - linux
+            - windows
+        goarch:
+            - amd64
 archives:
     -   format: tar.gz
         format_overrides:
