@@ -4,44 +4,41 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/utils"
+	"github.com/gofiber/storage/memory"
+	"github.com/gofiber/storage/mysql"
 	"github.com/gofiber/storage/sqlite3"
 )
 
 func InitStorage() error {
-	// addrList := strings.Split(dbAddr, "://")
-	// if len(addrList) < 2 {
-	// 	log.Errorf("Wrong database address")
-	// 	return nil, errors.New("invalid args")
-	// }
-	//
+	dbConfig := conf.Config.Db
 
-	// switch strings.ToLower(addrList[0]) {
-	// case "sqlite":
+	switch dbConfig.Typ {
+	case "sqlite":
+		storage = sqlite3.New(sqlite3.Config{
+			Database:   filepath.Join(utils.GetExecPath(), ".eutamias.es"),
+			Table:      "eutamias_fiber_storage",
+			Reset:      false,
+			GCInterval: time.Hour,
+		})
 
-	storage = sqlite3.New(sqlite3.Config{
-		Database:   filepath.Join(utils.GetExecPath(), ".eutamias.es"),
-		Table:      "fiber_storage",
-		Reset:      false,
-		GCInterval: time.Hour,
-	})
-
-	// case "mysql":
-	// 	storage = mysql.New(mysql.Config{
-	// 		Host:       "",
-	// 		Port:       0,
-	// 		Username:   "",
-	// 		Password:   "",
-	// 		Database:   "",
-	// 		Table:      "subscribe_fiber",
-	// 		Reset:      false,
-	// 		GCInterval: 0,
-	// 	})
-	//
-	// 	// d = mysql.Open(strings.Join(addrList[1:], ""))
-	// default:
-	// 	return nil, errors.New("unsupported database")
-	// }
+	case "mysql":
+		storage = mysql.New(mysql.Config{
+			Host:       dbConfig.Host,
+			Port:       int(dbConfig.Port),
+			Username:   dbConfig.User,
+			Password:   dbConfig.Password,
+			Database:   dbConfig.Database,
+			Table:      "eutamias_fiber_storage",
+			Reset:      false,
+			GCInterval: time.Hour,
+		})
+	default:
+		storage = memory.New(memory.Config{
+			GCInterval: time.Hour,
+		})
+	}
 
 	return nil
 }

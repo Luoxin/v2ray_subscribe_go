@@ -42,22 +42,6 @@ func InitDb() error {
 		return errors.New("database types are not supported")
 	}
 
-	// addrList := strings.Split(dbAddr, "://")
-	// if len(addrList) < 2 {
-	// 	log.Errorf("Wrong database address")
-	// 	return errors.New("invalid args")
-	// }
-	//
-
-	// switch strings.ToLower(addrList[0]) {
-	// case "sqlite":
-
-	// case "mysql":
-
-	// default:
-	// 	return errors.New("unsupported database")
-	// }
-
 	db, err := gorm.Open(d, &gorm.Config{
 		SkipDefaultTransaction: true,
 		NamingStrategy: &schema.NamingStrategy{

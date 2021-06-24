@@ -24,11 +24,14 @@ require (
 	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.13.0
+	github.com/gofiber/storage/memory v0.0.0-20210602124502-f0233feaea00
+	github.com/gofiber/storage/mysql v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/websocket/v2 v2.0.6
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/gookit/color v1.4.2
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
+	github.com/jonboulle/clockwork v0.1.0 // indirect
 	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.13.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
@@ -44,7 +47,6 @@ require (
 	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/panjf2000/ants/v2 v2.4.6
 	github.com/pkg/errors v0.9.1
-	github.com/pyroscope-io/pyroscope v0.0.34
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452 // indirect
 	github.com/savsgio/gotils v0.0.0-20210617111740-97865ed5a873 // indirect
