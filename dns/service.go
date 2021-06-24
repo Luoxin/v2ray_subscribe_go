@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"strconv"
 	"syscall"
+	"time"
 
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/miekg/dns"
@@ -29,16 +30,6 @@ func InitDnsService() error {
 			for _, q := range m.Question {
 				switch q.Qtype {
 				case dns.TypeA:
-					log.Debugf("lookup %v", q.Name)
-					// ipList := LookupAllHosts(q.Name)
-					// ipList.Each(func(ip string) {
-					// 	rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
-					// 	if err == nil {
-					// 		m.Answer = append(m.Answer, rr)
-					// 	}
-					// 	log.Infof("[dns query]%v %v", q.Name, ip)
-					// })
-
 					ip := LookupHostsFastestBack(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
@@ -71,11 +62,22 @@ func InitDnsService() error {
 		}
 	}()
 	go func() {
-		<-sigCh
-		log.Info("dns service stop")
-		err := server.Shutdown()
-		if err != nil {
-			log.Errorf("err:%v", err)
+		for {
+			select {
+			case <-time.After(time.Minute * 10):
+				keys := dnsCache.Keys(true)
+				for _, key := range keys {
+					domain := key.(string)
+					LookupHostsFastestIp(domain)
+				}
+			case <-sigCh:
+				log.Info("dns service stop")
+				err := server.Shutdown()
+				if err != nil {
+					log.Errorf("err:%v", err)
+				}
+				return
+			}
 		}
 	}()
 

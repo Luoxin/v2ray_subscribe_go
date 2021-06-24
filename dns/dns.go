@@ -14,7 +14,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var fastCache = gcache.New(1024).LRU().Build()
+var dnsCache = gcache.New(1024).LRU().Build()
 var pool = pond.New(100, 100)
 
 // Dns TODO ipv6的支持
@@ -56,43 +56,11 @@ func (p *Dns) AddServiceList(serviceList ...string) *Dns {
 	return p
 }
 
-// func (p *Dns) QueryIpv4OneWithDnsService(dnsService, domain string) (hostList pie.Strings) {
-// 	c := new(dns.Client)
-// 	m := new(dns.Msg)
-//
-// 	m.SetQuestion(dns.Fqdn(domain), dns.TypeA)
-// 	m.RecursionDesired = true
-//
-// 	r, _, err := c.Exchange(m, dnsService)
-// 	if err != nil {
-// 		log.Errorf("err:%v", err)
-// 		return
-// 	}
-//
-// 	if r.Rcode != dns.RcodeSuccess {
-// 		log.Errorf("invalid answer name %s after MX query for %s", domain, dnsService)
-// 		return
-// 	}
-//
-// 	for _, a := range r.Answer {
-// 		switch x := a.(type) {
-// 		case *dns.A:
-// 			hostList = append(hostList, x.A.String())
-// 		case *dns.AAAA:
-// 			hostList = append(hostList, x.AAAA.String())
-// 		case *dns.CNAME:
-// 			hostList = append(hostList, p.QueryIpv4OneWithDnsService(dnsService, x.Target)...)
-// 		default:
-// 			log.Errorf("unsupported type :%v", reflect.TypeOf(a))
-// 		}
-// 	}
-//
-// 	log.Debugf("query from %v awser %+v", dnsService, hostList.Join(","))
-//
-// 	return
-// }
-
 func (p *Dns) QueryIpV4(domain string) (hostList pie.Strings) {
+	if domain == "" {
+		return pie.Strings{}
+	}
+
 	p.dnsClientList.Each(func(client DnsClient) {
 		hostList = append(hostList, client.LookupHost(domain)...)
 	})
@@ -102,6 +70,10 @@ func (p *Dns) QueryIpV4(domain string) (hostList pie.Strings) {
 
 // QueryIpv4FastestBack 最快返回的结果
 func (p *Dns) QueryIpv4FastestBack(domain string) string {
+	if domain == "" {
+		return ""
+	}
+
 	c := make(chan string)
 
 	go func() {
@@ -126,6 +98,10 @@ func (p *Dns) QueryIpv4FastestBack(domain string) string {
 
 // QueryIpv4FastestIp 最快的ip
 func (p *Dns) QueryIpv4FastestIp(domain string) string {
+	if domain == "" {
+		return ""
+	}
+
 	var hostList pie.Strings
 	p.dnsClientList.Each(func(client DnsClient) {
 		hostList = append(hostList, client.LookupHost(domain)...)
@@ -146,7 +122,7 @@ func FastestIp(domain string, ipList pie.Strings) string {
 		if d < delay || delay < 0 {
 			delay = d
 			fastestIp = ip
-			_ = fastCache.SetWithExpire(domain, fastestIp, time.Minute*30)
+			_ = dnsCache.SetWithExpire(domain, fastestIp, time.Minute*30)
 		}
 	})
 
@@ -190,18 +166,6 @@ func Ping(ip string) time.Duration {
 	return i.Statistics().AvgRtt
 }
 
-// func CheckServer(){
-// 	timeout := time.Duration(5 * time.Second)
-// 	t1 := time.Now()
-// 	_, err := net.DialTimeout("tcp","www.google.com:443", timeout)
-// 	fmt.Println("waist time :", time.Now().Sub(t1))
-// 	if err != nil {
-// 		fmt.Println("Site unreachable, error: ", err)
-// 		return
-// 	}
-// 	fmt.Println("tcp server is ok")
-// }
-
 var dnsClient *Dns
 
 func InitDnsClient() error {
@@ -223,6 +187,10 @@ func InitDnsClient() error {
 }
 
 func LockupDefault(domain string) (hostList pie.Strings) {
+	if domain == "" {
+		return pie.Strings{}
+	}
+
 	if utils.IsIp(domain) {
 		hostList = append(hostList, domain)
 		return
@@ -238,12 +206,16 @@ func LockupDefault(domain string) (hostList pie.Strings) {
 }
 
 func LookupHostsFastestBack(domain string) string {
+	if domain == "" {
+		return ""
+	}
+
 	if utils.IsIp(domain) {
 		return domain
 	}
 
 	var host string
-	val, err := fastCache.Get(domain)
+	val, err := dnsCache.Get(domain)
 	if err == nil {
 		host = val.(string)
 	} else {
@@ -262,6 +234,10 @@ func LookupHostsFastestBack(domain string) string {
 }
 
 func LookupAllHosts(domain string) (hostList pie.Strings) {
+	if domain == "" {
+		return pie.Strings{}
+	}
+
 	if utils.IsIp(domain) {
 		hostList = append(hostList, domain)
 		return
@@ -275,6 +251,10 @@ func LookupAllHosts(domain string) (hostList pie.Strings) {
 }
 
 func LookupHostsFastestIp(domain string) string {
+	if domain == "" {
+		return ""
+	}
+
 	if utils.IsIp(domain) {
 		return domain
 	}
