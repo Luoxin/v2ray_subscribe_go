@@ -64,12 +64,17 @@ type dns struct {
 	Nameserver    pie.Strings `yaml:"nameserver" json:"nameserver"`
 }
 
+type cache struct {
+	Typ string `yaml:"type" json:"type"`
+}
+
 type config struct {
 	Base base `yaml:"base" json:"base"`
 
 	Debug bool `yaml:"debug" json:"debug"`
 
-	Db db `yaml:"db" json:"db"`
+	Db    db    `yaml:"db" json:"db"`
+	Cache cache `yaml:"cache" json:"cache"`
 
 	Crawler     crawler     `yaml:"crawler" json:"crawler"`
 	ProxyCheck  proxyCheck  `yaml:"proxy_check" json:"proxy_check"`
@@ -130,6 +135,8 @@ func InitConfig(configFilePatch string) error {
 	viper.SetDefault("debug", false)
 
 	viper.SetDefault("db.type", fmt.Sprintf("sqlite"))
+
+	viper.SetDefault("db.cache", fmt.Sprintf(""))
 
 	viper.SetDefault("crawler.enable", true)
 	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")

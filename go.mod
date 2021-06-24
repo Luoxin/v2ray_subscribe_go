@@ -26,7 +26,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/gofiber/storage/memory v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/storage/mysql v0.0.0-20210602124502-f0233feaea00
-	github.com/gofiber/storage/postgres v0.0.0-20210602124502-f0233feaea00 // indirect
+	github.com/gofiber/storage/postgres v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/websocket/v2 v2.0.6
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -47,6 +47,8 @@ require (
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/panjf2000/ants/v2 v2.4.6
+	github.com/philippgille/gokv v0.6.0
+	github.com/philippgille/gokv/gomap v0.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452 // indirect

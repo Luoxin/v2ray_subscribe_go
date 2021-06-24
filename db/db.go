@@ -58,15 +58,12 @@ func InitDb() error {
 			TablePrefix:   "eutamias_",
 			SingularTable: true,
 		},
-		FullSaveAssociations:                     false,
-		PrepareStmt:                              true,
 		DisableForeignKeyConstraintWhenMigrating: true,
-		DisableNestedTransaction:                 true,
-		AllowGlobalUpdate:                        true,
-		ClauseBuilders:                           nil,
-		ConnPool:                                 nil,
-		Dialector:                                nil,
-		Plugins:                                  nil,
+
+		DisableNestedTransaction: true,
+
+		AllowGlobalUpdate: true,
+		PrepareStmt:       true,
 	})
 	if err != nil {
 		log.Errorf("err:%v", err)
