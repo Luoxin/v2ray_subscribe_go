@@ -5,16 +5,11 @@ env:
     - GOPROXY=https://goproxy.cn,direct
 before:
     hooks:
-        #        - go version
-        #        - go env
-        #        - rm -rf /build/go.sum
-        #        - go clean -modcache
         - go mod tidy
-gomod:
-    proxy: true
-    env:
-        - GOPROXY=https://goproxy.cn,direct
-        - GOSUMDB=off
+#gomod:
+#    proxy: true
+#    env:
+#
 builds:
     -   id: windows_amd64
         ldflags: -s -w --extldflags "-static -fpic" -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'eutamias.ServiceName={{.ProjectName}}' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
@@ -76,7 +71,7 @@ archives:
             - config.yaml
             - ui/**/*
             - resource/clashTpl
-        allow_different_binary_count: true
+#        allow_different_binary_count: true
 checksum:
     name_template: "eutamias_v{{ .Version }}_{{.ShortCommit}}_{{.CommitTimestamp}}_checksums.txt"
     algorithm: sha512

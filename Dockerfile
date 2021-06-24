@@ -1,4 +1,4 @@
-FROM troian/golang-cross:v1.16.5
+FROM troian/golang-cross
 #https://hub.docker.com/r/troian/golang-cross
 #"https://docker.mirrors.ustc.edu.cn/",
 #"https://hub-mirror.c.163.com/",

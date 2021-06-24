@@ -63,7 +63,7 @@ type AddCrawlerNodeReq struct {
 
 func AddNode(c *fiber.Ctx) error {
 	var req AddNodeReq
-	err := c.BodyParser(&req)
+	err := getReq(c, &req)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -91,7 +91,7 @@ func AddNode(c *fiber.Ctx) error {
 
 func AddCrawlerNode(c *fiber.Ctx) error {
 	var req AddCrawlerNodeReq
-	err := c.BodyParser(&req)
+	err := getReq(c, &req)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
