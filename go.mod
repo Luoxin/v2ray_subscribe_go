@@ -26,6 +26,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/gofiber/storage/memory v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/storage/mysql v0.0.0-20210602124502-f0233feaea00
+	github.com/gofiber/storage/postgres v0.0.0-20210602124502-f0233feaea00 // indirect
 	github.com/gofiber/storage/sqlite3 v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/websocket/v2 v2.0.6
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -66,6 +67,7 @@ require (
 	gopkg.in/toast.v1 v1.0.0-20180812000517-0a84660828b2
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.1.1
+	gorm.io/driver/postgres v1.0.5
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.11
 )

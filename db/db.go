@@ -17,6 +17,7 @@ import (
 
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/Luoxin/Eutamias/domain"
+	"gorm.io/driver/postgres"
 )
 
 var Db *gorm.DB
@@ -29,6 +30,7 @@ func InitDb() error {
 	switch dbConfig.Typ {
 	case "sqlite":
 		d = sqlite.Open(fmt.Sprintf("%s?check_same_thread=false", filepath.ToSlash(filepath.Join(utils.GetExecPath(), ".eutamias.es"))))
+
 	case "mysql":
 		dsn := fmt.Sprintf("%s:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local&checkConnLiveness=true&writeTimeout=3s&timeout=5s&readTimeout=30s",
 			dbConfig.User, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.Database)
@@ -38,6 +40,14 @@ func InitDb() error {
 			DefaultStringSize:      256,
 			DontSupportRenameIndex: true,
 		})
+
+	case "postgres":
+		dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=Asia/Shanghai", dbConfig.Host, dbConfig.User, dbConfig.Password, dbConfig.Database, dbConfig.Port)
+		log.Infof("connect to database %v", dsn)
+		d = postgres.New(postgres.Config{
+			DSN: dsn,
+		})
+
 	default:
 		return errors.New("database types are not supported")
 	}

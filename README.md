@@ -40,10 +40,22 @@ v2ray_subscribe的golang版本
 - [ ] 优化订阅返回的节点策略以及排序
 - [x] 本地代理支持
 - [ ] 桌面客户端
-  - [ ] 包括跨平台的支持
+	- [ ] 包括跨平台的支持
 - [ ] pac的优化
 	- [ ] 指定proxy地址
 	- [ ] 对齐proxy rule
 - [ ] clash订阅规则优化
 	- [ ] 完善rule list
 	- [ ] 支持订阅host
+- [ ] 多数据库支持
+	- [ ] memory
+	- [x] sqlite
+	- [x] mysql
+	- [x] postgres
+- [ ] 多缓存支持
+	- [ ] memory
+	- [ ] redis
+	- [ ] etcd
+	- [ ] sqlite
+	- [ ] mysql
+	- [ ] postgres
