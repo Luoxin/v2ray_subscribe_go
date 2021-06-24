@@ -2,13 +2,15 @@ package db
 
 import (
 	"errors"
-	"strings"
+	"fmt"
+	"path/filepath"
 
+	"github.com/Luoxin/Eutamias/utils"
 	_ "github.com/mattn/go-sqlite3"
-
-	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
+
+	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -19,35 +21,47 @@ import (
 
 var Db *gorm.DB
 
-func InitDb(dbAddr string) error {
-	log.Infof("connect to database %v", dbAddr)
-
-	addrList := strings.Split(dbAddr, "://")
-	if len(addrList) < 2 {
-		log.Errorf("Wrong database address")
-		return errors.New("invalid args")
-	}
+func InitDb() error {
+	// log.Infof("connect to database %v", dbAddr)
+	dbConfig := conf.Config.Db
 
 	var d gorm.Dialector
-	switch strings.ToLower(addrList[0]) {
+	switch dbConfig.Typ {
 	case "sqlite":
-		d = sqlite.Open(strings.Join(addrList[1:], ""))
+		d = sqlite.Open(fmt.Sprintf("%s?check_same_thread=false", filepath.ToSlash(filepath.Join(utils.GetExecPath(), ".eutamias.es"))))
 	case "mysql":
+		dsn := fmt.Sprintf("%s:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local&checkConnLiveness=true&writeTimeout=3s&timeout=5s&readTimeout=30s",
+			dbConfig.User, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.Database)
+		log.Infof("connect to database %v", dsn)
 		d = mysql.New(mysql.Config{
-			DSN: strings.Join(addrList[1:], ""),
-
-			DefaultStringSize: 256,
-
+			DSN:                    dsn,
+			DefaultStringSize:      256,
 			DontSupportRenameIndex: true,
 		})
 	default:
-		return errors.New("unsupported database")
+		return errors.New("database types are not supported")
 	}
 
-	dbConfig := gorm.Config{
+	// addrList := strings.Split(dbAddr, "://")
+	// if len(addrList) < 2 {
+	// 	log.Errorf("Wrong database address")
+	// 	return errors.New("invalid args")
+	// }
+	//
+
+	// switch strings.ToLower(addrList[0]) {
+	// case "sqlite":
+
+	// case "mysql":
+
+	// default:
+	// 	return errors.New("unsupported database")
+	// }
+
+	db, err := gorm.Open(d, &gorm.Config{
 		SkipDefaultTransaction: true,
 		NamingStrategy: &schema.NamingStrategy{
-			TablePrefix:   "subscribe_",
+			TablePrefix:   "eutamias_",
 			SingularTable: true,
 		},
 		FullSaveAssociations:                     false,
@@ -59,9 +73,7 @@ func InitDb(dbAddr string) error {
 		ConnPool:                                 nil,
 		Dialector:                                nil,
 		Plugins:                                  nil,
-	}
-
-	db, err := gorm.Open(d, &dbConfig)
+	})
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

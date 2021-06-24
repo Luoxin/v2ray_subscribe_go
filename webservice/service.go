@@ -32,7 +32,7 @@ func InitHttpService() error {
 	}
 
 	var err error
-	err = InitStorage(conf.Config.Db.Addr)
+	err = InitStorage()
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

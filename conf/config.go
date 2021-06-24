@@ -8,7 +8,6 @@ import (
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
-	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -27,7 +26,12 @@ type base struct {
 }
 
 type db struct {
-	Addr string `yaml:"addr" json:"addr"`
+	Typ      string `yaml:"type" json:"type"`
+	Host     string `yaml:"host" json:"host"`
+	Port     uint32 `yaml:"port" json:"port"`
+	Database string `yaml:"database" json:"database"`
+	User     string `yaml:"user" json:"user"`
+	Password string `yaml:"password" json:"password"`
 }
 
 type crawler struct {
@@ -53,11 +57,6 @@ type proxy struct {
 	MixedPort uint32 `yaml:"mixed-port" json:"mixed-port"`
 }
 
-type _profiler struct {
-	Enable        bool   `yaml:"enable" json:"enable"`
-	ServerAddress string `yaml:"server_address" json:"server_address"`
-}
-
 type dns struct {
 	Enable        bool        `yaml:"enable" json:"enable"`
 	EnableService bool        `yaml:"enable_service" json:"enable_service"`
@@ -77,8 +76,6 @@ type config struct {
 	HttpService httpService `yaml:"http_service" json:"http_service"`
 
 	Proxy proxy `yaml:"proxy" json:"proxy"`
-
-	Profiler _profiler `yaml:"profiler" json:"profiler"`
 
 	Dns dns `yaml:"dns" json:"dns"`
 }
@@ -132,7 +129,7 @@ func InitConfig(configFilePatch string) error {
 
 	viper.SetDefault("debug", false)
 
-	viper.SetDefault("db.addr", fmt.Sprintf("sqlite://%s?check_same_thread=false", filepath.ToSlash(filepath.Join(execPath, ".eutamias.es"))))
+	viper.SetDefault("db.type", fmt.Sprintf("sqlite"))
 
 	viper.SetDefault("crawler.enable", true)
 	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")
@@ -194,13 +191,6 @@ func InitConfig(configFilePatch string) error {
 	}
 
 	log.Debugf("get config %+v", Config)
-
-	if Config.Profiler.Enable {
-		_, _ = profiler.Start(profiler.Config{
-			ApplicationName: "github.com/Luoxin/Eutamias",
-			ServerAddress:   Config.Profiler.ServerAddress,
-		})
-	}
 
 	err = Ecc.Init(Config.Base.KobayashiSanHomeKey)
 	if err != nil {

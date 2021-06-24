@@ -28,7 +28,7 @@ func main() {
 
 	log.Info("init geolite success")
 
-	err = db.InitDb(conf.Config.Db.Addr)
+	err = db.InitDb()
 	if err != nil {
 		log.Fatalf("init db err:%v", err)
 		return

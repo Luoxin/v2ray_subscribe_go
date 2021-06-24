@@ -13,7 +13,7 @@ http_service:
 debug: false
 
 db:
-    addr: "sqlite://.subscribe.vdb?check_same_thread=false"
+	type: sqlite
 
 crawler:
     enable: false
@@ -27,10 +27,6 @@ proxy_check:
 proxy:
     enable: false
     mixed-port: 7890
-
-profiler:
-    enable: false
-    server_address: "http://localhost:4040"
 
 dns:
   enable: false

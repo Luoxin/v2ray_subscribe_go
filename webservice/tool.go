@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/storage/sqlite3"
 )
 
-func InitStorage(dbAddr string) error {
+func InitStorage() error {
 	// addrList := strings.Split(dbAddr, "://")
 	// if len(addrList) < 2 {
 	// 	log.Errorf("Wrong database address")
