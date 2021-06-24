@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	eutamias "github.com/Luoxin/Eutamias"
 	log2 "github.com/Luoxin/Eutamias/log"
@@ -35,7 +36,11 @@ func doUpdate() {
 	}
 
 	log.Infof("check update...")
-	resp, err := http.Get(UpdateUrl)
+
+	client := http.DefaultClient
+	client.Timeout = time.Minute
+
+	resp, err := client.Get(UpdateUrl)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return
@@ -51,7 +56,8 @@ func doUpdate() {
 
 func main() {
 	log2.InitLog()
-	doUpdate()
+
+	go doUpdate()
 
 	arg.MustParse(&cmdArgs)
 
