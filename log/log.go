@@ -23,6 +23,7 @@ func InitLog() {
 		rotatelogs.WithLinkName(logPath),
 		rotatelogs.WithMaxAge(time.Hour),
 		rotatelogs.WithRotationTime(time.Minute),
+		rotatelogs.WithRotationCount(24),
 		rotatelogs.WithRotationSize(100*1024*1024),
 	)
 	if err != nil {
