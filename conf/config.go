@@ -2,7 +2,6 @@ package conf
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -134,9 +133,9 @@ func InitConfig(configFilePatch string) error {
 
 	viper.SetDefault("debug", false)
 
-	viper.SetDefault("db.type", fmt.Sprintf("sqlite"))
+	viper.SetDefault("db.type", "sqlite")
 
-	viper.SetDefault("db.cache", fmt.Sprintf(""))
+	viper.SetDefault("db.cache", "")
 
 	viper.SetDefault("crawler.enable", true)
 	viper.SetDefault("crawler.proxies", "http://127.0.0.1:7890")

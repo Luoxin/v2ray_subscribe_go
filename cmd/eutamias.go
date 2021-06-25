@@ -51,7 +51,6 @@ func doUpdate() {
 		log.Errorf("err:%v", err)
 		return
 	}
-	return
 }
 
 func main() {

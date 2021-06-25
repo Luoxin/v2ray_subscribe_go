@@ -1,0 +1,77 @@
+run:
+    timeout: 1m
+    # 包管理模式，go modules使用readonly
+    # 可用的值范围 readonly|release|vendor
+    modules-download-mode: readonly
+    issues-exit-code: 5
+    tests: true
+    skip-dirs-use-default: false
+output:
+    # colored-line-number|line-number|json|tab|checkstyle|code-climate, default is "colored-line-number"
+    format: colored-line-number
+    print-issued-lines: true
+    print-linter-name: true
+linters:
+    fast: false
+linters-settings:
+    cyclop:
+        max-complexity: 5
+        package-average: 3
+    dogsled:
+        max-blank-identifiers: 1
+    dupl:
+        threshold: 10
+    errcheck:
+        check-type-assertions: false
+        check-blank: true
+        ignore: io/ioutil:^Read.*
+    errorlint:
+        errorf: true
+        asserts: true
+        comparison: true
+    exhaustive:
+        check-generated: true
+        default-signifies-exhaustive: true
+    funlen:
+        lines: 100
+        statements: 10
+    gocognit:
+        min-complexity: 5
+    nestif:
+        min-complexity: 5
+    goconst:
+        min-len: 3
+        min-occurrences: 3
+    gocyclo:
+        min-complexity: 5
+    godox:
+        keywords:
+            - FIXME
+            - TODO
+            - BUG
+            - REVIEW
+    gofumpt:
+        extra-rules: true
+    golint:
+        min-complexity: 5
+    gosimple:
+        go: "1.15"
+        checks: [ "all" ]
+    maligned:
+        suggest-new: true
+    nakedret:
+        max-func-lines: 300
+    prealloc:
+        simple: true
+        range-loops: true
+        for-loops: true
+    nolintlint:
+        allow-unused: true
+        allow-leading-space: true
+    unused:
+        go: "1.15"
+    whitespace:
+        multi-if: true
+        multi-func: true
+    misspell:
+        locale: US
