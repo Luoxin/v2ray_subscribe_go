@@ -48,6 +48,7 @@ require (
 	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/panjf2000/ants/v2 v2.4.6
 	github.com/philippgille/gokv v0.6.0
+	github.com/philippgille/gokv/encoding v0.0.0-20191011213304-eb77f15b9c61
 	github.com/philippgille/gokv/gomap v0.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
