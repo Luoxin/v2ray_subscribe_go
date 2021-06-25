@@ -36,7 +36,7 @@ func InitProxy(finishC chan bool) error {
 		return nil
 	}
 
-	pwd, _ := os.Getwd()
+	pwd := utils.GetPwd()
 	execPath := utils.GetExecPath()
 
 	sigCh := make(chan os.Signal, 1)

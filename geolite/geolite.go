@@ -28,7 +28,7 @@ func InitGeoLite() error {
 	geoLite2Path := filepath.Join(utils.GetConfigDir(), geoLiteDbName)
 
 	execPath := utils.GetExecPath()
-	pwdPath, _ := os.Getwd()
+	pwdPath := utils.GetPwd()
 
 	var retryCount = 0
 RETRY:
