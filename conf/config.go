@@ -117,7 +117,7 @@ func InitConfig(configFilePatch string) error {
 		viper.SetConfigName("config")
 		viper.SetConfigType("yaml")
 	} else {
-		pwd, _ := os.Getwd()
+		pwd := utils.GetPwd()
 		log.Info(filepath.Join(pwd, configFilePatch))
 		viper.SetConfigFile(filepath.Join(pwd, configFilePatch))
 	}

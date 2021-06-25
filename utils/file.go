@@ -108,6 +108,19 @@ func DownloadWithProgressbar(fileUrl, fileName string) error {
 }
 
 func GetExecPath() string {
-	execPath, _ := os.Executable()
+	execPath, err := os.Executable()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return ""
+	}
 	return filepath.Dir(execPath)
+}
+
+func GetPwd() string {
+	pwd, err := os.Getwd()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return ""
+	}
+	return pwd
 }

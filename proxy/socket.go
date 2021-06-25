@@ -7,6 +7,8 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Socket struct {
@@ -83,7 +85,10 @@ func ParseHttpLink(link string) (*Http, error) {
 		Tls: false,
 	}
 
-	h.Port, _ = strconv.Atoi(u.Port())
+	h.Port, err = strconv.Atoi(u.Port())
+	if err != nil {
+		log.Errorf("err:%v", err)
+	}
 	h.Server = strings.TrimSuffix(u.Host, fmt.Sprintf(":%v", h.Port))
 
 	h.Username = u.User.Username()
