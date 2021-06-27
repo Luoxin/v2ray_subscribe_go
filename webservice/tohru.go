@@ -7,11 +7,11 @@ import (
 	"fmt"
 
 	"github.com/elliotchance/pie/pie"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/go-playground/validator.v10"
 	"gorm.io/gorm"
 
 	"github.com/Luoxin/Eutamias/conf"
