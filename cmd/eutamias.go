@@ -13,6 +13,7 @@ import (
 	"github.com/Luoxin/Eutamias/notify"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
+	update "github.com/inconshreveable/go-update"
 	"github.com/kardianos/service"
 	log "github.com/sirupsen/logrus"
 )
