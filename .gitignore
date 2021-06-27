@@ -1098,4 +1098,4 @@ dist/
 .idea/
 .vcode/
 sync.sh
-env.list
+.env
