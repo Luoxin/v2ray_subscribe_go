@@ -7,8 +7,6 @@ FROM troian/golang-cross:v1.16.5
 MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build
 
-ENV HOSTNAME=eutamias
-
 COPY . /build/
 
 # goreleaser version
@@ -22,4 +20,5 @@ RUN  #!/bin/bash \
 		curl -L -o ./${GORELEASER_FILENAME} "https://cdn.jsdelivr.net/gh/goreleaser/goreleaser@releases/download/v${GORELEASER_VERSION}/${GORELEASER_FILENAME}" && dpkg -i ./${GORELEASER_FILENAME} \
 	fi
 
-ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist", "--debug"]
+#ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist", "--debug"]
+ENTRYPOINT ["bash", "gorelease.sh"]

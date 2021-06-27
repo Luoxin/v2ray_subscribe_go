@@ -14,24 +14,12 @@ build:
 	docker run -it -v ${PWD}:/build/ eutamias:latest
 
 build1:
-	rm -rf ./go.sum
-	rm -rf ./vendor
-	#go mod download
-#	go mod vendor
 	docker build -t eutamias:latest .
-	docker run -it -v E:/Eutamias:/build/ eutamias:latest
-	rm -rf ./go.sum
-	#rm -rf ./vendor
+	docker run -it --env-file ./.env -v E:/Eutamias:/build/ eutamias:latest
 
 build2:
-	rm -rf ./go.sum
-	#rm -rf ./vendor
-	#go mod download
-	#go mod vendor
 	docker build -t eutamias:latest .
-	docker run -it -v D:/develop/Eutamias:/build/ eutamias:latest
-	rm -rf ./go.sum
-	rm -rf ./vendor
+	docker run -it --env-file ./.env -v D:/develop/Eutamias:/build/ eutamias:latest
 
 sync1:
 	cp ./resource/clashTpl D:/Service/Subscribe/resource/
