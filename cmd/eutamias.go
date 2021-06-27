@@ -13,7 +13,6 @@ import (
 	"github.com/Luoxin/Eutamias/notify"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
-	"github.com/inconshreveable/go-update"
 	"github.com/kardianos/service"
 	log "github.com/sirupsen/logrus"
 )
@@ -51,7 +50,10 @@ func doUpdate() {
 		log.Errorf("err:%v", err)
 		return
 	}
+	c <- true
 }
+
+var c = make(chan bool)
 
 func main() {
 	log2.InitLog()
@@ -134,7 +136,11 @@ type Program struct{}
 
 func (p *Program) Start(s service.Service) error {
 	notify.Msg(fmt.Sprintf("%v: service starting", eutamias.ServiceName))
-	log.Info("service start")
+	log.Info("service starting...")
+	select {
+	case <-c:
+	case <-time.After(time.Second * 10):
+	}
 	go p.run(s)
 	return nil
 }
