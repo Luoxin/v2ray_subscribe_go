@@ -182,8 +182,8 @@ proxies:
     interval: 300
     tolerance: 50
     proxies:
-      - 🚀 节点选择
       - 🔯 故障转移
+      - 🚀 节点选择
       - ♻️ 自动选择
       - DIRECT
 {{ range .CountryGroupList}}      - {{ .}}
@@ -291,6 +291,74 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
+  - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
+  - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,goproxy.cn,DIRECT
+  - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
+  - DOMAIN-SUFFIX,tencentelasticsearch.com,DIRECT
+  - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT
+  - DOMAIN-SUFFIX,jable.tv,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.af,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ag,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ai,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ar,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.au,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.bd,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.bh,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.bn,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.bo,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.br,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.bz,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.co,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.cu,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.cy,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.do,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ec,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.eg,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.et,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.fj,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.gh,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.gi,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.gt,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.hk,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.jm,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.kh,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.kw,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.lb,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ly,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.mm,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.mt,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.mx,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.my,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.na,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.nf,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ng,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ni,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.np,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.om,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.pa,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.pe,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.pg,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ph,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.pk,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.pr,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.py,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.qa,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.sa,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.sb,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.sg,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.sl,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.sv,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.tj,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.tr,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.tw,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.ua,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.uy,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.vc,🔯 故障转移
+  - DOMAIN-SUFFIX,google.com.vn,🔯 故障转移
+# 分割线
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
   - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
@@ -24165,65 +24233,6 @@ rules:
   - DOMAIN-SUFFIX,google.co.za,🚀 节点选择
   - DOMAIN-SUFFIX,google.co.zm,🚀 节点选择
   - DOMAIN-SUFFIX,google.co.zw,🚀 节点选择
-  - DOMAIN-SUFFIX,google.com,🚀 节点选择
-  - DOMAIN-SUFFIX,google.com.af,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ag,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ai,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ar,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.au,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bd,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bn,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bo,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.br,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bz,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.co,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.cu,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.cy,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.do,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ec,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.eg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.et,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.fj,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gi,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gt,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.hk,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.jm,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.kh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.kw,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.lb,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ly,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mm,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mt,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mx,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.my,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.na,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.nf,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ng,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ni,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.np,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.om,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pe,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ph,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pk,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pr,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.py,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.qa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sb,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sl,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sv,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tj,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tr,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tw,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ua,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.uy,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.vc,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.vn,🔯 故障转移
   - DOMAIN-SUFFIX,google.cv,🚀 节点选择
   - DOMAIN-SUFFIX,google.cz,🚀 节点选择
   - DOMAIN-SUFFIX,google.de,🚀 节点选择
@@ -28863,15 +28872,6 @@ rules:
   - DOMAIN-SUFFIX,ip6-localhost,DIRECT
   - DOMAIN-SUFFIX,ip6-loopback,DIRECT
   - DOMAIN-SUFFIX,localhost,DIRECT
-# 分割线
-  - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
-  - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
-  - DOMAIN-SUFFIX,qiniu.com,DIRECT
-  - DOMAIN-SUFFIX,goproxy.cn,DIRECT
-  - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
-  - DOMAIN-SUFFIX,tencentelasticsearch.com,DIRECT
-  - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT
-  - DOMAIN-SUFFIX,jable.tv,🔯 故障转移
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
   # - RULE-SET,icloud,🔯 故障转移
