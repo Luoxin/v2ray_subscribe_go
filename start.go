@@ -3,6 +3,7 @@ package eutamias
 import (
 	"github.com/Luoxin/Eutamias/dns"
 	"github.com/Luoxin/Eutamias/geolite"
+	"github.com/Luoxin/Eutamias/proxies"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -19,6 +20,14 @@ func Init(configFilePatch string) error {
 	}
 
 	log.Info("init conf success")
+
+	err = proxies.Init()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Info("init clash tpl watch success")
 
 	err = dns.InitDnsClient()
 	if err != nil {

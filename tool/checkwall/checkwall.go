@@ -5,9 +5,9 @@ import (
 
 	"github.com/alexflint/go-arg"
 	"github.com/eddieivan01/nic"
+	"github.com/go-playground/validator/v10"
 	"github.com/gookit/color"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/go-playground/validator.v10"
 )
 
 var validate = validator.New()

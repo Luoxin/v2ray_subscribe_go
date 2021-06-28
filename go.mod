@@ -22,6 +22,7 @@ require (
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
+	github.com/go-playground/validator/v10 v10.6.1
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/gofiber/storage/memory v0.0.0-20210602124502-f0233feaea00
@@ -66,7 +67,6 @@ require (
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gopkg.in/go-playground/validator.v10 v10.6.1
 	gopkg.in/toast.v1 v1.0.0-20180812000517-0a84660828b2
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/mysql v1.1.1
@@ -74,5 +74,3 @@ require (
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.11
 )
-
-replace gopkg.in/go-playground/validator.v10 => github.com/go-playground/validator/v10 v10.4.1

@@ -14,26 +14,15 @@ build:
 	docker run -it -v ${PWD}:/build/ eutamias:latest
 
 build1:
-	rm -rf ./go.sum
-	rm -rf ./vendor
-	#go mod download
-#	go mod vendor
 	docker build -t eutamias:latest .
-	docker run -it -v E:/Eutamias:/build/ eutamias:latest
-	rm -rf ./go.sum
-	#rm -rf ./vendor
+	docker run -it --env-file ./.env -v E:/Eutamias:/build/ eutamias:latest
 
 build2:
-	rm -rf ./go.sum
-	#rm -rf ./vendor
-	#go mod download
-	#go mod vendor
 	docker build -t eutamias:latest .
-	docker run -it -v D:/develop/Eutamias:/build/ eutamias:latest
-	rm -rf ./go.sum
-	rm -rf ./vendor
+	docker run -it --env-file ./.env -v D:/develop/Eutamias:/build/ eutamias:latest
 
 sync1:
+	cp ./resource/clashTpl D:/Service/Subscribe/resource/
 	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
 	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ'" -o D:/Service/Subscribe/checkwall.exe ./tool/checkwall/checkwall.go
 

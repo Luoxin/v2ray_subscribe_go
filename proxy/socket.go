@@ -88,6 +88,7 @@ func ParseHttpLink(link string) (*Http, error) {
 	h.Port, err = strconv.Atoi(u.Port())
 	if err != nil {
 		log.Errorf("err:%v", err)
+		h.Port = 80
 	}
 	h.Server = strings.TrimSuffix(u.Host, fmt.Sprintf(":%v", h.Port))
 

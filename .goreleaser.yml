@@ -6,12 +6,12 @@ env:
 before:
     hooks:
         - go mod tidy
-gomod:
-    proxy: true
-    env:
-        - GO111MODULE=on
-        - GOSUMDB=off
-        - GOPROXY=https://goproxy.cn,direct
+#gomod:
+#    proxy: true
+#    env:
+#        - GO111MODULE=on
+#        - GOSUMDB=off
+#        - GOPROXY=https://goproxy.cn,direct
 builds:
     -   id: windows_amd64
         ldflags:
