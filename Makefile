@@ -6,6 +6,10 @@ run:
 	go mod download
 	CGO_ENABLED=1 go run -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" ./cmd/eutamias.go
 
+dockerrun:
+	docker build --no-cache -t eutamias:latest .
+	docker run -it -v config.yaml:/home/config.yaml -p 1900:8080 eutamias:latest
+
 build:
 	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
 	docker run -it --env-file ./.env -v ${PWD}:/build/ eutamias-pkg:latest

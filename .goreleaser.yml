@@ -137,7 +137,7 @@ changelog:
     sort: asc
     filters:
         exclude:
-            - '*fix*'
+            - 'fix'
             - 'docker'
             - 'make'
             - 'tpl'
