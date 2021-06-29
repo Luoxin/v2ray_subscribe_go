@@ -298,6 +298,7 @@ rules:
   - DOMAIN-SUFFIX,mirrors.aliyun.com,DIRECT
   - DOMAIN-SUFFIX,tencentelasticsearch.com,DIRECT
   - DOMAIN-SUFFIX,msocdn.com,DIRECT
+  - DOMAIN-SUFFIX,powerbi.microsoft.com,DIRECT
   - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT
   - DOMAIN-SUFFIX,jable.tv,🔯 故障转移
   - DOMAIN-SUFFIX,google.com,🔯 故障转移
