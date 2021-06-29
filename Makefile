@@ -7,16 +7,16 @@ run:
 	CGO_ENABLED=1 go run -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" ./cmd/eutamias.go
 
 build:
-	docker build -t eutamias:latest .
-	docker run -it --env-file ./.env -v ${PWD}:/build/ eutamias:latest
+	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
+	docker run -it --env-file ./.env -v ${PWD}:/build/ eutamias-pkg:latest
 
 build1:
-	docker build -t eutamias:latest .
-	docker run -it --env-file ./.env -v E:/Eutamias:/build/ eutamias:latest
+	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
+	docker run -it --env-file ./.env -v E:/Eutamias:/build/ eutamias-pkg:latest
 
 build2:
-	docker build -t eutamias:latest .
-	docker run -it --env-file ./.env -v D:/develop/Eutamias:/build/ eutamias:latest
+	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
+	docker run -it --env-file ./.env -v D:/develop/Eutamias:/build/ eutamias-pkg:latest
 
 sync1:
 	cp ./resource/clashTpl D:/Service/Subscribe/resource/

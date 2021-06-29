@@ -135,6 +135,26 @@ source:
 changelog:
     skip: false
     sort: asc
+    filters:
+        exclude:
+            - '*fix*'
+            - 'docker'
+            - 'make'
+            - 'tpl'
+            - 'clash tpl'
+            - 'config'
+            - 'release'
+            - 'upmod'
+            - 'update'
+            - 'start'
+            - 'linit'
+            - 'log'
+            - 'go mod'
+            - 'Makefile
+            - 'dockerfile'
+            - 'gen'
+            - 'go release'
+            - 'rule'
 #    filters:
 #        - exclude:
 #            - '^docs:' e
