@@ -111,6 +111,45 @@ func (ps *Proxies) AppendWithUrl(contact string) *Proxies {
 	return ps
 }
 
+func (ps *Proxies) Append(contact string, name string) *Proxies {
+	p, err := proxy.ParseProxy(contact)
+	if err != nil {
+		return ps
+	}
+
+	p.SetName("Proxies")
+
+	baseUrl := p.Link()
+
+	// 去重
+	{
+		ps.proxyLock.Lock()
+		exist := ps.proxyMap[baseUrl]
+		ps.proxyLock.Unlock()
+
+		if exist {
+			return nil
+		}
+	}
+
+	// 改名字
+	p.SetName(name)
+
+	c, err := geolite.GetCountry(p.BaseInfo().Server)
+	if err == nil {
+		p.SetCountry(c.CnName)
+		p.SetName(fmt.Sprintf("(%s)%s", c.CnName, p.BaseInfo().Name))
+		p.SetEmoji(c.Emoji)
+	}
+
+	ps.proxyLock.Lock()
+	ps.proxyMap[baseUrl] = true
+	ps.proxyLock.Unlock()
+
+	ps.proxyList = append(ps.proxyList, p)
+	return ps
+}
+
 func (ps *Proxies) AppendNetEaseWithUrl(contact string) *Proxies {
 	p, err := proxy.ParseProxy(contact)
 	if err != nil {
@@ -146,7 +185,13 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 				return nil
 			}
 
-			psn.AppendWithUrl(result.ProxyUrl)
+			psn.Append(result.ProxyUrl, func() string {
+				if p.BaseInfo() == nil {
+					return ps.proxyTitle.Get()
+				}
+
+				return p.BaseInfo().Name
+			}())
 			return nil
 		})
 		if err != nil {

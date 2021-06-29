@@ -16,7 +16,7 @@ func GenClashConfig(count int, mustUsable, needCheck bool, c ClashConfig) (strin
 	p := NewProxies()
 
 	nodes.Each(func(node *domain.ProxyNode) {
-		p.AppendWithUrl(node.Url)
+		p.Append(node.Url, node.UrlFeature)
 	})
 
 	if needCheck {
