@@ -150,7 +150,7 @@ changelog:
             - 'linit'
             - 'log'
             - 'go mod'
-            - 'Makefile
+            - 'Makefile'
             - 'dockerfile'
             - 'gen'
             - 'go release'
