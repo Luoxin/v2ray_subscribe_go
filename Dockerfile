@@ -8,7 +8,6 @@ MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build
 
 COPY . /build/
-COPY ./github.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 
 # goreleaser version
