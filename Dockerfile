@@ -8,7 +8,6 @@ MAINTAINER luoxin <luoxin.ttt@gmail.com>
 WORKDIR /build
 
 COPY . /build/
-RUN update-ca-certificates
 
 # goreleaser version
 ARG GORELEASER_VERSION=0.171.0
