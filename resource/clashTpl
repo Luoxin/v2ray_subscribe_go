@@ -300,66 +300,66 @@ rules:
   - DOMAIN-SUFFIX,msocdn.com,DIRECT
   - DOMAIN-SUFFIX,powerbi.microsoft.com,DIRECT
   - DOMAIN-SUFFIX,amomo-luck.mushroomtrack.com,DIRECT
-  - DOMAIN-SUFFIX,jable.tv,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.af,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ag,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ai,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ar,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.au,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bd,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bn,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bo,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.br,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.bz,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.co,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.cu,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.cy,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.do,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ec,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.eg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.et,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.fj,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gi,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.gt,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.hk,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.jm,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.kh,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.kw,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.lb,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ly,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mm,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mt,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.mx,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.my,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.na,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.nf,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ng,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ni,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.np,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.om,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pe,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ph,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pk,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.pr,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.py,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.qa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sa,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sb,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sg,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sl,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.sv,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tj,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tr,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.tw,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.ua,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.uy,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.vc,🔯 故障转移
-  - DOMAIN-SUFFIX,google.com.vn,🔯 故障转移
+  - DOMAIN-SUFFIX,jable.tv,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.af,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ag,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ai,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ar,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.au,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.bd,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.bh,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.bn,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.bo,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.br,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.bz,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.co,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.cu,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.cy,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.do,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ec,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.eg,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.et,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.fj,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.gh,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.gi,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.gt,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.hk,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.jm,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.kh,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.kw,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.lb,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ly,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.mm,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.mt,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.mx,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.my,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.na,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.nf,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ng,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ni,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.np,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.om,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.pa,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.pe,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.pg,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ph,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.pk,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.pr,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.py,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.qa,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.sa,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.sb,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.sg,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.sl,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.sv,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.tj,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.tr,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.tw,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.ua,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.uy,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.vc,🚀 节点选择
+  - DOMAIN-SUFFIX,google.com.vn,🚀 节点选择
 # 分割线
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
@@ -384,9 +384,9 @@ rules:
   - DOMAIN-SUFFIX,zte.home,🎯 全球直连
   - DOMAIN-SUFFIX,ol.epicgames.com,🎯 全球直连
   - DOMAIN-SUFFIX,dizhensubao.getui.com,🎯 全球直连
-  - DOMAIN,dl.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,googletraveladservices.com,🔯 故障转移
-  - DOMAIN-SUFFIX,tracking-protection.cdn.mozilla.net,🔯 故障转移
+  - DOMAIN,dl.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,googletraveladservices.com,🚀 节点选择
+  - DOMAIN-SUFFIX,tracking-protection.cdn.mozilla.net,🚀 节点选择
   - DOMAIN,origin-a.akamaihd.net,🎯 全球直连
   - DOMAIN,livew.l.qq.com,DIRECT
   - DOMAIN,vd.l.qq.com,DIRECT
@@ -21804,43 +21804,43 @@ rules:
   - IP-CIDR,209.85.233.188/32,📢 谷歌FCM,no-resolve
   - DOMAIN-SUFFIX,265.com,🎯 全球直连
   - DOMAIN-SUFFIX,2mdn.net,🎯 全球直连
-  - DOMAIN-SUFFIX,alt1-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt2-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt3-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt4-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt5-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt6-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt7-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,alt8-mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,app-measurement.com,🔯 故障转移
-  - DOMAIN-SUFFIX,c.android.clients.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,cache.pack.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,clickserve.dartsearch.net,🔯 故障转移
-  - DOMAIN-SUFFIX,clientservices.googleapis.com,🔯 故障转移
-  - DOMAIN-SUFFIX,crl.pki.goog,🔯 故障转移
-  - DOMAIN-SUFFIX,dl.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,dl.l.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,fonts.googleapis.com,🔯 故障转移
-  - DOMAIN-SUFFIX,fonts.gstatic.com,🔯 故障转移
-  - DOMAIN-SUFFIX,googletagmanager.com,🔯 故障转移
-  - DOMAIN-SUFFIX,googletagservices.com,🔯 故障转移
-  - DOMAIN-SUFFIX,gtm.oasisfeng.com,🔯 故障转移
-  - DOMAIN-SUFFIX,imasdk.googleapis.com,🔯 故障转移
-  - DOMAIN-SUFFIX,mtalk.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,ocsp.pki.goog,🔯 故障转移
-  - DOMAIN-SUFFIX,recaptcha.net,🔯 故障转移
-  - DOMAIN-SUFFIX,redirector.gvt1.com,🔯 故障转移
-  - DOMAIN-SUFFIX,safebrowsing-cache.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,safebrowsing.googleapis.com,🔯 故障转移
-  - DOMAIN-SUFFIX,settings.crashlytics.com,🔯 故障转移
-  - DOMAIN-SUFFIX,ssl-google-analytics.l.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,ssl.gstatic.com,🔯 故障转移
-  - DOMAIN-SUFFIX,toolbarqueries.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,tools.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,tools.l.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,update.googleapis.com,🔯 故障转移
-  - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🔯 故障转移
-  - DOMAIN-SUFFIX,www.gstatic.com,🔯 故障转移
+  - DOMAIN-SUFFIX,alt1-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt2-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt3-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt4-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt5-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt6-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt7-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,alt8-mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,app-measurement.com,🚀 节点选择
+  - DOMAIN-SUFFIX,c.android.clients.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,cache.pack.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,clickserve.dartsearch.net,🚀 节点选择
+  - DOMAIN-SUFFIX,clientservices.googleapis.com,🚀 节点选择
+  - DOMAIN-SUFFIX,crl.pki.goog,🚀 节点选择
+  - DOMAIN-SUFFIX,dl.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,dl.l.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,fonts.googleapis.com,🚀 节点选择
+  - DOMAIN-SUFFIX,fonts.gstatic.com,🚀 节点选择
+  - DOMAIN-SUFFIX,googletagmanager.com,🚀 节点选择
+  - DOMAIN-SUFFIX,googletagservices.com,🚀 节点选择
+  - DOMAIN-SUFFIX,gtm.oasisfeng.com,🚀 节点选择
+  - DOMAIN-SUFFIX,imasdk.googleapis.com,🚀 节点选择
+  - DOMAIN-SUFFIX,mtalk.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,ocsp.pki.goog,🚀 节点选择
+  - DOMAIN-SUFFIX,recaptcha.net,🚀 节点选择
+  - DOMAIN-SUFFIX,redirector.gvt1.com,🚀 节点选择
+  - DOMAIN-SUFFIX,safebrowsing-cache.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,safebrowsing.googleapis.com,🚀 节点选择
+  - DOMAIN-SUFFIX,settings.crashlytics.com,🚀 节点选择
+  - DOMAIN-SUFFIX,ssl-google-analytics.l.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,ssl.gstatic.com,🚀 节点选择
+  - DOMAIN-SUFFIX,toolbarqueries.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,tools.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,tools.l.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,update.googleapis.com,🚀 节点选择
+  - DOMAIN-SUFFIX,www-googletagmanager.l.google.com,🚀 节点选择
+  - DOMAIN-SUFFIX,www.gstatic.com,🚀 节点选择
   - DOMAIN-SUFFIX,studygolang.com,DIRECT
   - DOMAIN-SUFFIX,hellogithub.com,DIRECT
   - DOMAIN-SUFFIX,segmentfault.com,DIRECT
@@ -24118,7 +24118,7 @@ rules:
   - DOMAIN-SUFFIX,girlbanker.com,🚀 节点选择
   - DOMAIN-SUFFIX,git.io,🚀 节点选择
   - DOMAIN-SUFFIX,gitbooks.io,🚀 节点选择
-  - DOMAIN-SUFFIX,github.com,🔯 故障转移
+  - DOMAIN-SUFFIX,github.com,🚀 节点选择
   - DOMAIN-SUFFIX,github.io,🚀 节点选择
   - DOMAIN-SUFFIX,githubassets.com,🚀 节点选择
   - DOMAIN-SUFFIX,githubusercontent.com,🚀 节点选择
@@ -26123,7 +26123,7 @@ rules:
   - DOMAIN-SUFFIX,raremovie.cc,🚀 节点选择
   - DOMAIN-SUFFIX,raremovie.net,🚀 节点选择
   - DOMAIN-SUFFIX,rawgit.com,🚀 节点选择
-  - DOMAIN-SUFFIX,rawgithub.com,🔯 故障转移
+  - DOMAIN-SUFFIX,rawgithub.com,🚀 节点选择
   - DOMAIN-SUFFIX,raxcdn.com,🚀 节点选择
   - DOMAIN-SUFFIX,razyboard.com,🚀 节点选择
   - DOMAIN-SUFFIX,rcinet.ca,🚀 节点选择
@@ -28822,37 +28822,37 @@ rules:
   - PROCESS-NAME,aria2c,DIRECT
   - PROCESS-NAME,Folx,DIRECT
   - PROCESS-NAME,NetTransport,DIRECT
-  - PROCESS-NAME,uTorrent,🔯 故障转移
-  - PROCESS-NAME,WebTorrent,🔯 故障转移
-  - PROCESS-NAME,aria2c.exe,🔯 故障转移
+  - PROCESS-NAME,uTorrent,🚀 节点选择
+  - PROCESS-NAME,WebTorrent,🚀 节点选择
+  - PROCESS-NAME,aria2c.exe,🚀 节点选择
   - PROCESS-NAME,BitComet.exe,DIRECT
-  - PROCESS-NAME,fdm.exe,🔯 故障转移
+  - PROCESS-NAME,fdm.exe,🚀 节点选择
   - PROCESS-NAME,NetTransport.exe,DIRECT
   - PROCESS-NAME,qbittorrent.exe,DIRECT
-  - PROCESS-NAME,Thunder.exe,🔯 故障转移
-  - PROCESS-NAME,ThunderVIP.exe,🔯 故障转移
+  - PROCESS-NAME,Thunder.exe,🚀 节点选择
+  - PROCESS-NAME,ThunderVIP.exe,🚀 节点选择
   - PROCESS-NAME,transmission-daemon.exe,DIRECT
   - PROCESS-NAME,transmission-qt.exe,DIRECT
   - PROCESS-NAME,uTorrent.exe,DIRECT
   - PROCESS-NAME,WebTorrent.exe,DIRECT
-  - DOMAIN,clash.razord.top,🔯 故障转移
-  - DOMAIN,yacd.haishan.me,🔯 故障转移
-  - DOMAIN-KEYWORD,amazon,🔯 故障转移
-  - DOMAIN-KEYWORD,google,🔯 故障转移
-  - DOMAIN-KEYWORD,github,🔯 故障转移
-  - DOMAIN-KEYWORD,gmail,🔯 故障转移
-  - DOMAIN-KEYWORD,youtube,🔯 故障转移
-  - DOMAIN-KEYWORD,facebook,🔯 故障转移
-  - DOMAIN-SUFFIX,fb.me,🔯 故障转移
-  - DOMAIN-SUFFIX,fbcdn.net,🔯 故障转移
-  - DOMAIN-KEYWORD,twitter,🔯 故障转移
-  - DOMAIN-KEYWORD,instagram,🔯 故障转移
-  - DOMAIN-KEYWORD,dropbox,🔯 故障转移
-  - DOMAIN-SUFFIX,twimg.com,🔯 故障转移
-  - DOMAIN-KEYWORD,blogspot,🔯 故障转移
-  - DOMAIN-SUFFIX,youtu.be,🔯 故障转移
-  - DOMAIN-KEYWORD,whatsapp,🔯 故障转移
-  - DOMAIN-SUFFIX,acl4.ssr,🔯 故障转移
+  - DOMAIN,clash.razord.top,🚀 节点选择
+  - DOMAIN,yacd.haishan.me,🚀 节点选择
+  - DOMAIN-KEYWORD,amazon,🚀 节点选择
+  - DOMAIN-KEYWORD,google,🚀 节点选择
+  - DOMAIN-KEYWORD,github,🚀 节点选择
+  - DOMAIN-KEYWORD,gmail,🚀 节点选择
+  - DOMAIN-KEYWORD,youtube,🚀 节点选择
+  - DOMAIN-KEYWORD,facebook,🚀 节点选择
+  - DOMAIN-SUFFIX,fb.me,🚀 节点选择
+  - DOMAIN-SUFFIX,fbcdn.net,🚀 节点选择
+  - DOMAIN-KEYWORD,twitter,🚀 节点选择
+  - DOMAIN-KEYWORD,instagram,🚀 节点选择
+  - DOMAIN-KEYWORD,dropbox,🚀 节点选择
+  - DOMAIN-SUFFIX,twimg.com,🚀 节点选择
+  - DOMAIN-KEYWORD,blogspot,🚀 节点选择
+  - DOMAIN-SUFFIX,youtu.be,🚀 节点选择
+  - DOMAIN-KEYWORD,whatsapp,🚀 节点选择
+  - DOMAIN-SUFFIX,acl4.ssr,🚀 节点选择
   - DOMAIN-KEYWORD,1e100,🚀 节点选择
   - DOMAIN-KEYWORD,abema,🚀 节点选择
   - DOMAIN-KEYWORD,appledaily,🚀 节点选择
@@ -28863,7 +28863,7 @@ rules:
   - DOMAIN-KEYWORD,facebook,🚀 节点选择
   - DOMAIN-KEYWORD,fbcdn,🚀 节点选择
   - DOMAIN-KEYWORD,gmail,🚀 节点选择
-  - DOMAIN-KEYWORD,google,🔯 故障转移
+  - DOMAIN-KEYWORD,google,🚀 节点选择
   - DOMAIN-KEYWORD,instagram,🚀 节点选择
   - DOMAIN-KEYWORD,sci-hub,🚀 节点选择
   - DOMAIN-KEYWORD,spotify,🚀 节点选择
@@ -28876,11 +28876,11 @@ rules:
   - DOMAIN-SUFFIX,localhost,DIRECT
   # - RULE-SET,private,DIRECT
   # - RULE-SET,reject,REJECT
-  # - RULE-SET,icloud,🔯 故障转移
-  # - RULE-SET,apple,🔯 故障转移
-  # - RULE-SET,google,🔯 故障转移
-  # - RULE-SET,proxy,🔯 故障转移
+  # - RULE-SET,icloud,🚀 节点选择
+  # - RULE-SET,apple,🚀 节点选择
+  # - RULE-SET,google,🚀 节点选择
+  # - RULE-SET,proxy,🚀 节点选择
   # - RULE-SET,direct,DIRECT
-  # - RULE-SET,telegramcidr,🔯 故障转移
+  # - RULE-SET,telegramcidr,🚀 节点选择
   - GEOIP,CN,DIRECT
   - MATCH,🐟 漏网之鱼

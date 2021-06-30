@@ -33,6 +33,7 @@ type ProxyCheck struct {
 
 	checkUrl string
 	pool     *pond.WorkerPool
+	timeout  time.Duration
 }
 
 //go:generate pie ResultList.*
@@ -49,6 +50,7 @@ func NewProxyCheck() *ProxyCheck {
 		maxSize:  10,
 		faker:    faker.New(),
 		checkUrl: "https://www.google.com",
+		timeout:  time.Minute,
 	}
 }
 
@@ -63,6 +65,10 @@ func (p *ProxyCheck) Init(maxWorker int) error {
 
 func (p *ProxyCheck) SetCheckUrl(checkUrl string) {
 	p.checkUrl = checkUrl
+}
+
+func (p *ProxyCheck) SetTimeout(timeout time.Duration) {
+	p.timeout = timeout
 }
 
 func (p *ProxyCheck) AddWithClash(nodeUrl string, logic func(result Result) error) error {
@@ -195,7 +201,7 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 
 	client := http.Client{
 		Transport: transport,
-		Timeout:   time.Minute,
+		Timeout:   p.timeout,
 	}
 
 	start := time.Now()
