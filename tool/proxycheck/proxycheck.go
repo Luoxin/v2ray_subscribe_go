@@ -71,6 +71,8 @@ func main() {
 	checkSpeed.SetTimeout(time.Second * 5)
 	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
+	start := time.Now()
+
 	var checkResultList CheckResultList
 	var lock sync.Mutex
 	var w sync.WaitGroup
@@ -132,6 +134,9 @@ func main() {
 		})
 	}
 
+	fmt.Println("")
+
+	fmt.Printf("used:%v\n", time.Since(start))
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{
 		"节点名",
