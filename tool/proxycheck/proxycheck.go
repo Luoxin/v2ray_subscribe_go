@@ -40,7 +40,7 @@ func main() {
 		return
 	}
 
-	nodeList, err := proxynode.GetUsableNodeList(50, false, 1)
+	nodeList, err := proxynode.GetUsableNodeList(100, false, 1)
 	if err != nil {
 		color.Red.Printf("err:%v", err)
 		return
@@ -50,8 +50,8 @@ func main() {
 		progressbar.OptionSetWriter(ansi.NewAnsiStdout()),
 		progressbar.OptionEnableColorCodes(true),
 		progressbar.OptionShowBytes(true),
-		progressbar.OptionSetWidth(30),
-		progressbar.OptionSetDescription("[cyan][1/3][reset] proxy detection..."),
+		progressbar.OptionSetWidth(50),
+		progressbar.OptionSetDescription("[cyan]proxy detection...[reset]"),
 		progressbar.OptionSetTheme(progressbar.Theme{
 			Saucer:        "[green]=[reset]",
 			SaucerHead:    "[green]>[reset]",
@@ -60,8 +60,13 @@ func main() {
 			BarEnd:        "]",
 		}))
 
-	check := proxycheck.NewProxyCheck()
-	check.SetTimeout(time.Second * 5)
+	checkDelay := proxycheck.NewProxyCheck()
+	checkDelay.SetTimeout(time.Second * 5)
+	checkDelay.SetCheckUrl("https://www.google.com")
+
+	checkSpeed := proxycheck.NewProxyCheck()
+	checkSpeed.SetTimeout(time.Second * 5)
+	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/10mb.test")
 
 	var checkResultList CheckResultList
 	var lock sync.Mutex
@@ -69,24 +74,25 @@ func main() {
 	checkOnce := func(proxyNode *domain.ProxyNode) {
 		defer w.Done()
 		defer bar.Add(1)
-		delay, speed, err := check.CheckWithLink(proxyNode.Url)
-		if err != nil {
-			lock.Lock()
-			checkResultList = append(checkResultList, &CheckResult{
-				NodeName: utils.ShortStr(proxyNode.UrlFeature, 12),
-				Speed:    -1,
-				Delay:    -1,
-			})
-			lock.Unlock()
-		} else {
-			lock.Lock()
-			checkResultList = append(checkResultList, &CheckResult{
-				NodeName: utils.ShortStr(proxyNode.UrlFeature, 12),
-				Speed:    speed,
-				Delay:    delay,
-			})
-			lock.Unlock()
+
+		var err error
+		result := CheckResult{
+			NodeName: utils.ShortStr(proxyNode.UrlFeature, 12),
 		}
+
+		result.Delay, _, err = checkDelay.CheckWithLink(proxyNode.Url)
+		if err != nil {
+			result.Delay = -1
+		}
+
+		_, result.Speed, err = checkSpeed.CheckWithLink(proxyNode.Url)
+		if err != nil {
+			result.Speed = -1
+		}
+
+		lock.Lock()
+		checkResultList = append(checkResultList, &result)
+		lock.Unlock()
 	}
 
 	nodeList.Each(func(proxyNode *domain.ProxyNode) {
@@ -94,6 +100,11 @@ func main() {
 		go checkOnce(proxyNode)
 	})
 	w.Wait()
+
+	checkResultList = checkResultList.Filter(func(result *CheckResult) bool {
+		return result.Speed >= 0 && result.Delay >= 0
+	})
+
 	if cmdArgs.FasterSpeed {
 		checkResultList = checkResultList.SortUsing(func(a, b *CheckResult) bool {
 			return a.Speed > b.Speed
@@ -116,8 +127,18 @@ func main() {
 	for _, x := range checkResultList {
 		table.Append([]string{
 			x.NodeName,
-			fmt.Sprintf("%.2f Kb/s", x.Speed),
-			fmt.Sprintf("%.2f ms", x.Delay),
+			func() string {
+				if x.Speed < 0 {
+					return "-"
+				}
+				return fmt.Sprintf("%.2f Kb/s", x.Speed)
+			}(),
+			func() string {
+				if x.Delay < 0 {
+					return "-"
+				}
+				return fmt.Sprintf("%.2f ms", x.Delay)
+			}(),
 		})
 	}
 	table.Render()
