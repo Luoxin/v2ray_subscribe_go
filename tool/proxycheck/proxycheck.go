@@ -80,6 +80,18 @@ func main() {
 		defer w.Done()
 		defer bar.Add(1)
 
+		if proxyNode.DeathCount > 10 {
+			return
+		}
+
+		if proxyNode.ProxySpeed < 0 {
+			return
+		}
+
+		if proxyNode.ProxyNetworkDelay < 0 {
+			return
+		}
+
 		var err error
 		result := CheckResult{
 			NodeName: utils.ShortStr(proxyNode.UrlFeature, 12),
