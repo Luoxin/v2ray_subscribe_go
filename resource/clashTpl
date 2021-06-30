@@ -291,6 +291,7 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
+  - DOMAIN-SUFFIX,luoxin.live,DIRECT
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
   - DOMAIN-SUFFIX,qiniu.com,DIRECT
@@ -360,6 +361,8 @@ rules:
   - DOMAIN-SUFFIX,google.com.uy,🚀 节点选择
   - DOMAIN-SUFFIX,google.com.vc,🚀 节点选择
   - DOMAIN-SUFFIX,google.com.vn,🚀 节点选择
+  - DOMAIN-SUFFIX,pinquest.cn,DIRECT
+  - DOMAIN-SUFFIX,aquanliang.com,DIRECT
 # 分割线
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
@@ -28781,10 +28784,6 @@ rules:
   - PROCESS-NAME,DownloadService.exe,🎯 全球直连
   - PROCESS-NAME,Weiyun.exe,🎯 全球直连
   - PROCESS-NAME,baidunetdisk.exe,🎯 全球直连
-  - DOMAIN-SUFFIX,luoxin.live,DIRECT
-  - DOMAIN-SUFFIX,pinquest.cn,DIRECT
-  - DOMAIN-SUFFIX,aquanliang.com,DIRECT
-  - DOMAIN-SUFFIX,local,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
   - IP-CIDR,172.16.0.0/12,DIRECT
   - IP-CIDR,192.168.0.0/16,DIRECT
