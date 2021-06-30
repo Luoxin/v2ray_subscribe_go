@@ -16,6 +16,7 @@ import (
 	"github.com/gookit/color"
 	"github.com/k0kubun/go-ansi"
 	"github.com/olekukonko/tablewriter"
+	"github.com/panjf2000/ants/v2"
 	"github.com/schollz/progressbar/v3"
 )
 
@@ -26,6 +27,8 @@ var cmdArgs struct {
 }
 
 func main() {
+	defer ants.Release()
+
 	arg.MustParse(&cmdArgs)
 
 	err := conf.InitConfig(cmdArgs.ConfigPath)
@@ -66,7 +69,7 @@ func main() {
 
 	checkSpeed := proxycheck.NewProxyCheck()
 	checkSpeed.SetTimeout(time.Second * 5)
-	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/10mb.test")
+	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
 	var checkResultList CheckResultList
 	var lock sync.Mutex
@@ -95,9 +98,21 @@ func main() {
 		lock.Unlock()
 	}
 
+	pool, err := ants.NewPoolWithFunc(3, func(i interface{}) {
+		checkOnce(i.(*domain.ProxyNode))
+	})
+	if err != nil {
+		color.Red.Printf("err:%v", err)
+		return
+	}
+
 	nodeList.Each(func(proxyNode *domain.ProxyNode) {
 		w.Add(1)
-		go checkOnce(proxyNode)
+		err = pool.Invoke(proxyNode)
+		if err != nil {
+			color.Red.Printf("err:%v", err)
+			w.Done()
+		}
 	})
 	w.Wait()
 
