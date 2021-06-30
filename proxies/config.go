@@ -3,6 +3,7 @@ package proxies
 import (
 	"github.com/Luoxin/Eutamias/domain"
 	"github.com/Luoxin/Eutamias/proxynode"
+	"github.com/Luoxin/Eutamias/utils"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -16,7 +17,7 @@ func GenClashConfig(count int, mustUsable, needCheck bool, c ClashConfig) (strin
 	p := NewProxies()
 
 	nodes.Each(func(node *domain.ProxyNode) {
-		p.Append(node.Url, node.UrlFeature)
+		p.Append(node.Url, utils.ShortStr(node.UrlFeature, 12))
 	})
 
 	if needCheck {
