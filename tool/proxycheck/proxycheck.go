@@ -64,11 +64,11 @@ func main() {
 		}))
 
 	checkDelay := proxycheck.NewProxyCheck()
-	checkDelay.SetTimeout(time.Second * 5)
+	checkDelay.SetTimeout(time.Second * 3)
 	checkDelay.SetCheckUrl("https://www.google.com")
 
 	checkSpeed := proxycheck.NewProxyCheck()
-	checkSpeed.SetTimeout(time.Second * 5)
+	checkSpeed.SetTimeout(time.Second * 3)
 	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
 	start := time.Now()
