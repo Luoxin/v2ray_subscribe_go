@@ -7,8 +7,8 @@ run:
 	CGO_ENABLED=1 go run -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" ./cmd/eutamias.go
 
 dockerrun:
-	docker build --no-cache -t eutamias:latest .
-	docker run -it -p 2000:2000 eutamias:latest
+	docker build --no-cache -t eutamias:0.0.3 .
+	docker run -it -p 2000:2000 eutamias:0.0.3
 
 build:
 	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
