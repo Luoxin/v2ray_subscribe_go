@@ -9,7 +9,7 @@ import (
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
-	yaml "gopkg.in/yaml.v3"
+	"gopkg.in/yaml.v3"
 )
 
 type FuzzyMatchingParser struct {
