@@ -141,7 +141,7 @@ proxies:
 {{ range .CountryGroupList}}      - {{ .}}
 {{ end}}      - 🚀 手动切换
   - name: 🎶 网易音乐
-    type: fallback
+    type: url-test
     url: http://interface.music.163.com
     interval: 300
     tolerance: 50

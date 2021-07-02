@@ -136,7 +136,7 @@ func InitHttpService() error {
 			},
 			EnableStackTrace: false,
 			StackTraceHandler: func(e interface{}) {
-				log.Errorf("panic:%v", err)
+				log.Errorf("panic:%v", e)
 			},
 		}),
 		// func(c *fiber.Ctx) {
