@@ -34,6 +34,7 @@ require (
 	github.com/gookit/color v1.4.2
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
 	github.com/jonboulle/clockwork v0.1.0 // indirect
+	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
 	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.13.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
@@ -45,6 +46,7 @@ require (
 	github.com/miekg/dns v1.1.43
 	github.com/ncruces/go-dns v1.1.0
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/panjf2000/ants/v2 v2.4.6

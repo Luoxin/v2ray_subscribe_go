@@ -8,9 +8,8 @@ import (
 )
 
 type HostSubRule struct {
-	SubUrl string
+	SubUrl       string
 	LastUpdateAt time.Time
-
 }
 
 type Host struct {
@@ -34,4 +33,3 @@ func (p *Host) Init() error {
 
 	return nil
 }
-

@@ -171,7 +171,11 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 	}
 
 	psn = NewProxies()
+	linkNameMap := map[string]string{}
 	ps.proxyList.Each(func(p proxy.Proxy) {
+		if p.BaseInfo() != nil {
+			linkNameMap[p.Link()] = p.BaseInfo().Name
+		}
 		err := check.AddWithLink(p.Link(), func(result proxycheck.Result) (err error) {
 			if result.Err != nil {
 				return nil
@@ -186,11 +190,12 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 			}
 
 			psn.Append(result.ProxyUrl, func() string {
+				name := linkNameMap[result.ProxyUrl]
 				if p.BaseInfo() == nil {
-					return ps.proxyTitle.Get()
+					name = ps.proxyTitle.Get()
 				}
 
-				return p.BaseInfo().Name
+				return name
 			}())
 			return nil
 		})

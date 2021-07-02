@@ -17,8 +17,8 @@ type HttpDownloader struct {
 	option *nic.H
 }
 
-func NewHttpDownloader() HttpDownloader {
-	return HttpDownloader{
+func NewHttpDownloader() Downloader {
+	return &HttpDownloader{
 		option: &nic.H{
 			Timeout:            5,
 			Chunked:            false,
