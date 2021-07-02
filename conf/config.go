@@ -117,14 +117,13 @@ func InitConfig(configFilePatch string) error {
 		viper.SetConfigName("config")
 		viper.SetConfigType("yaml")
 	} else {
-		pwd := utils.GetPwd()
-		log.Info(filepath.Join(pwd, configFilePatch))
-		viper.SetConfigFile(filepath.Join(pwd, configFilePatch))
+		log.Info(configFilePatch)
+		viper.SetConfigFile(configFilePatch)
 	}
 
 	// 配置一些默认值
 	viper.SetDefault("base.role", "Kobayashi-san")
-	viper.SetDefault("base.Kobayashi-san_addr", "http://127.0.0.1:8080")
+	viper.SetDefault("base.Kobayashi-san_addr", "http://0.0.0.0:8080")
 	viper.SetDefault("base.Kobayashi-san_home_key", "T6Z14ey@rj)?LjMvkih+?.W}JAU?V{qvsD+H_)R/")
 
 	viper.SetDefault("http_service.enable", true)

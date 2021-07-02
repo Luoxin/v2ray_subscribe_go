@@ -8,7 +8,7 @@ run:
 
 dockerrun:
 	docker build --no-cache -t eutamias:latest .
-	docker run -it -v config.yaml:/home/config.yaml -p 1900:8080 eutamias:latest
+	docker run -it -p 2000:2000 eutamias:latest
 
 build:
 	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
