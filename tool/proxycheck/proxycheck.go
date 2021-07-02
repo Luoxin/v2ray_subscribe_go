@@ -26,6 +26,7 @@ import (
 
 var cmdArgs struct {
 	SubUrl       string `arg:"-u,--suburl" help:"sub url"`
+	UseProxy     bool   `arg:"-p,--useproxy" help:"sub use proxy"`
 	ConfigPath   string `arg:"-c,--config" help:"config file path"`
 	FasterSpeed  bool   `arg:"-f,--fasterspeed" help:"order by speed"`
 	LowerLatency bool   `arg:"-l,--lowerlatency" help:"order by delay"`
@@ -138,9 +139,11 @@ func main() {
 		})
 		w.Wait()
 	default:
-		rspBody, err := crawler.NewHttpDownloader().Download("GET", cmdArgs.SubUrl, nil, domain.CrawlerConf_Rule{
-			UseProxy: false,
-		})
+		conf.Config.Crawler.Proxies = "http://127.0.0.1:7890"
+		rspBody, err := crawler.NewHttpDownloader().
+			Download("GET", cmdArgs.SubUrl, nil, domain.CrawlerConf_Rule{
+				UseProxy: cmdArgs.UseProxy,
+			})
 		if err != nil {
 			color.Red.Printf("err:%v", err)
 			return
@@ -209,8 +212,9 @@ func main() {
 		w.Wait()
 	}
 
+	total := len(checkResultList)
 	checkResultList = checkResultList.Filter(func(result *CheckResult) bool {
-		return result.Speed >= 0 && result.Delay >= 0
+		return result.Speed >= 0 || result.Delay >= 0
 	})
 
 	if cmdArgs.FasterSpeed {
@@ -229,6 +233,7 @@ func main() {
 
 	fmt.Printf("used:%v\n", time.Since(start))
 	table := tablewriter.NewWriter(os.Stdout)
+	table.SetCaption(true, fmt.Sprintf("测速结果(可用率：%.2f%%)", float64(len(checkResultList))/float64(total)))
 	table.SetHeader([]string{
 		"节点名",
 		"速度",
