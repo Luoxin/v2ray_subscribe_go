@@ -203,7 +203,7 @@ func main() {
 				w.Done()
 			}
 		})
-		w.Done()
+		w.Wait()
 	}
 
 	checkResultList = checkResultList.Filter(func(result *CheckResult) bool {
