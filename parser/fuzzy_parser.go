@@ -22,6 +22,10 @@ func NewFuzzyMatchingParser() *FuzzyMatchingParser {
 func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 	var nodeList pie.Strings
 
+	if strings.HasPrefix(body, "\n") {
+		body = strings.TrimPrefix(body, "\n")
+	}
+
 	adds := func(nodeUrls ...string) {
 		nodeList = append(nodeList, nodeUrls...)
 	}
@@ -51,27 +55,27 @@ func (n FuzzyMatchingParser) ParserText(body string) pie.Strings {
 	reg(`socket4://[^\s]*`)
 	reg(`socket5://[^\s]*`)
 
-	base64List := regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$`).
-		FindAllStringSubmatch(body, -1)
-
-	for _, x := range base64List {
-		pie.Strings(x).Each(func(s string) {
-			str, err := utils.Base64DecodeStripped(s)
-			if err != nil {
-				log.Errorf("err:%v", err)
-				return
-			}
-
-			adds(strings.Split(str, "\n")...)
-		})
+	// base64List := regexp.MustCompile(`^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2})$`).
+	// 	FindAllStringSubmatch(body, -1)
+	//
+	// for _, x := range base64List {
+	// pie.Strings(x).Each(func(x string) {
+	str, err := utils.Base64DecodeStripped(body)
+	if err != nil {
+		log.Errorf("err:%v", err)
+	} else {
+		adds(strings.Split(str, "\n")...)
 	}
+
+	// })
+	// }
 
 	type clashConfig struct {
 		Proxy []map[interface{}]interface{} `yaml:"proxies"`
 	}
 
 	var clashConf clashConfig
-	err := yaml.Unmarshal([]byte(body), &clashConf)
+	err = yaml.Unmarshal([]byte(body), &clashConf)
 	if err == nil {
 		var convert func(m map[interface{}]interface{}) map[string]interface{}
 		convert = func(m map[interface{}]interface{}) map[string]interface{} {

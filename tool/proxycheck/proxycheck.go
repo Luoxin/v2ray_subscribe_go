@@ -146,9 +146,11 @@ func main() {
 			return
 		}
 
-		nodeList := parser.NewFuzzyMatchingParser().ParserText(rspBody).Filter(func(s string) bool {
-			return strings.Contains(s, "://")
-		})
+		nodeList := parser.NewFuzzyMatchingParser().
+			ParserText(rspBody).
+			Filter(func(s string) bool {
+				return strings.Contains(s, "://")
+			})
 
 		bar := progressbar.NewOptions(len(nodeList),
 			progressbar.OptionSetWriter(ansi.NewAnsiStdout()),
@@ -197,6 +199,7 @@ func main() {
 		}
 
 		nodeList.Each(func(nodeUrl string) {
+			w.Add(1)
 			err = pool.Invoke(nodeUrl)
 			if err != nil {
 				color.Red.Printf("err:%v", err)
