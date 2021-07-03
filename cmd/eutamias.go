@@ -13,7 +13,7 @@ import (
 	"github.com/Luoxin/Eutamias/notify"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
-	update "github.com/inconshreveable/go-update"
+	"github.com/inconshreveable/go-update"
 	"github.com/kardianos/service"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,6 +31,9 @@ var cmdArgs struct {
 var UpdateUrl string
 
 func doUpdate() {
+	defer func() {
+		c <- true
+	}()
 	if UpdateUrl == "" {
 		return
 	}
@@ -51,15 +54,21 @@ func doUpdate() {
 		log.Errorf("err:%v", err)
 		return
 	}
-	c <- true
 }
 
-var c = make(chan bool)
+var c = make(chan bool, 1)
 
 func main() {
 	log2.InitLog()
 
 	go doUpdate()
+
+	waitUpdate := func() {
+		select {
+		case <-c:
+		case <-time.After(time.Second * 10):
+		}
+	}
 
 	arg.MustParse(&cmdArgs)
 
@@ -86,9 +95,13 @@ func main() {
 		} else {
 			fmt.Println("install success")
 		}
+	case "start":
+		waitUpdate()
 		err = s.Start()
 		if err != nil {
-			fmt.Println("install err", err)
+			fmt.Println("Start err", err)
+		} else {
+			fmt.Println("Start success")
 		}
 	case "uninstall", "remove":
 		err = s.Stop()
@@ -101,14 +114,8 @@ func main() {
 		} else {
 			fmt.Println("Uninstall success")
 		}
-	case "start":
-		err = s.Start()
-		if err != nil {
-			fmt.Println("Start err", err)
-		} else {
-			fmt.Println("Start success")
-		}
 	case "restart":
+		waitUpdate()
 		err = s.Restart()
 		if err != nil {
 			fmt.Println("Restart err", err)
@@ -125,6 +132,7 @@ func main() {
 	case "run":
 		fallthrough
 	default:
+		waitUpdate()
 		err = s.Run() // 运行服务
 		if err != nil {
 			log.Errorf("err:%v", err)
@@ -138,10 +146,6 @@ type Program struct{}
 func (p *Program) Start(s service.Service) error {
 	notify.Msg(fmt.Sprintf("%v: service starting", eutamias.ServiceName))
 	log.Info("service starting...")
-	select {
-	case <-c:
-	case <-time.After(time.Second * 10):
-	}
 	go p.run(s)
 	return nil
 }
