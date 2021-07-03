@@ -50,8 +50,33 @@ func Init() error {
 		return err
 	}
 
+	updateClashTpl := func() {
+		if ClashTplUrl == "" {
+			return
+		}
+
+		resp, err := nic.Get(ClashTplUrl, nil)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+
+		if resp.StatusCode != 200 {
+			return
+		}
+
+		err = utils.FileWrite(clashTpl, resp.Text)
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return
+		}
+	}
+
 	go func() {
 		defer watcher.Close()
+
+		// 启动前先尝试更新一下数据，而不是永远等待更新
+		updateClashTpl()
 
 		for {
 			select {
@@ -76,25 +101,7 @@ func Init() error {
 				_lock.Unlock()
 
 			case <-time.After(time.Hour * 6):
-				if ClashTplUrl == "" {
-					continue
-				}
-
-				resp, err := nic.Get(ClashTplUrl, nil)
-				if err != nil {
-					log.Errorf("err:%v", err)
-					break
-				}
-
-				if resp.StatusCode != 200 {
-					break
-				}
-
-				err = utils.FileWrite(clashTpl, resp.Text)
-				if err != nil {
-					log.Errorf("err:%v", err)
-					break
-				}
+				updateClashTpl()
 			case <-watcher.Errors:
 				return
 			}
