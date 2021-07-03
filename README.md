@@ -33,7 +33,7 @@ v2ray_subscribe的golang版本
 
 ### TODO
 
-- [ ] docker支持
+- [x] docker支持
 - [ ] 支持更多协议的抓取和检测
 	- [x] ss
 	- [x] ssr
