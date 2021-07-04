@@ -291,6 +291,7 @@ rule-providers:
     path: ./ruleset/lancidr.yaml
     interval: 86400
 rules:
+  - DOMAIN-SUFFIX,jsdelivr.com,DIRECT
   - DOMAIN-SUFFIX,luoxin.live,DIRECT
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
