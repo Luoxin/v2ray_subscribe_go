@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/Dreamacro/clash v1.6.0
+	github.com/Ferluci/fast-realip v1.0.0
 	github.com/Luoxin/faker v0.0.0-20210410033611-489499c2bfab
 	github.com/PuerkitoBio/goquery v1.7.0 // indirect
 	github.com/Sansui233/proxypool v0.7.3
