@@ -364,6 +364,7 @@ rules:
   - DOMAIN-SUFFIX,google.com.vn,🚀 节点选择
   - DOMAIN-SUFFIX,pinquest.cn,DIRECT
   - DOMAIN-SUFFIX,aquanliang.com,DIRECT
+  - DOMAIN-SUFFIX,com.cn,DIRECT
 # 分割线
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
