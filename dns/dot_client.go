@@ -22,7 +22,8 @@ func NewDotClient(dnsService string) *DotClient {
 
 func (p *DotClient) Init() error {
 	var err error
-	p.client, err = dns.NewDoTResolver(p.dnsServiceAddr, dns.DoTCache())
+	// p.client, err = dns.NewDoTResolver(p.dnsServiceAddr, dns.DoTCache())
+	p.client, err = dns.NewDoTResolver(p.dnsServiceAddr)
 	if err != nil {
 		log.Debugf("err:%v", err)
 		return err

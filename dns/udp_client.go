@@ -3,7 +3,6 @@ package dns
 import (
 	"reflect"
 
-	"github.com/bluele/gcache"
 	"github.com/elliotchance/pie/pie"
 	"github.com/miekg/dns"
 	log "github.com/sirupsen/logrus"
@@ -12,7 +11,7 @@ import (
 type UdpClient struct {
 	client         *dns.Client
 	dnsServiceAddr string
-	cache          gcache.Cache
+	// cache          gcache.Cache
 }
 
 // net default: udp
@@ -22,7 +21,7 @@ func NewUdpClient(dnsService string) *UdpClient {
 	return &UdpClient{
 		client:         c,
 		dnsServiceAddr: dnsService,
-		cache:          gcache.New(20).LRU().Build(),
+		// cache:          gcache.New(20).LRU().Build(),
 	}
 }
 
@@ -31,25 +30,25 @@ func (p *UdpClient) Init() error {
 }
 
 func (p *UdpClient) LookupHost(domain string) (hostList pie.Strings) {
-	cacheValue, err := p.cache.Get(domain)
-	if err != nil {
-		if err != gcache.KeyNotFoundError {
-			log.Debugf("err:%v", err)
-			return
-		}
-	} else if cacheValue != nil {
-		hostList = cacheValue.(pie.Strings)
-		if len(hostList) > 0 {
-			return cacheValue.(pie.Strings)
-		}
-	}
+	// cacheValue, err := p.cache.Get(domain)
+	// if err != nil {
+	// 	if err != gcache.KeyNotFoundError {
+	// 		log.Debugf("err:%v", err)
+	// 		return
+	// 	}
+	// } else if cacheValue != nil {
+	// 	hostList = cacheValue.(pie.Strings)
+	// 	if len(hostList) > 0 {
+	// 		return cacheValue.(pie.Strings)
+	// 	}
+	// }
 
 	m := new(dns.Msg)
 
 	m.SetQuestion(dns.Fqdn(domain), dns.TypeA)
 	m.RecursionDesired = true
 
-	r, ttl, err := p.client.Exchange(m, p.dnsServiceAddr)
+	r, _, err := p.client.Exchange(m, p.dnsServiceAddr)
 	if err != nil {
 		log.Debugf("err:%v", err)
 		return
@@ -75,10 +74,10 @@ func (p *UdpClient) LookupHost(domain string) (hostList pie.Strings) {
 
 	log.Debugf("query from %v awser %+v", p.dnsServiceAddr, hostList.Join(","))
 
-	err = p.cache.SetWithExpire(domain, hostList, ttl)
-	if err != nil {
-		log.Debugf("err:%v", err)
-	}
+	// err = p.cache.SetWithExpire(domain, hostList, ttl)
+	// if err != nil {
+	// 	log.Debugf("err:%v", err)
+	// }
 
 	return
 }

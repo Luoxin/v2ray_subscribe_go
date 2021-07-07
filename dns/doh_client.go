@@ -22,7 +22,8 @@ func NewDohClient(dnsService string) *DohClient {
 
 func (p *DohClient) Init() error {
 	var err error
-	p.client, err = dns.NewDoHResolver(p.dnsServiceAddr, dns.DoHCache())
+	// p.client, err = dns.NewDoHResolver(p.dnsServiceAddr, dns.DoHCache())
+	p.client, err = dns.NewDoHResolver(p.dnsServiceAddr)
 	if err != nil {
 		log.Debugf("err:%v", err)
 		return err
