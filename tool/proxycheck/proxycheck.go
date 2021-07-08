@@ -121,7 +121,7 @@ func main() {
 			lock.Unlock()
 		}
 
-		pool, err := ants.NewPoolWithFunc(5, func(i interface{}) {
+		pool, err := ants.NewPoolWithFunc(20, func(i interface{}) {
 			checkOnce(i.(*domain.ProxyNode))
 		})
 		if err != nil {
@@ -193,7 +193,7 @@ func main() {
 			lock.Unlock()
 		}
 
-		pool, err := ants.NewPoolWithFunc(5, func(i interface{}) {
+		pool, err := ants.NewPoolWithFunc(20, func(i interface{}) {
 			checkOnce(i.(string))
 		})
 		if err != nil {
