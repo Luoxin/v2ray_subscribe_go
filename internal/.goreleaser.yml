@@ -51,7 +51,7 @@ builds:
             - -a
         binary: eutamias
         env:
-            - CC=gcc
+            #            - CC=gcc
             - CGO_ENABLED=1
         main: ../cmd/eutamias.go
         goos:
@@ -113,7 +113,7 @@ builds:
         binary: checkwall
         env:
             - CGO_ENABLED=0
-        main: ../tool/checkwall/*.go
+        main: ../tool/checkwall/.
         goos:
             - linux
             - windows
@@ -131,7 +131,7 @@ builds:
         binary: checkwall
         env:
             - CGO_ENABLED=0
-        main: ../tool/proxycheck/*.go
+        main: ../tool/proxycheck/.
         goos:
             - linux
             - windows
@@ -193,7 +193,7 @@ changelog:
             - 'Makefile'
             - 'dockerfile'
             - 'gen'
-            - '*release*'
+            - '.release.'
             - 'rule'
             - 'build'
 #    filters:
