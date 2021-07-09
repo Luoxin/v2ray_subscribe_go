@@ -35,7 +35,6 @@ require (
 	github.com/gookit/color v1.4.2
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
 	github.com/jonboulle/clockwork v0.1.0 // indirect
-	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
 	github.com/kardianos/service v1.2.0
 	github.com/klauspost/compress v1.13.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
@@ -55,7 +54,7 @@ require (
 	github.com/philippgille/gokv/encoding v0.0.0-20191011213304-eb77f15b9c61
 	github.com/philippgille/gokv/gomap v0.6.0
 	github.com/pkg/errors v0.9.1
-	github.com/pterm/pterm v0.12.27 // indirect
+	github.com/pterm/pterm v0.12.27
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452 // indirect
 	github.com/savsgio/gotils v0.0.0-20210617111740-97865ed5a873 // indirect
