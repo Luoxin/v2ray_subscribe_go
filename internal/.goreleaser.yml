@@ -121,23 +121,23 @@ builds:
         goarch:
             - amd64
     -   id: proxycheck
-            ldflags:
-                - -s -w
-            gcflags:
-                - -N -l
-            flags:
-                - -v
-                - -a
-            binary: checkwall
-            env:
-                - CGO_ENABLED=0
-            main: ../tool/proxycheck/*.go
-            goos:
-                - linux
-                - windows
-                - darwin
-            goarch:
-                - amd64
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+            - -a
+        binary: checkwall
+        env:
+            - CGO_ENABLED=0
+        main: ../tool/proxycheck/*.go
+        goos:
+            - linux
+            - windows
+            - darwin
+        goarch:
+            - amd64
 archives:
     -   format: tar.gz
         format_overrides:
