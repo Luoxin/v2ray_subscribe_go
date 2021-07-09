@@ -20,5 +20,6 @@ RUN  #!/bin/bash \
 		curl -L -o ./${GORELEASER_FILENAME} "https://cdn.jsdelivr.net/gh/goreleaser/goreleaser@releases/download/v${GORELEASER_VERSION}/${GORELEASER_FILENAME}" && dpkg -i ./${GORELEASER_FILENAME} \
 	fi
 
+WORKDIR /build/internal/
 #ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist", "--debug"]
 ENTRYPOINT ["bash", "/build/internal/gorelease.sh"]
