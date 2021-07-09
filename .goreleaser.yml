@@ -13,7 +13,7 @@ before:
 #        - GOSUMDB=off
 #        - GOPROXY=https://goproxy.cn,direct
 builds:
-    -   id: windows_amd64
+    -   id: eutamias_gcc_windows_amd64
         ldflags:
             - -s -w
             - --extldflags "-static -fpic"
@@ -36,7 +36,7 @@ builds:
             - windows
         goarch:
             - amd64
-    -   id: linux_amd64
+    -   id: eutamias_gcc_linux_amd64
         ldflags:
             - -s -w
             - --extldflags "-static -fpic"
@@ -58,7 +58,7 @@ builds:
             - linux
         goarch:
             - amd64
-    #    -   id: darwin_amd64
+    #    -   id: eutamias_gcc_darwin_amd64
     #        ldflags:
     #            - -s -w
     #            - --extldflags "-static -fpic"
@@ -81,6 +81,27 @@ builds:
     #            - darwin
     #        goarch:
     #            - amd64
+    -   id: eutamias
+        ldflags:
+            - -s -w
+            - -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
+            - -X 'eutamias.ServiceName={{.ProjectName}}'
+            - -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+            - -a
+        binary: eutamias
+        env:
+            - CGO_ENABLED=0
+        main: ./cmd/eutamias.go
+        goos:
+            - linux
+            - windows
+            - darwin
+        goarch:
+            - amd64
     -   id: checkwall
         ldflags:
             - -s -w
@@ -92,12 +113,31 @@ builds:
         binary: checkwall
         env:
             - CGO_ENABLED=0
-        main: ./tool/checkwall/checkwall.go
+        main: ./tool/checkwall/*.go
         goos:
             - linux
             - windows
+            - darwin
         goarch:
             - amd64
+    -   id: proxycheck
+            ldflags:
+                - -s -w
+            gcflags:
+                - -N -l
+            flags:
+                - -v
+                - -a
+            binary: checkwall
+            env:
+                - CGO_ENABLED=0
+            main: ./tool/proxycheck/*.go
+            goos:
+                - linux
+                - windows
+                - darwin
+            goarch:
+                - amd64
 archives:
     -   format: tar.gz
         format_overrides:
