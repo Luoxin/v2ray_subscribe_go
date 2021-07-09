@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha512"
 	"fmt"
 	"os"
@@ -27,7 +28,7 @@ import (
 	// "github.com/schollz/progressbar/v3"
 )
 
-var cmdArgsstruct {
+var cmdArgs struct {
 	SubUrl       string `arg:"-u,--suburl" help:"sub url"`
 	UseProxy     bool   `arg:"-p,--useproxy" help:"sub use proxy"`
 	ConfigPath   string `arg:"-c,--config" help:"config file path"`
@@ -37,13 +38,15 @@ var cmdArgsstruct {
 }
 
 func main() {
-	log.SetReportCaller(false)
+	var b bytes.Buffer
+	log.SetOutput(&b)
+
 	defer ants.Release()
 	start := time.Now()
 
 	arg.MustParse(&cmdArgs)
 	if cmdArgs.Debug {
-		log.SetReportCaller(true)
+		log.SetOutput(os.Stdout)
 	}
 
 	checkDelay := proxycheck.NewProxyCheck()
