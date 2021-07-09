@@ -2,12 +2,13 @@ package dns
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"math/rand"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/elliotchance/pie/pie"
 	"github.com/elliotchance/pie/pie/util"

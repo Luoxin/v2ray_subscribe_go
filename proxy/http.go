@@ -1,12 +1,13 @@
 package proxy
 
 import (
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	log "github.com/sirupsen/logrus"
 )

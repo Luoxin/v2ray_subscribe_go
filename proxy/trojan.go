@@ -1,13 +1,14 @@
 package proxy
 
 import (
-	"encoding/json"
 	"errors"
 	"net"
 	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 )
 
 var (

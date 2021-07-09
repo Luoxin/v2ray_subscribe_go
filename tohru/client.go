@@ -1,10 +1,11 @@
 package tohru
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-resty/resty/v2"

@@ -3,7 +3,6 @@ package proxycheck
 import (
 	"context"
 	"crypto/tls"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -16,6 +15,7 @@ import (
 	"github.com/Dreamacro/clash/adapters/outbound"
 	"github.com/Dreamacro/clash/constant"
 	C "github.com/Dreamacro/clash/constant"
+	"github.com/Luoxin/Eutamias/utils/json"
 	"github.com/Luoxin/faker"
 	"github.com/alitto/pond"
 	log "github.com/sirupsen/logrus"
@@ -129,16 +129,16 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 		return 0, 0, err
 	}
 
-	proxyItem["name"] = "test proxy"
+	proxyItem["name"] = "eutamias"
 
-	coverFloat2int := func(field string) {
-		if x, ok := proxyItem[field].(float64); ok {
-			proxyItem[field] = int(x)
-		}
-	}
-
-	coverFloat2int("port")
-	coverFloat2int("alterId")
+	// coverFloat2int := func(field string) {
+	// 	if x, ok := proxyItem[field].(float64); ok {
+	// 		proxyItem[field] = int(x)
+	// 	}
+	// }
+	//
+	// coverFloat2int("port")
+	// coverFloat2int("alterId")
 
 	proxy, err := outbound.ParseProxy(proxyItem)
 	if err != nil {
@@ -148,7 +148,7 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 	time.Sleep(time.Second * 1)
 
 	delay, speed, err := p.URLTest(proxy, p.checkUrl)
-	//delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
+	// delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		return 0, 0, err
 	}
@@ -171,6 +171,7 @@ func (p *ProxyCheck) WaitFinish() {
 
 func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Duration, speed float64, err error) {
 	ctx := context.Background()
+	ctx, _ = context.WithTimeout(ctx, p.timeout)
 
 	addr, err := urlToMetadata(url)
 	if err != nil {
@@ -197,6 +198,12 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: false, // 不要忽略ssl校验
 		},
+		TLSHandshakeTimeout:   p.timeout,
+		DisableKeepAlives:     true,
+		DisableCompression:    true,
+		IdleConnTimeout:       p.timeout,
+		ResponseHeaderTimeout: p.timeout,
+		ExpectContinueTimeout: p.timeout,
 	}
 
 	client := http.Client{

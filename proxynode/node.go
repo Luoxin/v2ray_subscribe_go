@@ -110,7 +110,7 @@ func GetUsableNodeList(quantity int, mustUsable bool, useType domain.UseType) (d
 		query = query.Where("use_type = ?", uint32(useType))
 	}
 
-	if quantity >= 0 {
+	if quantity > 0 {
 		query = query.Limit(quantity)
 	}
 

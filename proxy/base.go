@@ -1,9 +1,10 @@
 package proxy
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	log "github.com/sirupsen/logrus"
 )

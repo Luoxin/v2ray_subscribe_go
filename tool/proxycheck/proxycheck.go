@@ -50,11 +50,11 @@ func main() {
 	}
 
 	checkDelay := proxycheck.NewProxyCheck()
-	checkDelay.SetTimeout(time.Second)
+	checkDelay.SetTimeout(time.Second * 3)
 	checkDelay.SetCheckUrl("https://www.google.com")
 
 	checkSpeed := proxycheck.NewProxyCheck()
-	checkSpeed.SetTimeout(time.Second)
+	checkSpeed.SetTimeout(time.Second * 2)
 	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
 	var lock sync.Mutex
@@ -102,7 +102,7 @@ func main() {
 	}
 
 	checkOnce := func(nodeUrl string) {
-		start := time.Now()
+		checkStart := time.Now()
 		defer w.Done()
 		// defer bar.Add(1)
 		defer p.Increment()
@@ -128,12 +128,12 @@ func main() {
 		checkResultList = append(checkResultList, &result)
 		if result.Speed >= 0 && result.Delay >= 0 {
 			pterm.Success.Printfln("节点%v(检测耗时:%v),速度:%.3fKb/s,延时:%.3fms",
-				result.NodeName, time.Since(start), result.Speed, result.Delay)
+				result.NodeName, time.Since(checkStart), result.Speed, result.Delay)
 		} else if result.Speed < 0 && result.Delay < 0 {
-			pterm.Error.Printfln("节点%v(检测耗时:%v)无法联通", result.NodeName, time.Since(start))
+			pterm.Error.Printfln("节点%v(检测耗时:%v)无法联通", result.NodeName, time.Since(checkStart))
 		} else {
 			pterm.Warning.Printfln("节点%v(检测耗时:%v)%v%v",
-				result.NodeName, time.Since(start),
+				result.NodeName, time.Since(checkStart),
 				func() string {
 					if result.Speed < 0 {
 						return ""
@@ -163,7 +163,7 @@ func main() {
 			return
 		}
 
-		nodeList, err := proxynode.GetUsableNodeList(100, false, 1)
+		nodeList, err := proxynode.GetUsableNodeList(-1, false, 1)
 		if err != nil {
 			color.Red.Printf("err:%v", err)
 			return
