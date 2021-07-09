@@ -8,6 +8,7 @@ import (
 	"strings"
 	"sync"
 	"text/template"
+	"time"
 
 	"github.com/elliotchance/pie/pie"
 	log "github.com/sirupsen/logrus"
@@ -169,6 +170,8 @@ func (ps *Proxies) GetUsableList() (psn *Proxies) {
 		log.Errorf("err:%v", err)
 		return
 	}
+
+	check.SetTimeout(time.Second * 5)
 
 	psn = NewProxies()
 	linkNameMap := map[string]string{}
