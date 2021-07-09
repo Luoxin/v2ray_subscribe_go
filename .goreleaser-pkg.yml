@@ -30,7 +30,7 @@ builds:
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
             - CXX=x86_64-w64-mingw32-g++
-        main: ../cmd/eutamias.go
+        main: ./cmd/eutamias.go
         goos:
             - windows
         goarch:
@@ -52,7 +52,7 @@ builds:
             - CC=gcc
             - CXX=g++
             - CGO_ENABLED=1
-        main: ../cmd/eutamias.go
+        main: ./cmd/eutamias.go
         goos:
             - linux
         goarch:
@@ -74,7 +74,7 @@ builds:
     #            - CGO_ENABLED=1
     #            - CC=o64-clang
     #            - CXX=o64-clang++
-    #        main: ../cmd/eutamias.go
+    #        main: ./cmd/eutamias.go
     #        goos:
     #            - darwin
     #        goarch:
@@ -92,11 +92,11 @@ builds:
         binary: eutamias
         env:
             - CGO_ENABLED=0
-        main: ../cmd/eutamias.go
+        main: ./cmd/eutamias.go
         goos:
             - linux
             - windows
-            - darwin
+            # - darwin
         goarch:
             - amd64
     -   id: checkwall
@@ -109,11 +109,11 @@ builds:
         binary: checkwall
         env:
             - CGO_ENABLED=0
-        main: ../tool/checkwall/.
+        main: ./tool/checkwall/.
         goos:
             - linux
             - windows
-            - darwin
+            # - darwin
         goarch:
             - amd64
     -   id: proxycheck
@@ -126,11 +126,11 @@ builds:
         binary: proxycheck
         env:
             - CGO_ENABLED=0
-        main: ../tool/proxycheck/.
+        main: ./tool/proxycheck/.
         goos:
             - linux
             - windows
-            - darwin
+            # - darwin
         goarch:
             - amd64
 archives:
