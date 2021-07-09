@@ -21,4 +21,4 @@ RUN  #!/bin/bash \
 	fi
 
 #ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist", "--debug"]
-ENTRYPOINT ["bash", "gorelease.sh"]
+ENTRYPOINT ["bash", "/build/internal/gorelease.sh"]
