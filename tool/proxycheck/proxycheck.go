@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha512"
 	"fmt"
 	"os"
@@ -18,10 +19,13 @@ import (
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/alexflint/go-arg"
 	"github.com/gookit/color"
-	"github.com/k0kubun/go-ansi"
+	log "github.com/sirupsen/logrus"
+
+	// "github.com/k0kubun/go-ansi"
 	"github.com/olekukonko/tablewriter"
 	"github.com/panjf2000/ants/v2"
-	"github.com/schollz/progressbar/v3"
+	"github.com/pterm/pterm"
+	// "github.com/schollz/progressbar/v3"
 )
 
 var cmdArgs struct {
@@ -30,26 +34,120 @@ var cmdArgs struct {
 	ConfigPath   string `arg:"-c,--config" help:"config file path"`
 	FasterSpeed  bool   `arg:"-f,--fasterspeed" help:"order by speed"`
 	LowerLatency bool   `arg:"-l,--lowerlatency" help:"order by delay"`
+	Debug        bool   `arg:"-d,--debug" help:"enable debug"`
 }
 
 func main() {
+	var b bytes.Buffer
+	log.SetOutput(&b)
+
 	defer ants.Release()
 	start := time.Now()
 
 	arg.MustParse(&cmdArgs)
+	if cmdArgs.Debug {
+		log.SetOutput(os.Stdout)
+	}
 
 	checkDelay := proxycheck.NewProxyCheck()
-	checkDelay.SetTimeout(time.Second * 3)
+	checkDelay.SetTimeout(time.Second)
 	checkDelay.SetCheckUrl("https://www.google.com")
 
 	checkSpeed := proxycheck.NewProxyCheck()
-	checkSpeed.SetTimeout(time.Second * 3)
+	checkSpeed.SetTimeout(time.Second)
 	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
 	var lock sync.Mutex
 
 	var checkResultList CheckResultList
 	var w sync.WaitGroup
+
+	// bar := progressbar.NewOptions(0,
+	// 	progressbar.OptionSetWriter(ansi.NewAnsiStdout()),
+	// 	progressbar.OptionEnableColorCodes(true),
+	// 	progressbar.OptionShowBytes(true),
+	// 	progressbar.OptionSetWidth(50),
+	// 	progressbar.OptionSetDescription("[cyan]proxy detection...[reset]"),
+	// 	progressbar.OptionSetTheme(progressbar.Theme{
+	// 		Saucer:        "[green]=[green]",
+	// 		SaucerHead:    "[green]>[yellow]",
+	// 		SaucerPadding: "[yellow]=[reset]",
+	// 		BarStart:      "[",
+	// 		BarEnd:        "]",
+	// 	}),
+	// 	progressbar.OptionSetVisibility(true),
+	// 	progressbar.OptionEnableColorCodes(true),
+	// 	progressbar.OptionClearOnFinish(),
+	// 	progressbar.OptionShowIts(),
+	// 	progressbar.OptionSetItsString("nodes"),
+	// 	progressbar.OptionThrottle(time.Second),
+	// 	progressbar.OptionFullWidth(),
+	// )
+
+	var p *pterm.ProgressbarPrinter
+	var err error
+
+	initPterm := func(total int) {
+		p, err = pterm.DefaultProgressbar.
+			WithTitle("节点检测").
+			WithShowElapsedTime(true).
+			WithShowTitle(true).
+			WithShowCount(true).
+			WithTotal(total).
+			Start()
+		if err != nil {
+			log.Fatalf("err:%v", err)
+			return
+		}
+	}
+
+	checkOnce := func(nodeUrl string) {
+		start := time.Now()
+		defer w.Done()
+		// defer bar.Add(1)
+		defer p.Increment()
+
+		var err error
+		result := CheckResult{
+			NodeName: utils.ShortStr(fmt.Sprintf("%x", sha512.Sum512([]byte(nodeUrl))), 12),
+		}
+
+		p.Title = fmt.Sprintf("check %v", result.NodeName)
+
+		result.Delay, _, err = checkDelay.CheckWithLink(nodeUrl)
+		if err != nil {
+			result.Delay = -1
+		}
+
+		_, result.Speed, err = checkSpeed.CheckWithLink(nodeUrl)
+		if err != nil {
+			result.Speed = -1
+		}
+
+		lock.Lock()
+		checkResultList = append(checkResultList, &result)
+		if result.Speed >= 0 && result.Delay >= 0 {
+			pterm.Success.Printfln("节点%v(检测耗时:%v),速度:%.3fKb/s,延时:%.3fms",
+				result.NodeName, time.Since(start), result.Speed, result.Delay)
+		} else if result.Speed < 0 && result.Delay < 0 {
+			pterm.Error.Printfln("节点%v(检测耗时:%v)无法联通", result.NodeName, time.Since(start))
+		} else {
+			pterm.Warning.Printfln("节点%v(检测耗时:%v)%v%v",
+				result.NodeName, time.Since(start),
+				func() string {
+					if result.Speed < 0 {
+						return ""
+					}
+					return fmt.Sprintf(",速度:%.3fKb/s", result.Speed)
+				}(), func() string {
+					if result.Delay < 0 {
+						return ""
+					}
+					return fmt.Sprintf(",延时:%.3fms", result.Delay)
+				}())
+		}
+		lock.Unlock()
+	}
 
 	switch cmdArgs.SubUrl {
 	case "":
@@ -71,58 +169,11 @@ func main() {
 			return
 		}
 
-		bar := progressbar.NewOptions(len(nodeList),
-			progressbar.OptionSetWriter(ansi.NewAnsiStdout()),
-			progressbar.OptionEnableColorCodes(true),
-			progressbar.OptionShowBytes(true),
-			progressbar.OptionSetWidth(50),
-			progressbar.OptionSetDescription("[cyan]proxy detection...[reset]"),
-			progressbar.OptionSetTheme(progressbar.Theme{
-				Saucer:        "[green]=[reset]",
-				SaucerHead:    "[green]>[reset]",
-				SaucerPadding: " ",
-				BarStart:      "[",
-				BarEnd:        "]",
-			}))
-
-		checkOnce := func(proxyNode *domain.ProxyNode) {
-			defer w.Done()
-			defer bar.Add(1)
-
-			if proxyNode.DeathCount > 10 {
-				return
-			}
-
-			if proxyNode.ProxySpeed < 0 {
-				return
-			}
-
-			if proxyNode.ProxyNetworkDelay < 0 {
-				return
-			}
-
-			var err error
-			result := CheckResult{
-				NodeName: utils.ShortStr(proxyNode.UrlFeature, 12),
-			}
-
-			result.Delay, _, err = checkDelay.CheckWithLink(proxyNode.Url)
-			if err != nil {
-				result.Delay = -1
-			}
-
-			_, result.Speed, err = checkSpeed.CheckWithLink(proxyNode.Url)
-			if err != nil {
-				result.Speed = -1
-			}
-
-			lock.Lock()
-			checkResultList = append(checkResultList, &result)
-			lock.Unlock()
-		}
+		// bar.ChangeMax(len(nodeList))
+		initPterm(len(nodeList))
 
 		pool, err := ants.NewPoolWithFunc(20, func(i interface{}) {
-			checkOnce(i.(*domain.ProxyNode))
+			checkOnce(i.(*domain.ProxyNode).Url)
 		})
 		if err != nil {
 			color.Red.Printf("err:%v", err)
@@ -137,7 +188,6 @@ func main() {
 				w.Done()
 			}
 		})
-		w.Wait()
 	default:
 		conf.Config.Crawler.Proxies = "http://127.0.0.1:7890"
 		rspBody, err := crawler.NewHttpDownloader().
@@ -155,43 +205,8 @@ func main() {
 				return strings.Contains(s, "://")
 			})
 
-		bar := progressbar.NewOptions(len(nodeList),
-			progressbar.OptionSetWriter(ansi.NewAnsiStdout()),
-			progressbar.OptionEnableColorCodes(true),
-			progressbar.OptionShowBytes(true),
-			progressbar.OptionSetWidth(50),
-			progressbar.OptionSetDescription("[cyan]proxy detection...[reset]"),
-			progressbar.OptionSetTheme(progressbar.Theme{
-				Saucer:        "[green]=[reset]",
-				SaucerHead:    "[green]>[reset]",
-				SaucerPadding: " ",
-				BarStart:      "[",
-				BarEnd:        "]",
-			}))
-
-		checkOnce := func(nodeUrl string) {
-			defer w.Done()
-			defer bar.Add(1)
-
-			var err error
-			result := CheckResult{
-				NodeName: utils.ShortStr(fmt.Sprintf("%x", sha512.Sum512([]byte(nodeUrl))), 12),
-			}
-
-			result.Delay, _, err = checkDelay.CheckWithLink(nodeUrl)
-			if err != nil {
-				result.Delay = -1
-			}
-
-			_, result.Speed, err = checkSpeed.CheckWithLink(nodeUrl)
-			if err != nil {
-				result.Speed = -1
-			}
-
-			lock.Lock()
-			checkResultList = append(checkResultList, &result)
-			lock.Unlock()
-		}
+		// bar.ChangeMax(len(nodeList))
+		initPterm(len(nodeList))
 
 		pool, err := ants.NewPoolWithFunc(20, func(i interface{}) {
 			checkOnce(i.(string))
@@ -209,8 +224,10 @@ func main() {
 				w.Done()
 			}
 		})
-		w.Wait()
 	}
+
+	w.Wait()
+	// bar.Close()
 
 	total := len(checkResultList)
 	checkResultList = checkResultList.Filter(func(result *CheckResult) bool {
