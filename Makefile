@@ -16,11 +16,11 @@ build:
 
 build1:
 	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
-	docker run -it --env-file ./.env -v E:/Eutamias:/build/ eutamias-pkg:latest
+	docker run -it --env-file ./.env -v E:/Eutamias:/home/ eutamias-pkg:latest
 
 build2:
 	docker build -f ./internal/Dockerfile -t eutamias-pkg:latest .
-	docker run -it --env-file ./.env -v D:/develop/Eutamias:/build/ eutamias-pkg:latest
+	docker run -it --env-file ./.env -v D:/develop/Eutamias:/home/ eutamias-pkg:latest
 
 sync1:
 	cp ./resource/clashTpl D:/Service/Subscribe/resource/

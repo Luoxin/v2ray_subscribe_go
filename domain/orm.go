@@ -2,9 +2,10 @@ package domain
 
 import (
 	"database/sql/driver"
-	"encoding/json"
 	"fmt"
 	"reflect"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/mcuadros/go-defaults"
 

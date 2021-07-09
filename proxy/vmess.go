@@ -1,7 +1,6 @@
 package proxy
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -11,6 +10,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/Sansui233/proxypool/pkg/tool"
 )

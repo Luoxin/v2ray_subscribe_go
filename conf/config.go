@@ -1,9 +1,10 @@
 package conf
 
 import (
-	"encoding/json"
 	"os"
 	"path/filepath"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/elliotchance/pie/pie"

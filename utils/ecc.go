@@ -6,10 +6,11 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"go/types"
 	"math/big"
+
+	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/ethereum/go-ethereum/crypto/ecies"
 	log "github.com/sirupsen/logrus"

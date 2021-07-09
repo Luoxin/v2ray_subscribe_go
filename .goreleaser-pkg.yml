@@ -25,8 +25,7 @@ builds:
             - -N -l
         flags:
             - -v
-            - -a
-        binary: eutamias
+        binary: eutamias-gcc
         env:
             - CGO_ENABLED=1
             - CC=x86_64-w64-mingw32-gcc
@@ -48,10 +47,10 @@ builds:
             - -N -l
         flags:
             - -v
-            - -a
-        binary: eutamias
+        binary: eutamias-gcc
         env:
             - CC=gcc
+            - CXX=g++
             - CGO_ENABLED=1
         main: ./cmd/eutamias.go
         goos:
@@ -70,8 +69,7 @@ builds:
     #            - -N -l
     #        flags:
     #            - -v
-    #            - -a
-    #        binary: eutamias
+    #        binary: eutamias-gcc
     #        env:
     #            - CGO_ENABLED=1
     #            - CC=o64-clang
@@ -91,7 +89,6 @@ builds:
             - -N -l
         flags:
             - -v
-            - -a
         binary: eutamias
         env:
             - CGO_ENABLED=0
@@ -99,7 +96,7 @@ builds:
         goos:
             - linux
             - windows
-            - darwin
+            # - darwin
         goarch:
             - amd64
     -   id: checkwall
@@ -109,35 +106,33 @@ builds:
             - -N -l
         flags:
             - -v
-            - -a
         binary: checkwall
         env:
             - CGO_ENABLED=0
-        main: ./tool/checkwall/*.go
+        main: ./tool/checkwall/.
         goos:
             - linux
             - windows
-            - darwin
+            # - darwin
         goarch:
             - amd64
     -   id: proxycheck
-            ldflags:
-                - -s -w
-            gcflags:
-                - -N -l
-            flags:
-                - -v
-                - -a
-            binary: checkwall
-            env:
-                - CGO_ENABLED=0
-            main: ./tool/proxycheck/*.go
-            goos:
-                - linux
-                - windows
-                - darwin
-            goarch:
-                - amd64
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: proxycheck
+        env:
+            - CGO_ENABLED=0
+        main: ./tool/proxycheck/.
+        goos:
+            - linux
+            - windows
+            # - darwin
+        goarch:
+            - amd64
 archives:
     -   format: tar.gz
         format_overrides:
@@ -193,8 +188,9 @@ changelog:
             - 'Makefile'
             - 'dockerfile'
             - 'gen'
-            - 'go release'
+            - '.release.'
             - 'rule'
+            - 'build'
 #    filters:
 #        - exclude:
 #            - '^docs:' e
