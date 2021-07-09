@@ -51,7 +51,8 @@ builds:
             - -a
         binary: eutamias
         env:
-            #            - CC=gcc
+            - CC=gcc
+            - CXX=g++
             - CGO_ENABLED=1
         main: ../cmd/eutamias.go
         goos:

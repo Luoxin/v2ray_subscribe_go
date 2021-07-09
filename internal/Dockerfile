@@ -10,7 +10,7 @@ WORKDIR /build
 COPY . /build/
 
 # goreleaser version
-ARG GORELEASER_VERSION=0.173.2
+ARG GORELEASER_VERSION=0.171.0
 ARG GORELEASER_FILENAME=goreleaser_amd64.deb
 # 安装 goreleaser
 RUN  #!/bin/bash \
@@ -22,4 +22,4 @@ RUN  #!/bin/bash \
 
 WORKDIR /build/internal/
 #ENTRYPOINT ["goreleaser", "--skip-validate" ,"--skip-publish" ,"--snapshot" ,"--rm-dist", "--debug"]
-ENTRYPOINT ["bash", "/build/internal/gorelease.sh"]
+ENTRYPOINT ["bash", "gorelease.sh"]
