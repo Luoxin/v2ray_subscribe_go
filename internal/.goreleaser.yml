@@ -193,8 +193,9 @@ changelog:
             - 'Makefile'
             - 'dockerfile'
             - 'gen'
-            - 'go release'
+            - '*release*'
             - 'rule'
+            - 'build'
 #    filters:
 #        - exclude:
 #            - '^docs:' e

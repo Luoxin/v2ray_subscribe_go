@@ -1,1 +1,1 @@
-goreleaser --skip-validate --rm-dist --debug --config /build/internal/.goreleaser.yml
+goreleaser --skip-validate --rm-dist --debug --config ./.goreleaser.yml
