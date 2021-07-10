@@ -76,3 +76,4 @@ v2ray_subscribe的golang版本
 	- [ ] sqlite
 	- [ ] mysql
 	- [ ] postgres
+- [ ] webhook支持
