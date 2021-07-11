@@ -8,8 +8,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Luoxin/Eutamias/cache"
 	"github.com/Luoxin/Eutamias/conf"
 	"github.com/miekg/dns"
+	"github.com/roylee0704/gron/xtime"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -30,6 +32,7 @@ func InitDnsService() error {
 			for _, q := range m.Question {
 				switch q.Qtype {
 				case dns.TypeA:
+					_ = cache.IncrEx("dns_query_"+q.Name, xtime.Week)
 					ip := LookupHostsFastestBack(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))

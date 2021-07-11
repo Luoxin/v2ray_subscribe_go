@@ -22,6 +22,7 @@ require (
 	github.com/ethereum/go-ethereum v1.10.4
 	github.com/fasthttp/websocket v1.4.3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
+	github.com/garyburd/redigo v1.6.2 // indirect
 	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
 	github.com/go-playground/validator/v10 v10.6.1
 	github.com/go-resty/resty/v2 v2.6.0
@@ -59,8 +60,10 @@ require (
 	github.com/pterm/pterm v0.12.27
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452 // indirect
+	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46 // indirect
 	github.com/savsgio/gotils v0.0.0-20210617111740-97865ed5a873 // indirect
 	github.com/schollz/progressbar/v3 v3.8.2
+	github.com/shomali11/xredis v0.0.0-20190608143638-0b54a6bbf40b // indirect
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.8.0
 	github.com/temoto/robotstxt v1.1.2 // indirect
