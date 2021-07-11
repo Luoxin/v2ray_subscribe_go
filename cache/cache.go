@@ -235,7 +235,7 @@ func IncrEx(k string, timeout time.Duration) error {
 		return nil
 	}
 
-	_, err := client.Incr(genKey(k))
+	err := Incr(k)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -256,6 +256,41 @@ func Expire(k string, timeout time.Duration) error {
 	}
 
 	_, err := client.Expire(genKey(k), int64(timeout.Seconds()))
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return nil
+}
+
+func HSet(key, subKey string, v interface{}) error {
+	if client == nil {
+		return nil
+	}
+
+	_, err := client.HSet(genKey(k), subKey, toJson(v))
+
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return nil
+}
+
+func HSetEx(key, subKey string, v interface{}, timeout time.Duration) error {
+	if client == nil {
+		return nil
+	}
+
+	err := HSet(key, subKey, v)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	err = Expire(k, timeout)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

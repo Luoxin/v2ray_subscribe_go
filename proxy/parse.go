@@ -85,7 +85,7 @@ func ParseProxy(content string) (p Proxy, err error) {
 	}
 
 	if err != nil {
-		_ = cache.SetEx("node_add_err_"+content, struct {
+		_ = cache.HSetEx("node_add_err", content, struct {
 			Content string
 			Err     error
 		}{

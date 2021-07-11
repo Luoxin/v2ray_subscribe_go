@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"strings"
 	"syscall"
 	"time"
 
@@ -32,7 +33,7 @@ func InitDnsService() error {
 			for _, q := range m.Question {
 				switch q.Qtype {
 				case dns.TypeA:
-					_ = cache.IncrEx("dns_query_"+q.Name, xtime.Week)
+					_ = cache.IncrEx("dns_query_"+strings.TrimSuffix(q.Name, "."), xtime.Week)
 					ip := LookupHostsFastestBack(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
