@@ -269,7 +269,7 @@ func HSet(key, subKey string, v interface{}) error {
 		return nil
 	}
 
-	_, err := client.HSet(genKey(k), subKey, toJson(v))
+	_, err := client.HSet(genKey(key), subKey, toJson(v))
 
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -290,7 +290,7 @@ func HSetEx(key, subKey string, v interface{}, timeout time.Duration) error {
 		return err
 	}
 
-	err = Expire(k, timeout)
+	err = Expire(key, timeout)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
