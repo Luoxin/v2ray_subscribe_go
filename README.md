@@ -70,8 +70,8 @@ v2ray_subscribe的golang版本
 	- [x] mysql
 	- [x] postgres
 - [ ] 多缓存支持
-	- [ ] memory
-	- [ ] redis
+	- [x] memory
+	- [x] redis
 	- [ ] etcd
 	- [ ] sqlite
 	- [ ] mysql

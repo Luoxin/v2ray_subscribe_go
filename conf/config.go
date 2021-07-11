@@ -64,8 +64,11 @@ type dns struct {
 	Nameserver    pie.Strings `yaml:"nameserver" json:"nameserver"`
 }
 
-type cache struct {
-	Typ string `yaml:"type" json:"type"`
+type Cache struct {
+	Typ      string `yaml:"type" json:"type"`
+	Address  string `yaml:"address" json:"address"`
+	Password string `yaml:"password" json:"password"`
+	DB       string `yaml:"db" json:"db"`
 }
 
 type config struct {
@@ -74,7 +77,7 @@ type config struct {
 	Debug bool `yaml:"debug" json:"debug"`
 
 	Db    db    `yaml:"db" json:"db"`
-	Cache cache `yaml:"cache" json:"cache"`
+	Cache Cache `yaml:"cache" json:"cache"`
 
 	Crawler     crawler     `yaml:"crawler" json:"crawler"`
 	ProxyCheck  proxyCheck  `yaml:"proxy_check" json:"proxy_check"`

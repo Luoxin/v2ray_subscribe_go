@@ -1,6 +1,7 @@
 package eutamias
 
 import (
+	"github.com/Luoxin/Eutamias/cache"
 	"github.com/Luoxin/Eutamias/dns"
 	"github.com/Luoxin/Eutamias/geolite"
 	"github.com/Luoxin/Eutamias/proxies"
@@ -20,6 +21,14 @@ func Init(configFilePatch string) error {
 	}
 
 	log.Info("init conf success")
+
+	err = cache.InitCache()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	log.Info("init cache success")
 
 	err = proxies.Init()
 	if err != nil {
