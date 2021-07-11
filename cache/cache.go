@@ -80,7 +80,7 @@ var (
 )
 
 func genKey(k string) string {
-	return "eutamias_cache_" + k
+	return "eutamias/cache/" + k
 }
 
 func Get(k string, v interface{}) error {
