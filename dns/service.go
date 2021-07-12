@@ -16,10 +16,24 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func InitDnsService() error {
+type InitServer struct {
+}
+
+func (p *InitServer) Init() (needRun bool, err error) {
+	return InitDnsService()
+}
+
+func (p *InitServer) WaitFinish() {
+}
+
+func (p *InitServer) Name() string {
+	return "dns service"
+}
+
+func InitDnsService() (bool, error) {
 	if !conf.Config.Dns.EnableService {
-		log.Warnf("dns service not start")
-		return nil
+		log.Debugf("dns service not start")
+		return false, nil
 	}
 
 	server := &dns.Server{Addr: ":" + strconv.Itoa(int(conf.Config.Dns.ServicePort)), Net: "udp"}
@@ -64,6 +78,7 @@ func InitDnsService() error {
 			log.Errorf("err:%v", err)
 			return
 		}
+		log.Warnf("dns service closed")
 	}()
 	go func() {
 		for {
@@ -85,5 +100,5 @@ func InitDnsService() error {
 		}
 	}()
 
-	return nil
+	return true, nil
 }

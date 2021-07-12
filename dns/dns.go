@@ -168,22 +168,36 @@ func Ping(ip string) time.Duration {
 
 var dnsClient *Dns
 
-func InitDnsClient() error {
+type InitClient struct {
+}
+
+func (p *InitClient) Init() (needRun bool, err error) {
+	return InitDnsClient()
+}
+
+func (p *InitClient) WaitFinish() {
+}
+
+func (p *InitClient) Name() string {
+	return "dns client"
+}
+
+func InitDnsClient() (bool, error) {
 	if !conf.Config.Dns.Enable {
-		log.Warnf("dns client not start")
-		return nil
+		log.Debugf("dns client not start")
+		return false, nil
 	}
 
 	dnsClient = NewDns()
 	err := dnsClient.Init(0)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return err
+		return false, err
 	}
 
 	dnsClient.AddServiceList(conf.Config.Dns.Nameserver...)
 
-	return nil
+	return true, nil
 }
 
 func LockupDefault(domain string) (hostList pie.Strings) {

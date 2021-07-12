@@ -4,6 +4,7 @@ import (
 	"github.com/Luoxin/Eutamias/cache"
 	"github.com/Luoxin/Eutamias/dns"
 	"github.com/Luoxin/Eutamias/geolite"
+	"github.com/Luoxin/Eutamias/initialize"
 	"github.com/Luoxin/Eutamias/proxies"
 	log "github.com/sirupsen/logrus"
 
@@ -13,78 +14,36 @@ import (
 	"github.com/Luoxin/Eutamias/worker"
 )
 
+var ConfigFilePatch *string
+
+var initList = []initialize.Initialize{
+	&conf.Init{
+		ConfigFilePatch: ConfigFilePatch,
+	},
+	&cache.Init{},
+	&proxies.Init{},
+	&db.Init{},
+	&dns.InitClient{},
+	&dns.InitServer{},
+	&geolite.Init{},
+	&worker.Init{},
+	&webservice.Init{},
+}
+
 func Init(configFilePatch string) error {
-	err := conf.InitConfig(configFilePatch)
-	if err != nil {
-		log.Fatalf("init config err:%v", err)
-		return err
+	for _, item := range initList {
+		needRun, err := item.Init()
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
+
+		if !needRun {
+
+		}
+
+		item.WaitFinish()
 	}
-
-	log.Info("init conf success")
-
-	err = cache.InitCache()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Info("init cache success")
-
-	err = proxies.Init()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Info("init clash tpl watch success")
-
-	err = dns.InitDnsClient()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Info("init dns client success")
-
-	err = dns.InitDnsService()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Info("init dns service success")
-
-	err = geolite.InitGeoLite()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
-	}
-
-	log.Info("init geolite success")
-
-	err = db.InitDb()
-	if err != nil {
-		log.Fatalf("init db err:%v", err)
-		return err
-	}
-
-	log.Info("init db success")
-
-	err = worker.InitWorker()
-	if err != nil {
-		log.Fatalf("init work err:%v", err)
-		return err
-	}
-
-	log.Info("init worker success")
-
-	err = webservice.InitHttpService()
-	if err != nil {
-		log.Fatalf("init http service err:%v", err)
-		return err
-	}
-
-	log.Info("init http service success")
 
 	return nil
 }

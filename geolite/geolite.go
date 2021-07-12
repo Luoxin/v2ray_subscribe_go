@@ -24,6 +24,21 @@ const (
 	geoLiteDbName = "GeoLite2.mmdb"
 )
 
+type Init struct {
+}
+
+func (p *Init) Init() (needRun bool, err error) {
+	return true, InitGeoLite()
+}
+
+func (p *Init) WaitFinish() {
+
+}
+
+func (p *Init) Name() string {
+	return "geolite"
+}
+
 func InitGeoLite() error {
 	geoLite2Path := filepath.Join(utils.GetConfigDir(), geoLiteDbName)
 

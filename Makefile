@@ -24,10 +24,10 @@ build2:
 
 sync1:
 	cp ./resource/clashTpl D:/Service/Subscribe/resource/
-	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
+	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
 	#CGO_ENABLED=1 go build -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
-	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' " -o D:/Service/Subscribe/checkwall.exe ./tool/checkwall/.
-	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic'" -o D:/Service/Subscribe/proxycheck.exe ./tool/proxycheck/.
+	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic' " -o D:/Service/Subscribe/checkwall.exe ./tool/checkwall/.
+	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic'" -o D:/Service/Subscribe/proxycheck.exe ./tool/proxycheck/.
 
 sync2:
 	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Server/Subscribe/eutamias.exe ./cmd/eutamias.go

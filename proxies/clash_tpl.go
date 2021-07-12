@@ -26,7 +26,21 @@ type clashTplVal struct {
 var _lock sync.RWMutex
 var ClashTplUrl string
 
-func Init() error {
+type Init struct {
+}
+
+func (p *Init) Init() (bool, error) {
+	return true, InitProxies()
+}
+
+func (p *Init) WaitFinish() {
+}
+
+func (p *Init) Name() string {
+	return "clash tpl"
+}
+
+func InitProxies() error {
 	clashTplFile := filepath.Join(utils.GetExecPath(), "./resource/clashTpl")
 	if !utils.FileExists(clashTplFile) {
 		log.Warnf("clash tpl not found, skip")

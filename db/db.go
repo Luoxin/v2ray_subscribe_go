@@ -22,6 +22,20 @@ import (
 
 var Db *gorm.DB
 
+type Init struct {
+}
+
+func (p *Init) Init() (bool, error) {
+	return true, InitDb()
+}
+
+func (p *Init) WaitFinish() {
+}
+
+func (p *Init) Name() string {
+	return "database"
+}
+
 func InitDb() error {
 	// log.Infof("connect to database %v", dbAddr)
 	dbConfig := conf.Config.Db

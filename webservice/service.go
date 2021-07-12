@@ -25,17 +25,32 @@ import (
 
 var storage fiber.Storage
 
-func InitHttpService() error {
+type Init struct {
+}
+
+func (p *Init) Init() (needRun bool, err error) {
+	return InitHttpService()
+}
+
+func (p *Init) WaitFinish() {
+	panic("implement me")
+}
+
+func (p *Init) Name() string {
+	panic("implement me")
+}
+
+func InitHttpService() (bool, error) {
 	if !conf.Config.HttpService.Enable {
-		log.Warnf("http service not start")
-		return nil
+		log.Debugf("http service not start")
+		return false, nil
 	}
 
 	var err error
 	err = InitStorage()
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return err
+		return false, err
 	}
 
 	store = session.New(session.Config{
@@ -69,7 +84,7 @@ func InitHttpService() error {
 	err = InitWs(app)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return err
+		return false, err
 	}
 
 	app.Server().ErrorHandler = func(ctx *fasthttp.RequestCtx, err error) {
@@ -79,7 +94,7 @@ func InitHttpService() error {
 	err = registerRouting(app)
 	if err != nil {
 		log.Errorf("err:%v", err)
-		return err
+		return false, err
 	}
 
 	// storage := sqlite3.New(sqlite3.Config{
@@ -189,5 +204,5 @@ func InitHttpService() error {
 		}
 	}()
 
-	return nil
+	return true, nil
 }

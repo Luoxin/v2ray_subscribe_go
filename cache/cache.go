@@ -26,11 +26,26 @@ import (
 
 var client *xredis.Client
 
-func InitCache() (err error) {
+type Init struct {
+}
+
+func (p *Init) Init() (bool, error) {
+	return InitCache()
+}
+
+func (p *Init) WaitFinish() {
+}
+
+func (p *Init) Name() string {
+	return "cache"
+}
+
+func InitCache() (needRun bool, err error) {
 	cacheConf := conf.Config.Cache
 
 	switch cacheConf.Typ {
 	case "redis":
+		needRun = true
 		db, _ := strconv.ParseInt(cacheConf.DB, 10, 32)
 
 		client = xredis.NewClient(&redis.Pool{
@@ -72,7 +87,7 @@ func InitCache() (err error) {
 		log.Info("cache closed")
 	}()
 
-	return nil
+	return
 }
 
 var (

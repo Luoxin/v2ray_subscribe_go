@@ -9,16 +9,33 @@ import (
 	"github.com/Luoxin/Eutamias/conf"
 )
 
+type Init struct {
+}
+
+func (p *Init) Init() (needRun bool, err error) {
+	return true, InitWorker()
+}
+
+func (p *Init) WaitFinish() {
+
+}
+
+func (p *Init) Name() string {
+	return "worker"
+}
+
 func InitWorker() error {
 	finishC := make(chan bool, 1)
 
-	err := InitTohru()
-	if err != nil {
-		log.Errorf("err:%v", err)
-		return err
+	if conf.Config.IsTohru() {
+		err := InitTohru()
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
 	}
 
-	err = InitProxy(finishC)
+	err := InitProxy(finishC)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err
@@ -28,7 +45,7 @@ func InitWorker() error {
 
 	select {
 	case <-finishC:
-		log.Info("init proxy success")
+		log.Debugf("init proxy success")
 	case <-time.After(time.Minute * 10):
 		log.Warn("proxy start timeout")
 	}

@@ -92,11 +92,35 @@ func (p config) IsTohru() bool {
 	return p.Base.Role == "Tohru"
 }
 
+func IsTohru() bool {
+	return Config.IsTohru()
+}
+
 func (p config) KobayashiSan() bool {
 	return p.Base.Role == "Kobayashi-san"
 }
 
 var Config config
+
+type Init struct {
+	ConfigFilePatch *string
+}
+
+func (p *Init) Name() string {
+	return "config"
+}
+
+func (p *Init) Init() (bool, error) {
+	if p.ConfigFilePatch == nil || *p.ConfigFilePatch == "" {
+		return true, InitConfig("")
+	} else {
+		return true, InitConfig(*p.ConfigFilePatch)
+	}
+}
+
+func (p *Init) WaitFinish() {
+	panic("implement me")
+}
 
 func InitConfig(configFilePatch string) error {
 	execPath := utils.GetExecPath()
