@@ -53,10 +53,11 @@ func InitDnsService() (bool, error) {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
 						if err == nil {
 							head := rr.Header()
-							head.Ttl = 60
+							head.Ttl = 1
 							m.Answer = append(m.Answer, rr)
 						}
 						log.Infof("[dns query]%v %v", q.Name, ip)
+						cache.HSetEx("dns_query", strings.TrimSuffix(q.Name, "."), ip, xtime.Week)
 					}
 				}
 			}
