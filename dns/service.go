@@ -47,7 +47,6 @@ func InitDnsService() (bool, error) {
 			for _, q := range m.Question {
 				switch q.Qtype {
 				case dns.TypeA:
-					_ = cache.IncrEx("dns_query_"+strings.TrimSuffix(q.Name, "."), xtime.Week)
 					ip := LookupHostsFastestBack(q.Name)
 					if ip != "" {
 						rr, err := dns.NewRR(fmt.Sprintf("%s A %s", q.Name, ip))
@@ -57,7 +56,9 @@ func InitDnsService() (bool, error) {
 							m.Answer = append(m.Answer, rr)
 						}
 						log.Infof("[dns query]%v %v", q.Name, ip)
-						cache.HSetEx("dns_query", strings.TrimSuffix(q.Name, "."), ip, xtime.Week)
+						_ = cache.HSetEx("dns_query", strings.TrimSuffix(q.Name, "."), ip, xtime.Week)
+					} else {
+						_ = cache.IncrEx("dns_query_"+strings.TrimSuffix(q.Name, "."), xtime.Week)
 					}
 				}
 			}
