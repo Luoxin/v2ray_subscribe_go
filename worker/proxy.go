@@ -26,7 +26,6 @@ func InitProxy(finishC chan bool) error {
 			select {
 			case finishC <- true:
 			default:
-
 			}
 		}
 	}

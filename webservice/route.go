@@ -14,7 +14,7 @@ import (
 )
 
 func registerRouting4Sub(sub fiber.Router) error {
-	sub.Use("/",
+	sub.Use("",
 		cache.New(cache.Config{
 			Next: func(c *fiber.Ctx) bool {
 				refresh := c.Query("refresh")

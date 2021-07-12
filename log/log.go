@@ -2,6 +2,7 @@ package log
 
 import (
 	"fmt"
+	"os"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -14,7 +15,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func InitLog() {
+func GetFileWriter() *rotatelogs.RotateLogs {
 	execPath := utils.GetExecPath()
 	logPath := filepath.Join(execPath, "eutamias.log")
 
@@ -29,40 +30,19 @@ func InitLog() {
 	if err != nil {
 		log.Fatalf("err:%v", err)
 	}
+	return writer
+}
 
-	log.AddHook(lfshook.NewHook(
-		lfshook.WriterMap{
-			log.InfoLevel:  writer,
-			log.WarnLevel:  writer,
-			log.ErrorLevel: writer,
-			log.FatalLevel: writer,
-			log.PanicLevel: writer,
-		},
-		&nested.Formatter{
-			FieldsOrder: []string{
-				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-				log.FieldKeyFunc, log.FieldKeyMsg,
-			},
-			CustomCallerFormatter: func(f *runtime.Frame) string {
-				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-			},
-			TimestampFormat:  time.RFC3339,
-			HideKeys:         true,
-			NoFieldsSpace:    true,
-			NoUppercaseLevel: true,
-			TrimMessages:     true,
-			CallerFirst:      true,
-		},
-	))
+func InitLog() {
+	log.SetOutput(GetFileWriter())
+
 	// log.AddHook(lfshook.NewHook(
 	// 	lfshook.WriterMap{
-	// 		log.TraceLevel: os.Stdout,
-	// 		log.DebugLevel: os.Stdout,
-	// 		log.InfoLevel:  os.Stdout,
-	// 		log.WarnLevel:  os.Stdout,
-	// 		log.ErrorLevel: os.Stdout,
-	// 		log.FatalLevel: os.Stdout,
-	// 		log.PanicLevel: os.Stdout,
+	// 		log.InfoLevel:  writer,
+	// 		log.WarnLevel:  writer,
+	// 		log.ErrorLevel: writer,
+	// 		log.FatalLevel: writer,
+	// 		log.PanicLevel: writer,
 	// 	},
 	// 	&nested.Formatter{
 	// 		FieldsOrder: []string{
@@ -98,4 +78,33 @@ func InitLog() {
 	})
 	log.SetLevel(log.DebugLevel)
 	log.SetReportCaller(true)
+}
+
+func ShowConsole() {
+	log.AddHook(lfshook.NewHook(
+		lfshook.WriterMap{
+			log.TraceLevel: os.Stdout,
+			log.DebugLevel: os.Stdout,
+			log.InfoLevel:  os.Stdout,
+			log.WarnLevel:  os.Stdout,
+			log.ErrorLevel: os.Stdout,
+			log.FatalLevel: os.Stdout,
+			log.PanicLevel: os.Stdout,
+		},
+		&nested.Formatter{
+			FieldsOrder: []string{
+				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+				log.FieldKeyFunc, log.FieldKeyMsg,
+			},
+			CustomCallerFormatter: func(f *runtime.Frame) string {
+				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+			},
+			TimestampFormat:  time.RFC3339,
+			HideKeys:         true,
+			NoFieldsSpace:    true,
+			NoUppercaseLevel: true,
+			TrimMessages:     true,
+			CallerFirst:      true,
+		},
+	))
 }

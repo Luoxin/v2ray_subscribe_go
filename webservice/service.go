@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+	log2 "github.com/Luoxin/Eutamias/log"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
@@ -33,11 +34,10 @@ func (p *Init) Init() (needRun bool, err error) {
 }
 
 func (p *Init) WaitFinish() {
-	panic("implement me")
 }
 
 func (p *Init) Name() string {
-	panic("implement me")
+	return "http service"
 }
 
 func InitHttpService() (bool, error) {
@@ -54,9 +54,9 @@ func InitHttpService() (bool, error) {
 	}
 
 	store = session.New(session.Config{
-		Storage:        storage,
 		Expiration:     time.Hour * 24,
-		CookieName:     "x-tohru-id",
+		Storage:        storage,
+		KeyLookup:      "cookie:x-eutamias-id",
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 	})
@@ -138,11 +138,11 @@ func InitHttpService() (bool, error) {
 			ContextKey: "request-id",
 		}),
 		logger.New(logger.Config{
-			Next: nil,
 			// For more options, see the Config section
-			Format:   "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
-			TimeZone: "Local",
-			Output:   os.Stdout,
+			Format:       "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
+			TimeZone:     "Local",
+			TimeInterval: 0,
+			Output:       log2.GetFileWriter(),
 		}),
 		recover.New(recover.Config{
 			Next: func(c *fiber.Ctx) bool {

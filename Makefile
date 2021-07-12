@@ -23,11 +23,11 @@ build2:
 	docker run -it --env-file ./.env -v D:/develop/Eutamias:/home/ eutamias-pkg:latest
 
 sync1:
-	cp ./resource/clashTpl D:/Service/Subscribe/resource/
-	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
-	#CGO_ENABLED=1 go build -o D:/Service/Subscribe/eutamias.exe ./cmd/eutamias.go
-	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic' " -o D:/Service/Subscribe/checkwall.exe ./tool/checkwall/.
-	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -v -ldflags "-s -w --extldflags '-static -fpic'" -o D:/Service/Subscribe/proxycheck.exe ./tool/proxycheck/.
+	goreleaser.exe --skip-publish --skip-validate --rm-dist  --config .goreleaser-windows.yml --debug
+	cp ./dist/eutamias_windows_amd64/eutamias.exe D:/Service/Subscribe/
+	cp ./dist/checkwall_windows_amd64/checkwall.exe D:/Service/Subscribe/
+	cp ./dist/proxycheck_windows_amd64/proxycheck.exe D:/Service/Subscribe/
+	rm -rf ./dist
 
 sync2:
 	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Server/Subscribe/eutamias.exe ./cmd/eutamias.go

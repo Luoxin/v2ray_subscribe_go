@@ -1,10 +1,12 @@
 package worker
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/whiteshtef/clockwork"
 
 	"github.com/Luoxin/Eutamias/conf"
 )
@@ -41,13 +43,15 @@ func InitWorker() error {
 		return err
 	}
 
-	sched := clockwork.NewScheduler()
-
 	select {
 	case <-finishC:
 		log.Debugf("init proxy success")
-	case <-time.After(time.Minute * 10):
+	case <-time.After(time.Second * 10):
 		log.Warn("proxy start timeout")
+	}
+
+	if !conf.Config.Crawler.Enable && !conf.Config.ProxyCheck.Enable {
+		return nil
 	}
 
 	beforeFunChan := make(chan func(), 10)
@@ -61,13 +65,6 @@ func InitWorker() error {
 			}
 		}
 
-		sched.Schedule().EverySingle().Minute().Do(func() {
-			err := crawler()
-			if err != nil {
-				log.Errorf("err:%v", err)
-			}
-		})
-
 		// c.AddFunc(gron.Every(xtime.Minute*10), func() {
 		// 	err := crawler()
 		// 	if err != nil {
@@ -75,7 +72,7 @@ func InitWorker() error {
 		// 	}
 		// })
 	} else {
-		log.Warnf("crawler not start")
+		log.Debugf("crawler not start")
 	}
 
 	if conf.Config.ProxyCheck.Enable {
@@ -87,13 +84,6 @@ func InitWorker() error {
 				log.Errorf("err:%v", err)
 			}
 		}
-
-		sched.Schedule().EverySingle().Minute().Do(func() {
-			err = checkProxyNode()
-			if err != nil {
-				log.Errorf("err:%v", err)
-			}
-		})
 
 		// c.AddFunc(gron.Every(xtime.Minute*10), func() {
 		// 	err := checkProxyNode(proxyCheck)
@@ -115,10 +105,13 @@ func InitWorker() error {
 		// })
 
 	} else {
-		log.Warnf("proxy check not start")
+		log.Debugf("proxy check not start")
 	}
 
 	beforeFunChan <- nil
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGQUIT)
 	go func() {
 		for {
 			f := <-beforeFunChan
@@ -128,7 +121,37 @@ func InitWorker() error {
 
 			f()
 		}
-		sched.Run()
+
+		close(beforeFunChan)
+
+		crawlerTimer := time.NewTimer(time.Minute)
+		defer crawlerTimer.Stop()
+		proxyCheckTimer := time.NewTimer(time.Minute)
+		defer proxyCheckTimer.Stop()
+
+		for {
+			select {
+			case <-crawlerTimer.C:
+				if conf.Config.Crawler.Enable {
+					err = crawler()
+					if err != nil {
+						log.Errorf("err:%v", err)
+					}
+					crawlerTimer.Reset(time.Minute)
+				}
+			case <-proxyCheckTimer.C:
+				if conf.Config.ProxyCheck.Enable {
+					err = crawler()
+					if err != nil {
+						log.Errorf("err:%v", err)
+					}
+					proxyCheckTimer.Reset(time.Minute)
+				}
+			case <-sigCh:
+				log.Warn("worker stop")
+				return
+			}
+		}
 	}()
 
 	return nil

@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
+	log2 "github.com/Luoxin/Eutamias/log"
 	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/Luoxin/Eutamias/utils"
@@ -119,7 +120,6 @@ func (p *Init) Init() (bool, error) {
 }
 
 func (p *Init) WaitFinish() {
-	panic("implement me")
 }
 
 func InitConfig(configFilePatch string) error {
@@ -219,6 +219,7 @@ func InitConfig(configFilePatch string) error {
 
 	if Config.Debug {
 		log.SetLevel(log.DebugLevel)
+		log2.ShowConsole()
 	} else {
 		log.SetLevel(log.InfoLevel)
 	}

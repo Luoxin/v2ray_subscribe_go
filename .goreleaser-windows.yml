@@ -1,0 +1,68 @@
+project_name: eutamias
+env:
+    - GO111MODULE=on
+    - GOSUMDB=off
+    - GOPROXY=https://goproxy.cn,direct
+before:
+    hooks:
+        - go mod tidy
+builds:
+    -   id: eutamias
+        ldflags:
+            - -s -w
+            - --extldflags "-static -fpic"
+            - -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv'
+            - -X 'eutamias.ServiceName={{.ProjectName}}'
+            - -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: eutamias
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./cmd/eutamias.go
+        goos:
+            - windows
+        goarch:
+            - amd64
+    -   id: checkwall
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: checkwall
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./tool/checkwall/.
+        goos:
+            - windows
+        goarch:
+            - amd64
+    -   id: proxycheck
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: proxycheck
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./tool/proxycheck/.
+        goos:
+            - windows
+        goarch:
+            - amd64
+checksum:
+    disable: true
+archives:
+    -   format: binary
