@@ -50,7 +50,7 @@ func registerRouting(app *fiber.App) error {
 		reqId := c.Context().ID()
 		msg := fmt.Sprintf("<%v>[%s]%s %v %s %s",
 			reqId, utils.GetRealIpFromCtx(c), c.Method(), c.Path(), c.Request().Header.String(),
-			, utils.ShortStr4Web(string(c.Body()), 400))
+			utils.ShortStr4Web(string(c.Body()), 400))
 		log.Info(msg)
 
 		err := c.Next()
