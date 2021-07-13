@@ -9,6 +9,7 @@ import (
 	"time"
 
 	log2 "github.com/Luoxin/Eutamias/log"
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
@@ -17,7 +18,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/fiber/v2/middleware/session"
-	"github.com/gofiber/fiber/v2/utils"
+	utils2 "github.com/gofiber/fiber/v2/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
 
@@ -118,7 +119,7 @@ func InitHttpService() (bool, error) {
 			CookieSameSite: "Strict",
 			Expiration:     time.Hour,
 			Storage:        storage,
-			KeyGenerator:   utils.UUID,
+			KeyGenerator:   utils2.UUID,
 		}),
 		compress.New(compress.Config{
 			Level: compress.LevelBestCompression,
@@ -133,7 +134,7 @@ func InitHttpService() (bool, error) {
 		requestid.New(requestid.Config{
 			Header: "x-request-id",
 			Generator: func() string {
-				return strings.ReplaceAll(utils.UUIDv4(), "-", "")
+				return strings.ReplaceAll(utils2.UUIDv4(), "-", "")
 			},
 			ContextKey: "request-id",
 		}),
@@ -166,7 +167,7 @@ func InitHttpService() (bool, error) {
 		// },
 		limiter.New(limiter.Config{
 			Next: func(c *fiber.Ctx) bool {
-				return c.IP() == "127.0.0.1"
+				return utils.GetRealIpFromCtx(c) == "127.0.0.1"
 			},
 			Max: 40,
 			KeyGenerator: func(c *fiber.Ctx) string {
@@ -178,7 +179,7 @@ func InitHttpService() (bool, error) {
 					}
 				}
 
-				return fmt.Sprintf("limiter_user_ip_%s", c.IP())
+				return fmt.Sprintf("limiter_user_ip_%s", utils.GetRealIpFromCtx(c))
 			},
 			Storage:    storage,
 			Expiration: time.Minute,

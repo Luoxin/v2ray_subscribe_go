@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/Luoxin/Eutamias/utils/json"
 
 	"github.com/elliotchance/pie/pie"
@@ -80,7 +81,7 @@ func Registration(c *fiber.Ctx) error {
 	tohruFeed = domain.TohruFeed{
 		UserId:       req.TohruKey,
 		UserPassword: genPassword(req.TohruKey, req.TohruPassword),
-		LastIp:       c.IP(),
+		LastIp:       utils.GetRealIpFromCtx(c),
 	}
 
 	log.Info(genPassword(req.TohruKey, req.TohruPassword))
@@ -182,10 +183,10 @@ func CheckUsable(c *fiber.Ctx) error {
 		return c.SendStatus(403)
 	}
 
-	if tohruFeed.LastIp != c.IP() {
+	if tohruFeed.LastIp != utils.GetRealIpFromCtx(c) {
 		db.Db.Model(&domain.TohruFeed{}).
 			Where("id = ?", tohruFeed.Id).Updates(map[string]interface{}{
-			"last_ip": c.IP(),
+			"last_ip": utils.GetRealIpFromCtx(c),
 		})
 	}
 
@@ -211,7 +212,7 @@ func CheckUsable(c *fiber.Ctx) error {
 
 	sess.Set(SessionKeyUid, tohruFeed.Id)
 	sess.Set(SessionKeyUserKey, userInfo.TohruKey)
-	sess.Set(SessionKeyUserIp, c.IP())
+	sess.Set(SessionKeyUserIp, utils.GetRealIpFromCtx(c))
 
 	// save session
 	err = sess.Save()
@@ -310,7 +311,7 @@ func registerTohru(app fiber.Router) error {
 			return err
 		}
 
-		if sess.Get(SessionKeyUserIp) != c.IP() {
+		if sess.Get(SessionKeyUserIp) != utils.GetRealIpFromCtx(c) {
 			return c.SendStatus(403)
 		}
 
