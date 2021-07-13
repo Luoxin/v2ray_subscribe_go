@@ -122,7 +122,7 @@ func FastestIp(domain string, ipList pie.Strings) string {
 		if d < delay || delay < 0 {
 			delay = d
 			fastestIp = ip
-			_ = dnsCache.SetWithExpire(domain, fastestIp, time.Minute*30)
+			_ = dnsCache.SetWithExpire(domain, fastestIp, time.Minute)
 		}
 	})
 

@@ -56,7 +56,7 @@ func InitDnsService() (bool, error) {
 							m.Answer = append(m.Answer, rr)
 						}
 						log.Infof("[dns query]%v %v", q.Name, ip)
-						_ = cache.HSetEx("dns_query", strings.TrimSuffix(q.Name, "."), ip, xtime.Week)
+						_ = cache.HSetEx("dns_query", q.Name, ip, xtime.Week)
 					} else {
 						_ = cache.IncrEx("dns_query_"+strings.TrimSuffix(q.Name, "."), xtime.Week)
 					}
