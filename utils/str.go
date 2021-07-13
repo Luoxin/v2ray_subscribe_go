@@ -17,6 +17,9 @@ func ShortStr4Web(str string, max int) string {
 }
 
 func ShortStr(str string, max int) string {
+	if max < 0 {
+		return str
+	}
 	if len(str) > max {
 		return str[:max]
 	}
