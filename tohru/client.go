@@ -185,6 +185,12 @@ func (p *tohru) Registration(key, pwd string) error {
 func (p *tohru) DoRequest(path string, req, rsp interface{}) error {
 	var lastErr error
 
+	err := validate.Struct(req)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
 	for i := 0; i < 3; i++ {
 		resp, err := p.client.R().
 			SetBody(req).
@@ -218,8 +224,8 @@ func (p *tohru) ChangedPassword(username string, oldPwd, newPwd string) error {
 	var rsp ChangePasswordRsp
 	err := p.DoRequest("/tohru/ChangePassword", &ChangePasswordReq{
 		TohruKey:         username,
-		OldTohruPassword: oldPwd,
-		NewTohruPassword: newPwd,
+		OldTohruPassword: p.GenEncryptionPassword(oldPwd),
+		NewTohruPassword: p.GenEncryptionPassword(newPwd),
 	}, &rsp)
 	if err != nil {
 		log.Errorf("err:%v", err)

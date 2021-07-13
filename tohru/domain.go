@@ -2,7 +2,11 @@ package tohru
 
 import (
 	"errors"
+
+	"github.com/go-playground/validator/v10"
 )
+
+var validate = validator.New()
 
 type UserInfo struct {
 	Hello         string `yaml:"hello" json:"hello" validate:"required"`

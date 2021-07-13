@@ -115,6 +115,8 @@ func ChangePassword(c *fiber.Ctx) error {
 		return err
 	}
 
+	log.Info(genPassword(req.TohruKey, req.OldTohruPassword))
+
 	if tohruFeed.UserPassword != genPassword(req.TohruKey, req.OldTohruPassword) {
 		log.Error("password is fail")
 		return c.SendStatus(403)

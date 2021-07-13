@@ -24,11 +24,11 @@ build2:
 
 sync1:
 	goreleaser.exe --skip-publish --skip-validate --rm-dist  --config .goreleaser-windows.yml --debug
-	cp ./dist/eutamias_windows_amd64/eutamias.exe D:/Service/Subscribe/
-	cp ./dist/checkwall_windows_amd64/checkwall.exe D:/Service/Subscribe/
-	cp ./dist/proxycheck_windows_amd64/proxycheck.exe D:/Service/Subscribe/
-	cp ./dist/dnsquery_windows_amd64/dnsquery.exe D:/Service/Subscribe/
-	cp ./dist/tohru_windows_amd64/tohru.exe D:/Service/Subscribe/
+	- cp ./dist/eutamias_windows_amd64/eutamias.exe D:/Service/Subscribe/
+	- cp ./dist/checkwall_windows_amd64/checkwall.exe D:/Service/Subscribe/
+	- cp ./dist/proxycheck_windows_amd64/proxycheck.exe D:/Service/Subscribe/
+	- cp ./dist/dnsquery_windows_amd64/dnsquery.exe D:/Service/Subscribe/
+	- cp ./dist/tohru_windows_amd64/tohru.exe D:/Service/Subscribe/
 
 sync2:
 	CGO_ENABLED=1 go build -ldflags "-s -w --extldflags '-static -fpic' -X 'main.UpdateUrl=https://kutt.luoxin.live/0NnXIQ' -X 'geolite.GeoLiteUrl=https://kutt.luoxin.live/GHfTBv' -X 'proxies.ClashTplUrl=https://kutt.luoxin.live/dxvcRb'" -o D:/Server/Subscribe/eutamias.exe ./cmd/eutamias.go

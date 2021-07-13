@@ -53,7 +53,7 @@ func main() {
 			return
 		}
 
-		color.Green.Printf("register success")
+		color.Green.Printf("register success\n")
 		color.Green.Printf("user name:%v\n", cmdArgs.UserName)
 		color.Green.Printf("password:%v\n", cmdArgs.Password)
 
@@ -73,15 +73,15 @@ func main() {
 			return
 		}
 
-		err = tohru.Tohru.ChangedPassword(cmdArgs.UserName, cmdArgs.OldPassword, cmdArgs.Password)
+		err = tohru.Tohru.ChangedPassword(cmdArgs.UserName, cmdArgs.OldPassword, cmdArgs.NewPassword)
 		if err != nil {
 			color.Red.Printf("err:%v\n", err)
 			return
 		}
 
-		color.Green.Printf("changed password success")
+		color.Green.Printf("changed password success\n")
 		color.Green.Printf("user name:%v\n", cmdArgs.UserName)
-		color.Green.Printf("new password:%v\n", cmdArgs.Password)
+		color.Green.Printf("new password:%v\n", cmdArgs.NewPassword)
 
 	case "check":
 		fallthrough
