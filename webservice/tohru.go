@@ -184,11 +184,18 @@ func CheckUsable(c *fiber.Ctx) error {
 		return c.SendStatus(403)
 	}
 
+	log.Infof("%v last ip is %v", userInfo.TohruKey, utils.GetRealIpFromCtx(c))
+
 	if tohruFeed.LastIp != utils.GetRealIpFromCtx(c) {
-		db.Db.Model(&domain.TohruFeed{}).
-			Where("id = ?", tohruFeed.Id).Updates(map[string]interface{}{
-			"last_ip": utils.GetRealIpFromCtx(c),
-		})
+		err = db.Db.Model(&domain.TohruFeed{}).
+			Where("id = ?", tohruFeed.Id).
+			Updates(map[string]interface{}{
+				"last_ip": utils.GetRealIpFromCtx(c),
+			}).Error
+		if err != nil {
+			log.Errorf("err:%v", err)
+			return err
+		}
 	}
 
 	sess, err := store.Get(c)
