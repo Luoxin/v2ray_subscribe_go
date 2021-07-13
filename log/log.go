@@ -15,6 +15,24 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+func GetFileWriter() *rotatelogs.RotateLogs {
+	execPath := utils.GetExecPath()
+	logPath := filepath.Join(execPath, "eutamias.log")
+
+	writer, err := rotatelogs.New(
+		filepath.Join(execPath, "eutamias-%Y-%m-%d-%H.log"),
+		rotatelogs.WithLinkName(logPath),
+		rotatelogs.WithMaxAge(time.Hour),
+		rotatelogs.WithRotationTime(time.Minute),
+		// rotatelogs.WithRotationCount(24),
+		// rotatelogs.WithRotationSize(100*1024*1024),
+	)
+	if err != nil {
+		log.Fatalf("err:%v", err)
+	}
+	return writer
+}
+
 func InitLog() {
 	execPath := utils.GetExecPath()
 	logPath := filepath.Join(execPath, "eutamias.log")
