@@ -4,6 +4,7 @@ type UserInfo struct {
 	Hello         string `yaml:"hello" json:"hello" validate:"required"`
 	TohruKey      string `yaml:"tohru_key" json:"tohru_key" validate:"required"`
 	TohruPassword string `yaml:"tohru_password" json:"tohru_password" validate:"required"`
+	// Code string `yaml:"code" json:"code" validate:"required"`
 }
 
 type CheckUsableReq struct {

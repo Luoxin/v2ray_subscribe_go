@@ -34,7 +34,7 @@ var cmdArgs struct {
 	ConfigPath   string `arg:"-c,--config" help:"config file path"`
 	FasterSpeed  bool   `arg:"-f,--fasterspeed" help:"order by speed"`
 	LowerLatency bool   `arg:"-l,--lowerlatency" help:"order by delay"`
-	Debug        bool   `arg:"-d,--debug" help:"enable debug"`
+	Debug        bool   `arg:"-d,--debug" help:"enable debug" default:"false"`
 }
 
 func main() {

@@ -35,7 +35,6 @@ func GetFileWriter() *rotatelogs.RotateLogs {
 
 func InitLog() {
 	log.SetOutput(GetFileWriter())
-
 	// log.AddHook(lfshook.NewHook(
 	// 	lfshook.WriterMap{
 	// 		log.InfoLevel:  writer,
