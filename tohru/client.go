@@ -9,6 +9,7 @@ import (
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
+	"go.uber.org/atomic"
 	"golang.org/x/crypto/sha3"
 
 	"github.com/Luoxin/Eutamias/conf"
@@ -20,6 +21,8 @@ const Hello = "B3vUNO|I,|\"FAco9b<fIPj0K:r,Zsj\"?KFOA}.z1N&LZOP1GYq"
 
 type tohru struct {
 	client *resty.Client
+
+	tplToken atomic.String
 }
 
 func newTohru() *tohru {
@@ -113,6 +116,9 @@ func (p *tohru) CheckUsable() error {
 		return errors.New(resp.String())
 	}
 
+	p.client.SetHeader(TokenKey, rsp.Token)
+	p.tplToken.Store(rsp.Token)
+
 	for _, cookie := range resp.Cookies() {
 		p.client.SetCookie(cookie)
 	}
@@ -193,6 +199,7 @@ func (p *tohru) DoRequest(path string, req, rsp interface{}) error {
 
 	for i := 0; i < 3; i++ {
 		resp, err := p.client.R().
+			SetHeader(TokenKey, p.tplToken.Load()).
 			SetBody(req).
 			SetResult(rsp).
 			Post(conf.Config.Base.KobayashiSanAddr + path)

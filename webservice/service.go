@@ -9,6 +9,7 @@ import (
 	"time"
 
 	log2 "github.com/Luoxin/Eutamias/log"
+	"github.com/Luoxin/Eutamias/tohru"
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -57,7 +58,7 @@ func InitHttpService() (bool, error) {
 	store = session.New(session.Config{
 		Expiration:     time.Hour * 24,
 		Storage:        storage,
-		KeyLookup:      "cookie:x-eutamias-id",
+		KeyLookup:      "header:" + tohru.TokenKey,
 		CookieSecure:   true,
 		CookieHTTPOnly: true,
 	})

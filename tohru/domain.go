@@ -8,6 +8,15 @@ import (
 
 var validate = validator.New()
 
+const (
+	TokenKey = "x-eutamias-token"
+)
+
+var (
+	ErrTohruNotfound = errors.New("tohru notfound")
+	ErrWrongPassword = errors.New("wrong password")
+)
+
 type UserInfo struct {
 	Hello         string `yaml:"hello" json:"hello" validate:"required"`
 	TohruKey      string `yaml:"tohru_key" json:"tohru_key" validate:"required"`
@@ -52,8 +61,3 @@ type ChangePasswordReq struct {
 
 type ChangePasswordRsp struct {
 }
-
-var (
-	ErrTohruNotfound = errors.New("tohru notfound")
-	ErrWrongPassword = errors.New("wrong password")
-)

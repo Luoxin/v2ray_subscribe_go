@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/Luoxin/Eutamias/utils"
 	"github.com/Luoxin/Eutamias/utils/json"
@@ -213,6 +214,8 @@ func CheckUsable(c *fiber.Ctx) error {
 	sess.Set(SessionKeyUid, tohruFeed.Id)
 	sess.Set(SessionKeyUserKey, userInfo.TohruKey)
 	sess.Set(SessionKeyUserIp, utils.GetRealIpFromCtx(c))
+	sess.Set(tohru.TokenKey, rsp.Token)
+	sess.SetExpiry(time.Hour)
 
 	// save session
 	err = sess.Save()
