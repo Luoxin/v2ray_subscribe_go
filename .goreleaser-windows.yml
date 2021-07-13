@@ -62,6 +62,40 @@ builds:
             - windows
         goarch:
             - amd64
+    -   id: tohru
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: tohru
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./tool/tohru/.
+        goos:
+            - windows
+        goarch:
+            - amd64
+    -   id: dnsquery
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: dnsquery
+        env:
+            - CGO_ENABLED=1
+            - CC=x86_64-w64-mingw32-gcc
+            - CXX=x86_64-w64-mingw32-g++
+        main: ./tool/dnsquery/.
+        goos:
+            - windows
+        goarch:
+            - amd64
 checksum:
     disable: true
 archives:

@@ -1,5 +1,9 @@
 package tohru
 
+import (
+	"errors"
+)
+
 type UserInfo struct {
 	Hello         string `yaml:"hello" json:"hello" validate:"required"`
 	TohruKey      string `yaml:"tohru_key" json:"tohru_key" validate:"required"`
@@ -39,8 +43,13 @@ type ChangePasswordReq struct {
 	// 当前Tohru的版本
 	TohruKey         string `yaml:"tohru_key" json:"tohru_key" validate:"required"`
 	OldTohruPassword string `yaml:"old_tohru_password" json:"old_tohru_password" validate:"required"`
-	NewTohruPassword string `yaml:"old_tohru_password" json:"vtohru_password" validate:"required"`
+	NewTohruPassword string `yaml:"new_tohru_password" json:"new_tohru_password" validate:"required"`
 }
 
 type ChangePasswordRsp struct {
 }
+
+var (
+	ErrTohruNotfound = errors.New("tohru notfound")
+	ErrWrongPassword = errors.New("wrong password")
+)

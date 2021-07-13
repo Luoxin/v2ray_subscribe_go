@@ -96,7 +96,7 @@ builds:
         goos:
             - linux
             - windows
-            # - darwin
+            - darwin
         goarch:
             - amd64
     -   id: checkwall
@@ -113,7 +113,7 @@ builds:
         goos:
             - linux
             - windows
-            # - darwin
+            - darwin
         goarch:
             - amd64
     -   id: proxycheck
@@ -130,7 +130,41 @@ builds:
         goos:
             - linux
             - windows
-            # - darwin
+            - darwin
+        goarch:
+            - amd64
+    -   id: tohru
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: tohru
+        env:
+            - CGO_ENABLED=0
+        main: ./tool/tohru/.
+        goos:
+            - linux
+            - windows
+            - darwin
+        goarch:
+            - amd64
+    -   id: dnsquery
+        ldflags:
+            - -s -w
+        gcflags:
+            - -N -l
+        flags:
+            - -v
+        binary: dnsquery
+        env:
+            - CGO_ENABLED=0
+        main: ./tool/dnsquery/.
+        goos:
+            - linux
+            - windows
+            - darwin
         goarch:
             - amd64
 archives:

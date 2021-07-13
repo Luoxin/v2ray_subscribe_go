@@ -29,15 +29,13 @@ func (p *Init) Name() string {
 func InitWorker() error {
 	finishC := make(chan bool, 1)
 
-	if conf.Config.IsTohru() {
-		err := InitTohru()
-		if err != nil {
-			log.Errorf("err:%v", err)
-			return err
-		}
+	err := InitTohru()
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
 	}
 
-	err := InitProxy(finishC)
+	err = InitProxy(finishC)
 	if err != nil {
 		log.Errorf("err:%v", err)
 		return err

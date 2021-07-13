@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/Luoxin/Eutamias/utils/json"
-
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
@@ -129,7 +128,7 @@ func (p *tohru) SyncNode() error {
 	}
 
 	var rsp SyncNodeRsp
-	err = p.DoRequest("/tohru/SyncNode", SyncNodeReq{
+	err = p.DoRequest("/tohru/SyncNode", &SyncNodeReq{
 		NodeList: nodeList,
 	}, &rsp)
 	if err != nil {
@@ -164,12 +163,12 @@ func (p *tohru) SyncNode() error {
 func (p *tohru) Registration(key, pwd string) error {
 	var rsp RegistrationRsp
 	resp, err := p.client.R().
-		SetBody(RegistrationReq{
+		SetBody(&RegistrationReq{
 			TohruKey:      key,
 			TohruPassword: p.GenEncryptionPassword(pwd),
 		}).
 		SetResult(&rsp).
-		SetBasicAuth("admin", "admin").
+		SetBasicAuth(conf.Config.Base.KobayashiSanUserName, conf.Config.Base.KobayashiSanPassword).
 		Post(conf.Config.Base.KobayashiSanAddr + "/tohru/Registration")
 	if err != nil {
 		log.Errorf("err:%v", err)
@@ -213,4 +212,19 @@ func (p *tohru) DoRequest(path string, req, rsp interface{}) error {
 	}
 
 	return lastErr
+}
+
+func (p *tohru) ChangedPassword(username string, oldPwd, newPwd string) error {
+	var rsp ChangePasswordRsp
+	err := p.DoRequest("/tohru/ChangePassword", &ChangePasswordReq{
+		TohruKey:         username,
+		OldTohruPassword: oldPwd,
+		NewTohruPassword: newPwd,
+	}, &rsp)
+	if err != nil {
+		log.Errorf("err:%v", err)
+		return err
+	}
+
+	return nil
 }
