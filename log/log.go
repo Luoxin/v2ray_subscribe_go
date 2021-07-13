@@ -15,7 +15,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func GetFileWriter() *rotatelogs.RotateLogs {
+func InitLog() {
 	execPath := utils.GetExecPath()
 	logPath := filepath.Join(execPath, "eutamias.log")
 
@@ -30,35 +30,31 @@ func GetFileWriter() *rotatelogs.RotateLogs {
 	if err != nil {
 		log.Fatalf("err:%v", err)
 	}
-	return writer
-}
 
-func InitLog() {
-	log.SetOutput(GetFileWriter())
-	// log.AddHook(lfshook.NewHook(
-	// 	lfshook.WriterMap{
-	// 		log.InfoLevel:  writer,
-	// 		log.WarnLevel:  writer,
-	// 		log.ErrorLevel: writer,
-	// 		log.FatalLevel: writer,
-	// 		log.PanicLevel: writer,
-	// 	},
-	// 	&nested.Formatter{
-	// 		FieldsOrder: []string{
-	// 			log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
-	// 			log.FieldKeyFunc, log.FieldKeyMsg,
-	// 		},
-	// 		CustomCallerFormatter: func(f *runtime.Frame) string {
-	// 			return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
-	// 		},
-	// 		TimestampFormat:  time.RFC3339,
-	// 		HideKeys:         true,
-	// 		NoFieldsSpace:    true,
-	// 		NoUppercaseLevel: true,
-	// 		TrimMessages:     true,
-	// 		CallerFirst:      true,
-	// 	},
-	// ))
+	log.AddHook(lfshook.NewHook(
+		lfshook.WriterMap{
+			log.InfoLevel:  writer,
+			log.WarnLevel:  writer,
+			log.ErrorLevel: writer,
+			log.FatalLevel: writer,
+			log.PanicLevel: writer,
+		},
+		&nested.Formatter{
+			FieldsOrder: []string{
+				log.FieldKeyTime, log.FieldKeyLevel, log.FieldKeyFile,
+				log.FieldKeyFunc, log.FieldKeyMsg,
+			},
+			CustomCallerFormatter: func(f *runtime.Frame) string {
+				return fmt.Sprintf("(%s %s:%d)", f.Function, path.Base(f.File), f.Line)
+			},
+			TimestampFormat:  time.RFC3339,
+			HideKeys:         true,
+			NoFieldsSpace:    true,
+			NoUppercaseLevel: true,
+			TrimMessages:     true,
+			CallerFirst:      true,
+		},
+	))
 
 	log.SetFormatter(&nested.Formatter{
 		FieldsOrder: []string{
