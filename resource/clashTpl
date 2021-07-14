@@ -297,6 +297,7 @@ rule-providers:
 rules:
   - DOMAIN-SUFFIX,jsdelivr.com,DIRECT
   - DOMAIN-SUFFIX,luoxin.live,DIRECT
+  - DOMAIN-SUFFIX,feishu.cn,DIRECT
   - DOMAIN-SUFFIX,hub-mirror.c.163.com,DIRECT
   - DOMAIN-SUFFIX,docker.mirrors.ustc.edu.cn,DIRECT
   - DOMAIN-SUFFIX,qiniu.com,DIRECT
