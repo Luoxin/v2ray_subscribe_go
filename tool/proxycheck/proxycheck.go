@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/sha512"
 	"fmt"
 	"os"
 	"strings"
@@ -109,7 +108,8 @@ func main() {
 
 		var err error
 		result := CheckResult{
-			NodeName: utils.ShortStr(fmt.Sprintf("%x", sha512.Sum512([]byte(nodeUrl))), 12),
+
+			NodeName: utils.ShortStr(utils.Sha512(nodeUrl), 12),
 		}
 
 		p.WithTitle(fmt.Sprintf("check %v", result.NodeName))

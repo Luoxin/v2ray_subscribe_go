@@ -2,19 +2,17 @@ package tohru
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
+	"github.com/Luoxin/Eutamias/conf"
+	"github.com/Luoxin/Eutamias/proxynode"
+	"github.com/Luoxin/Eutamias/utils"
 	"github.com/Luoxin/Eutamias/utils/json"
+	"github.com/Luoxin/Eutamias/version"
 	"github.com/elliotchance/pie/pie"
 	"github.com/go-resty/resty/v2"
 	log "github.com/sirupsen/logrus"
 	"go.uber.org/atomic"
-	"golang.org/x/crypto/sha3"
-
-	"github.com/Luoxin/Eutamias/conf"
-	"github.com/Luoxin/Eutamias/proxynode"
-	"github.com/Luoxin/Eutamias/version"
 )
 
 const Hello = "B3vUNO|I,|\"FAco9b<fIPj0K:r,Zsj\"?KFOA}.z1N&LZOP1GYq"
@@ -79,7 +77,7 @@ func (p *tohru) Start() error {
 }
 
 func (p *tohru) GenEncryptionPassword(password string) string {
-	return fmt.Sprintf("%x", sha3.Sum384([]byte(password)))
+	return utils.Sha384(password)
 }
 
 func (p *tohru) CheckUsable() error {

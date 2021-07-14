@@ -1,9 +1,6 @@
 package proxynode
 
 import (
-	"crypto/sha512"
-	"fmt"
-
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
@@ -44,7 +41,7 @@ func AddNodeWithUrlDetail(ru string, crawlerId uint64, checkInterval uint32, use
 
 	node.Url = proxyNode.Link()
 
-	node.UrlFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.Url)))
+	node.UrlFeature = utils.Sha512(node.Url)
 
 	return UpdateNode(node)
 }

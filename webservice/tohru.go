@@ -1,7 +1,6 @@
 package webservice
 
 import (
-	"crypto/md5"
 	"errors"
 	"fmt"
 	"time"
@@ -37,7 +36,7 @@ const (
 const slt = ".\";v&vm6vOyrS)Ew@ByjN1Er|=<9B~=PniQM4C4Ca=2V@%ZadNP\\Vd:I^}\\["
 
 func genPassword(key, pwd string) string {
-	return fmt.Sprintf("%x", md5.Sum([]byte(fmt.Sprintf("%s_%s_%s", key, slt, pwd))))
+	return utils.Md5(fmt.Sprintf("%s_%s_%s", key, slt, pwd))
 }
 
 func getReq(c *fiber.Ctx, req interface{}) error {

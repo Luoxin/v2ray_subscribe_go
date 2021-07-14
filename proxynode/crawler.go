@@ -1,9 +1,6 @@
 package proxynode
 
 import (
-	"crypto/sha512"
-	"fmt"
-
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
@@ -28,7 +25,7 @@ func AddCrawlerNode(crawlerUrl string, crawlerType domain.CrawlType, rule *domai
 		UseType:   useType,
 	}
 
-	node.CrawlerFeature = fmt.Sprintf("%x", sha512.Sum512([]byte(node.CrawlUrl)))
+	node.CrawlerFeature = utils.Sha512(node.CrawlUrl)
 
 	var oldNode domain.CrawlerConf
 	err := db.Db.Where("crawler_feature = ?", node.CrawlerFeature).First(&oldNode).Error
