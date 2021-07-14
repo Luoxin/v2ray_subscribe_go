@@ -140,14 +140,12 @@ func (p *ProxyCheck) CheckWithClash(clashConfig string) (float64, float64, error
 	// coverFloat2int("port")
 	// coverFloat2int("alterId")
 
-	proxy, err := outbound.ParseProxy(proxyItem)
+	proxyNode, err := outbound.ParseProxy(proxyItem)
 	if err != nil {
 		return 0, 0, err
 	}
 
-	time.Sleep(time.Second * 1)
-
-	delay, speed, err := p.URLTest(proxy, p.checkUrl)
+	delay, speed, err := p.URLTest(proxyNode, p.checkUrl)
 	// delay, err := URLTest(proxy, "http://www.gstatic.com/generate_204")
 	if err != nil {
 		return 0, 0, err
@@ -188,7 +186,7 @@ func (p *ProxyCheck) URLTest(proxy constant.Proxy, url string) (delay time.Durat
 	if err != nil {
 		return
 	}
-	req = req.WithContext(ctx)
+	req.WithContext(ctx)
 	req.Header.Set("User-Agent", p.faker.UserAgent())
 
 	transport := &http.Transport{

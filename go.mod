@@ -14,6 +14,7 @@ require (
 	github.com/antchfx/xmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.2.0 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
+	github.com/atotto/clipboard v0.1.4
 	github.com/bluele/gcache v0.0.2
 	github.com/btcsuite/btcd v0.22.0-beta // indirect
 	github.com/deckarep/gosx-notifier v0.0.0-20180201035817-e127226297fb
@@ -26,6 +27,7 @@ require (
 	github.com/go-ping/ping v0.0.0-20210506233800-ff8be3320020
 	github.com/go-playground/validator/v10 v10.6.1
 	github.com/go-resty/resty/v2 v2.6.0
+	github.com/go-vgo/robotgo v0.94.1
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/gofiber/storage/memory v0.0.0-20210602124502-f0233feaea00
 	github.com/gofiber/storage/mysql v0.0.0-20210602124502-f0233feaea00
@@ -56,6 +58,7 @@ require (
 	github.com/pterm/pterm v0.12.27
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452 // indirect
+	github.com/robotn/gohook v0.30.6
 	github.com/roylee0704/gron v0.0.0-20160621042432-e78485adab46
 	github.com/savsgio/gotils v0.0.0-20210617111740-97865ed5a873 // indirect
 	github.com/schollz/progressbar/v3 v3.8.2

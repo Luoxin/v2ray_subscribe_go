@@ -50,11 +50,11 @@ func main() {
 	}
 
 	checkDelay := proxycheck.NewProxyCheck()
-	checkDelay.SetTimeout(time.Second * 3)
+	checkDelay.SetTimeout(time.Second * 1)
 	checkDelay.SetCheckUrl("https://www.google.com")
 
 	checkSpeed := proxycheck.NewProxyCheck()
-	checkSpeed.SetTimeout(time.Second * 2)
+	checkSpeed.SetTimeout(time.Second * 1)
 	checkSpeed.SetCheckUrl("http://cachefly.cachefly.net/1mb.test")
 
 	var lock sync.Mutex
@@ -112,7 +112,8 @@ func main() {
 			NodeName: utils.ShortStr(fmt.Sprintf("%x", sha512.Sum512([]byte(nodeUrl))), 12),
 		}
 
-		p.Title = fmt.Sprintf("check %v", result.NodeName)
+		p.WithTitle(fmt.Sprintf("check %v", result.NodeName))
+		// p.Title = fmt.Sprintf("check %v", result.NodeName)
 
 		result.Delay, _, err = checkDelay.CheckWithLink(nodeUrl)
 		if err != nil {

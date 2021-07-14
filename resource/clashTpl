@@ -181,7 +181,7 @@ proxies:
       - REJECT
       - DIRECT
   - name: 🐟 漏网之鱼
-    type: fallback
+    type: select
     url: {{.TestUrl}}
     interval: 300
     tolerance: 50

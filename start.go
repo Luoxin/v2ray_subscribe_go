@@ -5,6 +5,7 @@ import (
 	"github.com/Luoxin/Eutamias/dns"
 	"github.com/Luoxin/Eutamias/geolite"
 	"github.com/Luoxin/Eutamias/initialize"
+	"github.com/Luoxin/Eutamias/keyhook"
 	"github.com/Luoxin/Eutamias/proxies"
 	"github.com/pterm/pterm"
 	log "github.com/sirupsen/logrus"
@@ -28,6 +29,7 @@ var initList = []initialize.Initialize{
 	&dns.InitServer{},
 	&geolite.Init{},
 	&worker.Init{},
+	&keyhook.Init{},
 	&webservice.Init{},
 }
 
