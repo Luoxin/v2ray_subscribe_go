@@ -9,7 +9,7 @@ import (
 var validate = validator.New()
 
 const (
-	TokenKey = "x-eutamias-token"
+	TokenKey = "X-Eutamias-Token"
 )
 
 var (
